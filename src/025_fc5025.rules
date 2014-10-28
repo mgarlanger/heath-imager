@@ -1,0 +1,20 @@
+# This file will automatically set permissions on the FC5025 device node
+# on a Linux system with udev installed.
+#
+# Copy me to /etc/udev/rules.d/.
+# Then, reboot.
+
+ACTION=="add", GOTO="add_or_change"
+ACTION=="change", GOTO="add_or_change"
+GOTO="fc5025_rules_end"
+
+LABEL="add_or_change"
+SUBSYSTEM=="usb_device", GOTO="is_usb"
+SUBSYSTEM=="usb", GOTO="is_usb"
+GOTO="fc5025_rules_end"
+
+LABEL="is_usb"
+SYSFS{idVendor}=="16c0", SYSFS{idProduct}=="06d6", MODE="664", GROUP="floppy"
+
+LABEL="fc5025_rules_end"
+
