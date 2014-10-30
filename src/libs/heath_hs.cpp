@@ -10,13 +10,18 @@
 #include "decode.h"
 
 HeathHSDisk::HeathHSDisk(BYTE sides,
-                         BYTE tracks,
-                         BYTE tpi): maxSide_m(sides),
-                                    maxTrack_m(tracks),
-                                    tpi_m(tpi)
+			BYTE tracks,
+			BYTE tpi,
+			WORD maxSpeed): maxSide_m(sides),
+				maxTrack_m(tracks),
+				tpi_m(tpi),
+				speed_m(maxSpeed)
 {
 
 }
+// DSE:  above modified to include selection of RPM from GUI
+// DSE:   required change to heath_hs.h and to heathimager.cpp in src/heathimager directory
+
 
 HeathHSDisk::~HeathHSDisk()
 {
@@ -33,6 +38,18 @@ BYTE HeathHSDisk::maxTrack(void)
 {
     return maxTrack_m;
 }
+
+//  DSE:  Added following two functions for speed control
+WORD HeathHSDisk::minSpeed(void)
+{
+    return 300;
+}
+
+WORD HeathHSDisk::maxSpeed(void)
+{
+    return speed_m;
+}
+//  DSE:  #######################
 
 BYTE HeathHSDisk::minSide(void)
 {
@@ -77,6 +94,16 @@ BYTE HeathHSDisk::physicalTrack(BYTE track)
     }
 }
 
+//  DSE:  Added following function to set speed from GUI
+void HeathHSDisk::setSpeed(WORD rpm)
+{
+  if(rpm == 300)
+  {
+     RPMparam = 5555;
+  } else {
+     RPMparam = 6666;
+  }
+}
 
 bool HeathHSDisk::setSides(BYTE sides)
 {
@@ -101,14 +128,14 @@ bool HeathHSDisk::setTracks(BYTE tracks)
 
     if (tracks == 80)
     {
-        tpi_m      = 96;
+        tpi_m = 96;
         maxTrack_m = 79;
     }
     else
     {
-        tpi_m      = 48;
+        tpi_m = 48;
         maxTrack_m = 39;
-        returnVal  = (tracks == 40);
+        returnVal = (tracks == 40);
     }
     
     return returnVal;
@@ -148,7 +175,7 @@ int HeathHSDisk::readSector(BYTE *buffer, BYTE *rawBuffer, BYTE side, BYTE track
         FC5025::Opcode::ReadFlexible,  // opcode
         side,                          // flags
         FC5025::Format::FM,            // format
-        htons(6666),                   // bitcell
+        htons(RPMparam),                   // bitcell
         sector,                        // sectorhole
         0,                             // rdelayh
         0,                             // rdelayl - no delay, start instantly after the hole.
@@ -315,8 +342,8 @@ int HeathHSDisk::alignSector(BYTE *out, BYTE *in)
     }
 
     for (; pos < sectorBytes_c; pos++)
-    {    /// \todo fix this... one byte past end of buffer.
-        /// \todo determine if we should write this data or just put 0s.
+    {
+        
         out[pos] = shiftByte(in[pos], in[pos+1], bitOffset2);
         pos++;
     }
@@ -356,10 +383,14 @@ BYTE HeathHSDisk::reverseChar(BYTE val)
     for (int i = 0; i < 8; i++)
     {
         newVal <<= 1;
-        newVal |= (val & 0x01);
+        // remove if ->  newVal |= (val & 0x01);
+        if (val & 0x01)
+        {
+            newVal |= 0x01;
+        }
         val >>= 1;
+        
     }
-
     return newVal;
 }
 
