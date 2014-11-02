@@ -41,6 +41,9 @@ static uint8_t                 dist_status = 0;
 static uint8_t                 side_status = 0;
 static uint8_t                 track_status = 39;
 static uint8_t                 tpi_status = 48;
+static uint16_t                speed_rpm       = 300;
+static uint16_t                speed_status    = 300;
+static uint16_t                speed_param     = 5555;
 static GtkTextBuffer          *textBuffer;
 
 void
@@ -488,7 +491,7 @@ imgPressed(GtkWidget * widget, gpointer gdata)
     GtkWidget      *error_label = gtk_label_new("");
     GtkWidget      *button_label = gtk_label_new("In progress...");
     float           progress_per_halftrack;
-    Disk           *disk = new HeathHSDisk(side_status, track_status, tpi_status);
+    Disk           *disk = new HeathHSDisk(side_status, track_status, tpi_status, speed_status);
     int             track,
                     side;
     char           *in_filename;
@@ -738,6 +741,21 @@ track_changed(GtkWidget *widget, gpointer data)
 }
 
 void
+speed_changed(GtkWidget *widget, gpointer data)
+{
+    speed_status = *(int *) data;
+    if (speed_status == 300)
+    {
+        speed_param = 5555;
+    }
+    else
+    {
+        speed_param = 6666;
+    }
+    printf("New speed: %d (%d)\n", speed_status, speed_param);
+}
+
+void
 add_side(GtkWidget *menu)
 {
     GtkWidget      *mitem;
@@ -777,6 +795,25 @@ add_track(GtkWidget *menu)
                        GTK_SIGNAL_FUNC(track_changed), &value[1]);
 }
 
+void
+add_speed(GtkWidget *menu)
+{
+    GtkWidget      *mitem;
+    GSList         *group = NULL;
+    static int   value[2] = {300, 360};
+
+    mitem = gtk_radio_menu_item_new_with_label(group, "300 RPM");
+    gtk_menu_append(GTK_MENU(menu), mitem);
+    gtk_widget_show(mitem);
+    gtk_signal_connect(GTK_OBJECT(mitem), "activate",
+                       GTK_SIGNAL_FUNC(speed_changed), &value[0]);
+
+    mitem = gtk_radio_menu_item_new_with_label(group, "360 RPM");
+    gtk_menu_append(GTK_MENU(menu), mitem);
+    gtk_widget_show(mitem);
+    gtk_signal_connect(GTK_OBJECT(mitem), "activate",
+                       GTK_SIGNAL_FUNC(speed_changed), &value[1]);
+}
 
 void
 add_wp(GtkWidget *menu)
@@ -887,6 +924,8 @@ main(int argc, char *argv[])
                    *sideDropMenu,
                    *trackDrop,
                    *trackDropMenu,
+                   *speedDrop,
+                   *speedDrop_Menu,
                    *distdrop,
                    *distdrop_menu,
                    *wpDrop,
@@ -1021,6 +1060,20 @@ main(int argc, char *argv[])
     gtk_widget_show(trackDrop);
     gtk_widget_show(optionBox);
  
+    // Disk Speed select
+    subFrame = gtk_frame_new("Disk Speed (RPM)");
+    gtk_box_pack_start(GTK_BOX(optionBox), subFrame, FALSE, FALSE, 0);
+    gtk_widget_show(subFrame);
+
+    speedDrop = gtk_option_menu_new();
+    speedDrop_Menu = gtk_menu_new();
+    add_speed(speedDrop_Menu);
+    gtk_option_menu_set_menu(GTK_OPTION_MENU(speedDrop), speedDrop_Menu);
+    gtk_container_add(GTK_CONTAINER(subFrame), speedDrop);
+    gtk_widget_show(speedDrop);
+
+    gtk_widget_show(optionBox);
+
     // Disk parameters:
     //
     frame = gtk_frame_new("Disk Flags");
