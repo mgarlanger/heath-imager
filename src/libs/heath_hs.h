@@ -9,14 +9,14 @@ public:
     HeathHSDisk(BYTE sides,
                 BYTE tracks,
                 BYTE tpi,
-		WORD maxSpeed);
+		WORD rpm);
 
     virtual ~HeathHSDisk();
 
     virtual BYTE minTrack(void);
     virtual BYTE maxTrack(void);
 
-    virtual WORD maxSpeed(void);
+    virtual WORD rpm(void);
     virtual WORD minSpeed(void);
 
     virtual BYTE minSide(void);

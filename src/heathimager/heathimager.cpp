@@ -42,7 +42,6 @@ static uint8_t                 side_status = 0;
 static uint8_t                 track_status = 39;
 static uint8_t                 tpi_status = 48;
 static uint16_t                speed_rpm       = 300;
-static uint16_t                speed_status    = 300;
 static uint16_t                speed_param     = 5555;
 static GtkTextBuffer          *textBuffer;
 
@@ -491,7 +490,7 @@ imgPressed(GtkWidget * widget, gpointer gdata)
     GtkWidget      *error_label = gtk_label_new("");
     GtkWidget      *button_label = gtk_label_new("In progress...");
     float           progress_per_halftrack;
-    Disk           *disk = new HeathHSDisk(side_status, track_status, tpi_status, speed_status);
+    Disk           *disk = new HeathHSDisk(side_status, track_status, tpi_status, speed_rpm);
     int             track,
                     side;
     char           *in_filename;
@@ -743,16 +742,8 @@ track_changed(GtkWidget *widget, gpointer data)
 void
 speed_changed(GtkWidget *widget, gpointer data)
 {
-    speed_status = *(int *) data;
-    if (speed_status == 300)
-    {
-        speed_param = 5555;
-    }
-    else
-    {
-        speed_param = 6666;
-    }
-    printf("New speed: %d (%d)\n", speed_status, speed_param);
+    speed_rpm = *(int *) data;
+    printf("New speed: %d \n", speed_rpm);
 }
 
 void
