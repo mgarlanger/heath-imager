@@ -8,14 +8,21 @@ class HeathHSDisk: virtual public Disk
 public:
     HeathHSDisk(BYTE sides,
                 BYTE tracks,
-                BYTE tpi);
+                BYTE tpi,
+		WORD rpm);
+
     virtual ~HeathHSDisk();
 
     virtual BYTE minTrack(void);
     virtual BYTE maxTrack(void);
 
+    virtual WORD rpm(void);
+    virtual WORD minSpeed(void);
+
     virtual BYTE minSide(void);
     virtual BYTE maxSide(void);
+
+    virtual void setSpeed(WORD speed);
 
     virtual BYTE minSector(BYTE track,
                            BYTE side);
@@ -56,6 +63,8 @@ private:
     BYTE maxSide_m;
     BYTE maxTrack_m;
     BYTE tpi_m;
+    WORD speed_m;
+    WORD bitcellTiming_m;
 
     static const unsigned int sectorBytes_c    = 320;
     static const unsigned int sectorRawBytes_c = sectorBytes_c * 2;

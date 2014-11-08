@@ -11,9 +11,11 @@
 
 HeathHSDisk::HeathHSDisk(BYTE sides,
                          BYTE tracks,
-                         BYTE tpi): maxSide_m(sides),
-                                    maxTrack_m(tracks),
-                                    tpi_m(tpi)
+                         BYTE tpi,
+                         WORD rpm): maxSide_m(sides),
+                                 maxTrack_m(tracks),
+                                 tpi_m(tpi),
+                                 speed_m(rpm)
 {
 
 }
@@ -33,6 +35,17 @@ BYTE HeathHSDisk::maxTrack(void)
 {
     return maxTrack_m;
 }
+
+WORD HeathHSDisk::minSpeed(void)
+{
+    return 300;
+}
+
+WORD HeathHSDisk::rpm(void)
+{
+    return speed_m;
+}
+
 
 BYTE HeathHSDisk::minSide(void)
 {
@@ -77,6 +90,15 @@ BYTE HeathHSDisk::physicalTrack(BYTE track)
     }
 }
 
+void HeathHSDisk::setSpeed(WORD rpm)
+{
+  if(rpm == 300)
+  {
+     bitcellTiming_m = 5555;
+  } else {
+     bitcellTiming_m = 6666;
+  }
+}
 
 bool HeathHSDisk::setSides(BYTE sides)
 {
@@ -148,7 +170,7 @@ int HeathHSDisk::readSector(BYTE *buffer, BYTE *rawBuffer, BYTE side, BYTE track
         FC5025::Opcode::ReadFlexible,  // opcode
         side,                          // flags
         FC5025::Format::FM,            // format
-        htons(6666),                   // bitcell
+        htons(bitcellTiming_m),        // bitcell
         sector,                        // sectorhole
         0,                             // rdelayh
         0,                             // rdelayl - no delay, start instantly after the hole.
