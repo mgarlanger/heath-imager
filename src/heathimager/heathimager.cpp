@@ -9,6 +9,8 @@
 #include "drive.h"
 #include "fc5025.h"
 #include "h17disk.h"
+#include "disk_util.h"
+
 
 #define VERSION_STRING "0.2"
 
@@ -151,8 +153,9 @@ read_one_sector(H17Disk       *image,
             gtk_label_set(GTK_LABEL(error_label), errtext);
             refresh_screen();
         }
+
         // If it was a read error, then raw bytes are not valid, otherwise store raw
-        if (retVal != Disk::Err_ReadError)
+        if (retVal != Err_ReadError)
         {
             image->addRawSector(sector, rawBuf, disk->sectorRawBytes(side, track, sector));
         }
@@ -160,9 +163,9 @@ read_one_sector(H17Disk       *image,
     while ((retVal != 0) && (retryCount++ < maxRetries_c));
 
     // even if there is an error, use the last processed sector for storage, unless
-    // it was a read error.
+    // it was an error of type - read error.
     //
-    if (retVal == Disk::Err_ReadError)
+    if (retVal == Err_ReadError)
     {
         image->addSector(sector, retVal, nullptr, 0);
     }
@@ -170,6 +173,7 @@ read_one_sector(H17Disk       *image,
     {
         image->addSector(sector, retVal, buf, disk->sectorBytes(side, track, sector));
     }
+
     if (retVal != 0)
     {
         snprintf(errtext, sizeof(errtext), "Failed after %d attempts: %d H: %d T: %d S:%d",
@@ -208,12 +212,12 @@ image_track(H17Disk    *image,
             GtkWidget  *progressbar,
             float       progress_per_halftrack)
 {
-    unsigned char      *buf;
-    unsigned char      *raw;
-    SectorList         *sector_list,
-                       *sector_entry;
-    int                 num_sectors = disk->numSectors(track, side);
-    int                 halfway_mark = num_sectors >> 1;
+    unsigned char           *buf;
+    unsigned char           *raw;
+    SectorList              *sector_list,
+                            *sector_entry;
+    int                      num_sectors = disk->numSectors(track, side);
+    int                      halfway_mark = num_sectors >> 1;
     std::vector<RawSector *> rawSectors;
     std::vector<Sector *>    sectors;
 
@@ -493,7 +497,6 @@ imgPressed(GtkWidget * widget, gpointer gdata)
                     side;
     char           *in_filename;
     char           *out_filename;
-    //char           *out_rawFilename;
     FILE           *f;
     FILE           *f_raw;
     gint            delete_signal;
@@ -540,7 +543,6 @@ imgPressed(GtkWidget * widget, gpointer gdata)
     gtk_grab_add(image_window);
     refresh_screen();
 
-//    drive = new Drive(selected_drive);
    
     if (drive.getStatus() != 0)
     {
@@ -605,8 +607,6 @@ imgPressed(GtkWidget * widget, gpointer gdata)
 
     // print file header for this disk
     // 
-    // 
-    // -> phys->writeHeader(
     image->writeHeader();
     image->setSides(disk->numSides());
     image->setTracks(disk->numTracks());
@@ -641,6 +641,7 @@ imgPressed(GtkWidget * widget, gpointer gdata)
             }
             gtk_label_set(GTK_LABEL(status_label), status_text);
             refresh_screen();
+
             /* image the track */
             if (image_track(image, disk, track, side, status_label, error_label, progressbar,
                             progress_per_halftrack) != 0)
@@ -652,7 +653,6 @@ imgPressed(GtkWidget * widget, gpointer gdata)
                           button, cancelbutton, NULL);
                 return;
             }
-
         }
     }
     image->endDataBlock();
@@ -705,21 +705,18 @@ void
 dist_changed(GtkWidget *widget, gpointer data)
 {
     dist_status = *(uint8_t *) data;
-    printf("New dist status: %d\n", dist_status);
 }
 
 void
 wp_changed(GtkWidget *widget, gpointer data)
 {
     wpDisk = *(bool *) data;
-    printf("New wp: %d\n", wpDisk);
 }
 
 void
 side_changed(GtkWidget *widget, gpointer data)
 {
     side_status = *(uint8_t *) data;
-    printf("New side: %d\n", side_status);
 }
 
 void
@@ -734,14 +731,13 @@ track_changed(GtkWidget *widget, gpointer data)
     {
         tpi_status = 48;
     }
-    printf("New track/tpi: %d/%d\n", track_status, tpi_status);
 }
 
 void
 add_side(GtkWidget *menu)
 {
-    GtkWidget      *mitem;
-    GSList         *group = NULL;
+    GtkWidget       *mitem;
+    GSList          *group = NULL;
     static uint8_t   value[2] = {0, 1};
 
     mitem = gtk_radio_menu_item_new_with_label(group, "Single-Sided");
@@ -760,8 +756,8 @@ add_side(GtkWidget *menu)
 void
 add_track(GtkWidget *menu)
 {   
-    GtkWidget      *mitem;
-    GSList         *group = NULL;
+    GtkWidget       *mitem;
+    GSList          *group = NULL;
     static uint8_t   value[2] = {39, 79};
 
     mitem = gtk_radio_menu_item_new_with_label(group, "40 Track/48 TPI");
@@ -783,7 +779,7 @@ add_wp(GtkWidget *menu)
 {
     GtkWidget      *mitem;
     GSList         *group = NULL;
-    static bool   value[2] = {false, true};
+    static bool     value[2] = {false, true};
 
     mitem = gtk_radio_menu_item_new_with_label(group, "Write Enabled");
     gtk_menu_append(GTK_MENU(menu), mitem);
@@ -796,7 +792,6 @@ add_wp(GtkWidget *menu)
     gtk_widget_show(mitem);
     gtk_signal_connect(GTK_OBJECT(mitem), "activate", 
                        GTK_SIGNAL_FUNC(wp_changed), &value[1]);
-
 }
 
 void
@@ -804,7 +799,7 @@ add_distribution(GtkWidget *menu)
 {
     GtkWidget      *mitem;
     GSList         *group = NULL;
-    static uint8_t value[3] = {0, 1, 2 };
+    static uint8_t  value[3] = {0, 1, 2 };
 
     mitem = gtk_radio_menu_item_new_with_label(group, "Disk Status Unknown");
     gtk_menu_append(GTK_MENU(menu), mitem);
@@ -823,17 +818,16 @@ add_distribution(GtkWidget *menu)
     gtk_widget_show(mitem);
     gtk_signal_connect(GTK_OBJECT(mitem), "activate",
                        GTK_SIGNAL_FUNC(dist_changed), &value[2]);
-
 }
 
 void
 add_drives(GtkWidget * menu)
 {
-    GtkWidget      *mitem;
-    GSList         *group = NULL;
+    GtkWidget        *mitem;
+    GSList           *group = NULL;
     struct DriveInfo *drive,
-                   *drives;
-    char            label[100];
+                     *drives;
+    char              label[100];
 
     drives = Drive::get_drive_list();
     if (!drives)
@@ -931,28 +925,6 @@ main(int argc, char *argv[])
     /* gtk_box_pack_start(GTK_BOX(vbox),srcdrop,FALSE,FALSE,0); */
     gtk_container_add(GTK_CONTAINER(frame), srcdrop);
 
-
-    
-
-#if 0
-    frame = gtk_frame_new("Disk Type");
-    gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 0);
-    gtk_widget_show(frame);
-    fmtdrop = gtk_option_menu_new();
-    fmtdrop_menu = gtk_menu_new();
-    //add_formats(fmtdrop_menu);
-    gtk_option_menu_set_menu(GTK_OPTION_MENU(fmtdrop), fmtdrop_menu);
-    /* gtk_signal_connect(GTK_OBJECT(fmtdrop_menu),"deactivate",GTK_SIGNAL_FUNC(quitpressed),NULL); */
-    gtk_widget_show(fmtdrop);
-    gtk_container_add(GTK_CONTAINER(frame), fmtdrop);
-#endif
-    // Browse functionality 
-#if 0
-    browsebutton = gtk_button_new_with_label("Browse Disk Contents");
-    gtk_box_pack_start(GTK_BOX(vbox), browsebutton, FALSE, FALSE, 0);
-    //gtk_signal_connect(GTK_OBJECT(browsebutton), "clicked", GTK_SIGNAL_FUNC(browsepressed), NULL);
-    gtk_widget_show(browsebutton);
-#endif
 
     frame = gtk_frame_new("Save File");
     gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
@@ -1052,7 +1024,6 @@ main(int argc, char *argv[])
     
 
     gtk_widget_show(optionBox);
-
 
     // Disk comment:
     frame = gtk_frame_new("Comment");

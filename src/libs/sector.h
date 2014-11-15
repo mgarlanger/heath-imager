@@ -3,8 +3,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <cstdint>
-
 
 class Sector
 {
@@ -18,6 +16,8 @@ public:
     ~Sector();
 
     bool writeToFile(std::ofstream &file);
+
+    static const unsigned char headerSize_c = 5;
 
 private:
     unsigned int   bufSize_m;

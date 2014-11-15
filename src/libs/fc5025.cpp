@@ -8,9 +8,9 @@
 #include <time.h>
 
 #define swap32(x) (((((uint32_t)x) & 0xff000000) >> 24) | \
-                  ((((uint32_t)x) & 0x00ff0000) >>  8) | \
-                  ((((uint32_t)x) & 0x0000ff00) <<  8) | \
-                  ((((uint32_t)x) & 0x000000ff) << 24))
+                   ((((uint32_t)x) & 0x00ff0000) >>  8) | \
+                   ((((uint32_t)x) & 0x0000ff00) <<  8) | \
+                   ((((uint32_t)x) & 0x000000ff) << 24))
 
 #define htov32(x) swap32(htonl(x))
 
@@ -40,6 +40,17 @@ static struct
 
 FC5025::FC5025()
 {
+    // set disk parameters to default
+    // - default for TEAC 
+    drive_Tracks_m   = 80;
+    drive_Sides_m    = 2;
+    drive_RPM_m      = 360;
+    drive_StepRate_m = 15;
+
+    // default hard-sectored disk
+    disk_Tracks_m    = 40;
+    disk_Sides_m     = 1;
+    disk_RPM_m       = 300;;
 
 }
 
@@ -164,13 +175,13 @@ FC5025::internalSeek(uint8_t mode,
 int
 FC5025::recalibrate(void)
 {
-    return internalSeek( 3, 15, 100);
+    return internalSeek( 3, drive_StepRate_m, 100);
 }
 
 int
 FC5025::seek(unsigned char track)
 {
-    return internalSeek(0, 15, track);
+    return internalSeek(0, drive_StepRate_m, track);
 }
 
 int
@@ -216,7 +227,9 @@ FC5025::readId(unsigned char *out,
 }
 
 int
-FC5025::flags(unsigned char in, unsigned char mask, int *out)
+FC5025::flags(unsigned char  in,
+              unsigned char  mask,
+              int           *out)
 {
     struct
     {
@@ -352,5 +365,39 @@ FC5025::find(struct usb_device **devs,
     }
 
     return num_found;
+}
+
+void
+FC5025::configureDiskDrive(uint8_t   tracks,
+                           uint8_t   sides,
+                           uint16_t  rpm,
+                           uint8_t   stepRate)
+{
+    drive_Tracks_m   = tracks;
+    drive_Sides_m    = sides;
+    drive_RPM_m      = rpm;
+    drive_StepRate_m = stepRate;
+}
+
+void 
+FC5025::getDiskDrive(uint8_t   &tracks,
+                     uint8_t   &sides,
+                     uint16_t  &rpm,
+                     uint8_t   &stepRate)
+{
+    tracks   = drive_Tracks_m;
+    sides    = drive_Sides_m;
+    rpm      = drive_RPM_m;
+    stepRate = drive_StepRate_m;
+}
+
+void
+FC5025::configureFloppyDisk(uint8_t  tracks,
+                            uint8_t  sides,
+                            uint16_t rpm)
+{
+    disk_Tracks_m = tracks;
+    disk_Sides_m  = sides;
+    disk_RPM_m    = rpm;
 }
 

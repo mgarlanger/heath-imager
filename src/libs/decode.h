@@ -10,6 +10,5 @@ public:
     static int decodeMFM(BYTE *decoded, BYTE *fmEncoded, int count);
 };
 
-
 #endif
 

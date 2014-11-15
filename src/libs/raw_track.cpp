@@ -32,17 +32,17 @@ bool RawTrack::writeToFile(std::ofstream &file)
         size = sectors_m.size() * (sectors_m[0]->getBufSize() + 4);
     }
 
-    uint8_t buf[7] = { 
-                         0x31,
-                         side_m,
-                         track_m, 
-                         (unsigned char) ((size >> 24) & 0xff),
-                         (unsigned char) ((size >> 16) & 0xff),
-                         (unsigned char) ((size >> 8) & 0xff),
-                         (unsigned char) (size & 0xff)
-                     };
+    uint8_t buf[headerSize_c] = { 
+                                    0x31,
+                                    side_m,
+                                    track_m, 
+                                    (unsigned char) ((size >> 24) & 0xff),
+                                    (unsigned char) ((size >> 16) & 0xff),
+                                    (unsigned char) ((size >> 8) & 0xff),
+                                    (unsigned char) (size & 0xff)
+                                };
 
-    file.write((const char*) buf, 7);
+    file.write((const char*) buf, headerSize_c);
 
     for (unsigned int i = 0; i < sectors_m.size(); i++)
     {

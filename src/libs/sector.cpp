@@ -1,5 +1,6 @@
 
 #include "sector.h"
+
 #include <string.h>
 
 Sector::Sector(unsigned char  side,
@@ -36,9 +37,11 @@ Sector::~Sector()
 
 bool Sector::writeToFile(std::ofstream &file)
 {
-    static const unsigned char headerSize_c = 5;
-    unsigned char buf[headerSize_c] = { 0x12, sector_m, error_m, (unsigned char) ((bufSize_m >> 8) & 0xff), 
-                             (unsigned char) (bufSize_m & 0xff) };
+    unsigned char buf[headerSize_c] = { 0x12,
+                                        sector_m,
+                                        error_m,
+                                        (unsigned char) ((bufSize_m >> 8) & 0xff), 
+                                        (unsigned char) (bufSize_m & 0xff) };
 
     file.write((const char*) buf, headerSize_c);
 
@@ -46,7 +49,7 @@ bool Sector::writeToFile(std::ofstream &file)
     {
         file.write((const char*) buf_m, bufSize_m);
     }
+
     return true;
 }
-
 

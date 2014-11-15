@@ -18,6 +18,8 @@ public:
 
     bool writeToFile(std::ofstream &file);
 
+    static const unsigned char headerSize_c = 7;
+
 private:
 
     std::vector<RawSector *> sectors_m;

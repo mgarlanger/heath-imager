@@ -6,26 +6,11 @@
 struct SectorList
 {
     unsigned int  sector;
-//    unsigned int  offset;
-//    unsigned int  rawOffset;
 };
 
 class Disk
 {
 public:
-
-    enum
-    {
-        No_Error                  = 0,
-        Err_ReadError             = 1,
-        Err_InvalidClocksBits     = 2,
-        Err_MissingHeaderSync     = 3,
-        Err_WrongTrack            = 4,
-        Err_InvalidSector         = 5,
-        Err_InvalidHeaderChecksum = 6,
-        Err_MissingDataSync       = 7,
-        Err_InvalidDataChecksum   = 8
-    };
 
     enum Encoding
     {
@@ -77,9 +62,9 @@ public:
 
 private:
     virtual void halfTheSectors(SectorList **out,
-                                int track,
-                                int side,
-                                int which_half); 
+                                int          track,
+                                int          side,
+                                int          which_half); 
 
 };
 

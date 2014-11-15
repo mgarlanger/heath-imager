@@ -10,6 +10,7 @@
 #include <vector>
 #include <cstdint>
 
+class H17Block;
 
 class H17Disk
 {
@@ -34,9 +35,40 @@ public:
     static const uint8_t RawTrackDataId    = 0x31;
     static const uint8_t RawSectorDataId   = 0x32;
 
+
+    static const uint8_t DistUnknown       = 0x00;
+    static const uint8_t DistributionDisk  = 0x01;
+    static const uint8_t WorkingDisk       = 0x02;
+  
+    static const uint8_t TrackDataUnknown                    = 0x00;
+    static const uint8_t TrackDataGeneratedFromH8dConversion = 0x00;
+    static const uint8_t TrackDataCreatedOnEmulator          = 0x01;
+    static const uint8_t TrackDataCapturedOnH89              = 0x02;
+    static const uint8_t TrackDataCapturedOnFC5025           = 0x03;
+
+
     virtual bool openForWrite(char *name);
     virtual bool openForRead(char *name);
     virtual bool openForRecovery(char *name);
+
+    virtual bool loadFile(char *name);
+
+    virtual bool loadBuffer(unsigned char buf[], unsigned int size);
+    virtual bool loadHeader(unsigned char buf[], unsigned int size, unsigned int &length);
+    virtual bool loadBlock(unsigned char buf[], unsigned int size, unsigned int &length);
+    virtual bool loadDiskFormatBlock(unsigned char buf[], unsigned int size);
+    virtual bool loadFlagsBlock(unsigned char buf[], unsigned int size);
+    virtual bool loadLabelBlock(unsigned char buf[], unsigned int size);
+    virtual bool loadCommentBlock(unsigned char buf[], unsigned int size);
+    virtual bool loadDateBlock(unsigned char buf[], unsigned int size);
+    virtual bool loadImagerBlock(unsigned char buf[], unsigned int size);
+    virtual bool loadProgramBlock(unsigned char buf[], unsigned int size);
+    virtual bool loadDataBlock(unsigned char buf[], unsigned int size);
+    virtual bool loadTrackBlock(unsigned char buf[], unsigned int size, unsigned int &length);
+    virtual bool loadSectorBlock(unsigned char buf[], unsigned int size, unsigned int &length);
+    virtual bool loadRawDataBlock(unsigned char buf[], unsigned int size);
+    virtual bool loadRawTrackBlock(unsigned char buf[], unsigned int size, unsigned int &length);
+    virtual bool loadRawSectorBlock(unsigned char buf[], unsigned int size, unsigned int &length);
 
     virtual bool decodeFile(char *name);
 
@@ -59,6 +91,9 @@ public:
     virtual bool validateRawDataBlock(unsigned char buf[], unsigned int size);
     virtual bool validateRawTrackBlock(unsigned char buf[], unsigned int size, unsigned int &length);
     virtual bool validateRawSectorBlock(unsigned char buf[], unsigned int size, unsigned int &length);
+
+    virtual void dumpSectorHeader(unsigned char buf[]);
+    virtual void dumpSectorData(unsigned char buf[]);
 
     virtual bool closeFile(void);
 
@@ -98,6 +133,13 @@ public:
 
     virtual bool writeRawDataBlock();
 
+
+    virtual char *getSectorData(unsigned char side,
+                                unsigned char track,
+                                unsigned char sector);
+
+//  - raw data...    virtual bool convertToData();
+
 private:
     unsigned char sides_m;
     unsigned char tracks_m;
@@ -112,6 +154,8 @@ private:
     unsigned char trackDataSource_m;
     bool          writeProtect_m;
     bool          disableRaw_m;
+
+    H17Block     *blocks_m[256];
 
     std::ifstream inFile_m; 
     std::ofstream file_m; 
@@ -129,6 +173,27 @@ private:
     Sector *curTrackSectors_m[maxSectors_c];
 
     unsigned int sectorErrs_m;
+
+    //std::vector<Track *> tracksData_m;
+
+    virtual bool setDefaults();
+
+    virtual bool setDefaultDiskFormat();
+    virtual bool setDefaultFlags();
+
+    virtual bool readHeader();
+    virtual bool readBlocks();
+
+    virtual bool readDiskFormatBlock();
+    virtual bool readFlagsBlock();
+    virtual bool readLabelBlock();
+    virtual bool readCommentBlock();
+    virtual bool readDateBlock();
+    virtual bool readImagerBlock();
+    virtual bool readProgramBlock();
+    virtual bool readDataBlock();
+    virtual bool readRawDataBlock();
+
 };
 
 #endif

@@ -10,46 +10,60 @@ public:
 
     static FC5025* inst();
 
-    int bulkCDB(void            *cdb,
-                int              length,
-                int              timeout,
-                unsigned char   *csw_out,
-                unsigned char   *xferbuf,
-                int              xferlen,
-                int             *xferlen_out);
+    int bulkCDB(void                 *cdb,
+                int                   length,
+                int                   timeout,
+                unsigned char        *csw_out,
+                unsigned char        *xferbuf,
+                int                   xferlen,
+                int                  *xferlen_out);
 
     int recalibrate(void);
 
-    int seek(unsigned char       track);
+    int seek(unsigned char            track);
 
-    int readId(unsigned char    *out,
-               int               length,
-               unsigned char     side,
-               unsigned char     format,
-               int               bitcell,
-               unsigned char     idam0,
-               unsigned char     idam1,
-               unsigned char     idam2);
+    int readId(unsigned char         *out,
+               int                    length,
+               unsigned char          side,
+               unsigned char          format,
+               int                    bitcell,
+               unsigned char          idam0,
+               unsigned char          idam1,
+               unsigned char          idam2);
 
-    int flags(unsigned char      in,
-              unsigned char      mask,
-              int               *out);
+    int flags(unsigned char           in,
+              unsigned char           mask,
+              int                    *out);
 
-    int setDensity(int           density);
+    int setDensity(int                density);
 
-    int open(struct usb_device  *dev);
+    int open(struct usb_device       *dev);
 
     int close(void);
 
-    int find(struct usb_device **devs, 
-              int                max);
+    int find(struct usb_device      **devs, 
+              int                     max);
 
-    int driveStatus(uint8_t     *track,
-                    uint16_t    *speed,
-                    uint8_t     *sectorCount,
-                    uint8_t     *flags);
+    int driveStatus(uint8_t          *track,
+                    uint16_t         *speed,
+                    uint8_t          *sectorCount,
+                    uint8_t          *flags);
 
+    void configureDiskDrive(uint8_t   tracks,
+                            uint8_t   sides,
+                            uint16_t  rpm,
+                            uint8_t   stepRate);
 
+    void getDiskDrive(uint8_t        &tracks,
+                      uint8_t        &sides,
+                      uint16_t       &rpm,
+                      uint8_t        &stepRate);
+
+    void configureFloppyDisk(uint8_t  tracks,
+                             uint8_t  sides,
+                             uint16_t rpm);
+
+                            
     enum class Opcode : uint8_t
     {
         Seek         = 0xc0,
@@ -89,6 +103,16 @@ private:
     int internalSeek(uint8_t mode,
                      uint8_t stepRate,
                      uint8_t track);
+
+    uint8_t  drive_Tracks_m;
+    uint8_t  drive_Sides_m;
+    uint16_t drive_RPM_m;
+    uint8_t  drive_StepRate_m;
+
+    uint8_t  disk_Tracks_m;
+    uint8_t  disk_Sides_m;
+    uint16_t disk_RPM_m;
+    
 };
 
 #endif

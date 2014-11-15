@@ -59,23 +59,6 @@ private:
 
     static const unsigned int sectorBytes_c    = 320;
     static const unsigned int sectorRawBytes_c = sectorBytes_c * 2;
-    static const BYTE         PrefixSyncChar_c = 0xfd;
-    
-    virtual int  processSector(BYTE *buffer,
-                               BYTE side,
-                               BYTE track,
-                               BYTE sector); 
-    virtual int  alignSector(BYTE  *out,
-                             BYTE  *in);
-
-    virtual BYTE updateChecksum(BYTE checksum,
-                                BYTE val);
-
-    virtual BYTE reverseChar(BYTE val);
-
-    virtual BYTE shiftByte(BYTE first,
-                           BYTE second,
-                           BYTE shift);
 };
 
 #endif
