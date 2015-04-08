@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <cstdint>
 
 class Sector
 {
@@ -22,7 +23,7 @@ public:
 private:
     unsigned int   bufSize_m;
     unsigned char *buf_m;
-    unsigned char  side_m;
+    unsigned char  side_m;  // \TODO determine if side and track is needed, since it is not in the file format.
     unsigned char  track_m;
     unsigned char  sector_m;
     unsigned char  error_m;

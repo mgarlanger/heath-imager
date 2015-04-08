@@ -19,7 +19,7 @@ HeathHSDisk::HeathHSDisk(BYTE sides,
                                  tpi_m(tpi),
                                  speed_m(rpm)
 {
-
+   bitcellTiming_m = 6666;
 }
 
 HeathHSDisk::~HeathHSDisk()
@@ -61,12 +61,12 @@ BYTE HeathHSDisk::maxSide(void)
 
 BYTE HeathHSDisk::minSector(BYTE track, BYTE side)
 {
-    return 1;
+    return 0;
 }
 
 BYTE HeathHSDisk::maxSector(BYTE track, BYTE side)
 {
-    return 10;
+    return 9;
 }
 
 BYTE HeathHSDisk::tpi(void)
@@ -76,28 +76,32 @@ BYTE HeathHSDisk::tpi(void)
 
 BYTE HeathHSDisk::density(void)
 {
-    // signle density is 1 for fc5025.
+    // single density is 1 for fc5025.
     return 1;
 }
 
 BYTE HeathHSDisk::physicalTrack(BYTE track)
 {
+    // if the disk is 96 tpi, then it's a 1 to 1 mapping with the TEAC 1.2M
     if (tpi_m == 96)
     {
         return track;
     }
     else
     {
+        // otherwise have to skip tracks
         return track * 2;
     }
 }
 
 void HeathHSDisk::setSpeed(WORD rpm)
 {
+  // if drive is 300 RPM, (not a TEAC 1.2M) then set bitcell timing to the slower speed
   if(rpm == 300)
   {
      bitcellTiming_m = 5555;
   } else {
+     // otherwise default speed.
      bitcellTiming_m = 6666;
   }
 }
@@ -174,14 +178,16 @@ int HeathHSDisk::readSector(BYTE *buffer, BYTE *rawBuffer, BYTE side, BYTE track
         side,                          // flags
         FC5025::Format::FM,            // format
         htons(bitcellTiming_m),        // bitcell
-        sector,                        // sectorhole
+        (uint8_t) (sector + 1),        // sectorhole - FC5025 expect one based number instead of zero based.
         0,                             // rdelayh
         0,                             // rdelayl - no delay, start instantly after the hole.
         0x0,                           // idam
         {0, },                         // id_pat ... idmask .. dam
     };
     int   status = No_Error;
-    
+   
+    printf("bit timing: %d\n", bitcellTiming_m);
+ 
     FC5025::inst()->bulkCDB(&cdb, sizeof(cdb), 4000, NULL, raw, xferlen, &xferlen_out);
     if (xferlen_out != xferlen)
     {
@@ -189,30 +195,24 @@ int HeathHSDisk::readSector(BYTE *buffer, BYTE *rawBuffer, BYTE side, BYTE track
         status = Err_ReadError;
         return status;
     }
-    else
+    
+    printf("%s - xfer success\n", __FUNCTION__);
+   
+    if (rawBuffer)
     {
-        printf("%s - xfer success\n", __FUNCTION__);
+        memcpy(rawBuffer, raw, sectorRawBytes_c);
     }
+ 
 
     if (Decode::decodeFM(data, raw, sectorBytes_c) != 0)
     {
         status = Err_InvalidClocksBits;
-        if (rawBuffer)
-        {
-            memcpy(rawBuffer, raw, sectorRawBytes_c);
-        }
         return status;
     }
 
     status = processSector(data, out, sectorBytes_c, side, track, sector);
 
     printf("%s- processStatus; %d\n", __FUNCTION__, status);
-
-    // Copy raw data back if buffer provided. 
-    if (rawBuffer)
-    { 
-        memcpy(rawBuffer, raw, sectorRawBytes_c);
-    }
 
     // Copy data back if buffer provided.
     if (buffer)

@@ -15,11 +15,13 @@ Disk::numSides(void)
     return maxSide() - minSide() + 1;
 }
 
+
 BYTE
 Disk::numTracks(void)
 {
     return maxTrack() - minTrack() + 1;
 }
+
 
 BYTE
 Disk::numSectors(BYTE track, BYTE side)
@@ -27,12 +29,13 @@ Disk::numSectors(BYTE track, BYTE side)
     return maxSector(track, side) - minSector(track, side) + 1;
 }
 
+
 void
 Disk::halfTheSectors(SectorList **out, int track, int side, int which_half)
 {
-    int             first = minSector(track, side);
-    int             last = maxSector(track, side);
-    int             sector;
+    int first = minSector(track, side);
+    int last  = maxSector(track, side);
+    int sector;
 
     for (sector = first; sector <= last; sector++)
     {
@@ -44,13 +47,14 @@ Disk::halfTheSectors(SectorList **out, int track, int side, int which_half)
     }
 }
 
+
 void
 Disk::genBestReadOrder(SectorList *out, int track, int side)
 {
-    // odd
-    halfTheSectors(&out, track, side, 1);
-
-    //even
+    // even 0, 2, 4, ...
     halfTheSectors(&out, track, side, 0);
+
+    // odd 1, 3, 5, ...
+    halfTheSectors(&out, track, side, 1);
 }
 

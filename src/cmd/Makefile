@@ -22,7 +22,7 @@ linux: $(HOST_PROGS)
 #	$(CXX) $(LDFLAGS) -o $@ $^ $(H17DISK_A)
 	
 
-$(OUTPUT_DIR)%: $(OUTPUT_DIR)%.o $(H17DISK_A)
+$(OUTPUT_DIR)%: $(OUTPUT_DIR)%.o $(H17DISK_A) $(FC5025_A)
 	$(CXX) $(LDFLAGS) -o $@ $^
 
 

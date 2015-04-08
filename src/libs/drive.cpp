@@ -13,7 +13,8 @@ Drive::Drive(DriveInfo *drive)
     status_m = FC5025::inst()->open(drive->usbdev);
 }
 
-uint8_t Drive::getStatus()
+uint8_t
+Drive::getStatus()
 {
     return status_m;
 }

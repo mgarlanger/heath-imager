@@ -2,6 +2,11 @@
 #include "raw_track.h"
 #include "raw_sector.h"
 
+// Constructor RawTrack
+//
+// @param side    floppy disk side for this track
+// @param track   track number
+//
 RawTrack::RawTrack(unsigned char  side,
                    unsigned char  track): side_m(side),
                                           track_m(track)
@@ -10,11 +15,20 @@ RawTrack::RawTrack(unsigned char  side,
 }
 
 
+// Destructor
+//
 RawTrack::~RawTrack()
 {
     
 }
 
+
+// addRawSector 
+//
+// @param sector     pointer to raw sector
+//
+// @return  {bool} success 
+//
 bool RawTrack::addRawSector(RawSector *sector)
 {
     sectors_m.push_back(sector);
@@ -22,16 +36,26 @@ bool RawTrack::addRawSector(RawSector *sector)
     return true;
 }
 
+
+// writeToFile
+//
+// writes the raw track to a file
+//
+// @param file   ofstream for file
+//
+// @return {bool} success
+//
 bool RawTrack::writeToFile(std::ofstream &file)
 {
     uint32_t size = 0;
- 
-    /// \todo loop through all the sectors and get actual size of each
-    if (sectors_m.size())
+
+    // determine each sector's size 
+    for (unsigned int i = 0; i < sectors_m.size(); i++)
     {
-        size = sectors_m.size() * (sectors_m[0]->getBufSize() + 4);
+        size += sectors_m[i]->getBlockSize();
     }
 
+    // generate the header
     uint8_t buf[headerSize_c] = { 
                                     0x31,
                                     side_m,
@@ -42,8 +66,10 @@ bool RawTrack::writeToFile(std::ofstream &file)
                                     (unsigned char) (size & 0xff)
                                 };
 
+    // write header
     file.write((const char*) buf, headerSize_c);
 
+    // write each sector
     for (unsigned int i = 0; i < sectors_m.size(); i++)
     {
         sectors_m[i]->writeToFile(file);

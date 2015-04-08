@@ -45,7 +45,7 @@ unsigned int RawSector::getBufSize()
 
 unsigned int RawSector::getBlockSize()
 {
-    return bufSize_m + headerSize_c;;
+    return bufSize_m + headerSize_c;
 }
 
 void RawSector::dumpSector()

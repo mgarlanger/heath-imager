@@ -12,7 +12,7 @@
 #include "disk_util.h"
 
 
-#define VERSION_STRING "0.2"
+#define VERSION_STRING "0.3"
 
 #define DIRECTORY_SEPARATOR "/"
 
@@ -229,6 +229,8 @@ image_track(H17Disk    *image,
         return 1;
     }
     refresh_screen();
+
+    // \TODO verify buf and raw are not used and remove.
     buf = (unsigned char *) malloc(disk->trackBytes(track, side));
     if (!buf)
     {
@@ -585,9 +587,11 @@ imgPressed(GtkWidget * widget, gpointer gdata)
     strcat(out_filename, DIRECTORY_SEPARATOR);
     strcat(out_filename, gtk_entry_get_text(GTK_ENTRY(fname_field)));
     image = new H17Disk();
-   
-    image->openForRecovery(in_filename);
- 
+    if (recovery)
+    { 
+       image->openForRecovery(in_filename);
+    }
+
     image->openForWrite(out_filename);
     if (FC5025::inst()->recalibrate() != 0)
     {
@@ -718,6 +722,7 @@ wp_changed(GtkWidget *widget, gpointer data)
 void
 side_changed(GtkWidget *widget, gpointer data)
 {
+    printf("side_changed: %d\n",*(uint8_t *)  data);
     side_status = *(uint8_t *) data;
 }
 
@@ -746,16 +751,16 @@ void
 add_side(GtkWidget *menu)
 {
     GtkWidget       *mitem;
-    GSList          *group = NULL;
+    //GSList          *group = NULL;
     static uint8_t   value[2] = {0, 1};
 
-    mitem = gtk_radio_menu_item_new_with_label(group, "Single-Sided");
+    mitem = gtk_menu_item_new_with_label("Single-Sided");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
     gtk_signal_connect(GTK_OBJECT(mitem), "activate",
                        GTK_SIGNAL_FUNC(side_changed), &value[0]);
 
-    mitem = gtk_radio_menu_item_new_with_label(group, "Double-Sided");
+    mitem = gtk_menu_item_new_with_label("Double-Sided");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
     gtk_signal_connect(GTK_OBJECT(mitem), "activate",
@@ -766,16 +771,16 @@ void
 add_track(GtkWidget *menu)
 {   
     GtkWidget       *mitem;
-    GSList          *group = NULL;
+    //GSList          *group = NULL;
     static uint8_t   value[2] = {39, 79};
 
-    mitem = gtk_radio_menu_item_new_with_label(group, "40 Track/48 TPI");
+    mitem = gtk_menu_item_new_with_label( "40 Track/48 TPI");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
     gtk_signal_connect(GTK_OBJECT(mitem), "activate",
                        GTK_SIGNAL_FUNC(track_changed), &value[0]);
     
-    mitem = gtk_radio_menu_item_new_with_label(group, "80 Track/96 TPI");
+    mitem = gtk_menu_item_new_with_label( "80 Track/96 TPI");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
     gtk_signal_connect(GTK_OBJECT(mitem), "activate",
@@ -786,16 +791,16 @@ void
 add_speed(GtkWidget *menu)
 {
     GtkWidget      *mitem;
-    GSList         *group = NULL;
+    //GSList         *group = NULL;
     static int   value[2] = {300, 360};
 
-    mitem = gtk_radio_menu_item_new_with_label(group, "300 RPM");
+    mitem = gtk_menu_item_new_with_label( "300 RPM");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
     gtk_signal_connect(GTK_OBJECT(mitem), "activate",
                        GTK_SIGNAL_FUNC(speed_changed), &value[0]);
 
-    mitem = gtk_radio_menu_item_new_with_label(group, "360 RPM");
+    mitem = gtk_menu_item_new_with_label( "360 RPM");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
     gtk_signal_connect(GTK_OBJECT(mitem), "activate",
@@ -806,16 +811,16 @@ void
 add_wp(GtkWidget *menu)
 {
     GtkWidget      *mitem;
-    GSList         *group = NULL;
+    //GSList         *group = NULL;
     static bool     value[2] = {false, true};
 
-    mitem = gtk_radio_menu_item_new_with_label(group, "Write Enabled");
+    mitem = gtk_menu_item_new_with_label( "Write Enabled");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
     gtk_signal_connect(GTK_OBJECT(mitem), "activate", 
                        GTK_SIGNAL_FUNC(wp_changed), &value[0]);
 
-    mitem = gtk_radio_menu_item_new_with_label(group, "Write Protected");
+    mitem = gtk_menu_item_new_with_label( "Write Protected");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
     gtk_signal_connect(GTK_OBJECT(mitem), "activate", 
@@ -826,22 +831,22 @@ void
 add_distribution(GtkWidget *menu)
 {
     GtkWidget      *mitem;
-    GSList         *group = NULL;
+    //GSList         *group = NULL;
     static uint8_t  value[3] = {0, 1, 2 };
 
-    mitem = gtk_radio_menu_item_new_with_label(group, "Disk Status Unknown");
+    mitem = gtk_menu_item_new_with_label( "Disk Status Unknown");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
     gtk_signal_connect(GTK_OBJECT(mitem), "activate",
                        GTK_SIGNAL_FUNC(dist_changed), &value[0]);
 
-    mitem = gtk_radio_menu_item_new_with_label(group, "Distribution Disk");
+    mitem = gtk_menu_item_new_with_label( "Distribution Disk");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
     gtk_signal_connect(GTK_OBJECT(mitem), "activate",
                        GTK_SIGNAL_FUNC(dist_changed), &value[1]);
 
-    mitem = gtk_radio_menu_item_new_with_label(group, "User Disk");
+    mitem = gtk_menu_item_new_with_label( "User Disk");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
     gtk_signal_connect(GTK_OBJECT(mitem), "activate",
@@ -852,7 +857,7 @@ void
 add_drives(GtkWidget * menu)
 {
     GtkWidget        *mitem;
-    GSList           *group = NULL;
+    //GSList           *group = NULL;
     struct DriveInfo *drive,
                      *drives;
     char              label[100];
@@ -860,7 +865,7 @@ add_drives(GtkWidget * menu)
     drives = Drive::get_drive_list();
     if (!drives)
     {
-        mitem = gtk_radio_menu_item_new_with_label(group, "No drives found.");
+        mitem = gtk_menu_item_new_with_label( "No drives found.");
         gtk_menu_append(GTK_MENU(menu), mitem);
         gtk_widget_show(mitem);
         return;
@@ -873,7 +878,7 @@ add_drives(GtkWidget * menu)
             selected_drive = drive;
         }
         snprintf(label, sizeof(label), "%s (%s)", drive->desc, drive->id);
-        mitem = gtk_radio_menu_item_new_with_label(group, label);
+        mitem = gtk_menu_item_new_with_label( label);
         gtk_menu_append(GTK_MENU(menu), mitem);
         gtk_widget_show(mitem);
         gtk_signal_connect(GTK_OBJECT(mitem), "activate", 
@@ -1105,7 +1110,7 @@ main(int argc, char *argv[])
     //gtk_widget_show(quitbutton);
     gtk_widget_show(vbox);
     /* gtk_widget_set_usize(window,100,1); */
-    gtk_window_set_default_size(GTK_WINDOW(window), 300, 1);
+    gtk_window_set_default_size(GTK_WINDOW(window), 800, 600);
     gtk_widget_show(window);
     update_sensitivity();
 

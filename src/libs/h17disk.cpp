@@ -2,10 +2,43 @@
 #include "h17disk.h"
 #include "disk_util.h"
 #include "h17block.h"
+#include "decode.h"
 
 #define H17DISK 1
 
 using namespace std;
+
+// dumpDataBlock()
+//
+// @param title   Title to display
+// @param buf     buffer data
+// @param length  length of buffer
+//
+void dumpDataBlock(string title, unsigned char buf[], unsigned int length) {
+    printf("   %s:\n", title.c_str());
+
+    //BYTE printAble[16];
+    for (unsigned int i = 0; i < length; i++)
+    {   
+        if  ((i % 16) == 0)
+        {   
+            printf("     %03d: ", i);
+        }
+        printf("%02x", buf[i]);
+        
+        if ((i % 16) == 7)
+        {   
+            printf(" ");
+        }
+        if ((i % 16) == 15)
+        {   
+            printf("\n");
+        }
+    }
+    printf("\n");
+}
+
+
 
 H17Disk::H17Disk(): sides_m(1),
                     tracks_m(40),
@@ -206,6 +239,14 @@ H17Disk::loadBuffer(unsigned char buf[], unsigned int size)
     return true;
 }
 
+
+// validateHeader()
+//
+// @param      buf     data buffer
+// @param      size    size of buffer
+// @param(out) length  length of processed data
+//
+// @return   {bool} if validation was succesful
 bool
 H17Disk::validateHeader(unsigned char buf[], unsigned int size, unsigned int &length)
 {
@@ -214,12 +255,15 @@ H17Disk::validateHeader(unsigned char buf[], unsigned int size, unsigned int &le
         printf("Validate Header size too small: %d\n", size);
         return false;
     }
+
+    // validate magic number
     if ((buf[0] != 'H') || (buf[1] != '1') || (buf[2] != '7') || (buf[3] != 'D'))
     {
        printf("Invalid Tag\n");
        return false;
     }
 
+    // display file version number
     printf("H17D - Version: %d.%d.%d\n",buf[4], buf[5], buf[6]);
 
     length = 7;
@@ -260,6 +304,8 @@ H17Disk::validateBlock(unsigned char buf[], unsigned int size, unsigned int &len
     unsigned int blockSize = ((unsigned int) buf[2] << 24) | ((unsigned int) buf[3] << 16) | 
                              ((unsigned int) buf[4] << 8) | ((unsigned int) buf[5]);
     printf("   Block Size: %u\n", blockSize);
+
+    // make sure there is enough remaining data
     if (size < ( 6 + blockSize))
     {
         printf("Insufficient size: %d\n", size);
@@ -267,6 +313,7 @@ H17Disk::validateBlock(unsigned char buf[], unsigned int size, unsigned int &len
     }
     length = 6 + blockSize;
 
+    // check block type
     switch (buf[0]) 
     {
         case DiskFormatBlock_c: 
@@ -457,7 +504,7 @@ H17Disk::loadCommentBlock(unsigned char buf[], unsigned int size)
 {   
     if (blocks_m[CommentBlock_c])
     {   
-        // already a label block specified.
+        // already a comment block specified.
         //
         printf("Duplicate CommentBlock\n");
     }
@@ -489,7 +536,7 @@ H17Disk::loadDateBlock(unsigned char buf[], unsigned int size)
 {   
     if (blocks_m[DateBlock_c])
     {   
-        // already a label block specified.
+        // already a date block specified.
         //
         printf("Duplicate DateBlock\n");
     }
@@ -521,7 +568,7 @@ H17Disk::loadImagerBlock(unsigned char buf[], unsigned int size)
 {  
     if (blocks_m[ImagerBlock_c])
     {  
-        // already a label block specified.
+        // already a imager block specified.
         //
         printf("Duplicate ImagerBlock\n");
     }
@@ -554,7 +601,7 @@ H17Disk::loadProgramBlock(unsigned char buf[], unsigned int size)
 { 
     if (blocks_m[ProgramBlock_c])
     {
-        // already a label block specified.
+        // already a program block specified.
         //
         printf("Duplicate ProgramBlock\n");
     }
@@ -598,7 +645,7 @@ H17Disk::loadFlagsBlock(unsigned char buf[], unsigned int size)
 {
     if (blocks_m[FlagsBlock_c])
     {
-        // already a label block specified.
+        // already a flags block specified.
         //
         printf("Duplicate FlagsBlock\n");
     }
@@ -738,14 +785,16 @@ H17Disk::validateSectorBlock(unsigned char buf[], unsigned int size, unsigned in
     printf("      Data:---------------------------------------------------------------\n");
 
     uint8_t printAble[16];
-    for (unsigned int i = 0; i < blockLength; i++)
+    unsigned int i = 0;
+    unsigned int pos = 4;
+    for (i = 0; i < blockLength - 4; i++)
     {
-        printAble[i % 16] = isprint(buf[i]) ? buf[i] : '.';
+        printAble[i % 16] = isprint(buf[pos]) ? buf[pos] : '.';
         if  ((i % 16) == 0)
         {
             printf("        %03d: ", i);
         }
-        printf("%02x", buf[i]);
+        printf("%02x", buf[pos]);
 
         if ((i % 16) == 7)
         {
@@ -766,13 +815,51 @@ H17Disk::validateSectorBlock(unsigned char buf[], unsigned int size, unsigned in
       
             printf("|\n");
         }
-    }
+        pos++;
+    } 
+    if ((i % 16) != 0) 
+    {
+        unsigned int pos = i % 16;
+        unsigned int numSpaces = (16 - pos ) * 2 + ((16 - pos) >> 3);
+        while(numSpaces--) {
+            printf(" ");
+        }
+        printf("        |");
+        for(unsigned int i = 0; i < 8; i++)
+        {
+            if (i < pos)
+            {
+                printf("%c", printAble[i]);
+            }
+            else 
+            {
+                printf(" ");
+            }
+        }
+        printf("  ");
+        for(unsigned int i = 8; i < 16; i++)
+        {
+            if (i < pos)
+            {
+                printf("%c", printAble[i]);
+            }
+            else
+            {
+                printf(" ");
+            }
+        }
+
+        printf("|\n");
+    } 
+    printf("\n");
     printf("        ------------------------------------------------------------------\n");
     
     // dump actual track data.
-    unsigned int pos = 0;
+    pos = 4;
     int headerPos = -1;
     int dataPos = -1;
+
+    // Find header block
     while ((pos < blockLength) && (buf[pos] != 0xfd))
     {
         pos++;
@@ -785,6 +872,7 @@ H17Disk::validateSectorBlock(unsigned char buf[], unsigned int size, unsigned in
     // skip header.
     pos += 5;
 
+    // find Data block
     while ((pos < blockLength) && (buf[pos] != 0xfd))
     {
         pos++;
@@ -795,6 +883,7 @@ H17Disk::validateSectorBlock(unsigned char buf[], unsigned int size, unsigned in
         dataPos = pos;
     }
 
+    // if header found display it.
     if ((headerPos != -1) && (headerPos < ((int) blockLength - 5)))
     {
          dumpSectorHeader(&buf[headerPos]);
@@ -804,6 +893,7 @@ H17Disk::validateSectorBlock(unsigned char buf[], unsigned int size, unsigned in
         printf("  sector header missing - headerPos: %d\n", headerPos);
     }
 
+    // if data found display it
     if ((dataPos != -1) && (dataPos < ((int) blockLength - 258)))
     {
         dumpSectorData(&buf[dataPos+1]);
@@ -857,7 +947,7 @@ H17Disk::dumpSectorData(unsigned char buf[])
         printAble[i % 16] = isprint(buf[i]) ? buf[i] : '.';
         if  ((i % 16) == 0)
         {
-            printf("        0x%03d: ", i);
+            printf("        %03d: ", i);
         }
         printf("%02x", buf[i]);
 
@@ -1005,7 +1095,7 @@ void printBinary(unsigned char val)
 bool
 H17Disk::validateRawSectorBlock(unsigned char buf[], unsigned int size, unsigned int &length)
 {
-    printf("    Raw Sector Sub-Block:\n");
+    printf("   Raw Sector Sub-Block:\n");
     if (size <  3)
     {
         printf("Insufficient space for sector sub-block\n");
@@ -1013,8 +1103,8 @@ H17Disk::validateRawSectorBlock(unsigned char buf[], unsigned int size, unsigned
     }
     unsigned int blockLength = (buf[1] << 8) | (buf[2]);
 
-    printf("      Sector:   %d\n", buf[0]);
-    printf("      Length: %d\n", blockLength);
+    printf("     Sector:   %d\n", buf[0]);
+    printf("     Length: %d\n", blockLength);
 
 #if DUMP_DATA
     printf("   Data: ");
@@ -1023,8 +1113,28 @@ H17Disk::validateRawSectorBlock(unsigned char buf[], unsigned int size, unsigned
         printBinary(buf[i]);
     }
     printf("\n");
+#else
+    dumpDataBlock("Raw Data", &buf[3], blockLength);
 #endif
 
+#if 1
+    //unsigned char decode[length]; // should be length/2 but don't care about memory right now.
+    //unsigned char *buff = new unsigned char[blockLength];
+    unsigned char buff[blockLength];
+    Decode::decodeFM(buff, &buf[3], blockLength >> 1);
+
+    dumpDataBlock("Data", buff, blockLength >> 1); 
+
+#if 1
+    //unsigned char *finalBuff = new unsigned char[(length >> 1) + 5];
+    unsigned char finalBuff[blockLength >> 1];
+
+    processSector(buff, finalBuff, blockLength >> 1,  0, 0, 0);
+    dumpDataBlock("Aligned Data", finalBuff, blockLength >> 1); 
+    //delete[] finalBuff;
+#endif
+    //delete[] buff;
+#endif 
     length = blockLength + 3;
     
     return true;
@@ -1053,7 +1163,16 @@ H17Disk::loadRawSectorBlock(unsigned char buf[], unsigned int size, unsigned int
 bool
 H17Disk::writeHeader()
 {
-    unsigned char buf[7] = { 'H', '1', '7', 'D', 1, 0, 0 };
+/*
+ *     const uint8_t versionMajor_c = 0;
+ *         const uint8_t versionMinor_c = 9;
+ *             const uint8_t versionPoint_c = 1;
+ *
+ *             */
+    unsigned char buf[7] = { 'H', '1', '7', 'D', 
+                             versionMajor_c, 
+                             versionMinor_c,  
+                             versionPoint_c };
 
     if (!file_m.is_open())
     {
@@ -1140,6 +1259,13 @@ H17Disk::closeFile(void)
     return true; 
 }
 
+// Common code to write the block header
+//
+// @param blockId     Block ID
+// @param flag        Flag Byte
+// @param length      length of block
+//
+// @returns {bool} if successful
 bool
 H17Disk::writeBlockHeader(uint8_t blockId, uint8_t flag, uint32_t length)
 {
@@ -1172,6 +1298,10 @@ H17Disk::startData()
 
     writeBlockHeader(0x10, 0x80, 0);
     dataBlockSizePos_m = file_m.tellp() - (streampos) 4;
+    for (int i = 0; i < maxSectors_c; i++)
+    {
+        curTrackSectors_m[i] = nullptr;
+    }
     return true;
 }
 
@@ -1185,7 +1315,7 @@ H17Disk::startTrack(unsigned char side,
         if (curTrackSectors_m[i])
         {
             printf("Invalid data left on previous track: %d   sector: %d\n", 
-                   curTrack_m, indexToSector(i));
+                   curTrack_m, i);
             curTrackSectors_m[i] = nullptr;
         }
     }
@@ -1202,6 +1332,7 @@ H17Disk::startTrack(unsigned char side,
     {
         return true;
     }
+    // add a new 'rawTrack' to the disk
     rawTracks_m.push_back(new RawTrack(side, track));    
     return true;
 }
@@ -1213,7 +1344,7 @@ H17Disk::addSector(unsigned char  sector,
                    uint16_t       length)
 {
     printf("%s: Adding: %d - %d\n", __FUNCTION__, sector, length);
-    if( curTrackSectors_m[sectorToIndex(sector)])
+    if( curTrackSectors_m[sector])
     {
         printf("%s: Dup: %d\n", __FUNCTION__, sector);
         
@@ -1221,7 +1352,7 @@ H17Disk::addSector(unsigned char  sector,
         return false;
     }
 
-    curTrackSectors_m[sectorToIndex(sector)] = new Sector(curSide_m, curTrack_m, sector, error, buf, length);
+    curTrackSectors_m[sector] = new Sector(curSide_m, curTrack_m, sector, error, buf, length);
 
     return true;
 }
@@ -1230,25 +1361,30 @@ H17Disk::addSector(unsigned char  sector,
 bool
 H17Disk::endTrack()
 {
+    // make sure all sectors are accounted for.
     for (int i = 0; i < maxSectors_c; i++)
     {
         if (!curTrackSectors_m[i])
         {
             // missing data for sector
-            printf("Missing data for sector: %d\n", indexToSector(i));
-            curTrackSectors_m[i] = new Sector(curSide_m, curTrack_m, indexToSector(i), 
+            printf("Missing data for sector: %d\n", i);
+            // fill out an empty block.
+            curTrackSectors_m[i] = new Sector(curSide_m, curTrack_m, i,
                                               1 /* TODO - define Err_ReadError*/, 
                                               nullptr, 0);
         }
     }
 
+    // write sectors in order
     for (int i = 0; i < maxSectors_c; i++)
     {
         curTrackSectors_m[i]->writeToFile(file_m);
+        // free space
         delete curTrackSectors_m[i];
         curTrackSectors_m[i] = nullptr;
     }
- 
+
+    // update track size field in block.  
     streampos curPos = file_m.tellp();
     uint16_t length = (uint16_t) (curPos - trackSizePos_m - 2);
 
@@ -1263,6 +1399,7 @@ H17Disk::endTrack()
 bool
 H17Disk::endDataBlock()
 {
+    // go back and write the size of the data block to the header
     streampos curPos = file_m.tellp();
     uint32_t length = (uint32_t) (curPos - dataBlockSizePos_m - 4);
 
@@ -1272,6 +1409,7 @@ H17Disk::endDataBlock()
                              (unsigned char) (length         & 0xff) };
     file_m.seekp(dataBlockSizePos_m, ios::beg);
     file_m.write((const char*)buf, 4);
+    // go to next byte position after data block.
     file_m.seekp(curPos, ios::beg);
     return true;
 }
@@ -1283,23 +1421,29 @@ H17Disk::writeRawDataBlock()
     {
         return true;
     }
+    // header with a zero size
     unsigned char buf[6] = { 0x30, 0x00, 0x00, 0x00, 0x00, 0x00 };
     file_m.write((const char *) buf, 6);
+    // determine spot to write the size, once it's determined.
     streampos rawSizePos = file_m.tellp() - (streampos) 4;
 
+    // write all tracks, they will recursively write the sectors.
     for (unsigned int i = 0 ; i < rawTracks_m.size(); i++)
     {
         rawTracks_m[i]->writeToFile(file_m);
     }
 
+    // determine current position, to calculate size of block
     streampos curPos = file_m.tellp();
     uint32_t length = (uint32_t) (curPos - rawSizePos - 4);
     unsigned char buf2[4] = { (unsigned char) ((length >> 24) & 0xff),
                               (unsigned char) ((length >> 16) & 0xff),
                               (unsigned char) ((length >>  8) & 0xff),
                               (unsigned char) (length         & 0xff) };
+    // position to the size field
     file_m.seekp(rawSizePos, ios::beg);
     file_m.write((const char*)buf2, 4);
+    // position to next byte after this block.
     file_m.seekp(curPos, ios::beg);
  
     return true;
@@ -1314,6 +1458,7 @@ H17Disk::addRawSector(unsigned char  sector,
     {
         return true;
     }
+    // allocate a new raw sector, and store it to the current track.
     RawSector *tmp = new RawSector(curSide_m, curTrack_m, sector, buf, length); 
     rawTracks_m[curTrack_m]->addRawSector(tmp);
     return true;

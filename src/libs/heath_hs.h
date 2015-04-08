@@ -66,8 +66,13 @@ private:
     WORD speed_m;
     WORD bitcellTiming_m;
 
-    static const unsigned int sectorBytes_c    = 320;
-    static const unsigned int sectorRawBytes_c = sectorBytes_c * 2;
+    // set sector size to exactly 320 bytes, based on Heath's manual of 62.5 microSecond
+    // per character, this would be the IDEAL size of a sector, but friction and other
+    // things such at drive's actual RPM can affect that.
+    static const unsigned int sectorBytes_c    = 350;
+
+    // over read the sector
+    static const unsigned int sectorRawBytes_c = 700;
 };
 
 #endif

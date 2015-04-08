@@ -16,8 +16,10 @@
 
 FC5025 *FC5025::pInst_m = nullptr;
 
+// \TODO move this into class.
 static usb_dev_handle *udev;
 
+// move this too.
 static struct
 {
     uint8_t      signature[4];
@@ -50,7 +52,7 @@ FC5025::FC5025()
     // default hard-sectored disk
     disk_Tracks_m    = 40;
     disk_Sides_m     = 1;
-    disk_RPM_m       = 300;;
+    disk_RPM_m       = 300;
 
 }
 
@@ -105,6 +107,7 @@ FC5025::bulkCDB(void          *cdb,
     ret = usb_bulk_write(udev, 1, (char *) &cbw, 63, 1500);
     if (ret != 63)
     {
+        printf("%s: failed 1\n", __FUNCTION__);
         return 1;
     }
 
@@ -113,6 +116,7 @@ FC5025::bulkCDB(void          *cdb,
         ret = usb_bulk_read(udev, 0x81, (char *) xferbuf, xferlen, timeout);
         if (ret < 0)
         {
+        printf("%s: failed 2\n", __FUNCTION__);
             return 1;
         }
         if (xferlen_out != NULL)
@@ -125,15 +129,18 @@ FC5025::bulkCDB(void          *cdb,
     ret = usb_bulk_read(udev, 0x81, (char *) &csw, 32, timeout);
     if ((ret < 12) || (ret > 31))
     {
+        printf("%s: failed 3\n", __FUNCTION__);
         return 1;
     }
 
     if (csw.signature != htov32(0x46435342))
     {
+        printf("%s: failed 4\n", __FUNCTION__);
         return 1;
     }
     if (csw.tag != cbw.tag)
     {
+        printf("%s: failed 5\n", __FUNCTION__);
         return 1;
     }
 
@@ -260,10 +267,11 @@ FC5025::flags(unsigned char  in,
     return 1;
 }
 
-int FC5025::driveStatus(uint8_t  *track,
-                        uint16_t *diskSpeed,
-                        uint8_t  *sectorCount,
-                        uint8_t  *ds_flags)
+int
+FC5025::driveStatus(uint8_t  *track,
+                    uint16_t *diskSpeed,
+                    uint8_t  *sectorCount,
+                    uint8_t  *ds_flags)
 {
     int status = 0;
 
@@ -306,6 +314,12 @@ FC5025::setDensity(int density)
     return flags(density << 2, 0x04, NULL);
 }
 
+
+// open()
+//
+// @param dev  device to open
+//
+// @returns 0 - success, 1 - failure
 int
 FC5025::open(struct usb_device *dev)
 {
@@ -337,6 +351,13 @@ FC5025::close(void)
     return 0;
 }
 
+
+// find()
+//
+// @param devs   list of the devices found
+// @param max    maximum number of devices to return
+//
+// @returns number of devices found
 int
 FC5025::find(struct usb_device **devs, 
              int                 max)

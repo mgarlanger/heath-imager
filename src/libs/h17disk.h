@@ -140,6 +140,9 @@ public:
 
 //  - raw data...    virtual bool convertToData();
 
+    const uint8_t versionMajor_c = 0;
+    const uint8_t versionMinor_c = 9;
+    const uint8_t versionPoint_c = 1;
 private:
     unsigned char sides_m;
     unsigned char tracks_m;
@@ -147,9 +150,6 @@ private:
     unsigned char curSide_m;
     unsigned char curTrack_m;
 
-    unsigned char sectorToIndex(unsigned char sector) { return (sector-1); }
-    unsigned char indexToSector(unsigned char index) { return (index+1); }
-   
     unsigned char distribution_m;
     unsigned char trackDataSource_m;
     bool          writeProtect_m;
