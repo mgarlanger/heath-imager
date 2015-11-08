@@ -1,9 +1,10 @@
+//! \file h17disk.h
+//!
+//! Handles the h17disk file format.
+//!
+
 #ifndef __H17DISK_H__
 #define __H17DISK_H__
-
-#include "sector.h"
-#include "raw_sector.h"
-#include "raw_track.h"
 
 #include <iostream>
 #include <fstream>
@@ -11,13 +12,17 @@
 #include <cstdint>
 
 class H17Block;
+class RawTrack;
+class Sector;
 
 class H17Disk
 {
 public:
     H17Disk();
-    ~H17Disk();
+    virtual ~H17Disk();
 
+    // Block IDs
+    //
     static const uint8_t DiskFormatBlock_c = 0x00;
     static const uint8_t FlagsBlock_c      = 0x01;
     static const uint8_t LabelBlock_c      = 0x02;
@@ -29,17 +34,20 @@ public:
     static const uint8_t DataBlock_c       = 0x10;
     static const uint8_t RawDataBlock_c    = 0x30;
 
+    // SubBlock IDs
+    //
     static const uint8_t TrackDataId       = 0x11;
     static const uint8_t SectorDataId      = 0x12;
 
     static const uint8_t RawTrackDataId    = 0x31;
     static const uint8_t RawSectorDataId   = 0x32;
 
-
+    // flags
     static const uint8_t DistUnknown       = 0x00;
     static const uint8_t DistributionDisk  = 0x01;
     static const uint8_t WorkingDisk       = 0x02;
-  
+ 
+    //  
     static const uint8_t TrackDataUnknown                    = 0x00;
     static const uint8_t TrackDataGeneratedFromH8dConversion = 0x00;
     static const uint8_t TrackDataCreatedOnEmulator          = 0x01;
@@ -47,11 +55,15 @@ public:
     static const uint8_t TrackDataCapturedOnFC5025           = 0x03;
 
 
+    // Open a file
     virtual bool openForWrite(char *name);
     virtual bool openForRead(char *name);
     virtual bool openForRecovery(char *name);
 
-    virtual bool loadFile(char *name);
+    virtual bool loadFile();
+    virtual bool saveFile(char  *name);
+    virtual bool saveAsH8D(char *name);
+    virtual bool saveAsRaw(char *name);
 
     virtual bool loadBuffer(unsigned char buf[], unsigned int size);
     virtual bool loadHeader(unsigned char buf[], unsigned int size, unsigned int &length);
@@ -70,6 +82,7 @@ public:
     virtual bool loadRawTrackBlock(unsigned char buf[], unsigned int size, unsigned int &length);
     virtual bool loadRawSectorBlock(unsigned char buf[], unsigned int size, unsigned int &length);
 
+    virtual bool analyze();
     virtual bool decodeFile(char *name);
 
     virtual bool decodeBuffer(unsigned char buf[], unsigned int size);
@@ -111,12 +124,15 @@ public:
     virtual bool setDistributionParameter(unsigned char val);
     virtual bool setTrackDataParameter(unsigned char val);
 
+    virtual bool writeLabel(unsigned char *buf, uint32_t length);
     virtual bool writeComment(unsigned char *buf, uint32_t length);
+    virtual bool writeDate(unsigned char *buf, uint32_t length);
+    virtual bool writeImager(unsigned char *buf, uint32_t length);
+    virtual bool writeProgram(unsigned char *buf, uint32_t length);
 
     virtual bool writeParameters();
 
     virtual bool startData();
-
 
     virtual bool startTrack(unsigned char side,
                            unsigned char track);
@@ -133,17 +149,30 @@ public:
 
     virtual bool writeRawDataBlock();
 
-
     virtual char *getSectorData(unsigned char side,
                                 unsigned char track,
                                 unsigned char sector);
 
+    virtual bool addSectorToDataBlock(uint8_t   side,
+                                      uint8_t   track,
+                                      uint8_t   sector,
+                                      uint8_t  *buf,
+                                      uint16_t  length);
+
+    virtual bool addRawSectorToDataBlock(uint8_t   side,
+                                         uint8_t   track,
+                                         uint8_t   sector,
+                                         uint8_t  *buf,
+                                         uint16_t  length);
+
 //  - raw data...    virtual bool convertToData();
 
-    const uint8_t versionMajor_c = 0;
-    const uint8_t versionMinor_c = 9;
-    const uint8_t versionPoint_c = 1;
+    static const uint8_t versionMajor_c = 1;
+    static const uint8_t versionMinor_c = 0;
+    static const uint8_t versionPoint_c = 0;
+
 private:
+
     unsigned char sides_m;
     unsigned char tracks_m;
     
@@ -155,6 +184,10 @@ private:
     bool          writeProtect_m;
     bool          disableRaw_m;
 
+    uint8_t       versionMajor_m;
+    uint8_t       versionMinor_m;
+    uint8_t       versionPoint_m;
+
     H17Block     *blocks_m[256];
 
     std::ifstream inFile_m; 
@@ -163,6 +196,8 @@ private:
     unsigned int  dataSize_m;
 
     std::streampos  dataBlockSizePos_m, trackSizePos_m;
+
+//    virtual bool writeHeader();
 
     bool writeBlockHeader(uint8_t blockId, uint8_t flag, uint32_t length);
 
@@ -177,23 +212,12 @@ private:
     //std::vector<Track *> tracksData_m;
 
     virtual bool setDefaults();
-
     virtual bool setDefaultDiskFormat();
     virtual bool setDefaultFlags();
 
-    virtual bool readHeader();
-    virtual bool readBlocks();
-
-    virtual bool readDiskFormatBlock();
-    virtual bool readFlagsBlock();
-    virtual bool readLabelBlock();
-    virtual bool readCommentBlock();
-    virtual bool readDateBlock();
-    virtual bool readImagerBlock();
-    virtual bool readProgramBlock();
-    virtual bool readDataBlock();
-    virtual bool readRawDataBlock();
-
+    static const uint8_t defaultSides_c  = 1;
+    static const uint8_t defaultTracks_c = 40;
+ 
 };
 
 #endif

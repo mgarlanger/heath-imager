@@ -1,4 +1,8 @@
-/* Communicate with the FC5025 hardware */
+//!  \file fc5025.cpp
+//!
+//! Communicate with the FC5025 hardware
+//!
+
 #include "fc5025.h"
 
 #include <stdio.h>
@@ -6,6 +10,7 @@
 #include <string.h>
 #include <arpa/inet.h>
 #include <time.h>
+#include <usb.h>
 
 #define swap32(x) (((((uint32_t)x) & 0xff000000) >> 24) | \
                    ((((uint32_t)x) & 0x00ff0000) >>  8) | \
@@ -16,8 +21,8 @@
 
 FC5025 *FC5025::pInst_m = nullptr;
 
-// \TODO move this into class.
-static usb_dev_handle *udev;
+// \todo move this into class.
+//static usb_dev_handle *udev;
 
 // move this too.
 static struct
@@ -40,27 +45,49 @@ static struct
     { 0,}                  // cdb[]
 };
 
+
+//! Constructor
+//!
 FC5025::FC5025()
 {
-    // set disk parameters to default
-    // - default for TEAC 
+    // set drive parameters to default
+    // - default for TEAC  1.2M
     drive_Tracks_m   = 80;
     drive_Sides_m    = 2;
     drive_RPM_m      = 360;
     drive_StepRate_m = 15;
+   
+    // H-17-1 
+    //drive_Tracks_m   = 40;
+    //drive_Sides_m    = 1;
+    //drive_RPM_m      = 300;
+    //drive_StepRate_m = 150;   // 30 mSec
+
+    // H-17-4 
+    //drive_Tracks_m   = 80;
+    //drive_Sides_m    = 2;
+    //drive_RPM_m      = 300;
+    //drive_StepRate_m = 30;   // 6 mSec
 
     // default hard-sectored disk
     disk_Tracks_m    = 40;
     disk_Sides_m     = 1;
     disk_RPM_m       = 300;
-
 }
 
+
+//! Destructor
+//!
 FC5025::~FC5025()
 {
 
 }
 
+
+//! get singleton
+//!
+//! @return FC5025
+//!
 FC5025 *
 FC5025::inst()
 {
@@ -73,15 +100,29 @@ FC5025::inst()
     return pInst_m;
 }
 
+
+//! common cdb 
+//!
+//! @param cdb
+//! @param length
+//! @param timeout
+//! @param csw_out
+//! @param xferbuf
+//! @param xferlen
+//! @param xferlen_out
+//!
+//! @return status
+//!
 int
 FC5025::bulkCDB(void          *cdb, 
                 int            length,
                 int            timeout,
-                unsigned char *csw_out,
-                unsigned char *xferbuf,
+                uint8_t       *csw_out,
+                uint8_t       *xferbuf,
                 int            xferlen,
                 int           *xferlen_out)
 {
+    // response structure
     struct
     {
         uint32_t   signature;
@@ -97,26 +138,30 @@ FC5025::bulkCDB(void          *cdb,
 
     cbw.tag++;
     cbw.xferlen = htov32(xferlen);
+
     memset(&(cbw.cdb), 0, 48);
     memcpy(&(cbw.cdb), cdb, length);
+
     if (xferlen_out != NULL)
     {
         *xferlen_out = 0;
     }
 
-    ret = usb_bulk_write(udev, 1, (char *) &cbw, 63, 1500);
+    ret = usb_bulk_write(udev_m, 1, (const char *) &cbw, 63, 1500);
     if (ret != 63)
     {
         printf("%s: failed 1\n", __FUNCTION__);
         return 1;
     }
 
+    // get data if requested, on error FC5025 will send a zero length response
+    // followed by the status
     if (xferlen != 0)
     {
-        ret = usb_bulk_read(udev, 0x81, (char *) xferbuf, xferlen, timeout);
+        ret = usb_bulk_read(udev_m, 0x81, (char *) xferbuf, xferlen, timeout);
         if (ret < 0)
         {
-        printf("%s: failed 2\n", __FUNCTION__);
+            printf("%s: failed 2\n", __FUNCTION__);
             return 1;
         }
         if (xferlen_out != NULL)
@@ -126,32 +171,55 @@ FC5025::bulkCDB(void          *cdb,
         timeout = 500;
     }
 
-    ret = usb_bulk_read(udev, 0x81, (char *) &csw, 32, timeout);
+    // get the status
+    ret = usb_bulk_read(udev_m, 0x81, (char *) &csw, 32, timeout);
     if ((ret < 12) || (ret > 31))
     {
         printf("%s: failed 3\n", __FUNCTION__);
         return 1;
     }
 
-    if (csw.signature != htov32(0x46435342))
+    if (csw.signature != htov32(cswSignature_c))
     {
         printf("%s: failed 4\n", __FUNCTION__);
         return 1;
     }
+
+    // verify tag
     if (csw.tag != cbw.tag)
     {
+        // response tag did not match transmitted tag
         printf("%s: failed 5\n", __FUNCTION__);
         return 1;
     }
 
+    // verify buffer was provided
     if (csw_out != NULL)
     {
         memcpy(csw_out, &csw, 12);
     }
 
+    if (csw.status)
+    {
+        printf("failure status - Key: %02x  ASC: %02x  ASCQ: %02x\n", csw.sense,
+                 csw.asc, csw.ascq);
+        lastSenseKey_m = csw.sense;
+        lastASC_m      = csw.asc;
+        lastASCQ_m     = csw.ascq;
+    }
+
     return(csw.status);
 }
 
+
+//! internal seek command
+//!
+//! @param mode
+//! @param stepRate
+//! @param track
+//! 
+//! @return status
+//!
 int
 FC5025::internalSeek(uint8_t mode,
                      uint8_t stepRate,
@@ -179,27 +247,53 @@ FC5025::internalSeek(uint8_t mode,
     return retVal;
 }
 
+
+//! recalibrate - try to find track zero
+//! 
+//! @return status
+//!
 int
 FC5025::recalibrate(void)
 {
     return internalSeek( 3, drive_StepRate_m, 100);
 }
 
+
+//! seek to a specified track
+//!
+//! @param track
+//!
+//! @return status
+//!
 int
-FC5025::seek(unsigned char track)
+FC5025::seek(uint8_t       track)
 {
     return internalSeek(0, drive_StepRate_m, track);
 }
 
+
+//! read id 
+//!
+//! @param out
+//! @param length
+//! @param side
+//! @param format
+//! @param bitcell
+//! @param idam0
+//! @param idam1
+//! @param idam2
+//!
+//! @return status
+//!
 int
-FC5025::readId(unsigned char *out,
+FC5025::readId(uint8_t       *out,
                int            length,
-               unsigned char  side,
-               unsigned char  format,
+               uint8_t        side,
+               uint8_t        format,
                int            bitcell,
-               unsigned char  idam0,
-               unsigned char  idam1,
-               unsigned char  idam2)
+               uint8_t        idam0,
+               uint8_t        idam1,
+               uint8_t        idam2)
 {
     struct
     {
@@ -233,9 +327,18 @@ FC5025::readId(unsigned char *out,
     return status;
 }
 
+
+//! set flags
+//!
+//! @param in
+//! @param mask
+//! @param out
+//!
+//! @return status
+//!
 int
-FC5025::flags(unsigned char  in,
-              unsigned char  mask,
+FC5025::flags(uint8_t        in,
+              uint8_t        mask,
               int           *out)
 {
     struct
@@ -249,7 +352,7 @@ FC5025::flags(unsigned char  in,
         mask,
         in
     };
-    unsigned char   buf;
+    uint8_t         buf;
     int             ret;
     int             xferlen_out;
 
@@ -267,6 +370,16 @@ FC5025::flags(unsigned char  in,
     return 1;
 }
 
+
+//! get drive status
+//!
+//! @param track
+//! @param diskSpeed
+//! @param sectorCount
+//! @param ds_flags
+//!
+//! @return status
+//!
 int
 FC5025::driveStatus(uint8_t  *track,
                     uint16_t *diskSpeed,
@@ -289,7 +402,7 @@ FC5025::driveStatus(uint8_t  *track,
     {
         Opcode::DriveStatus
     }; 
-    unsigned char buf[5];
+    uint8_t       buf[5];
     int           xferlen_out;
 
     status = bulkCDB(&cdb, sizeof(cdb), 100, NULL, buf, 5, &xferlen_out);
@@ -308,6 +421,13 @@ FC5025::driveStatus(uint8_t  *track,
     return status;
 }
 
+
+//! set density
+//!
+//! @param density
+//!
+//! @return status
+//!
 int
 FC5025::setDensity(int density)
 {
@@ -315,35 +435,41 @@ FC5025::setDensity(int density)
 }
 
 
-// open()
-//
-// @param dev  device to open
-//
-// @returns 0 - success, 1 - failure
+//! open device
+//!
+//! @param dev  device to open
+//!
+//! @returns 0 - success, 1 - failure
+//!
 int
 FC5025::open(struct usb_device *dev)
 {
     cbw.tag = time(NULL) & 0xffffffff;
-    udev    = usb_open(dev);
+    udev_m    = usb_open(dev);
 
-    if (!udev)
+    if (!udev_m)
     {
         return 1;
     }
 
-    if (usb_claim_interface(udev, 0) != 0)
+    if (usb_claim_interface(udev_m, 0) != 0)
     {
-        usb_close(udev);
+        usb_close(udev_m);
         return 1;
     }
 
     return 0;
 }
 
+
+//! close device
+//!
+//! @return status
+//!
 int
 FC5025::close(void)
 {
-    if ((usb_release_interface(udev, 0) != 0) || (usb_close(udev) != 0))
+    if ((usb_release_interface(udev_m, 0) != 0) || (usb_close(udev_m) != 0))
     {
         return 1;
     }
@@ -352,12 +478,13 @@ FC5025::close(void)
 }
 
 
-// find()
-//
-// @param devs   list of the devices found
-// @param max    maximum number of devices to return
-//
-// @returns number of devices found
+//! find devices
+//!
+//! @param devs   list of the devices found
+//! @param max    maximum number of devices to return
+//!
+//! @returns number of devices found
+//!
 int
 FC5025::find(struct usb_device **devs, 
              int                 max)
@@ -373,8 +500,8 @@ FC5025::find(struct usb_device **devs,
     {
         for (dev = bus->devices; dev != NULL; dev = dev->next)
         {
-            if ((dev->descriptor.idVendor == VendorID) && 
-                (dev->descriptor.idProduct == ProductID))
+            if ((dev->descriptor.idVendor == VendorID_c) && 
+                (dev->descriptor.idProduct == ProductID_c))
             {
                 num_found++;
                 if (num_found <= max)
@@ -388,6 +515,14 @@ FC5025::find(struct usb_device **devs,
     return num_found;
 }
 
+
+//! configure disk drive
+//!
+//! @param tracks
+//! @param sides
+//! @param rpm
+//! @param stepRate
+//!
 void
 FC5025::configureDiskDrive(uint8_t   tracks,
                            uint8_t   sides,
@@ -400,6 +535,14 @@ FC5025::configureDiskDrive(uint8_t   tracks,
     drive_StepRate_m = stepRate;
 }
 
+
+//! get disk drive
+//!
+//! @param tracks
+//! @param sides
+//! @param rpm
+//! @param stepRate
+//!
 void 
 FC5025::getDiskDrive(uint8_t   &tracks,
                      uint8_t   &sides,
@@ -412,6 +555,13 @@ FC5025::getDiskDrive(uint8_t   &tracks,
     stepRate = drive_StepRate_m;
 }
 
+
+//! configure floppy disk
+//!
+//! @param tracks
+//! @param sides
+//! @param rpm
+//!
 void
 FC5025::configureFloppyDisk(uint8_t  tracks,
                             uint8_t  sides,

@@ -1,29 +1,51 @@
+//! \file drive.cpp
+//!
+//!  Implementation of physical drive control
+//!
+
 #include "drive.h"
 #include "fc5025.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <usb.h>
 
 static DriveInfo *drives = NULL;
 
-Drive::Drive(DriveInfo *drive)
+
+//! constructor
+//!
+Drive::Drive(DriveInfo *drive):heads_m(2),
+                               tpi_m(96),
+                               rpm_m(360)
 {
     status_m = FC5025::inst()->open(drive->usbdev);
 }
 
+
+//! destructor
+//!
+Drive::~Drive()
+{
+    FC5025::inst()->close();
+}
+
+
+//! get status
+//!
+//! @return staus
 uint8_t
 Drive::getStatus()
 {
     return status_m;
 }
 
-Drive::~Drive()
-{
-    FC5025::inst()->close();
-}
 
+//! get description
+//!
+//! @param drive 
+//!
+//! @return 
 static int
 get_desc(DriveInfo *drive)
 {
@@ -53,6 +75,10 @@ done:
     return retVal;
 }
 
+
+//! get drive list
+//!
+//! @return drive info
 DriveInfo *
 Drive::get_drive_list(void)
 {
@@ -73,7 +99,9 @@ Drive::get_drive_list(void)
     {
         free(devs);
     }
+
     devs = (struct usb_device **) malloc(total_devs * sizeof(struct usb_device));
+
     if (!devs)
     {
         return NULL;
@@ -119,5 +147,62 @@ Drive::get_drive_list(void)
     }
 
     return drives;
+}
+
+
+//! set number of heads for the drive 
+//!
+bool
+Drive::setHeads(uint8_t heads)
+{
+    bool status = false;
+
+    if ((heads <= 2) && (heads >= 1))
+    {
+        heads_m = heads;
+        status = true;
+    }
+
+    return status;
+}
+
+
+//! set tpi for the drive
+//!
+//! @param tpi
+//!
+//! @return success
+bool
+Drive::setTpi(uint8_t tpi)
+{
+    bool status = false;
+
+    if ((tpi == 48) || (tpi == 96))
+    {
+        tpi_m = tpi;
+        status = true;
+    }
+
+    return status;
+}
+
+
+//! set RPM of the drive
+//! 
+//! @param rpm
+//!
+//! return success
+bool
+Drive::setRpm(uint16_t rpm)
+{
+    bool status = false;
+
+    if ((rpm == 300) || (rpm == 360))
+    {
+        rpm_m = rpm;
+        status = true;
+    }
+
+    return status;
 }
 

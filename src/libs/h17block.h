@@ -1,26 +1,42 @@
+//! \file h17block.h
+//!
+//! Classes to handle the various blocks in the h17disk image file.
+//!
+
 #ifndef __H17BLOCK_H__
 #define __H17BLOCK_H__
 
 #include <iostream>
 #include <fstream>
+#include <cstdint>
+#include <vector>
+
+
+class Track;
+class RawTrack;
 
 
 class H17Block 
 {
+
 public:
-    H17Block(unsigned char buf[], unsigned int size);
+    H17Block();
+    H17Block(uint8_t buf[], uint32_t size);
     virtual ~H17Block();
 
-    virtual unsigned int getDataSize();
-    virtual unsigned int getBlockSize();
+    virtual uint32_t     getDataSize();
+    virtual uint8_t     *getData();
+    virtual uint32_t     getBlockSize();
+    virtual uint32_t     getHeaderSize();
+    
+    virtual bool         writeBlockHeader(std::ofstream &file);
+    virtual bool         writeToFile(std::ofstream &file);
+    virtual bool         dump(uint8_t level);
+    virtual bool         analyze();
 
-
-//    virtual bool writeToFile(std::ofstream file) = 0;
-
-    static const unsigned int blockHeaderSize_c = 6;
-
-    virtual unsigned char getBlockId() = 0;
-
+    virtual bool         getMandatory() = 0;
+    virtual uint8_t      getBlockId() = 0;
+    virtual void         printBlockName() = 0;
 
     static const uint8_t DiskFormatBlock_c = 0x00;
     static const uint8_t FlagsBlock_c      = 0x01;
@@ -39,50 +55,76 @@ public:
     static const uint8_t RawTrackDataId    = 0x31;
     static const uint8_t RawSectorDataId   = 0x32;
 
-private:
+protected:
+    virtual bool         dumpText();
 
-    unsigned int    size_m;
-    unsigned char  *buf_m;
-    
+    static const uint32_t  blockHeaderSize_c = 6;
+
+    uint32_t               size_m;
+    uint8_t               *buf_m;
 };
 
 
 class H17DiskFormatBlock: public H17Block
 {
+
 public:
 
-   H17DiskFormatBlock(unsigned char buf[], unsigned int size);
-   ~H17DiskFormatBlock();
+    H17DiskFormatBlock(uint8_t buf[], uint32_t size);
+    H17DiskFormatBlock(uint8_t sides, uint8_t tracks);
+    virtual ~H17DiskFormatBlock();
    
-   virtual unsigned char getBlockId();
+    virtual uint8_t      getBlockId();
+    virtual bool         writeToFile(std::ofstream &file);
+    virtual bool         getMandatory();
+    virtual uint32_t     getDataSize();
+    virtual bool         dump(uint8_t level);
+    virtual void         printBlockName();
+ 
 private:
-
-   
+    
+    uint8_t sides_m;
+    uint8_t tracks_m; 
 };
+
 
 class H17DiskFlagsBlock: public H17Block
 {
 public:
 
-   H17DiskFlagsBlock(unsigned char buf[], unsigned int size);
-   ~H17DiskFlagsBlock();
+    H17DiskFlagsBlock(uint8_t buf[], uint32_t size);
+    H17DiskFlagsBlock(bool writeProtect, uint8_t distribution, uint8_t trackSource);
+    virtual ~H17DiskFlagsBlock();
 
-   virtual unsigned char getBlockId();
+    virtual uint8_t      getBlockId();
+    virtual bool         writeToFile(std::ofstream &file);
+    virtual bool         getMandatory();
+    virtual uint32_t     getDataSize();
+    virtual bool         dump(uint8_t level);
+    virtual void         printBlockName();
+
 private:
-
-
+    
+    uint8_t roFlag_m;
+    uint8_t distribution_m;
+    uint8_t trackData_m;
+ 
 };
+
 
 class H17DiskLabelBlock: public H17Block
 {
 public:
 
-   H17DiskLabelBlock(unsigned char buf[], unsigned int size);
-   ~H17DiskLabelBlock();
+    H17DiskLabelBlock(uint8_t buf[], uint32_t size);
+    virtual ~H17DiskLabelBlock();
 
-   virtual unsigned char getBlockId();
+    virtual uint8_t      getBlockId();
+    virtual bool         getMandatory();
+    virtual bool         dump(uint8_t level);
+    virtual void         printBlockName();
+
 private:
-
 
 };
 
@@ -91,38 +133,49 @@ class H17DiskCommentBlock: public H17Block
 {
 public:
 
-   H17DiskCommentBlock(unsigned char buf[], unsigned int size);
-   ~H17DiskCommentBlock();
+    H17DiskCommentBlock(uint8_t buf[], uint32_t size);
+    virtual ~H17DiskCommentBlock();
 
-   virtual unsigned char getBlockId();
+    virtual uint8_t      getBlockId();
+    virtual bool         getMandatory();
+    virtual bool         dump(uint8_t level);
+    virtual void         printBlockName();
+
 private:
 
-
 };
+
 
 class H17DiskDateBlock: public H17Block
 {
 public:
 
-   H17DiskDateBlock(unsigned char buf[], unsigned int size);
-   ~H17DiskDateBlock();
+    H17DiskDateBlock(uint8_t buf[], uint32_t size);
+    virtual ~H17DiskDateBlock();
 
-   virtual unsigned char getBlockId();
+    virtual uint8_t      getBlockId();
+    virtual bool         getMandatory();
+    virtual bool         dump(uint8_t level);
+    virtual void         printBlockName();
+
 private:
 
-
 };
+
 
 class H17DiskImagerBlock: public H17Block
 {
 public:
 
-   H17DiskImagerBlock(unsigned char buf[], unsigned int size);
-   ~H17DiskImagerBlock();
+    H17DiskImagerBlock(uint8_t buf[], uint32_t size);
+    virtual ~H17DiskImagerBlock();
    
-   virtual unsigned char getBlockId();
-private:
+    virtual uint8_t      getBlockId();
+    virtual bool         getMandatory();
+    virtual bool         dump(uint8_t level);
+    virtual void         printBlockName();
 
+private:
 
 };
 
@@ -131,12 +184,15 @@ class H17DiskProgramBlock: public H17Block
 {
 public:
 
-   H17DiskProgramBlock(unsigned char buf[], unsigned int size);
-   ~H17DiskProgramBlock();
+    H17DiskProgramBlock(uint8_t buf[], uint32_t size);
+    virtual ~H17DiskProgramBlock();
    
-   virtual unsigned char getBlockId();
-private:
+    virtual uint8_t      getBlockId();
+    virtual bool         getMandatory();
+    virtual bool         dump(uint8_t level);
+    virtual void         printBlockName();
 
+private:
 
 };
 
@@ -145,31 +201,44 @@ class H17DiskDataBlock: public H17Block
 {
 public:
 
-   H17DiskDataBlock(unsigned char buf[], unsigned int size);
-   ~H17DiskDataBlock();
+    H17DiskDataBlock(uint8_t buf[], uint32_t size);
+    virtual ~H17DiskDataBlock();
 
-   virtual unsigned char getBlockId();
+    virtual uint8_t      getBlockId();
+    virtual bool         writeToFile(std::ofstream &file);
+    virtual bool         getMandatory();
+    virtual bool         dump(uint8_t level);
+    virtual bool         analyze();
+
+    virtual void         printBlockName();
+
+    virtual bool         writeAsH8D(std::ofstream &file);
+    virtual bool         writeAsRaw(std::ofstream &file);
+
+
 private:
-
+    std::vector<Track *> tracks_m;
 
 };
-
 
 
 class H17DiskRawDataBlock: public H17Block
 {
 public:
 
-   H17DiskRawDataBlock(unsigned char buf[], unsigned int size);
-   ~H17DiskRawDataBlock();
+    H17DiskRawDataBlock(uint8_t buf[], uint32_t size);
+    virtual ~H17DiskRawDataBlock();
 
-   virtual unsigned char getBlockId();
+    virtual uint8_t      getBlockId();
+    virtual bool         writeToFile(std::ofstream &file);
+    virtual bool         getMandatory();
+    virtual bool         dump(uint8_t level);
+    virtual void         printBlockName();
+
 private:
-
+    std::vector<RawTrack *> rawTracks_m;
 
 };
-
-
 
 #endif
 

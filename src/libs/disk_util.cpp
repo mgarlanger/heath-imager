@@ -1,7 +1,23 @@
+//!  \file disk_util.cpp
+//!
+//!  Processes disk related data blocks
+//!
+
 #include "disk_util.h"
 
 #include <cstring>
 
+const char *errorStrings[] = {
+    "No error.",
+    "Read Error - no data",
+    "Invalid clock bits.",
+    "Missing Header sync byte.",
+    "Wrong Track",
+    "Invalid Sector",
+    "Invalid header checksum",
+    "Missing data sync byte",
+    "Invalid data checksum",
+};
 
 BYTE updateChecksum(BYTE checksum, BYTE val)
 {
@@ -25,8 +41,8 @@ int alignSector(BYTE *out, BYTE *in, WORD length, BYTE syncByte)
     // first find the header, it most occur within the first 57
     // bytes, otherwise there won't be room for everything -
     // 320 - (256 + 2 + 5)
-    /// \todo - change to just 320 and try to get more out even if 
-    /// it is not complete.
+    //! \todo - change to just 320 and try to get more out even if 
+    //! it is not complete.
     for (pos = 0; pos < 57; pos++)
     {
         for (bitOffset = 0; bitOffset < 8; bitOffset++)
@@ -140,8 +156,8 @@ int alignSector(BYTE *out, BYTE *in, WORD length, BYTE syncByte)
     }
 
     for (; pos < length; pos++)
-    {    /// \todo fix this... one byte past end of buffer.
-        /// \todo determine if we should write this data or just put 0s.
+    {   //! \todo fix this... one byte past end of buffer.
+        //! \todo determine if we should write this data or just put 0s.
         out[pos] = shiftByte(in[pos], in[pos+1], bitOffset2);
     }
 
@@ -238,7 +254,7 @@ int processSector(BYTE *buffer, BYTE *out, WORD length, BYTE side, BYTE track, B
     // Sector number must be between 0 and 9.
     if (buffer[pos] >= 10)
     {
-        ////printf("Invalid sector - expected: %d  received: %d\n", sector - 1, buffer[pos]);
+        //printf("Invalid sector - expected: %d  received: %d\n", sector - 1, buffer[pos]);
         //issue = true; \todo just have to check that all 10 sectors are present and no duplicates. - can't expect this to equal.
         return Err_InvalidSector;
     }
