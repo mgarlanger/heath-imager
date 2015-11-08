@@ -170,7 +170,32 @@ void )</para>
             <section xml:id="classDrive_1a30473c2fd25a65919f11a38be6982c34">
                 <title>bool Drive::setHeads (uint8_t heads)</title> <emphasis></emphasis>
                 
-<para>set number of heads for the drive </para>
+<para>set number of heads for the drive</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>heads</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
 
             </section>
             <section xml:id="classDrive_1a102cde6bc5b9af8c7a8e8461c04aa16a">

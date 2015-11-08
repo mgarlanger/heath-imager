@@ -1116,7 +1116,11 @@ SequenceError= 0x2c,
                         </tgroup>
                     </table>
                 </formalpara>
-                </para>
+                <formalpara><title>Returns: </title>
+
+<para>void </para>
+</formalpara>
+</para>
 
             </section>
             <section xml:id="classFC5025_1a2277f14f5c11732eeabff350d1aa3203">
@@ -1161,7 +1165,11 @@ SequenceError= 0x2c,
                         </tgroup>
                     </table>
                 </formalpara>
-                </para>
+                <formalpara><title>Returns: </title>
+
+<para>void </para>
+</formalpara>
+</para>
 
             </section>
             <section xml:id="classFC5025_1af4a65dba5d2145adc0a0bb69d8ce6ae0">
@@ -1200,7 +1208,11 @@ SequenceError= 0x2c,
                         </tgroup>
                     </table>
                 </formalpara>
-                </para>
+                <formalpara><title>Returns: </title>
+
+<para>void </para>
+</formalpara>
+</para>
 
             </section>
             <section xml:id="classFC5025_1a01786b9fd3a20919da5e702794fa95e6">

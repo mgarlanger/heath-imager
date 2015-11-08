@@ -29,7 +29,9 @@
     <simplesect>
         <title>Detailed Description</title>
 
-<para>Handles the raw data from fc5025 </para>
+<para>Handles the raw data from fc5025</para>
+
+<para>Handles h17 hard sector track </para>
     <para>Definition in file /home/mgarlanger/diskimaging/fc5025/heath-imager/src/libs/raw_track.cpp</para>
     </simplesect>
 </section>

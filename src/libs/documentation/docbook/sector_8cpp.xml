@@ -30,7 +30,7 @@
     <simplesect>
         <title>Detailed Description</title>
 
-<para>Handles the sector </para>
+<para>Handles the hard-sectored disk sector </para>
     <para>Definition in file /home/mgarlanger/diskimaging/fc5025/heath-imager/src/libs/sector.cpp</para>
     </simplesect>
 </section>
