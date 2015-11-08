@@ -23,36 +23,36 @@ public:
 
     // Block IDs
     //
-    static const uint8_t DiskFormatBlock_c = 0x00;
-    static const uint8_t FlagsBlock_c      = 0x01;
-    static const uint8_t LabelBlock_c      = 0x02;
-    static const uint8_t CommentBlock_c    = 0x03;
-    static const uint8_t DateBlock_c       = 0x04;
-    static const uint8_t ImagerBlock_c     = 0x05;
-    static const uint8_t ProgramBlock_c    = 0x06;
+    static const uint8_t DiskFormatBlock_c;
+    static const uint8_t FlagsBlock_c;
+    static const uint8_t LabelBlock_c;
+    static const uint8_t CommentBlock_c;
+    static const uint8_t DateBlock_c;
+    static const uint8_t ImagerBlock_c;
+    static const uint8_t ProgramBlock_c;
    
-    static const uint8_t DataBlock_c       = 0x10;
-    static const uint8_t RawDataBlock_c    = 0x30;
+    static const uint8_t DataBlock_c;
+    static const uint8_t RawDataBlock_c;
 
     // SubBlock IDs
     //
-    static const uint8_t TrackDataId       = 0x11;
-    static const uint8_t SectorDataId      = 0x12;
+    static const uint8_t TrackDataId;
+    static const uint8_t SectorDataId;
 
-    static const uint8_t RawTrackDataId    = 0x31;
-    static const uint8_t RawSectorDataId   = 0x32;
+    static const uint8_t RawTrackDataId;
+    static const uint8_t RawSectorDataId;
 
     // flags
-    static const uint8_t DistUnknown       = 0x00;
-    static const uint8_t DistributionDisk  = 0x01;
-    static const uint8_t WorkingDisk       = 0x02;
+    static const uint8_t DistUnknown;
+    static const uint8_t DistributionDisk;
+    static const uint8_t WorkingDisk;
  
     //  
-    static const uint8_t TrackDataUnknown                    = 0x00;
-    static const uint8_t TrackDataGeneratedFromH8dConversion = 0x00;
-    static const uint8_t TrackDataCreatedOnEmulator          = 0x01;
-    static const uint8_t TrackDataCapturedOnH89              = 0x02;
-    static const uint8_t TrackDataCapturedOnFC5025           = 0x03;
+    static const uint8_t TrackDataUnknown;
+    static const uint8_t TrackDataGeneratedFromH8dConversion;
+    static const uint8_t TrackDataCreatedOnEmulator;
+    static const uint8_t TrackDataCapturedOnH89;
+    static const uint8_t TrackDataCapturedOnFC5025;
 
 
     // Open a file
@@ -167,9 +167,9 @@ public:
 
 //  - raw data...    virtual bool convertToData();
 
-    static const uint8_t versionMajor_c = 1;
-    static const uint8_t versionMinor_c = 0;
-    static const uint8_t versionPoint_c = 0;
+    static const uint8_t versionMajor_c;
+    static const uint8_t versionMinor_c;
+    static const uint8_t versionPoint_c;
 
 private:
 

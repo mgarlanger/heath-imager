@@ -38,7 +38,7 @@ enum
     Err_InvalidDataChecksum   = 8
 };
 
-extern const char *errorStrings[];
+extern const char *sectorErrorStrings[];
 
 
 //! expected sync character for Heath hard-sectored

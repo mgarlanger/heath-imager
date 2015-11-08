@@ -2,7 +2,8 @@
 GTK_VERSION=gtk2
 
 CPP=g++
-CFLAGS=-std=c++11 -g -O0 -fno-inline
+# CFLAGS=-std=c++11 -g -O0 -fno-inline
+CFLAGS=-std=c++0x -g -O0 -fno-inline
 OUTPUT_DIR=../../output/executable
 OUTPUT_PROG=../../output
 PROG=heathimager

@@ -7,7 +7,7 @@
 
 #include <cstring>
 
-const char *errorStrings[] = {
+const char *sectorErrorStrings[] = {
     "No error.",
     "Read Error - no data",
     "Invalid clock bits.",

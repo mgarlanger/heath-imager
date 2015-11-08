@@ -139,10 +139,8 @@ Sector::writeToH8D(std::ofstream &file)
     pos += 5;
 
     // look for the data 
-    while ((buf_m[pos] != 0xfd) && (pos < bufSize_m))
-    {
-        pos++;
-    }
+    while ((buf_m[pos++] != 0xfd) && (pos < bufSize_m))
+    { }
 
     if ((bufSize_m - pos) < 256)
     {
@@ -220,7 +218,7 @@ Sector::analyze()
     if (error_m)
     {
         valid = false;
-        printf("sector(%d) has error: %s(%d)\n", sector_m, errorStrings[error_m], error_m);
+        printf("sector(%d) has error: %s(%d)\n", sector_m, sectorErrorStrings[error_m], error_m);
     }
     if (sector_m >= 10)
     {

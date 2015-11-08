@@ -6,7 +6,7 @@ OUTPUT_PROG=../../output/
 HOST_OBJS=h17dinfo h17d_reprocess h17d_clone h17d_h8d h17d_raw
 HOST_PROGS=$(addprefix $(OUTPUT_DIR), $(HOST_OBJS)) $(OUTPUT_PROG)
 //CXXFLAGS=-I../libs -Wall -O3 -std=c++11
-CXXFLAGS=-I../libs -Wall -O0 -std=c++11 -g
+CXXFLAGS=-I../libs -Wall -O0 -g -std=c++0x # -std=c++11
 FC5025_A=$(OUTPUT_PROG)/libs/fc5025lib.a
 H17DISK_A=$(OUTPUT_PROG)/libs/h17disk.a
 
@@ -21,7 +21,7 @@ linux: $(HOST_PROGS)
 
 #$(HOST_PROGS): $(OUTPUT_DIR)$(HOST_OBJS).o $(H17DISK_A)
 #	$(CXX) $(LDFLAGS) -o $@ $^ $(H17DISK_A)
-	
+
 
 $(OUTPUT_DIR)%: $(OUTPUT_DIR)%.o $(H17DISK_A) $(FC5025_A)
 	$(CXX) $(LDFLAGS) -o $@ $^

@@ -16,6 +16,41 @@
 
 using namespace std;
 
+const uint8_t H17Disk::DiskFormatBlock_c = 0x00;
+const uint8_t H17Disk::FlagsBlock_c      = 0x01;
+const uint8_t H17Disk::LabelBlock_c      = 0x02;
+const uint8_t H17Disk::CommentBlock_c    = 0x03;
+const uint8_t H17Disk::DateBlock_c       = 0x04;
+const uint8_t H17Disk::ImagerBlock_c     = 0x05;
+const uint8_t H17Disk::ProgramBlock_c    = 0x06;
+
+const uint8_t H17Disk::DataBlock_c       = 0x10;
+const uint8_t H17Disk::RawDataBlock_c    = 0x30;
+
+// SubBlock IDs
+//
+const uint8_t H17Disk::TrackDataId       = 0x11;
+const uint8_t H17Disk::SectorDataId      = 0x12;
+
+const uint8_t H17Disk::RawTrackDataId    = 0x31;
+const uint8_t H17Disk::RawSectorDataId   = 0x32;
+
+// flags
+const uint8_t H17Disk::DistUnknown       = 0x00;
+const uint8_t H17Disk::DistributionDisk  = 0x01;
+const uint8_t H17Disk::WorkingDisk       = 0x02;
+
+//  
+const uint8_t H17Disk::TrackDataUnknown                    = 0x00;
+const uint8_t H17Disk::TrackDataGeneratedFromH8dConversion = 0x00;
+const uint8_t H17Disk::TrackDataCreatedOnEmulator          = 0x01;
+const uint8_t H17Disk::TrackDataCapturedOnH89              = 0x02;
+const uint8_t H17Disk::TrackDataCapturedOnFC5025           = 0x03;
+
+const uint8_t H17Disk::versionMajor_c = 1;
+const uint8_t H17Disk::versionMinor_c = 0;
+const uint8_t H17Disk::versionPoint_c = 0;
+
 
 //!  Constructor
 //!
@@ -692,9 +727,16 @@ H17Disk::validateLabelBlock(unsigned char buf[],
     printf("-------------------------------------------------------------------------\n");
     for (unsigned int i = 0; i < size; i++)
     {
-        putchar(buf[i]);
+        if (buf[i])
+        {
+            putchar(buf[i]);
+        }
+        else
+        {
+            printf("\n");
+        }
     }
-    printf("\n-------------------------------------------------------------------------\n");
+    printf("-------------------------------------------------------------------------\n");
 
     return true;
 }
@@ -742,9 +784,16 @@ H17Disk::validateCommentBlock(unsigned char buf[],
     printf("-------------------------------------------------------------------------\n");
     for (unsigned int i = 0; i < size; i++)
     {
-        putchar(buf[i]);
+        if (buf[i])
+        {
+            putchar(buf[i]);
+        }
+        else
+        {
+            printf("\n");
+        }
     }
-    printf("\n-------------------------------------------------------------------------\n");
+    printf("-------------------------------------------------------------------------\n");
 
     return true;
 }
@@ -792,9 +841,16 @@ H17Disk::validateDateBlock(unsigned char buf[],
     printf("-------------------------------------------------------------------------\n");
     for (unsigned int i = 0; i < size; i++)
     {
-        putchar(buf[i]);
+        if (buf[i])
+        {
+            putchar(buf[i]);
+        }
+        else
+        {
+            printf("\n");
+        }
     }
-    printf("\n-------------------------------------------------------------------------\n");
+    printf("-------------------------------------------------------------------------\n");
 
     return true;
 }
@@ -841,9 +897,17 @@ H17Disk::validateImagerBlock(unsigned char buf[],
     printf("-------------------------------------------------------------------------\n");
     for (unsigned int i = 0; i < size; i++)
     {
-        putchar(buf[i]);
+        if (buf[i])
+        {
+            putchar(buf[i]);
+        }
+        else
+        {
+            printf("\n");
+        }
+
     }
-    printf("\n-------------------------------------------------------------------------\n");
+    printf("-------------------------------------------------------------------------\n");
 
     return true;
 }
@@ -891,9 +955,16 @@ H17Disk::validateProgramBlock(unsigned char buf[],
     printf("-------------------------------------------------------------------------\n");
     for (unsigned int i = 0; i < size; i++)
     {
-        putchar(buf[i]);
+        if (buf[i])
+        {
+            putchar(buf[i]);
+        }
+        else
+        {
+            printf("\n");
+        }
     }
-    printf("\n-------------------------------------------------------------------------\n");
+    printf("-------------------------------------------------------------------------\n");
 
     return true;
 }
@@ -1150,11 +1221,11 @@ H17Disk::validateSectorBlock(unsigned char buf[],
     printf("        Sector:   %d\n", buf[0]);
     if (buf[1])
     {
-        printf("        Error:    %d\n", buf[1]);
+        printf("        Error:    %d - %s\n", buf[1], sectorErrorStrings[buf[1]]);
     }
     else
     {
-        printf("        No Error\n");
+        printf("        Sector Valid\n");
     }
  
     unsigned int blockLength = (buf[2] << 8) | (buf[3]);

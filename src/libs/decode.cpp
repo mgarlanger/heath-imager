@@ -124,11 +124,11 @@ Decode::decodeFM(BYTE         *decoded,
 
     if (errorsZeros) 
     {
-         printf("errorsZero: %d\n", errorsZeros);
+         printf("Unexpected Zeros: %d\n", errorsZeros);
     }
     if (errorsOnes) 
     {
-         printf("errorsOne: %d\n", errorsOnes);
+         printf("Unexpected Ones: %d\n", errorsOnes);
     }
 
     return 0;

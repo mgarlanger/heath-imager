@@ -958,8 +958,15 @@ H17DiskDataBlock::analyze()
     int expectedTracks = 40;
     int expectedSides = 1;
 
-    bool trackValid[2][80] = {false};
- 
+    bool trackValid[2][80];
+    for (unsigned int i = 0; i < 2; ++i) 
+    {
+        for (unsigned int j = 0; j < 80; ++j) 
+        {
+            trackValid[i][j] = false;
+        }
+    }
+    
     for (unsigned int i = 0; i < tracks_m.size(); ++i)
     {
         tracks_m[i]->analyze(trackValid);        
