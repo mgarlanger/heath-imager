@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="dump_8cpp">
+    <title>dump.cpp File Reference</title>
+    <programlisting>#include &quot;dump.h&quot;</programlisting>
+    <programlisting>#include &lt;cstdio&gt;</programlisting>
+    <programlisting>#include &lt;cctype&gt;</programlisting>
+<para>Include dependency diagram for dump.cpp</para>
+<para>
+    <figure>
+        <title>Dependency diagram</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="dump_8cpp__incl.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+<para>Included by dependency diagram for dump.cpp</para>
+<para>
+    <figure>
+        <title>Dependency diagram</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="dump_8cpp__dep__incl.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+        <section>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="dump_8cpp_1a7ff04c30cd9d3b0944f82794e18aa817">dumpDataBlock</link> (
+unsigned char buf, unsigned int length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>Routines to display data dumps. </para>
+    <para>Definition in file /home/mgarlanger/diskimaging/fc5025/heath-imager/src/libs/dump.cpp</para>
+    </simplesect>
+</section>

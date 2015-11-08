@@ -1,6 +1,6 @@
 //! \file raw_track.cpp
 //!
-//! Handles the raw data from fc5025
+//! Handles h17 hard sector track
 //!
 
 #include "track.h"

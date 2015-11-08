@@ -50,6 +50,7 @@ H17Block::~H17Block()
 //! return header size in bytes
 //!
 //! @return header size in bytes
+//!
 uint32_t
 H17Block::getHeaderSize()
 {
@@ -59,6 +60,7 @@ H17Block::getHeaderSize()
 //! return total block size in bytes
 //!
 //! @return total block size in bytes
+//!
 uint32_t
 H17Block::getBlockSize()
 {
@@ -68,6 +70,7 @@ H17Block::getBlockSize()
 //! return size of data portion of block in bytes
 //!
 //! @return size of data porition of block in bytes
+//!
 uint32_t
 H17Block::getDataSize()
 {
@@ -78,6 +81,7 @@ H17Block::getDataSize()
 //! get pointer to data buffer
 //!
 //! @return pointer
+//!
 uint8_t *
 H17Block::getData()
 {
@@ -91,6 +95,7 @@ H17Block::getData()
 //! @param length      length of block
 //!
 //! @returns if successful
+//!
 bool
 H17Block::writeBlockHeader(std::ofstream &file)
 {
@@ -114,10 +119,11 @@ H17Block::writeBlockHeader(std::ofstream &file)
 //! @param file - file to write to
 //!
 //! @return if successful
+//!
 bool 
 H17Block::writeToFile(std::ofstream &file)
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    //printf("%s\n", __PRETTY_FUNCTION__);
 
     writeBlockHeader(file);
 
@@ -139,6 +145,7 @@ H17Block::writeToFile(std::ofstream &file)
 //!            4 - complete
 //!
 //! @returns success
+//!
 bool
 H17Block::dump(uint8_t level)
 {
@@ -150,6 +157,7 @@ H17Block::dump(uint8_t level)
 
     return true;
 }
+
 
 bool
 H17Block::analyze()
@@ -164,6 +172,7 @@ H17Block::analyze()
 //! dump text 
 //! 
 //! @return true
+//!
 bool
 H17Block::dumpText()
 {
@@ -243,6 +252,7 @@ H17DiskFormatBlock::printBlockName()
 //! get block id
 //!
 //! @return id
+//!
 uint8_t
 H17DiskFormatBlock::getBlockId()
 {
@@ -255,6 +265,7 @@ H17DiskFormatBlock::getBlockId()
 //! @param file
 //!
 //! @return status
+//!
 bool
 H17DiskFormatBlock::writeToFile(std::ofstream &file)
 {
@@ -279,6 +290,7 @@ H17DiskFormatBlock::writeToFile(std::ofstream &file)
 //!            4 - complete
 //!
 //! @returns success
+//!
 bool
 H17DiskFormatBlock::dump(uint8_t level)
 {
@@ -295,6 +307,7 @@ H17DiskFormatBlock::dump(uint8_t level)
 //! get mandatory flag
 //!
 //! @return true
+//!
 bool
 H17DiskFormatBlock::getMandatory() 
 {
@@ -305,6 +318,7 @@ H17DiskFormatBlock::getMandatory()
 //! get size of data portion of block
 //!
 //! @return size in bytes
+//!
 uint32_t
 H17DiskFormatBlock::getDataSize()
 {
@@ -387,6 +401,7 @@ H17DiskFlagsBlock::printBlockName()
 //! get block id
 //!
 //! @return block id
+//!
 uint8_t
 H17DiskFlagsBlock::getBlockId()
 {
@@ -397,6 +412,7 @@ H17DiskFlagsBlock::getBlockId()
 //! get size of data portion of block
 //!
 //! @return size of block
+//!
 uint32_t
 H17DiskFlagsBlock::getDataSize()
 {
@@ -409,6 +425,7 @@ H17DiskFlagsBlock::getDataSize()
 //! @param file
 //!
 //! @return success
+//!
 bool
 H17DiskFlagsBlock::writeToFile(std::ofstream &file)
 {
@@ -433,6 +450,7 @@ H17DiskFlagsBlock::writeToFile(std::ofstream &file)
 //!            4 - complete
 //!
 //! @returns success
+//!
 bool
 H17DiskFlagsBlock::dump(uint8_t level)
 {
@@ -450,6 +468,7 @@ H17DiskFlagsBlock::dump(uint8_t level)
 //! get mandatory flag
 //!
 //! @return flag
+//!
 bool
 H17DiskFlagsBlock::getMandatory() 
 {
@@ -492,6 +511,7 @@ H17DiskLabelBlock::printBlockName()
 //! get block id
 //!
 //! @return block id
+//!
 uint8_t
 H17DiskLabelBlock::getBlockId()
 {
@@ -501,6 +521,7 @@ H17DiskLabelBlock::getBlockId()
 //! get mandatory flag
 //!
 //! @return true
+//!
 bool
 H17DiskLabelBlock::getMandatory() 
 {
@@ -517,6 +538,7 @@ H17DiskLabelBlock::getMandatory()
 //!            4 - complete
 //!
 //! @returns success
+//!
 bool
 H17DiskLabelBlock::dump(uint8_t level)
 {
@@ -547,6 +569,7 @@ H17DiskCommentBlock::~H17DiskCommentBlock()
 //! get block id
 //!
 //! @return block id
+//!
 uint8_t
 H17DiskCommentBlock::getBlockId()
 {
@@ -570,6 +593,7 @@ H17DiskCommentBlock::printBlockName()
 //!            4 - complete
 //!
 //! @returns success
+//!
 bool
 H17DiskCommentBlock::dump(uint8_t level)
 {
@@ -584,6 +608,7 @@ H17DiskCommentBlock::dump(uint8_t level)
 //! get mandatory flag
 //!
 //! @return true
+//!
 bool
 H17DiskCommentBlock::getMandatory() 
 {
@@ -616,6 +641,7 @@ H17DiskDateBlock::~H17DiskDateBlock()
 //!            4 - complete
 //!
 //! @returns success
+//!
 bool
 H17DiskDateBlock::dump(uint8_t level)
 {
@@ -637,6 +663,7 @@ H17DiskDateBlock::printBlockName()
 //! get block id
 //!
 //! @return block id
+//!
 uint8_t
 H17DiskDateBlock::getBlockId()
 {
@@ -646,6 +673,7 @@ H17DiskDateBlock::getBlockId()
 //! get mandatory flag
 //!
 //! @return true
+//!
 bool
 H17DiskDateBlock::getMandatory() 
 {
@@ -678,6 +706,7 @@ H17DiskImagerBlock::printBlockName()
 //! get block id
 //!
 //! @return block id
+//!
 uint8_t
 H17DiskImagerBlock::getBlockId()
 {
@@ -694,6 +723,7 @@ H17DiskImagerBlock::getBlockId()
 //!            4 - complete
 //!
 //! @returns success
+//!
 bool
 H17DiskImagerBlock::dump(uint8_t level)
 {
@@ -708,6 +738,7 @@ H17DiskImagerBlock::dump(uint8_t level)
 //! get mandatory flag
 //!
 //! @return true
+//!
 bool
 H17DiskImagerBlock::getMandatory() 
 {
@@ -740,6 +771,7 @@ H17DiskProgramBlock::printBlockName()
 //! get block id
 //!
 //! @return block id
+//!
 uint8_t
 H17DiskProgramBlock::getBlockId()
 {
@@ -756,6 +788,7 @@ H17DiskProgramBlock::getBlockId()
 //!            4 - complete
 //!
 //! @returns success
+//!
 bool
 H17DiskProgramBlock::dump(uint8_t level)
 {
@@ -770,6 +803,7 @@ H17DiskProgramBlock::dump(uint8_t level)
 //! get mandatory flag
 //!
 //! @return true
+//!
 bool
 H17DiskProgramBlock::getMandatory() 
 {
@@ -823,6 +857,7 @@ H17DiskDataBlock::printBlockName()
 //! get block id
 //!
 //! @return block id
+//!
 uint8_t
 H17DiskDataBlock::getBlockId()
 {
@@ -835,6 +870,7 @@ H17DiskDataBlock::getBlockId()
 //! @param file 
 //!
 //! @return success
+//!
 bool
 H17DiskDataBlock::writeToFile(std::ofstream &file)
 {
@@ -856,6 +892,7 @@ H17DiskDataBlock::writeToFile(std::ofstream &file)
 //! @param file 
 //!
 //! @return success
+//!
 bool
 H17DiskDataBlock::writeAsH8D(std::ofstream &file)
 {   
@@ -875,6 +912,7 @@ H17DiskDataBlock::writeAsH8D(std::ofstream &file)
 //! @param file
 //!
 //! @return success
+//!
 bool
 H17DiskDataBlock::writeAsRaw(std::ofstream &file)
 {  
@@ -943,6 +981,7 @@ H17DiskDataBlock::analyze()
 //! get mandatory flag
 //!
 //! @return true
+//!
 bool
 H17DiskDataBlock::getMandatory() 
 {
@@ -993,6 +1032,7 @@ H17DiskRawDataBlock::printBlockName()
 //! get block id
 //!
 //! @return block id
+//!
 uint8_t
 H17DiskRawDataBlock::getBlockId()
 {
@@ -1026,6 +1066,7 @@ H17DiskRawDataBlock::writeToFile(std::ofstream &file)
 //!            4 - complete
 //!
 //! @returns success
+//!
 bool
 H17DiskRawDataBlock::dump(uint8_t level)
 {
@@ -1036,6 +1077,7 @@ H17DiskRawDataBlock::dump(uint8_t level)
 //! get mandatory flag
 //!
 //! @return true
+//!
 bool
 H17DiskRawDataBlock::getMandatory() 
 {

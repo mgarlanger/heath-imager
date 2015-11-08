@@ -1,0 +1,165 @@
+\hypertarget{classRawTrack}{}\section{Raw\+Track Class Reference}
+\label{classRawTrack}\index{Raw\+Track@{Raw\+Track}}
+
+
+Collaboration diagram for Raw\+Track\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=217pt]{classRawTrack__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classRawTrack_a0cbbfccb5147d2bab4b7f993729dad2c}{Raw\+Track} (uint8\+\_\+t side, uint8\+\_\+t track)
+\item 
+\hyperlink{classRawTrack_a85a059917e73c541b9823ef9a85d5f76}{Raw\+Track} (uint8\+\_\+t $\ast$buf, uint32\+\_\+t size, uint32\+\_\+t \&length)
+\item 
+\hyperlink{classRawTrack_a5db4243f25876da1d313e585905f9af9}{$\sim$\+Raw\+Track} ()
+\item 
+bool \hyperlink{classRawTrack_ab401f274eed5183474c82fca1c00716a}{add\+Raw\+Sector} (\hyperlink{classRawSector}{Raw\+Sector} $\ast$sector)
+\item 
+bool \hyperlink{classRawTrack_aa88642dea527ea5af9dc076d58bb0b2e}{write\+To\+File} (std\+::ofstream \&file)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classRawTrack_a619ccb2b639303075459df45bef473b3}{}static const unsigned char {\bfseries header\+Size\+\_\+c} = 7\label{classRawTrack_a619ccb2b639303075459df45bef473b3}
+
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classRawTrack_ae07fcf2e5e8ebdbfb9424a3d13665a24}{}std\+::vector$<$ \hyperlink{classRawSector}{Raw\+Sector} $\ast$ $>$ {\bfseries sectors\+\_\+m}\label{classRawTrack_ae07fcf2e5e8ebdbfb9424a3d13665a24}
+
+\item 
+\hypertarget{classRawTrack_ac398f2fbf80e8f3dc25e9721038c2514}{}uint8\+\_\+t {\bfseries side\+\_\+m}\label{classRawTrack_ac398f2fbf80e8f3dc25e9721038c2514}
+
+\item 
+\hypertarget{classRawTrack_a797210d78525b7cc063dd92001851444}{}uint8\+\_\+t {\bfseries track\+\_\+m}\label{classRawTrack_a797210d78525b7cc063dd92001851444}
+
+\item 
+\hypertarget{classRawTrack_a7d36bffbbc88d441b4de6d7867726651}{}uint32\+\_\+t {\bfseries size\+\_\+m}\label{classRawTrack_a7d36bffbbc88d441b4de6d7867726651}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 15 of file raw\+\_\+track.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classRawTrack_a0cbbfccb5147d2bab4b7f993729dad2c}{}\index{Raw\+Track@{Raw\+Track}!Raw\+Track@{Raw\+Track}}
+\index{Raw\+Track@{Raw\+Track}!Raw\+Track@{Raw\+Track}}
+\subsubsection[{Raw\+Track}]{\setlength{\rightskip}{0pt plus 5cm}Raw\+Track\+::\+Raw\+Track (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{side, }
+\item[{uint8\+\_\+t}]{track}
+\end{DoxyParamCaption}
+)}\label{classRawTrack_a0cbbfccb5147d2bab4b7f993729dad2c}
+Constructor \hyperlink{classRawTrack}{Raw\+Track}
+
+
+\begin{DoxyParams}{Parameters}
+{\em side} & floppy disk side for this track \\
+\hline
+{\em track} & track number \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 15 of file raw\+\_\+track.\+cpp.
+
+\hypertarget{classRawTrack_a85a059917e73c541b9823ef9a85d5f76}{}\index{Raw\+Track@{Raw\+Track}!Raw\+Track@{Raw\+Track}}
+\index{Raw\+Track@{Raw\+Track}!Raw\+Track@{Raw\+Track}}
+\subsubsection[{Raw\+Track}]{\setlength{\rightskip}{0pt plus 5cm}Raw\+Track\+::\+Raw\+Track (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t $\ast$}]{buf, }
+\item[{uint32\+\_\+t}]{size, }
+\item[{uint32\+\_\+t \&}]{length}
+\end{DoxyParamCaption}
+)}\label{classRawTrack_a85a059917e73c541b9823ef9a85d5f76}
+constructor if data block already exists
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em buf} & -\/ data buffer \\
+\hline
+\mbox{\tt in}  & {\em size} & -\/ size of buffer \\
+\hline
+\mbox{\tt out}  & {\em length} & -\/ total block length \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 29 of file raw\+\_\+track.\+cpp.
+
+\hypertarget{classRawTrack_a5db4243f25876da1d313e585905f9af9}{}\index{Raw\+Track@{Raw\+Track}!````~Raw\+Track@{$\sim$\+Raw\+Track}}
+\index{````~Raw\+Track@{$\sim$\+Raw\+Track}!Raw\+Track@{Raw\+Track}}
+\subsubsection[{$\sim$\+Raw\+Track}]{\setlength{\rightskip}{0pt plus 5cm}Raw\+Track\+::$\sim$\+Raw\+Track (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classRawTrack_a5db4243f25876da1d313e585905f9af9}
+Destructor 
+
+Definition at line 61 of file raw\+\_\+track.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classRawTrack_ab401f274eed5183474c82fca1c00716a}{}\index{Raw\+Track@{Raw\+Track}!add\+Raw\+Sector@{add\+Raw\+Sector}}
+\index{add\+Raw\+Sector@{add\+Raw\+Sector}!Raw\+Track@{Raw\+Track}}
+\subsubsection[{add\+Raw\+Sector}]{\setlength{\rightskip}{0pt plus 5cm}bool Raw\+Track\+::add\+Raw\+Sector (
+\begin{DoxyParamCaption}
+\item[{{\bf Raw\+Sector} $\ast$}]{sector}
+\end{DoxyParamCaption}
+)}\label{classRawTrack_ab401f274eed5183474c82fca1c00716a}
+add\+Raw\+Sector
+
+
+\begin{DoxyParams}{Parameters}
+{\em sector} & pointer to raw sector\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+success 
+\end{DoxyReturn}
+
+
+Definition at line 78 of file raw\+\_\+track.\+cpp.
+
+\hypertarget{classRawTrack_aa88642dea527ea5af9dc076d58bb0b2e}{}\index{Raw\+Track@{Raw\+Track}!write\+To\+File@{write\+To\+File}}
+\index{write\+To\+File@{write\+To\+File}!Raw\+Track@{Raw\+Track}}
+\subsubsection[{write\+To\+File}]{\setlength{\rightskip}{0pt plus 5cm}bool Raw\+Track\+::write\+To\+File (
+\begin{DoxyParamCaption}
+\item[{std\+::ofstream \&}]{file}
+\end{DoxyParamCaption}
+)}\label{classRawTrack_aa88642dea527ea5af9dc076d58bb0b2e}
+write\+To\+File
+
+writes the raw track to a file
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & ofstream for file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+success 
+\end{DoxyReturn}
+
+
+Definition at line 95 of file raw\+\_\+track.\+cpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{raw__track_8h}{raw\+\_\+track.\+h}\item 
+\hyperlink{raw__track_8cpp}{raw\+\_\+track.\+cpp}\end{DoxyCompactItemize}

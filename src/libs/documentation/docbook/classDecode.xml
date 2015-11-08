@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="classDecode">
+<title>Decode class Reference</title>
+<para>Inheritance diagram for Decode</para>
+<para>
+    <figure>
+        <title>Inheritance graph</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="classDecode__inherit__graph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+<para>Collaboration diagram for Decode</para>
+<para>
+    <figure>
+        <title>Collaboration graph</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="classDecode__coll__graph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="classDecode_1a7f036dad7d20d6a279e48625eb635708">State</link> {
+<link linkend="classDecode_1a7f036dad7d20d6a279e48625eb635708a320267481336aff9f3f73429fa3f164d">none</link>,
+<link linkend="classDecode_1a7f036dad7d20d6a279e48625eb635708ae6a788c200937b1330d6fe0c4988ad38">hi</link>,
+<link linkend="classDecode_1a7f036dad7d20d6a279e48625eb635708a8e4dcd0a6dd8620aa2d206e7f2358eb4">lo</link>
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static int <link linkend="classDecode_1a287c55f9f9888c433d950c08254c1efe">decodeFM</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> * decoded, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> * fmEncoded, unsigned int count)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static int <link linkend="classDecode_1ab154f17b196d8d2f3681756300da2f30">decodeMFM</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> * decoded, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> * fmEncoded, unsigned int count)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+            <section xml:id="classDecode_1a7f036dad7d20d6a279e48625eb635708">
+               <title>enum State </title>
+               
+               <formalpara>
+                    <title>Enumerator:</title>
+                    <variablelist>
+                        <varlistentry xml:id="classDecode_1a7f036dad7d20d6a279e48625eb635708a320267481336aff9f3f73429fa3f164d">
+                            <term>none</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry xml:id="classDecode_1a7f036dad7d20d6a279e48625eb635708ae6a788c200937b1330d6fe0c4988ad38">
+                            <term>hi</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry xml:id="classDecode_1a7f036dad7d20d6a279e48625eb635708a8e4dcd0a6dd8620aa2d206e7f2358eb4">
+                            <term>lo</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                     </variablelist>
+                </formalpara>
+                <para>Definition at line 25 of file decode.h
+                    <computeroutput><literallayout>
+{
+none, 
+hi, 
+lo, 
+}State;
+                    </literallayout></computeroutput>
+                </para>
+            </section>
+            <section xml:id="classDecode_1a287c55f9f9888c433d950c08254c1efe">
+                <title>int Decode::decodeFM (BYTE *decoded, BYTE *fmEncoded, unsigned int count)</title> <emphasis></emphasis>
+                
+<para><link linkend="classDecode_1a287c55f9f9888c433d950c08254c1efe">decodeFM()</link></para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>decode</entry>
+                                <entry>
+<para>pointer to processed buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>fmEncoded</entry>
+                                <entry>
+<para>pointer to raw buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>count</entry>
+                                <entry>
+<para>number of bytes in the final processed file</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>number of errors (currently returns zero)</para>
+</formalpara>
+<para><link linkend="todo_1_todo000001">Todo</link> 
+<para>change count from bytes in decoded buffer to bytes in raw buffer. </para>
+</para></para>
+
+            </section>
+            <section xml:id="classDecode_1ab154f17b196d8d2f3681756300da2f30">
+                <title>int Decode::decodeMFM (BYTE *decoded, BYTE *fmEncoded, unsigned int count)</title> <emphasis></emphasis>
+                
+<para><link linkend="classDecode_1ab154f17b196d8d2f3681756300da2f30">decodeMFM()</link></para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>decode</entry>
+                                <entry>
+<para>pointer to processed buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>fmEncoded</entry>
+                                <entry>
+<para>pointer to raw buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>count</entry>
+                                <entry>
+<para>number of bytes in the final processed file</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>number of errors (currently returns zero)</para>
+</formalpara>
+<para><link linkend="todo_1_todo000002">Todo</link> 
+<para>change count from bytes in decoded buffer to bytes in raw buffer. </para>
+
+<para>implement </para>
+</para></para>
+
+            </section>
+</section>

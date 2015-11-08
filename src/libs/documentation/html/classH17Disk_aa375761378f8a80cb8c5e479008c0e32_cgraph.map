@@ -1,0 +1,19 @@
+<map id="H17Disk::openForRecovery" name="H17Disk::openForRecovery">
+<area shape="rect" id="node2" href="$classH17Disk.html#a2d9e6faca3284d426af174b18554d4a9" title="H17Disk::openForRead" alt="" coords="237,81,396,108"/>
+<area shape="rect" id="node3" href="$classH17Disk.html#a8e41c133b13e5c9c2c8f1d39b73d5292" title="H17Disk::loadFile" alt="" coords="253,132,380,159"/>
+<area shape="rect" id="node4" href="$classH17Disk.html#a6317e8bd90eed1f3785bcde079c72ae6" title="H17Disk::setDefaults" alt="" coords="444,107,592,133"/>
+<area shape="rect" id="node7" href="$classH17Disk.html#a0741de759498d3ba29f4bdef4e943590" title="H17Disk::loadBuffer" alt="" coords="448,157,588,184"/>
+<area shape="rect" id="node5" href="$classH17Disk.html#ad8755a4e016bea07fd30796d7b6c1ca0" title="H17Disk::setDefaultDiskFormat" alt="" coords="640,56,849,83"/>
+<area shape="rect" id="node6" href="$classH17Disk.html#a78bd33233d9597f81e69db936efe5356" title="H17Disk::setDefaultFlags" alt="" coords="658,107,831,133"/>
+<area shape="rect" id="node8" href="$classH17Disk.html#a96fe20794510f9235881fd62497f598f" title="H17Disk::loadHeader" alt="" coords="671,157,818,184"/>
+<area shape="rect" id="node9" href="$classH17Disk.html#ab5299643ce037fb442e0ccb21cb80c5f" title="H17Disk::loadBlock" alt="" coords="675,208,814,235"/>
+<area shape="rect" id="node10" href="$classH17Disk.html#a4c484465d1c422d5ce5b4661bc72dd3a" title="H17Disk::loadDiskFormatBlock" alt="" coords="897,5,1104,32"/>
+<area shape="rect" id="node11" href="$classH17Disk.html#a8dfa864cc65f81413d3b518c6c1e67e6" title="H17Disk::loadFlagsBlock" alt="" coords="915,56,1086,83"/>
+<area shape="rect" id="node12" href="$classH17Disk.html#a3a4c239c85de3b29d6d89c8854c8ed9b" title="H17Disk::loadLabelBlock" alt="" coords="916,107,1085,133"/>
+<area shape="rect" id="node13" href="$classH17Disk.html#a4b28a58f502aedd83052dbbba759ba28" title="H17Disk::loadCommentBlock" alt="" coords="903,157,1098,184"/>
+<area shape="rect" id="node14" href="$classH17Disk.html#a06965b624586dda02e6a1cf7ebf53984" title="H17Disk::loadDateBlock" alt="" coords="917,208,1084,235"/>
+<area shape="rect" id="node15" href="$classH17Disk.html#a6183e4e35db3b2ae16a9322f377556e4" title="H17Disk::loadImagerBlock" alt="" coords="911,259,1090,285"/>
+<area shape="rect" id="node16" href="$classH17Disk.html#aead615d628b0e4c68f69bd746aeabdb1" title="H17Disk::loadProgramBlock" alt="" coords="907,309,1094,336"/>
+<area shape="rect" id="node17" href="$classH17Disk.html#a36b7999d189ddc7dc05ba9adcbf3b946" title="H17Disk::loadDataBlock" alt="" coords="917,360,1084,387"/>
+<area shape="rect" id="node18" href="$classH17Disk.html#a31ecffc2c61fe921e9a2ef4018ce5c99" title="H17Disk::loadRawDataBlock" alt="" coords="904,411,1097,437"/>
+</map>

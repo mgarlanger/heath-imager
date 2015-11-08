@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="disk__util_8h">
+    <title>disk_util.h File Reference</title>
+    <programlisting>#include &quot;hi_types.h&quot;</programlisting>
+<para>Include dependency diagram for disk_util.h</para>
+<para>
+    <figure>
+        <title>Dependency diagram</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="disk__util_8h__incl.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+<para>Included by dependency diagram for disk_util.h</para>
+<para>
+    <figure>
+        <title>Dependency diagram</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="disk__util_8h__dep__incl.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+        <section>
+            <title>Enumerations</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="disk__util_8h_1a06fc87d81c62e9abb8790b6e5713c55b">@0</link> {
+<link linkend="disk__util_8h_1a06fc87d81c62e9abb8790b6e5713c55ba5a73f5651f9b6ff314dafa9ff2a24d66">No_Error</link>= 0,
+<link linkend="disk__util_8h_1a06fc87d81c62e9abb8790b6e5713c55ba305a91bd293875e004f62ea91729bf0b">Err_ReadError</link>= 1,
+<link linkend="disk__util_8h_1a06fc87d81c62e9abb8790b6e5713c55baefe27c0d69ae79692e690938d13c9a48">Err_InvalidClocksBits</link>= 2,
+<link linkend="disk__util_8h_1a06fc87d81c62e9abb8790b6e5713c55ba23a9ed734cb70dc16e411835c824b326">Err_MissingHeaderSync</link>= 3,
+<link linkend="disk__util_8h_1a06fc87d81c62e9abb8790b6e5713c55ba89d94aece5e4bd48493a34c9c390df12">Err_WrongTrack</link>= 4,
+<link linkend="disk__util_8h_1a06fc87d81c62e9abb8790b6e5713c55ba52b040f939419497de055486559f5c8d">Err_InvalidSector</link>= 5,
+<link linkend="disk__util_8h_1a06fc87d81c62e9abb8790b6e5713c55bad9de3fba0e06a36d78a3ee3dc45dbd6d">Err_InvalidHeaderChecksum</link>= 6,
+<link linkend="disk__util_8h_1a06fc87d81c62e9abb8790b6e5713c55baae736a570b476bd248a9a37cd4b3c6dc">Err_MissingDataSync</link>= 7,
+<link linkend="disk__util_8h_1a06fc87d81c62e9abb8790b6e5713c55ba4fcbda9aa84b4418df24eb8437239ab8">Err_InvalidDataChecksum</link>= 8
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Variables</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>const char * <link linkend="disk__util_8h_1af44175e8046a0769f7debcbb3304c87e">errorStrings</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>const <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="disk__util_8h_1a9ae5488cd30a10566ed8841e5f0020cc">PrefixSyncChar_c</link><para><emphasis>expected sync character for Heath hard-sectored</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="disk__util_8h_1a6ca0336006e5d440e0adca49fe90a8bd">processSector</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> * buffer, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> * out, <link linkend="hi__types_8h_1ab24077addd3b7b13e086987ff296552c">WORD</link> length, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> side, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> sector)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="disk__util_8h_1ab8a7dd8f773ae75ecfca3828e48c0308">alignSector</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> * out, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> * in, <link linkend="hi__types_8h_1ab24077addd3b7b13e086987ff296552c">WORD</link> length, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> syncByte)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="disk__util_8h_1a71c4de342bd8034b53d392ee37b5ec97">updateChecksum</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> checksum, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> val)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="disk__util_8h_1a921b76ac624c5bb49172b4876bb4ca5c">reverseChar</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> val)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="disk__util_8h_1a6fe02d4965ce98f778a023f33b99a653">shiftByte</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> first, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> second, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> shift)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>Processing imaged data blocks </para>
+    <para>Definition in file /home/mgarlanger/diskimaging/fc5025/heath-imager/src/libs/disk_util.h</para>
+    </simplesect>
+</section>

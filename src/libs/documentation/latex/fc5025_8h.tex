@@ -1,0 +1,116 @@
+\hypertarget{fc5025_8h}{}\section{fc5025.\+h File Reference}
+\label{fc5025_8h}\index{fc5025.\+h@{fc5025.\+h}}
+{\ttfamily \#include $<$cstdint$>$}\\*
+Include dependency graph for fc5025.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=134pt]{fc5025_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=313pt]{fc5025_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{fc5025_8h_structcbw__rec}{cbw\+\_\+rec}
+\item 
+class \hyperlink{classFC5025}{F\+C5025}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{fc5025_8h_a169902f2a85d635a12bb78975fc7705f}{}struct \hyperlink{fc5025_8h_structcbw__rec}{cbw\+\_\+rec} {\bfseries \+\_\+\+\_\+attribute\+\_\+\+\_\+} ((\+\_\+\+\_\+packed\+\_\+\+\_\+))\label{fc5025_8h_a169902f2a85d635a12bb78975fc7705f}
+
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{fc5025_8h_acc0083ad3287215751869b2feff04b90}{}uint8\+\_\+t {\bfseries signature} \mbox{[}4\mbox{]}\label{fc5025_8h_acc0083ad3287215751869b2feff04b90}
+
+\item 
+\hypertarget{fc5025_8h_a1c50fcd1195659821729f52af8f3bb7d}{}uint32\+\_\+t {\bfseries tag}\label{fc5025_8h_a1c50fcd1195659821729f52af8f3bb7d}
+
+\item 
+\hypertarget{fc5025_8h_a9b4d73a7385a1c6e0c822ccf9b81b881}{}uint32\+\_\+t {\bfseries xferlen}\label{fc5025_8h_a9b4d73a7385a1c6e0c822ccf9b81b881}
+
+\item 
+\hypertarget{fc5025_8h_aa2585d779da0ab21273a8d92de9a0ebe}{}uint8\+\_\+t {\bfseries flags}\label{fc5025_8h_aa2585d779da0ab21273a8d92de9a0ebe}
+
+\item 
+\hypertarget{fc5025_8h_a3ea8697e82c4c8f91cc0be57bd8d60ab}{}uint8\+\_\+t {\bfseries padding1}\label{fc5025_8h_a3ea8697e82c4c8f91cc0be57bd8d60ab}
+
+\item 
+\hypertarget{fc5025_8h_a6b890dadc629d78d505a722def63d045}{}uint8\+\_\+t {\bfseries padding2}\label{fc5025_8h_a6b890dadc629d78d505a722def63d045}
+
+\item 
+\hypertarget{fc5025_8h_a1ce0fb1b9d44bc8afc01d032a6a6ed52}{}uint8\+\_\+t {\bfseries cdb} \mbox{[}48\mbox{]}\label{fc5025_8h_a1ce0fb1b9d44bc8afc01d032a6a6ed52}
+
+\item 
+\hypertarget{fc5025_8h_a740cdf08f932fe64e1752c560b7d599f}{}class \hyperlink{classFC5025}{F\+C5025} {\bfseries \+\_\+\+\_\+attribute\+\_\+\+\_\+}\label{fc5025_8h_a740cdf08f932fe64e1752c560b7d599f}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Communication with the \hyperlink{classFC5025}{F\+C5025} hardware 
+
+\subsection{Data Structure Documentation}
+\index{cbw\+\_\+rec@{cbw\+\_\+rec}}\label{structcbw__rec}
+\hypertarget{fc5025_8h_structcbw__rec}{}
+\subsubsection{struct cbw\+\_\+rec}
+
+
+Definition at line 14 of file fc5025.\+h.
+
+\begin{DoxyFields}{Data Fields}
+\hypertarget{fc5025_8h_a80c9ae1163ebf8257e4cccf1e251c87d}{}uint8\+\_\+t\label{fc5025_8h_a80c9ae1163ebf8257e4cccf1e251c87d}
+&
+cdb\mbox{[}48\mbox{]}&
+\\
+\hline
+
+\hypertarget{fc5025_8h_a1291006c482413b33c51ff8794277d15}{}uint8\+\_\+t\label{fc5025_8h_a1291006c482413b33c51ff8794277d15}
+&
+flags&
+\\
+\hline
+
+\hypertarget{fc5025_8h_a2d27f537817063c3b3b92cf3eafb784b}{}uint8\+\_\+t\label{fc5025_8h_a2d27f537817063c3b3b92cf3eafb784b}
+&
+padding1&
+\\
+\hline
+
+\hypertarget{fc5025_8h_ae1b75e0a044397eca229f43de19c8bfa}{}uint8\+\_\+t\label{fc5025_8h_ae1b75e0a044397eca229f43de19c8bfa}
+&
+padding2&
+\\
+\hline
+
+\hypertarget{fc5025_8h_a6ac482790e9a527688dfd3b18fce42dc}{}uint8\+\_\+t\label{fc5025_8h_a6ac482790e9a527688dfd3b18fce42dc}
+&
+signature\mbox{[}4\mbox{]}&
+\\
+\hline
+
+\hypertarget{fc5025_8h_ad0421ab9f71389dbd3b08c0bbbce12cd}{}uint32\+\_\+t\label{fc5025_8h_ad0421ab9f71389dbd3b08c0bbbce12cd}
+&
+tag&
+\\
+\hline
+
+\hypertarget{fc5025_8h_a3aaff13f30a8adc28ae875227b0b1b63}{}uint32\+\_\+t\label{fc5025_8h_a3aaff13f30a8adc28ae875227b0b1b63}
+&
+xferlen&
+\\
+\hline
+
+\end{DoxyFields}

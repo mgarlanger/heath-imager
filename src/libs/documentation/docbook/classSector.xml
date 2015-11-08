@@ -1,0 +1,390 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="classSector">
+<title>Sector class Reference</title>
+<para>Inheritance diagram for Sector</para>
+<para>
+    <figure>
+        <title>Inheritance graph</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="classSector__inherit__graph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+<para>Collaboration diagram for Sector</para>
+<para>
+    <figure>
+        <title>Collaboration graph</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="classSector__coll__graph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t headerSize_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Private Attributes</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint16_t bufSize_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t * buf_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t side_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t track_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t sector_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t error_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <link linkend="classSector_1a41c1446e3b2042e1789496b531d2ee3e">Sector</link> (
+uint8_t * buf, uint16_t size, uint16_t &amp; length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <link linkend="classSector_1abe23ebb64205954042b9f6225509797e">Sector</link> (
+uint8_t side, uint8_t track, uint8_t sector, uint8_t error, uint8_t * buf, uint16_t bufSize)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <link linkend="classSector_1aa0f54aaf079dd7461400684bf0be15ff">~Sector</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>bool <link linkend="classSector_1aee348b3b95e5cbf896935db4bb801f11">writeToFile</link> (
+std::ofstream &amp; file)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>bool <link linkend="classSector_1a1d529e827a6c86e0be70a41e09d2cd6a">writeToH8D</link> (
+std::ofstream &amp; file)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>bool <link linkend="classSector_1ad7467579400021844e83269c21b538f1">writeToRaw</link> (
+std::ofstream &amp; file)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t <link linkend="classSector_1a03c03368b93b01bf6f7c21e2e07d7020">getSectorNum</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint16_t <link linkend="classSector_1aaeb58606a9aef50b0c9852c3652cc739">getBlockSize</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>bool <link linkend="classSector_1aa112f0aa899e1b8b75f11d16a6f0dbb2">analyze</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Field Documentation</title>
+        </section>
+            <section xml:id="classSector_1a41c1446e3b2042e1789496b531d2ee3e">
+                <title>Sector::Sector (uint8_t *buf, uint16_t size, uint16_t &amp;length)</title> <emphasis></emphasis>
+                
+<para><link linkend="classSector">Sector</link> constructor</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>existing sector written value. </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>length of the buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para>amount of space used by this sector </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classSector_1abe23ebb64205954042b9f6225509797e">
+                <title>Sector::Sector (uint8_t side, uint8_t track, uint8_t sector, uint8_t error, uint8_t *buf, uint16_t bufSize)</title> <emphasis></emphasis>
+                
+<para><link linkend="classSector">Sector</link> constructor</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>side</entry>
+                                <entry>
+<para>side nubmer for this sector </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>track</entry>
+                                <entry>
+<para>track number for this sector </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>sector</entry>
+                                <entry>
+<para>physical sector number </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>error</entry>
+                                <entry>
+<para>error code for reading this sector </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>pointer to the sector data </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>bufSize</entry>
+                                <entry>
+<para>size of the sector data </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classSector_1aa0f54aaf079dd7461400684bf0be15ff">
+                <title>Sector::~Sector ()</title> <emphasis></emphasis>
+                
+<para><link linkend="classSector">Sector</link> destructor </para>
+
+            </section>
+            <section xml:id="classSector_1aee348b3b95e5cbf896935db4bb801f11">
+                <title>bool Sector::writeToFile (std::ofstream &amp;file)</title> <emphasis></emphasis>
+                
+<para>write sector to file</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>file</entry>
+                                <entry>
+<para>file to write to</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classSector_1a1d529e827a6c86e0be70a41e09d2cd6a">
+                <title>bool Sector::writeToH8D (std::ofstream &amp;file)</title> <emphasis></emphasis>
+                
+<para>write sector to file</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>file</entry>
+                                <entry>
+<para>file to write to</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classSector_1ad7467579400021844e83269c21b538f1">
+                <title>bool Sector::writeToRaw (std::ofstream &amp;file)</title> <emphasis></emphasis>
+                
+<para>write sector to file</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>file</entry>
+                                <entry>
+<para>file to write to</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classSector_1a03c03368b93b01bf6f7c21e2e07d7020">
+                <title>uint8_t Sector::getSectorNum ()</title> <emphasis></emphasis>
+                
+<para>get sector number from the header portion of the sector</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classSector_1aaeb58606a9aef50b0c9852c3652cc739">
+                <title>uint16_t Sector::getBlockSize ()</title> <emphasis></emphasis>
+                
+<para>return size of sector including header</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>size </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classSector_1aa112f0aa899e1b8b75f11d16a6f0dbb2">
+                <title>bool Sector::analyze ()</title> <emphasis></emphasis>
+                
+<para>analyze the sector</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>success if sector has no error. </para>
+</formalpara>
+</para>
+
+            </section>
+</section>

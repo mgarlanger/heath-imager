@@ -1,6 +1,6 @@
 //! \file sector.cpp
 //!
-//! Handles the sector
+//! Handles the hard-sectored disk sector
 //!
 
 #include "sector.h"

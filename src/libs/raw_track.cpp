@@ -12,6 +12,7 @@
 //!
 //! @param side    floppy disk side for this track
 //! @param track   track number
+//!
 RawTrack::RawTrack(uint8_t side,
                    uint8_t track): side_m(side),
                                    track_m(track)

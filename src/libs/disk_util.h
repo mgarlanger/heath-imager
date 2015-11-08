@@ -39,17 +39,6 @@ enum
 };
 
 extern const char *errorStrings[];
-/* = {
-    "No error.",
-    "Read Error - no data",
-    "Invalid clock bits.",
-    "Missing Header sync byte.",
-    "Wrong Track",
-    "Invalid Sector",
-    "Invalid header checksum",
-    "Missing data sync byte",
-    "Invalid data checksum",
-}; */
 
 
 //! expected sync character for Heath hard-sectored

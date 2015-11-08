@@ -1,8 +1,8 @@
 
 
 CXX        = g++
-//CXXFLAGS   = -Wall -Werror -O3 -std=c++11
-CXXFLAGS   = -Wall -Werror -O0 -std=c++11 -g
+CXXFLAGS   = -Wall -Werror -O3 -std=c++11
+#CXXFLAGS   = -Wall -Werror -O0 -std=c++11 -g
 LDFLAGS    =
 OUTPUT_DIR = ../../output/libs/
 _TARGET    = fc5025lib.a
@@ -39,7 +39,7 @@ $(OUTPUT_DIR)%.o: %.cpp
 $(OUTPUT_DIR)%.d: %.cpp
 	$(CXX) -MM $(CXXFLAGS) $< > $@
 
-doxy: $(SRCS) $(H17SRCS) 
+docs: $(SRCS) $(H17SRCS) 
 	doxygen doxy.conf
 
 #$(MAKE_TS): Makefile

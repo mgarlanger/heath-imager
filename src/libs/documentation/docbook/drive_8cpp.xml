@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="drive_8cpp">
+    <title>drive.cpp File Reference</title>
+    <programlisting>#include &quot;drive.h&quot;</programlisting>
+    <programlisting>#include &quot;fc5025.h&quot;</programlisting>
+    <programlisting>#include &lt;stdlib.h&gt;</programlisting>
+    <programlisting>#include &lt;stdio.h&gt;</programlisting>
+    <programlisting>#include &lt;string.h&gt;</programlisting>
+<para>Include dependency diagram for drive.cpp</para>
+<para>
+    <figure>
+        <title>Dependency diagram</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="drive_8cpp__incl.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+<para>Included by dependency diagram for drive.cpp</para>
+<para>
+    <figure>
+        <title>Dependency diagram</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="drive_8cpp__dep__incl.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+        <section>
+            <title>Variables</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static <link linkend="drive_8h_1structDriveInfo">DriveInfo</link> * <link linkend="drive_8cpp_1a19d5203ecb652fd0ec158d64b6290e5e">drives</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static int <link linkend="drive_8cpp_1a9cc21986f8b4da7aedee40324a8884ab">get_desc</link> (
+<link linkend="drive_8h_1structDriveInfo">DriveInfo</link> * drive)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>Implementation of physical drive control </para>
+    <para>Definition in file /home/mgarlanger/diskimaging/fc5025/heath-imager/src/libs/drive.cpp</para>
+    </simplesect>
+</section>

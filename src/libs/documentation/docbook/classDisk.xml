@@ -1,0 +1,428 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="classDisk">
+<title>Disk class Reference</title>
+<para>Inheritance diagram for Disk</para>
+<para>
+    <figure>
+        <title>Inheritance graph</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="classDisk__inherit__graph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+<para>Collaboration diagram for Disk</para>
+<para>
+    <figure>
+        <title>Collaboration graph</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="classDisk__coll__graph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="classDisk_1a2eaa045357515c1586d007fb0698fce3">Encoding</link> {
+<link linkend="classDisk_1a2eaa045357515c1586d007fb0698fce3aa084cd170865b3fb964438c910218f39">enc_FM</link>,
+<link linkend="classDisk_1a2eaa045357515c1586d007fb0698fce3ad15fdfc3591bb7e8122b33de9f446aaa">enc_MFM</link>
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classDisk_1a84ae85ab4bd211cf23d8d383ad8f2dce">minTrack</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classDisk_1a6dabc40a2a204e7b8601c120da82a61e">maxTrack</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classDisk_1afeeca1516865154ea3fa3380a784e0c9">numTracks</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classDisk_1ad92b9bba3c3e87e85d07cae62d7dfc4c">minSide</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classDisk_1af0afe14e286fcad6aed78431c389af88">maxSide</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classDisk_1aacfb8782312379d5d6bc65d3c852d864">numSides</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classDisk_1a96696fe210037edf370d617a151bcf58">minSector</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> side)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classDisk_1a95da6961a75776b25f48624dc50a0e98">maxSector</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> side)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classDisk_1a06365b69899e40c025086108ce433376">numSectors</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> side)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classDisk_1a59222363df1fab4725539fd1d2abc448">tpi</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classDisk_1a42f25352e4299f780a6867eb3d9f3a91">density</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1ab24077addd3b7b13e086987ff296552c">WORD</link> <link linkend="classDisk_1aa6492dba1769f8764d1393cf54bc6e1a">sectorBytes</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> side, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> sector)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1ab24077addd3b7b13e086987ff296552c">WORD</link> <link linkend="classDisk_1ad6d91d1992a5020ad409291d8a28e967">sectorRawBytes</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> side, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> sector)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1ab24077addd3b7b13e086987ff296552c">WORD</link> <link linkend="classDisk_1a744c63a8b2c1e395f281f54f7116ade2">trackBytes</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> side, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1ab24077addd3b7b13e086987ff296552c">WORD</link> <link linkend="classDisk_1ad2f9f7b51c67fbf4ebf2447cec19e154">trackRawBytes</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> side, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classDisk_1ad76c2df7de610e3a30b725ea4a90f5fe">physicalTrack</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual int <link linkend="classDisk_1ab2ef55264e354aa0afbd644a4fd0ee33">readSector</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> * buffer, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> * rawBuffer, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> side, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> sector)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual void <link linkend="classDisk_1a01a51ea25554387f047fb474c0814d53">genBestReadOrder</link> (
+<link linkend="disk_8h_1structSectorList">SectorList</link> * out, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> side)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual void <link linkend="classDisk_1a7dca6d0d1a9039beca59a0214d8fa32d">halfTheSectors</link> (
+<link linkend="disk_8h_1structSectorList">SectorList</link> ** out, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> side, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> which_half)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+            <section xml:id="classDisk_1a2eaa045357515c1586d007fb0698fce3">
+               <title>enum Encoding </title>
+               
+               <formalpara>
+                    <title>Enumerator:</title>
+                    <variablelist>
+                        <varlistentry xml:id="classDisk_1a2eaa045357515c1586d007fb0698fce3aa084cd170865b3fb964438c910218f39">
+                            <term>enc_FM</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry xml:id="classDisk_1a2eaa045357515c1586d007fb0698fce3ad15fdfc3591bb7e8122b33de9f446aaa">
+                            <term>enc_MFM</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                     </variablelist>
+                </formalpara>
+                <para>Definition at line 22 of file disk.h
+                    <computeroutput><literallayout>
+{
+enc_FM, 
+enc_MFM, 
+}Encoding;
+                    </literallayout></computeroutput>
+                </para>
+            </section>
+            <section xml:id="classDisk_1a84ae85ab4bd211cf23d8d383ad8f2dce">
+                <title>virtual BYTE Disk::minTrack (void)=0</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classDisk_1a6dabc40a2a204e7b8601c120da82a61e">
+                <title>virtual BYTE Disk::maxTrack (void)=0</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classDisk_1afeeca1516865154ea3fa3380a784e0c9">
+                <title>BYTE Disk::numTracks (void)</title> <emphasis></emphasis>
+                
+<para>return the number of tracks for the disk</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>number of tracks </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classDisk_1ad92b9bba3c3e87e85d07cae62d7dfc4c">
+                <title>virtual BYTE Disk::minSide (void)=0</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classDisk_1af0afe14e286fcad6aed78431c389af88">
+                <title>virtual BYTE Disk::maxSide (void)=0</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classDisk_1aacfb8782312379d5d6bc65d3c852d864">
+                <title>BYTE Disk::numSides (void)</title> <emphasis></emphasis>
+                
+<para>return the number of sides for the disk</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>number of sides </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classDisk_1a96696fe210037edf370d617a151bcf58">
+                <title>virtual BYTE Disk::minSector (BYTE track, BYTE side)=0</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classDisk_1a95da6961a75776b25f48624dc50a0e98">
+                <title>virtual BYTE Disk::maxSector (BYTE track, BYTE side)=0</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classDisk_1a06365b69899e40c025086108ce433376">
+                <title>BYTE Disk::numSectors (BYTE track, BYTE side)</title> <emphasis></emphasis>
+                
+<para>return the number of sectors</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>track</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>side</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>number of sectors </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classDisk_1a59222363df1fab4725539fd1d2abc448">
+                <title>virtual BYTE Disk::tpi (void)=0</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classDisk_1a42f25352e4299f780a6867eb3d9f3a91">
+                <title>virtual BYTE Disk::density (void)=0</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classDisk_1aa6492dba1769f8764d1393cf54bc6e1a">
+                <title>virtual WORD Disk::sectorBytes (BYTE side, BYTE track, BYTE sector)=0</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classDisk_1ad6d91d1992a5020ad409291d8a28e967">
+                <title>virtual WORD Disk::sectorRawBytes (BYTE side, BYTE track, BYTE sector)=0</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classDisk_1a744c63a8b2c1e395f281f54f7116ade2">
+                <title>virtual WORD Disk::trackBytes (BYTE side, BYTE track)=0</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classDisk_1ad2f9f7b51c67fbf4ebf2447cec19e154">
+                <title>virtual WORD Disk::trackRawBytes (BYTE side, BYTE track)=0</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classDisk_1ad76c2df7de610e3a30b725ea4a90f5fe">
+                <title>virtual BYTE Disk::physicalTrack (BYTE track)=0</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classDisk_1ab2ef55264e354aa0afbd644a4fd0ee33">
+                <title>virtual int Disk::readSector (BYTE *buffer, BYTE *rawBuffer, BYTE side, BYTE track, BYTE sector)=0</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classDisk_1a01a51ea25554387f047fb474c0814d53">
+                <title>void Disk::genBestReadOrder (SectorList *out, BYTE track, BYTE side)</title> <emphasis></emphasis>
+                
+<para>get the best read order for the given track and side</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>out</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>track</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>side</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classDisk_1a7dca6d0d1a9039beca59a0214d8fa32d">
+                <title>void Disk::halfTheSectors (SectorList **out, BYTE track, BYTE side, BYTE which_half)</title> <emphasis></emphasis>
+                
+<para>return an array of half the sectors to read in</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>out</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>track</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>side</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>which_half</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+</section>

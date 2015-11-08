@@ -1,0 +1,191 @@
+\hypertarget{classRawSector}{}\section{Raw\+Sector Class Reference}
+\label{classRawSector}\index{Raw\+Sector@{Raw\+Sector}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classRawSector_aab8c7e37912c1e0a202fced4e38a7cf2}{Raw\+Sector} (uint8\+\_\+t side, uint8\+\_\+t track, uint8\+\_\+t sector, uint8\+\_\+t $\ast$buf, uint16\+\_\+t buf\+Size)
+\item 
+\hyperlink{classRawSector_aae1fd3df7895272b1293c8fcba3237a3}{Raw\+Sector} (uint8\+\_\+t $\ast$buf, uint32\+\_\+t size, uint16\+\_\+t \&length)
+\item 
+\hyperlink{classRawSector_ab0d545dbebfb52c8381084d23f3eebf9}{$\sim$\+Raw\+Sector} ()
+\item 
+bool \hyperlink{classRawSector_ade2a6ad9839a90d53d176d088112933d}{write\+To\+File} (std\+::ofstream \&file)
+\item 
+uint16\+\_\+t \hyperlink{classRawSector_af2fcbc00a76de74b6341144bc901b684}{get\+Buf\+Size} ()
+\item 
+uint16\+\_\+t \hyperlink{classRawSector_a186880d783789b622a2ce2f42792276c}{get\+Block\+Size} ()
+\item 
+void \hyperlink{classRawSector_acc17f663cd4f8ca440d9636ab2f7fb9c}{dump\+Sector} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classRawSector_ac160cf6c0debc82bd3cac5b41c69be0e}{}static const uint8\+\_\+t {\bfseries header\+Size\+\_\+c} = 4\label{classRawSector_ac160cf6c0debc82bd3cac5b41c69be0e}
+
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classRawSector_aff5d81095cfa1dfff8cd3fd3d3847259}{}uint16\+\_\+t {\bfseries buf\+Size\+\_\+m}\label{classRawSector_aff5d81095cfa1dfff8cd3fd3d3847259}
+
+\item 
+\hypertarget{classRawSector_a5dbd62a4b2df22143c98ba275eee7d38}{}uint8\+\_\+t $\ast$ {\bfseries buf\+\_\+m}\label{classRawSector_a5dbd62a4b2df22143c98ba275eee7d38}
+
+\item 
+\hypertarget{classRawSector_ab69d9c9fc84622f2314a2e9708433990}{}uint8\+\_\+t {\bfseries side\+\_\+m}\label{classRawSector_ab69d9c9fc84622f2314a2e9708433990}
+
+\item 
+\hypertarget{classRawSector_adc79197c6beb7693176b01f3a3ae86c8}{}uint8\+\_\+t {\bfseries track\+\_\+m}\label{classRawSector_adc79197c6beb7693176b01f3a3ae86c8}
+
+\item 
+\hypertarget{classRawSector_aeca5a4b8c86111df369713e7e5b8d6a1}{}uint8\+\_\+t {\bfseries sector\+\_\+m}\label{classRawSector_aeca5a4b8c86111df369713e7e5b8d6a1}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 13 of file raw\+\_\+sector.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classRawSector_aab8c7e37912c1e0a202fced4e38a7cf2}{}\index{Raw\+Sector@{Raw\+Sector}!Raw\+Sector@{Raw\+Sector}}
+\index{Raw\+Sector@{Raw\+Sector}!Raw\+Sector@{Raw\+Sector}}
+\subsubsection[{Raw\+Sector}]{\setlength{\rightskip}{0pt plus 5cm}Raw\+Sector\+::\+Raw\+Sector (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{side, }
+\item[{uint8\+\_\+t}]{track, }
+\item[{uint8\+\_\+t}]{sector, }
+\item[{uint8\+\_\+t $\ast$}]{buf, }
+\item[{uint16\+\_\+t}]{buf\+Size}
+\end{DoxyParamCaption}
+)}\label{classRawSector_aab8c7e37912c1e0a202fced4e38a7cf2}
+constructor -\/ for when only sector data is available
+
+
+\begin{DoxyParams}{Parameters}
+{\em side} & \\
+\hline
+{\em track} & \\
+\hline
+{\em sector} & \\
+\hline
+{\em buf} & \\
+\hline
+{\em buf\+Size} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 19 of file raw\+\_\+sector.\+cpp.
+
+\hypertarget{classRawSector_aae1fd3df7895272b1293c8fcba3237a3}{}\index{Raw\+Sector@{Raw\+Sector}!Raw\+Sector@{Raw\+Sector}}
+\index{Raw\+Sector@{Raw\+Sector}!Raw\+Sector@{Raw\+Sector}}
+\subsubsection[{Raw\+Sector}]{\setlength{\rightskip}{0pt plus 5cm}Raw\+Sector\+::\+Raw\+Sector (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t $\ast$}]{buf, }
+\item[{uint32\+\_\+t}]{size, }
+\item[{uint16\+\_\+t \&}]{length}
+\end{DoxyParamCaption}
+)}\label{classRawSector_aae1fd3df7895272b1293c8fcba3237a3}
+constructor -\/ for decoding an existing file.
+
+
+\begin{DoxyParams}{Parameters}
+{\em buf} & \\
+\hline
+{\em size} & \\
+\hline
+{\em length} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 39 of file raw\+\_\+sector.\+cpp.
+
+\hypertarget{classRawSector_ab0d545dbebfb52c8381084d23f3eebf9}{}\index{Raw\+Sector@{Raw\+Sector}!````~Raw\+Sector@{$\sim$\+Raw\+Sector}}
+\index{````~Raw\+Sector@{$\sim$\+Raw\+Sector}!Raw\+Sector@{Raw\+Sector}}
+\subsubsection[{$\sim$\+Raw\+Sector}]{\setlength{\rightskip}{0pt plus 5cm}Raw\+Sector\+::$\sim$\+Raw\+Sector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classRawSector_ab0d545dbebfb52c8381084d23f3eebf9}
+destructor 
+
+Definition at line 64 of file raw\+\_\+sector.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classRawSector_acc17f663cd4f8ca440d9636ab2f7fb9c}{}\index{Raw\+Sector@{Raw\+Sector}!dump\+Sector@{dump\+Sector}}
+\index{dump\+Sector@{dump\+Sector}!Raw\+Sector@{Raw\+Sector}}
+\subsubsection[{dump\+Sector}]{\setlength{\rightskip}{0pt plus 5cm}void Raw\+Sector\+::dump\+Sector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classRawSector_acc17f663cd4f8ca440d9636ab2f7fb9c}
+dump sector 
+
+Definition at line 122 of file raw\+\_\+sector.\+cpp.
+
+\hypertarget{classRawSector_a186880d783789b622a2ce2f42792276c}{}\index{Raw\+Sector@{Raw\+Sector}!get\+Block\+Size@{get\+Block\+Size}}
+\index{get\+Block\+Size@{get\+Block\+Size}!Raw\+Sector@{Raw\+Sector}}
+\subsubsection[{get\+Block\+Size}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t Raw\+Sector\+::get\+Block\+Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classRawSector_a186880d783789b622a2ce2f42792276c}
+Get entire size of block including header
+
+\begin{DoxyReturn}{Returns}
+block size 
+\end{DoxyReturn}
+
+
+Definition at line 113 of file raw\+\_\+sector.\+cpp.
+
+\hypertarget{classRawSector_af2fcbc00a76de74b6341144bc901b684}{}\index{Raw\+Sector@{Raw\+Sector}!get\+Buf\+Size@{get\+Buf\+Size}}
+\index{get\+Buf\+Size@{get\+Buf\+Size}!Raw\+Sector@{Raw\+Sector}}
+\subsubsection[{get\+Buf\+Size}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t Raw\+Sector\+::get\+Buf\+Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classRawSector_af2fcbc00a76de74b6341144bc901b684}
+Get buffer size
+
+\begin{DoxyReturn}{Returns}
+buffer size 
+\end{DoxyReturn}
+
+
+Definition at line 102 of file raw\+\_\+sector.\+cpp.
+
+\hypertarget{classRawSector_ade2a6ad9839a90d53d176d088112933d}{}\index{Raw\+Sector@{Raw\+Sector}!write\+To\+File@{write\+To\+File}}
+\index{write\+To\+File@{write\+To\+File}!Raw\+Sector@{Raw\+Sector}}
+\subsubsection[{write\+To\+File}]{\setlength{\rightskip}{0pt plus 5cm}bool Raw\+Sector\+::write\+To\+File (
+\begin{DoxyParamCaption}
+\item[{std\+::ofstream \&}]{file}
+\end{DoxyParamCaption}
+)}\label{classRawSector_ade2a6ad9839a90d53d176d088112933d}
+write data to a file in h17disk format
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & -\/ file to write to\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+success 
+\end{DoxyReturn}
+
+
+Definition at line 82 of file raw\+\_\+sector.\+cpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{raw__sector_8h}{raw\+\_\+sector.\+h}\item 
+\hyperlink{raw__sector_8cpp}{raw\+\_\+sector.\+cpp}\end{DoxyCompactItemize}

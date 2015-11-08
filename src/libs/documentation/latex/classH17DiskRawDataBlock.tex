@@ -1,0 +1,431 @@
+\hypertarget{classH17DiskRawDataBlock}{}\section{H17\+Disk\+Raw\+Data\+Block Class Reference}
+\label{classH17DiskRawDataBlock}\index{H17\+Disk\+Raw\+Data\+Block@{H17\+Disk\+Raw\+Data\+Block}}
+
+
+Inheritance diagram for H17\+Disk\+Raw\+Data\+Block\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=201pt]{classH17DiskRawDataBlock__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for H17\+Disk\+Raw\+Data\+Block\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=292pt]{classH17DiskRawDataBlock__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classH17DiskRawDataBlock_a38985e3d002a8e2b61fe94c92e8f88ed}{}{\bfseries H17\+Disk\+Raw\+Data\+Block} (uint8\+\_\+t buf\mbox{[}$\,$\mbox{]}, uint32\+\_\+t size)\label{classH17DiskRawDataBlock_a38985e3d002a8e2b61fe94c92e8f88ed}
+
+\item 
+virtual uint8\+\_\+t \hyperlink{classH17DiskRawDataBlock_a79f9a190799eb468771618de21830464}{get\+Block\+Id} ()
+\item 
+virtual bool \hyperlink{classH17DiskRawDataBlock_a1f7e142b548e0c6c6b6984fda36571c4}{write\+To\+File} (std\+::ofstream \&file)
+\item 
+virtual bool \hyperlink{classH17DiskRawDataBlock_a45656c24c20b6f3697cfb362a41eec91}{get\+Mandatory} ()
+\item 
+virtual bool \hyperlink{classH17DiskRawDataBlock_a1abf25a2913da6a6bcbeab31d22789d7}{dump} (uint8\+\_\+t level)
+\item 
+\hypertarget{classH17DiskRawDataBlock_a062e6d77facc569af30c551225215132}{}virtual void {\bfseries print\+Block\+Name} ()\label{classH17DiskRawDataBlock_a062e6d77facc569af30c551225215132}
+
+\item 
+virtual uint32\+\_\+t \hyperlink{classH17Block_aa2e87b141623b4c897c5337ea0535d1c}{get\+Data\+Size} ()
+\item 
+virtual uint8\+\_\+t $\ast$ \hyperlink{classH17Block_a6c2432cccdacdfb1a335bd924f19d942}{get\+Data} ()
+\item 
+virtual uint32\+\_\+t \hyperlink{classH17Block_a0327b6359cdf502269bbb7c6f35fae18}{get\+Block\+Size} ()
+\item 
+virtual uint32\+\_\+t \hyperlink{classH17Block_ad71ae203afc8713d4ee7416757fadbbe}{get\+Header\+Size} ()
+\item 
+virtual bool \hyperlink{classH17Block_a5c4d56a6c991c87fb9215797ce63b804}{write\+Block\+Header} (std\+::ofstream \&file)
+\item 
+\hypertarget{classH17Block_ae53600d945ed3ffac13d3a769a1e1ab2}{}virtual bool {\bfseries analyze} ()\label{classH17Block_ae53600d945ed3ffac13d3a769a1e1ab2}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classH17Block_a2c0bb47f26439845bada4b36ad517a19}{}static const uint8\+\_\+t {\bfseries Disk\+Format\+Block\+\_\+c} = 0x00\label{classH17Block_a2c0bb47f26439845bada4b36ad517a19}
+
+\item 
+\hypertarget{classH17Block_a321d17f4fa4f0c3bae07903dc9d63e89}{}static const uint8\+\_\+t {\bfseries Flags\+Block\+\_\+c} = 0x01\label{classH17Block_a321d17f4fa4f0c3bae07903dc9d63e89}
+
+\item 
+\hypertarget{classH17Block_a665b016e0c21812300c78e27bd27cacc}{}static const uint8\+\_\+t {\bfseries Label\+Block\+\_\+c} = 0x02\label{classH17Block_a665b016e0c21812300c78e27bd27cacc}
+
+\item 
+\hypertarget{classH17Block_a7e113d95265854d65ee7cfd9b8036bb4}{}static const uint8\+\_\+t {\bfseries Comment\+Block\+\_\+c} = 0x03\label{classH17Block_a7e113d95265854d65ee7cfd9b8036bb4}
+
+\item 
+\hypertarget{classH17Block_a6533f08296fa7781ab424014c53d0339}{}static const uint8\+\_\+t {\bfseries Date\+Block\+\_\+c} = 0x04\label{classH17Block_a6533f08296fa7781ab424014c53d0339}
+
+\item 
+\hypertarget{classH17Block_a6d3c62d3bb52383b0d42c96a0edf084e}{}static const uint8\+\_\+t {\bfseries Imager\+Block\+\_\+c} = 0x05\label{classH17Block_a6d3c62d3bb52383b0d42c96a0edf084e}
+
+\item 
+\hypertarget{classH17Block_a82d84c0c8a48dd51d2aa81a2bb25b388}{}static const uint8\+\_\+t {\bfseries Program\+Block\+\_\+c} = 0x06\label{classH17Block_a82d84c0c8a48dd51d2aa81a2bb25b388}
+
+\item 
+\hypertarget{classH17Block_ae6f576b907f36413c246f4d0121f81a2}{}static const uint8\+\_\+t {\bfseries Data\+Block\+\_\+c} = 0x10\label{classH17Block_ae6f576b907f36413c246f4d0121f81a2}
+
+\item 
+\hypertarget{classH17Block_a40da95004bf44a8b227e58d273de483f}{}static const uint8\+\_\+t {\bfseries Raw\+Data\+Block\+\_\+c} = 0x30\label{classH17Block_a40da95004bf44a8b227e58d273de483f}
+
+\item 
+\hypertarget{classH17Block_abba04ea8a19a2c67c52b2044e9d7e6b5}{}static const uint8\+\_\+t {\bfseries Track\+Data\+Id} = 0x11\label{classH17Block_abba04ea8a19a2c67c52b2044e9d7e6b5}
+
+\item 
+\hypertarget{classH17Block_aba48bf0cd556e2450f6ae849dee5aa58}{}static const uint8\+\_\+t {\bfseries Sector\+Data\+Id} = 0x12\label{classH17Block_aba48bf0cd556e2450f6ae849dee5aa58}
+
+\item 
+\hypertarget{classH17Block_af851d13f0569ae7860ce8e5953bfa5f5}{}static const uint8\+\_\+t {\bfseries Raw\+Track\+Data\+Id} = 0x31\label{classH17Block_af851d13f0569ae7860ce8e5953bfa5f5}
+
+\item 
+\hypertarget{classH17Block_a0510af71536a81a626c9956302b744bf}{}static const uint8\+\_\+t {\bfseries Raw\+Sector\+Data\+Id} = 0x32\label{classH17Block_a0510af71536a81a626c9956302b744bf}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual bool \hyperlink{classH17Block_a09d4bee92e3b1862412b53a369f9dcc8}{dump\+Text} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classH17Block_af5613c8a2286e67b7f8235162453d8c1}{}uint32\+\_\+t {\bfseries size\+\_\+m}\label{classH17Block_af5613c8a2286e67b7f8235162453d8c1}
+
+\item 
+\hypertarget{classH17Block_a279340cf9f0dba5b047297e38d430bb1}{}uint8\+\_\+t $\ast$ {\bfseries buf\+\_\+m}\label{classH17Block_a279340cf9f0dba5b047297e38d430bb1}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classH17Block_a12fca0c1752b9473f618bd35cac1844f}{}static const uint32\+\_\+t {\bfseries block\+Header\+Size\+\_\+c} = 6\label{classH17Block_a12fca0c1752b9473f618bd35cac1844f}
+
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classH17DiskRawDataBlock_a8e45d00b46c6c9b8fd143d9fc3bdbfb9}{}std\+::vector$<$ \hyperlink{classRawTrack}{Raw\+Track} $\ast$ $>$ {\bfseries raw\+Tracks\+\_\+m}\label{classH17DiskRawDataBlock_a8e45d00b46c6c9b8fd143d9fc3bdbfb9}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 225 of file h17block.\+h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classH17DiskRawDataBlock_a1abf25a2913da6a6bcbeab31d22789d7}{}\index{H17\+Disk\+Raw\+Data\+Block@{H17\+Disk\+Raw\+Data\+Block}!dump@{dump}}
+\index{dump@{dump}!H17\+Disk\+Raw\+Data\+Block@{H17\+Disk\+Raw\+Data\+Block}}
+\subsubsection[{dump}]{\setlength{\rightskip}{0pt plus 5cm}bool H17\+Disk\+Raw\+Data\+Block\+::dump (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{level}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{classH17DiskRawDataBlock_a1abf25a2913da6a6bcbeab31d22789d7}
+dump the block to stdout
+
+
+\begin{DoxyParams}{Parameters}
+{\em level} & -\/ detail level to display 0 -\/ none 1 -\/ minimal 2 -\/ some 3 -\/ lots 4 -\/ complete\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+success 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classH17Block_ac17cf2a0e1699277192063e13bee30b1}{H17\+Block}.
+
+
+
+Definition at line 1030 of file h17block.\+cpp.
+
+\hypertarget{classH17Block_a09d4bee92e3b1862412b53a369f9dcc8}{}\index{H17\+Disk\+Raw\+Data\+Block@{H17\+Disk\+Raw\+Data\+Block}!dump\+Text@{dump\+Text}}
+\index{dump\+Text@{dump\+Text}!H17\+Disk\+Raw\+Data\+Block@{H17\+Disk\+Raw\+Data\+Block}}
+\subsubsection[{dump\+Text}]{\setlength{\rightskip}{0pt plus 5cm}bool H17\+Block\+::dump\+Text (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}, {\ttfamily [inherited]}}\label{classH17Block_a09d4bee92e3b1862412b53a369f9dcc8}
+dump text
+
+\begin{DoxyReturn}{Returns}
+true 
+\end{DoxyReturn}
+
+
+Definition at line 168 of file h17block.\+cpp.
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classH17Block_a09d4bee92e3b1862412b53a369f9dcc8_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classH17DiskRawDataBlock_a79f9a190799eb468771618de21830464}{}\index{H17\+Disk\+Raw\+Data\+Block@{H17\+Disk\+Raw\+Data\+Block}!get\+Block\+Id@{get\+Block\+Id}}
+\index{get\+Block\+Id@{get\+Block\+Id}!H17\+Disk\+Raw\+Data\+Block@{H17\+Disk\+Raw\+Data\+Block}}
+\subsubsection[{get\+Block\+Id}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t H17\+Disk\+Raw\+Data\+Block\+::get\+Block\+Id (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{classH17DiskRawDataBlock_a79f9a190799eb468771618de21830464}
+get block id
+
+\begin{DoxyReturn}{Returns}
+block id 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classH17Block}{H17\+Block}.
+
+
+
+Definition at line 997 of file h17block.\+cpp.
+
+\hypertarget{classH17Block_a0327b6359cdf502269bbb7c6f35fae18}{}\index{H17\+Disk\+Raw\+Data\+Block@{H17\+Disk\+Raw\+Data\+Block}!get\+Block\+Size@{get\+Block\+Size}}
+\index{get\+Block\+Size@{get\+Block\+Size}!H17\+Disk\+Raw\+Data\+Block@{H17\+Disk\+Raw\+Data\+Block}}
+\subsubsection[{get\+Block\+Size}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t H17\+Block\+::get\+Block\+Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [inherited]}}\label{classH17Block_a0327b6359cdf502269bbb7c6f35fae18}
+return total block size in bytes
+
+\begin{DoxyReturn}{Returns}
+total block size in bytes 
+\end{DoxyReturn}
+
+
+Definition at line 63 of file h17block.\+cpp.
+
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classH17Block_a0327b6359cdf502269bbb7c6f35fae18_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classH17Block_a6c2432cccdacdfb1a335bd924f19d942}{}\index{H17\+Disk\+Raw\+Data\+Block@{H17\+Disk\+Raw\+Data\+Block}!get\+Data@{get\+Data}}
+\index{get\+Data@{get\+Data}!H17\+Disk\+Raw\+Data\+Block@{H17\+Disk\+Raw\+Data\+Block}}
+\subsubsection[{get\+Data}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t $\ast$ H17\+Block\+::get\+Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [inherited]}}\label{classH17Block_a6c2432cccdacdfb1a335bd924f19d942}
+get pointer to data buffer
+
+\begin{DoxyReturn}{Returns}
+pointer 
+\end{DoxyReturn}
+
+
+Definition at line 82 of file h17block.\+cpp.
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classH17Block_a6c2432cccdacdfb1a335bd924f19d942_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classH17Block_aa2e87b141623b4c897c5337ea0535d1c}{}\index{H17\+Disk\+Raw\+Data\+Block@{H17\+Disk\+Raw\+Data\+Block}!get\+Data\+Size@{get\+Data\+Size}}
+\index{get\+Data\+Size@{get\+Data\+Size}!H17\+Disk\+Raw\+Data\+Block@{H17\+Disk\+Raw\+Data\+Block}}
+\subsubsection[{get\+Data\+Size}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t H17\+Block\+::get\+Data\+Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [inherited]}}\label{classH17Block_aa2e87b141623b4c897c5337ea0535d1c}
+return size of data portion of block in bytes
+
+\begin{DoxyReturn}{Returns}
+size of data porition of block in bytes 
+\end{DoxyReturn}
+
+
+Reimplemented in \hyperlink{classH17DiskFlagsBlock_addf34cf69e125df697a0281fe5fd6a1d}{H17\+Disk\+Flags\+Block}, and \hyperlink{classH17DiskFormatBlock_aac397509c1ce80ed4d41caee0caf6c56}{H17\+Disk\+Format\+Block}.
+
+
+
+Definition at line 72 of file h17block.\+cpp.
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classH17Block_aa2e87b141623b4c897c5337ea0535d1c_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classH17Block_ad71ae203afc8713d4ee7416757fadbbe}{}\index{H17\+Disk\+Raw\+Data\+Block@{H17\+Disk\+Raw\+Data\+Block}!get\+Header\+Size@{get\+Header\+Size}}
+\index{get\+Header\+Size@{get\+Header\+Size}!H17\+Disk\+Raw\+Data\+Block@{H17\+Disk\+Raw\+Data\+Block}}
+\subsubsection[{get\+Header\+Size}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t H17\+Block\+::get\+Header\+Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [inherited]}}\label{classH17Block_ad71ae203afc8713d4ee7416757fadbbe}
+return header size in bytes
+
+\begin{DoxyReturn}{Returns}
+header size in bytes 
+\end{DoxyReturn}
+
+
+Definition at line 54 of file h17block.\+cpp.
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classH17Block_ad71ae203afc8713d4ee7416757fadbbe_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classH17DiskRawDataBlock_a45656c24c20b6f3697cfb362a41eec91}{}\index{H17\+Disk\+Raw\+Data\+Block@{H17\+Disk\+Raw\+Data\+Block}!get\+Mandatory@{get\+Mandatory}}
+\index{get\+Mandatory@{get\+Mandatory}!H17\+Disk\+Raw\+Data\+Block@{H17\+Disk\+Raw\+Data\+Block}}
+\subsubsection[{get\+Mandatory}]{\setlength{\rightskip}{0pt plus 5cm}bool H17\+Disk\+Raw\+Data\+Block\+::get\+Mandatory (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{classH17DiskRawDataBlock_a45656c24c20b6f3697cfb362a41eec91}
+get mandatory flag
+
+\begin{DoxyReturn}{Returns}
+true 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classH17Block}{H17\+Block}.
+
+
+
+Definition at line 1040 of file h17block.\+cpp.
+
+\hypertarget{classH17Block_a5c4d56a6c991c87fb9215797ce63b804}{}\index{H17\+Disk\+Raw\+Data\+Block@{H17\+Disk\+Raw\+Data\+Block}!write\+Block\+Header@{write\+Block\+Header}}
+\index{write\+Block\+Header@{write\+Block\+Header}!H17\+Disk\+Raw\+Data\+Block@{H17\+Disk\+Raw\+Data\+Block}}
+\subsubsection[{write\+Block\+Header}]{\setlength{\rightskip}{0pt plus 5cm}bool H17\+Block\+::write\+Block\+Header (
+\begin{DoxyParamCaption}
+\item[{std\+::ofstream \&}]{file}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [inherited]}}\label{classH17Block_a5c4d56a6c991c87fb9215797ce63b804}
+Common code to write the block header
+
+
+\begin{DoxyParams}{Parameters}
+{\em block\+Id} & Block I\+D \\
+\hline
+{\em flag} & Flag Byte \\
+\hline
+{\em length} & length of block\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+if successful 
+\end{DoxyReturn}
+
+
+Definition at line 95 of file h17block.\+cpp.
+
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classH17Block_a5c4d56a6c991c87fb9215797ce63b804_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classH17Block_a5c4d56a6c991c87fb9215797ce63b804_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classH17DiskRawDataBlock_a1f7e142b548e0c6c6b6984fda36571c4}{}\index{H17\+Disk\+Raw\+Data\+Block@{H17\+Disk\+Raw\+Data\+Block}!write\+To\+File@{write\+To\+File}}
+\index{write\+To\+File@{write\+To\+File}!H17\+Disk\+Raw\+Data\+Block@{H17\+Disk\+Raw\+Data\+Block}}
+\subsubsection[{write\+To\+File}]{\setlength{\rightskip}{0pt plus 5cm}bool H17\+Disk\+Raw\+Data\+Block\+::write\+To\+File (
+\begin{DoxyParamCaption}
+\item[{std\+::ofstream \&}]{file}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{classH17DiskRawDataBlock_a1f7e142b548e0c6c6b6984fda36571c4}
+write block to file
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & -\/ file to write to\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+if successful 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classH17Block_a59901675cd140c907fb6de4c8e0452d5}{H17\+Block}.
+
+
+
+Definition at line 1003 of file h17block.\+cpp.
+
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classH17DiskRawDataBlock_a1f7e142b548e0c6c6b6984fda36571c4_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{h17block_8h}{h17block.\+h}\item 
+\hyperlink{h17block_8cpp}{h17block.\+cpp}\end{DoxyCompactItemize}

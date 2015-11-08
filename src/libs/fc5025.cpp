@@ -21,10 +21,8 @@
 
 FC5025 *FC5025::pInst_m = nullptr;
 
-// \todo move this into class.
-//static usb_dev_handle *udev;
 
-// move this too.
+// \todo move this into class.
 static struct
 {
     uint8_t      signature[4];
@@ -55,13 +53,13 @@ FC5025::FC5025()
     drive_Tracks_m   = 80;
     drive_Sides_m    = 2;
     drive_RPM_m      = 360;
-    drive_StepRate_m = 15;
+    drive_StepRate_m = 15;     // 3 mSec
    
     // H-17-1 
     //drive_Tracks_m   = 40;
     //drive_Sides_m    = 1;
     //drive_RPM_m      = 300;
-    //drive_StepRate_m = 150;   // 30 mSec
+    //drive_StepRate_m = 150;  // 30 mSec
 
     // H-17-4 
     //drive_Tracks_m   = 80;
@@ -523,6 +521,8 @@ FC5025::find(struct usb_device **devs,
 //! @param rpm
 //! @param stepRate
 //!
+//! @return void
+//!
 void
 FC5025::configureDiskDrive(uint8_t   tracks,
                            uint8_t   sides,
@@ -543,6 +543,8 @@ FC5025::configureDiskDrive(uint8_t   tracks,
 //! @param rpm
 //! @param stepRate
 //!
+//! @return void
+//!
 void 
 FC5025::getDiskDrive(uint8_t   &tracks,
                      uint8_t   &sides,
@@ -561,6 +563,8 @@ FC5025::getDiskDrive(uint8_t   &tracks,
 //! @param tracks
 //! @param sides
 //! @param rpm
+//!
+//! @return void
 //!
 void
 FC5025::configureFloppyDisk(uint8_t  tracks,

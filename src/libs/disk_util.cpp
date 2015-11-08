@@ -19,6 +19,13 @@ const char *errorStrings[] = {
     "Invalid data checksum",
 };
 
+//! Update checksum with new data byte
+//!
+//! @param checksum  - existing checksum
+//! @param val       - data byte
+//!
+//!
+//! @return updated checksum
 BYTE updateChecksum(BYTE checksum, BYTE val)
 {
     // First XOR it.
@@ -30,13 +37,22 @@ BYTE updateChecksum(BYTE checksum, BYTE val)
     return checksum;
 }
 
+//! Align sector data to the sync byte
+//!
+//! @param out      - buffer to store aligned data
+//! @param in       - buffer of unaligned data
+//! @param length   - size of buffer
+//! @param syncByte - byte to sync buffer
+//!
+//! @return result
+//!
 int alignSector(BYTE *out, BYTE *in, WORD length, BYTE syncByte)
 {
     bool          foundHeadSync = false;
     bool          foundDataSync = false;
     unsigned int  pos;
-    unsigned char bitOffset;
-    unsigned char bitOffset2;
+    unsigned char bitOffset = 0;
+    unsigned char bitOffset2 = 0;
 
     // first find the header, it most occur within the first 57
     // bytes, otherwise there won't be room for everything -
@@ -62,7 +78,8 @@ int alignSector(BYTE *out, BYTE *in, WORD length, BYTE syncByte)
             break;
         }
 
-        // either set everything to zero, or just copy out the in
+        // either set everything to zero, or just copy out the in, or could even come back
+        // and align this based on sync byte found
         // \todo determine which to do.
         //  out[pos] = 0;
         //  out[pos] = in[pos];
@@ -155,16 +172,21 @@ int alignSector(BYTE *out, BYTE *in, WORD length, BYTE syncByte)
         out[pos] = shiftByte(in[pos], in[pos+1], bitOffset);
     }
 
-    for (; pos < length; pos++)
-    {   //! \todo fix this... one byte past end of buffer.
+    for (; pos < (unsigned int) length-1; pos++)
+    {
         //! \todo determine if we should write this data or just put 0s.
         out[pos] = shiftByte(in[pos], in[pos+1], bitOffset2);
     }
 
+    if (pos == (unsigned int) (length - 1) ) {
+        out[pos] = shiftByte(in[pos], 0, bitOffset2);
+    }
 
     return No_Error;
 }
 
+//! Pre-calculated array to reverse all the bits in a byte.
+//
 static const BYTE BitReverseTable[] = 
 {
   0x00, 0x80, 0x40, 0xC0, 0x20, 0xA0, 0x60, 0xE0, 0x10, 0x90, 0x50, 0xD0, 0x30, 0xB0, 0x70, 0xF0, 
@@ -185,13 +207,26 @@ static const BYTE BitReverseTable[] =
   0x0F, 0x8F, 0x4F, 0xCF, 0x2F, 0xAF, 0x6F, 0xEF, 0x1F, 0x9F, 0x5F, 0xDF, 0x3F, 0xBF, 0x7F, 0xFF
 };
 
+//! reverse the bits in a byte
+//!
+//! @param val - value to reverse.
+//!
+//! @return the reversed byte.
+//!
 BYTE reverseChar(BYTE val)
 {
     return BitReverseTable[val];    
 }
 
 
-
+//! return a byte from 2 original bytes, shifted by the shift value
+//!
+//! @param first  - first data byte
+//! @param second - second data byte
+//! @param shift  - shift value
+//!
+//! @return shift byte
+//!
 BYTE shiftByte(BYTE first,
                BYTE second,
                BYTE shift)
@@ -205,6 +240,17 @@ BYTE shiftByte(BYTE first,
 }
 
 
+//! process a sector to by aligning based on sync bytes, and reversal of the bits in each byte
+//!
+//! @param buffer - original data
+//! @param out    - processed sector
+//! @param length - length of buffer
+//! @param side   - side sector was imaged from
+//! @param track  - track of sector
+//! @param sector - sector number
+//!
+//! @return result status
+//!
 int processSector(BYTE *buffer, BYTE *out, WORD length, BYTE side, BYTE track, BYTE sector)
 {
     // expect the sync (0xfd) character first.
@@ -286,14 +332,18 @@ int processSector(BYTE *buffer, BYTE *out, WORD length, BYTE side, BYTE track, B
     }
 
     // verify checksum of the data block
+
+    // reset checksum value
     checkSum = 0;
+
     // check all the data
     for (int i = 0; i < 256; i++)
     {
-        checkSum = updateChecksum(checkSum, buffer[++pos]); // checksum value
+        checkSum = updateChecksum(checkSum, buffer[++pos]);
     }
 
-    checkSum = updateChecksum(checkSum, buffer[++pos]); // checksum value
+    // update checksum with checksum value read from disk
+    checkSum = updateChecksum(checkSum, buffer[++pos]);
 
     // Should be zero if valid
     if (checkSum)

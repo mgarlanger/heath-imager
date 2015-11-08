@@ -15,28 +15,10 @@
 //! @param buf     buffer data
 //! @param length  length of buffer
 //!
+//! @return void
+//!
 void dumpDataBlock(unsigned char buf[], unsigned int length) {
 
-#if 0
-    //BYTE printAble[16];
-    for (unsigned int i = 0; i < length; i++)
-    {
-        if  ((i % 16) == 0)
-        {
-            printf("     %03d: ", i);
-        }
-        printf("%02x", buf[i]);
-
-        if ((i % 16) == 7)
-        {
-            printf(" ");
-        }
-        if ((i % 16) == 15)
-        {
-            printf("\n");
-        }
-    }
-#else
     uint8_t printAble[16];
     unsigned int i = 0;
     unsigned int pos = 4;
@@ -106,7 +88,6 @@ void dumpDataBlock(unsigned char buf[], unsigned int length) {
         printf("|\n");
     }
 
-#endif
     printf("\n");
 }
 

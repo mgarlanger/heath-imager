@@ -34,6 +34,7 @@ Drive::~Drive()
 //! get status
 //!
 //! @return staus
+//!
 uint8_t
 Drive::getStatus()
 {
@@ -45,7 +46,8 @@ Drive::getStatus()
 //!
 //! @param drive 
 //!
-//! @return 
+//! @return  status with 0 equals success
+//!
 static int
 get_desc(DriveInfo *drive)
 {
@@ -79,6 +81,7 @@ done:
 //! get drive list
 //!
 //! @return drive info
+//!
 DriveInfo *
 Drive::get_drive_list(void)
 {
@@ -152,12 +155,16 @@ Drive::get_drive_list(void)
 
 //! set number of heads for the drive 
 //!
+//! @param heads
+//!
+//! @return success
+//!
 bool
 Drive::setHeads(uint8_t heads)
 {
     bool status = false;
 
-    if ((heads <= 2) && (heads >= 1))
+    if ((heads == 1) || (heads == 2))
     {
         heads_m = heads;
         status = true;
@@ -172,6 +179,7 @@ Drive::setHeads(uint8_t heads)
 //! @param tpi
 //!
 //! @return success
+//!
 bool
 Drive::setTpi(uint8_t tpi)
 {
@@ -192,6 +200,7 @@ Drive::setTpi(uint8_t tpi)
 //! @param rpm
 //!
 //! return success
+//!
 bool
 Drive::setRpm(uint16_t rpm)
 {

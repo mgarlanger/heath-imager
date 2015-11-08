@@ -1,0 +1,255 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="classRawTrack">
+<title>RawTrack class Reference</title>
+<para>Inheritance diagram for RawTrack</para>
+<para>
+    <figure>
+        <title>Inheritance graph</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="classRawTrack__inherit__graph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+<para>Collaboration diagram for RawTrack</para>
+<para>
+    <figure>
+        <title>Collaboration graph</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="classRawTrack__coll__graph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const unsigned char headerSize_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Private Attributes</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>std::vector&lt; RawSector * &gt; sectors_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t side_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t track_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint32_t size_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <link linkend="classRawTrack_1a0cbbfccb5147d2bab4b7f993729dad2c">RawTrack</link> (
+uint8_t side, uint8_t track)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <link linkend="classRawTrack_1a85a059917e73c541b9823ef9a85d5f76">RawTrack</link> (
+uint8_t * buf, uint32_t size, uint32_t &amp; length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <link linkend="classRawTrack_1a5db4243f25876da1d313e585905f9af9">~RawTrack</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>bool <link linkend="classRawTrack_1ab401f274eed5183474c82fca1c00716a">addRawSector</link> (
+<link linkend="classRawSector">RawSector</link> * sector)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>bool <link linkend="classRawTrack_1aa88642dea527ea5af9dc076d58bb0b2e">writeToFile</link> (
+std::ofstream &amp; file)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Field Documentation</title>
+        </section>
+            <section xml:id="classRawTrack_1a0cbbfccb5147d2bab4b7f993729dad2c">
+                <title>RawTrack::RawTrack (uint8_t side, uint8_t track)</title> <emphasis></emphasis>
+                
+<para>Constructor <link linkend="classRawTrack">RawTrack</link></para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>side</entry>
+                                <entry>
+<para>floppy disk side for this track </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>track</entry>
+                                <entry>
+<para>track number </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classRawTrack_1a85a059917e73c541b9823ef9a85d5f76">
+                <title>RawTrack::RawTrack (uint8_t *buf, uint32_t size, uint32_t &amp;length)</title> <emphasis></emphasis>
+                
+<para>constructor if data block already exists</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>- data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>- size of buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para>- total block length </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classRawTrack_1a5db4243f25876da1d313e585905f9af9">
+                <title>RawTrack::~RawTrack ()</title> <emphasis></emphasis>
+                
+<para>Destructor </para>
+
+            </section>
+            <section xml:id="classRawTrack_1ab401f274eed5183474c82fca1c00716a">
+                <title>bool RawTrack::addRawSector (RawSector *sector)</title> <emphasis></emphasis>
+                
+<para>addRawSector</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>sector</entry>
+                                <entry>
+<para>pointer to raw sector</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classRawTrack_1aa88642dea527ea5af9dc076d58bb0b2e">
+                <title>bool RawTrack::writeToFile (std::ofstream &amp;file)</title> <emphasis></emphasis>
+                
+<para>writeToFile</para>
+
+<para>writes the raw track to a file</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>file</entry>
+                                <entry>
+<para>ofstream for file</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+</section>

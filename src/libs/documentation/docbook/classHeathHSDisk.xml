@@ -1,0 +1,938 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="classHeathHSDisk">
+<title>HeathHSDisk class Reference</title>
+<para>Inheritance diagram for HeathHSDisk</para>
+<para>
+    <figure>
+        <title>Inheritance graph</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="classHeathHSDisk__inherit__graph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+<para>Collaboration diagram for HeathHSDisk</para>
+<para>
+    <figure>
+        <title>Collaboration graph</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="classHeathHSDisk__coll__graph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+        <section>
+            <title>Private Attributes</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>BYTE maxSide_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>BYTE maxTrack_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>BYTE tpi_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>WORD speed_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>WORD bitcellTiming_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const WORD sectorBytes_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const WORD sectorRawBytes_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <link linkend="classHeathHSDisk_1a9e8fc6e7f6f73358a3549e65d7bc5329">HeathHSDisk</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> sides, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> tracks, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> tpi, <link linkend="hi__types_8h_1ab24077addd3b7b13e086987ff296552c">WORD</link> rpm)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="classHeathHSDisk_1a02451f9821ae7be158fba6f016ea7104">~HeathHSDisk</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classHeathHSDisk_1ab7abec89aef5dd0ae8ed8b104a5b8b3c">minTrack</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classHeathHSDisk_1ae455573864dd89853134a95cbc2893a7">maxTrack</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1ab24077addd3b7b13e086987ff296552c">WORD</link> <link linkend="classHeathHSDisk_1a36d5d61fd38847d4c134d90ae8e510f0">rpm</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1ab24077addd3b7b13e086987ff296552c">WORD</link> <link linkend="classHeathHSDisk_1a796caffc99e5048a709a2703a430a0df">minSpeed</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classHeathHSDisk_1a02d2101b06ef466dc1e0a42cf41da594">minSide</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classHeathHSDisk_1a585c615a67138ba4a0321476b2871954">maxSide</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual void <link linkend="classHeathHSDisk_1aa8c5e98209dc52d1e1aa0b8708801a2d">setSpeed</link> (
+<link linkend="hi__types_8h_1ab24077addd3b7b13e086987ff296552c">WORD</link> speed)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classHeathHSDisk_1a66a18549377bf44ed5881e1ccc2777c6">minSector</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> side)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classHeathHSDisk_1ab5f90b398c2a36cd2c02240d3f844fe4">maxSector</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> side)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classHeathHSDisk_1a4e239f96246529917c1dd93b60d827f1">tpi</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classHeathHSDisk_1a37b6a763a55b32cc7ea715ba0c607500">density</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1ab24077addd3b7b13e086987ff296552c">WORD</link> <link linkend="classHeathHSDisk_1a6aa8ad6cc4087ac4f4255e24622686c9">sectorBytes</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> side, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> sector)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1ab24077addd3b7b13e086987ff296552c">WORD</link> <link linkend="classHeathHSDisk_1a42c16048e90d634b04732a8f9860b099">sectorRawBytes</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> side, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> sector)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1ab24077addd3b7b13e086987ff296552c">WORD</link> <link linkend="classHeathHSDisk_1a9aed8f4c25789771be4319da95c935ef">trackBytes</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> side, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1ab24077addd3b7b13e086987ff296552c">WORD</link> <link linkend="classHeathHSDisk_1aa7ac6b9c34da976352196b559aa42426">trackRawBytes</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> side, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classHeathHSDisk_1a0fa1e73a54c10657388f4739631832fb">physicalTrack</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual int <link linkend="classHeathHSDisk_1aacdbaa5d65b123852e743f2579f38cda">readSector</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> * buffer, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> * rawBuffer, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> side, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> sector)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classHeathHSDisk_1aecbd15c4883c1ecbd5f10c472b98e4b5">setSides</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> sides)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classHeathHSDisk_1a5b18d456e9b63e72e9d4c5ac41bc7dd2">setTracks</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> tracks)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classDisk_1afeeca1516865154ea3fa3380a784e0c9">numTracks</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classDisk_1aacfb8782312379d5d6bc65d3c852d864">numSides</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="classDisk_1a06365b69899e40c025086108ce433376">numSectors</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> side)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual void <link linkend="classDisk_1a01a51ea25554387f047fb474c0814d53">genBestReadOrder</link> (
+<link linkend="disk_8h_1structSectorList">SectorList</link> * out, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> side)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static int <link linkend="classHeathHSDisk_1ae95b449d97e9d6e934b5205cadcec8e8">defaultSectorBytes</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static int <link linkend="classHeathHSDisk_1a4cb077c273a6d7f7190faa8cbfcebd3f">defaultSectorRawBytes</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="classDisk_1a2eaa045357515c1586d007fb0698fce3">Encoding</link> {
+<link linkend="classDisk_1a2eaa045357515c1586d007fb0698fce3aa084cd170865b3fb964438c910218f39">enc_FM</link>,
+<link linkend="classDisk_1a2eaa045357515c1586d007fb0698fce3ad15fdfc3591bb7e8122b33de9f446aaa">enc_MFM</link>
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Field Documentation</title>
+        </section>
+            <section xml:id="classHeathHSDisk_1a9e8fc6e7f6f73358a3549e65d7bc5329">
+                <title>HeathHSDisk::HeathHSDisk (BYTE sides, BYTE tracks, BYTE tpi, WORD rpm)</title> <emphasis></emphasis>
+                
+<para>constructor</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>sides</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>tracks</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>tpi</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>rpm</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classHeathHSDisk_1a02451f9821ae7be158fba6f016ea7104">
+                <title>HeathHSDisk::~HeathHSDisk ()</title> <emphasis></emphasis>
+                
+<para>destructor </para>
+
+            </section>
+            <section xml:id="classHeathHSDisk_1ab7abec89aef5dd0ae8ed8b104a5b8b3c">
+                <title>BYTE HeathHSDisk::minTrack (void)</title> <emphasis></emphasis>
+                
+<para>return minimum track number</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>track number </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classHeathHSDisk_1ae455573864dd89853134a95cbc2893a7">
+                <title>BYTE HeathHSDisk::maxTrack (void)</title> <emphasis></emphasis>
+                
+<para>return maximum track number</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>track number </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classHeathHSDisk_1a36d5d61fd38847d4c134d90ae8e510f0">
+                <title>WORD HeathHSDisk::rpm (void)</title> <emphasis></emphasis>
+                
+<para>return RPM - rotations per minute</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>speed </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classHeathHSDisk_1a796caffc99e5048a709a2703a430a0df">
+                <title>WORD HeathHSDisk::minSpeed (void)</title> <emphasis></emphasis>
+                
+<para>return minimum speed</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>speed </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classHeathHSDisk_1a02d2101b06ef466dc1e0a42cf41da594">
+                <title>BYTE HeathHSDisk::minSide (void)</title> <emphasis></emphasis>
+                
+<para>return minimum side number</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>side number </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classHeathHSDisk_1a585c615a67138ba4a0321476b2871954">
+                <title>BYTE HeathHSDisk::maxSide (void)</title> <emphasis></emphasis>
+                
+<para>return maximum side number</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>side number </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classHeathHSDisk_1aa8c5e98209dc52d1e1aa0b8708801a2d">
+                <title>void HeathHSDisk::setSpeed (WORD speed)</title> <emphasis></emphasis>
+                
+<para>set drive rpm</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>rpm</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classHeathHSDisk_1a66a18549377bf44ed5881e1ccc2777c6">
+                <title>BYTE HeathHSDisk::minSector (BYTE track, BYTE side)</title> <emphasis></emphasis>
+                
+<para>return minimum sector number</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>sector number </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classHeathHSDisk_1ab5f90b398c2a36cd2c02240d3f844fe4">
+                <title>BYTE HeathHSDisk::maxSector (BYTE track, BYTE side)</title> <emphasis></emphasis>
+                
+<para>return maximum sector number</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>sector number </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classHeathHSDisk_1a4e239f96246529917c1dd93b60d827f1">
+                <title>BYTE HeathHSDisk::tpi (void)</title> <emphasis></emphasis>
+                
+<para>return TPI - tracks per inch</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>tpi </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classHeathHSDisk_1a37b6a763a55b32cc7ea715ba0c607500">
+                <title>BYTE HeathHSDisk::density (void)</title> <emphasis></emphasis>
+                
+<para>return density</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>density </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classHeathHSDisk_1a6aa8ad6cc4087ac4f4255e24622686c9">
+                <title>WORD HeathHSDisk::sectorBytes (BYTE side, BYTE track, BYTE sector)</title> <emphasis></emphasis>
+                
+<para>return the number of bytes per sector</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>side</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>track</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>sector</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>number of bytes </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classHeathHSDisk_1a42c16048e90d634b04732a8f9860b099">
+                <title>WORD HeathHSDisk::sectorRawBytes (BYTE side, BYTE track, BYTE sector)</title> <emphasis></emphasis>
+                
+<para>return the number of bytes per raw sector</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>side</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>track</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>sector</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>number of bytes </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classHeathHSDisk_1a9aed8f4c25789771be4319da95c935ef">
+                <title>WORD HeathHSDisk::trackBytes (BYTE side, BYTE track)</title> <emphasis></emphasis>
+                
+<para>returns the number of bytes for a track</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>head</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>track</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>number of bytes </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classHeathHSDisk_1aa7ac6b9c34da976352196b559aa42426">
+                <title>WORD HeathHSDisk::trackRawBytes (BYTE side, BYTE track)</title> <emphasis></emphasis>
+                
+<para>returns the number of byte for a raw track</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>head</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>track</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>number of bytes </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classHeathHSDisk_1a0fa1e73a54c10657388f4739631832fb">
+                <title>BYTE HeathHSDisk::physicalTrack (BYTE track)</title> <emphasis></emphasis>
+                
+<para>return physical track number to seek to based on type of disk <para><link linkend="todo_1_todo000014">Todo</link> 
+<para>handle 40 track drives</para>
+</para></para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>physical track number </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classHeathHSDisk_1aacdbaa5d65b123852e743f2579f38cda">
+                <title>int HeathHSDisk::readSector (BYTE *buffer, BYTE *rawBuffer, BYTE side, BYTE track, BYTE sector)</title> <emphasis></emphasis>
+                
+<para>read a given sector of a disk through the <link linkend="classFC5025">FC5025</link> device</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buffer</entry>
+                                <entry>
+<para>buffer to write the processed sector </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>rawBuffer</entry>
+                                <entry>
+<para>buffer to write the raw sector </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>side</entry>
+                                <entry>
+<para>disk side to read </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>track</entry>
+                                <entry>
+<para>track to read </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>sector</entry>
+                                <entry>
+<para>sector to read</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>status </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classHeathHSDisk_1aecbd15c4883c1ecbd5f10c472b98e4b5">
+                <title>bool HeathHSDisk::setSides (BYTE sides)</title> <emphasis></emphasis>
+                
+<para>set number of sides for the disk</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>sides</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classHeathHSDisk_1a5b18d456e9b63e72e9d4c5ac41bc7dd2">
+                <title>bool HeathHSDisk::setTracks (BYTE tracks)</title> <emphasis></emphasis>
+                
+<para>set the number of tracks for the disk</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>tracks</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classDisk_1afeeca1516865154ea3fa3380a784e0c9">
+                <title>BYTE Disk::numTracks (void)</title> <emphasis></emphasis>
+                
+<para>return the number of tracks for the disk</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>number of tracks </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classDisk_1aacfb8782312379d5d6bc65d3c852d864">
+                <title>BYTE Disk::numSides (void)</title> <emphasis></emphasis>
+                
+<para>return the number of sides for the disk</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>number of sides </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classDisk_1a06365b69899e40c025086108ce433376">
+                <title>BYTE Disk::numSectors (BYTE track, BYTE side)</title> <emphasis></emphasis>
+                
+<para>return the number of sectors</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>track</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>side</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>number of sectors </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classDisk_1a01a51ea25554387f047fb474c0814d53">
+                <title>void Disk::genBestReadOrder (SectorList *out, BYTE track, BYTE side)</title> <emphasis></emphasis>
+                
+<para>get the best read order for the given track and side</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>out</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>track</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>side</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classHeathHSDisk_1ae95b449d97e9d6e934b5205cadcec8e8">
+                <title>static int HeathHSDisk::defaultSectorBytes ()</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classHeathHSDisk_1a4cb077c273a6d7f7190faa8cbfcebd3f">
+                <title>static int HeathHSDisk::defaultSectorRawBytes ()</title> <emphasis></emphasis>
+                
+            </section>
+            <section xml:id="classDisk_1a2eaa045357515c1586d007fb0698fce3">
+               <title>enum Encoding </title>
+               
+               <formalpara>
+                    <title>Enumerator:</title>
+                    <variablelist>
+                        <varlistentry xml:id="classDisk_1a2eaa045357515c1586d007fb0698fce3aa084cd170865b3fb964438c910218f39">
+                            <term>enc_FM</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry xml:id="classDisk_1a2eaa045357515c1586d007fb0698fce3ad15fdfc3591bb7e8122b33de9f446aaa">
+                            <term>enc_MFM</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                     </variablelist>
+                </formalpara>
+                <para>Definition at line 22 of file disk.h
+                    <computeroutput><literallayout>
+{
+enc_FM, 
+enc_MFM, 
+}Encoding;
+                    </literallayout></computeroutput>
+                </para>
+            </section>
+</section>

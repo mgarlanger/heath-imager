@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="disk__util_8cpp">
+    <title>disk_util.cpp File Reference</title>
+    <programlisting>#include &quot;disk_util.h&quot;</programlisting>
+    <programlisting>#include &lt;cstring&gt;</programlisting>
+<para>Include dependency diagram for disk_util.cpp</para>
+<para>
+    <figure>
+        <title>Dependency diagram</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="disk__util_8cpp__incl.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+<para>Included by dependency diagram for disk_util.cpp</para>
+<para>
+    <figure>
+        <title>Dependency diagram</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="disk__util_8cpp__dep__incl.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+        <section>
+            <title>Variables</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>const char * <link linkend="disk__util_8cpp_1af44175e8046a0769f7debcbb3304c87e">errorStrings</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="disk__util_8cpp_1a2da3b15c1d102f9c97ddb435b450a478">BitReverseTable</link><para><emphasis>Pre-calculated array to reverse all the bits in a byte.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="disk__util_8cpp_1a71c4de342bd8034b53d392ee37b5ec97">updateChecksum</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> checksum, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> val)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="disk__util_8cpp_1a94517a9973c483e78d6d2a9b7ad721a9">alignSector</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> * out, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> * in, <link linkend="hi__types_8h_1ab24077addd3b7b13e086987ff296552c">WORD</link> length, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> syncByte)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="disk__util_8cpp_1a921b76ac624c5bb49172b4876bb4ca5c">reverseChar</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> val)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> <link linkend="disk__util_8cpp_1a6fe02d4965ce98f778a023f33b99a653">shiftByte</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> first, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> second, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> shift)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="disk__util_8cpp_1a6ca0336006e5d440e0adca49fe90a8bd">processSector</link> (
+<link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> * buffer, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> * out, <link linkend="hi__types_8h_1ab24077addd3b7b13e086987ff296552c">WORD</link> length, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> side, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> track, <link linkend="hi__types_8h_1aae9749d96e15ccb4f482dd5f55d98f9b">BYTE</link> sector)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>Processes disk related data blocks </para>
+    <para>Definition in file /home/mgarlanger/diskimaging/fc5025/heath-imager/src/libs/disk_util.cpp</para>
+    </simplesect>
+</section>

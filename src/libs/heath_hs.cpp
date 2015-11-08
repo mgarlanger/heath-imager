@@ -76,6 +76,7 @@ HeathHSDisk::minSpeed(void)
 //! return RPM - rotations per minute
 //!
 //! @return speed
+//!
 WORD
 HeathHSDisk::rpm(void)
 {

@@ -1,0 +1,6 @@
+<map id="FC5025::inst" name="FC5025::inst">
+<area shape="rect" id="node2" href="$classDrive.html#a4f4e8bf510bd82b4440e89426ee56122" title="Drive::Drive" alt="" coords="192,5,284,32"/>
+<area shape="rect" id="node3" href="$classDrive.html#a9a9f96b1b0b4e841567ccf9fc2d60aaa" title="Drive::~Drive" alt="" coords="188,56,288,83"/>
+<area shape="rect" id="node4" href="$classDrive.html#a0f266ed4ce8f84a557be46f24c55063c" title="Drive::get_drive_list" alt="" coords="169,107,307,133"/>
+<area shape="rect" id="node5" href="$classHeathHSDisk.html#aacdbaa5d65b123852e743f2579f38cda" title="HeathHSDisk::readSector" alt="" coords="151,157,325,184"/>
+</map>

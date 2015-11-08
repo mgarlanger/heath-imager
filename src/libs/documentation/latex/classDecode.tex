@@ -1,0 +1,106 @@
+\hypertarget{classDecode}{}\section{Decode Class Reference}
+\label{classDecode}\index{Decode@{Decode}}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int \hyperlink{classDecode_a287c55f9f9888c433d950c08254c1efe}{decode\+F\+M} (\hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} $\ast$decoded, \hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} $\ast$fm\+Encoded, unsigned int count)
+\item 
+static int \hyperlink{classDecode_ab154f17b196d8d2f3681756300da2f30}{decode\+M\+F\+M} (\hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} $\ast$decoded, \hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} $\ast$fm\+Encoded, unsigned int count)
+\end{DoxyCompactItemize}
+\subsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classDecode_a7f036dad7d20d6a279e48625eb635708}{}enum {\bfseries State} \{ {\bfseries none}, 
+{\bfseries hi}, 
+{\bfseries lo}
+ \}\label{classDecode_a7f036dad7d20d6a279e48625eb635708}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 12 of file decode.\+h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classDecode_a287c55f9f9888c433d950c08254c1efe}{}\index{Decode@{Decode}!decode\+F\+M@{decode\+F\+M}}
+\index{decode\+F\+M@{decode\+F\+M}!Decode@{Decode}}
+\subsubsection[{decode\+F\+M}]{\setlength{\rightskip}{0pt plus 5cm}int Decode\+::decode\+F\+M (
+\begin{DoxyParamCaption}
+\item[{{\bf B\+Y\+T\+E} $\ast$}]{decoded, }
+\item[{{\bf B\+Y\+T\+E} $\ast$}]{fm\+Encoded, }
+\item[{unsigned int}]{count}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{classDecode_a287c55f9f9888c433d950c08254c1efe}
+\hyperlink{classDecode_a287c55f9f9888c433d950c08254c1efe}{decode\+F\+M()}
+
+
+\begin{DoxyParams}{Parameters}
+{\em decode} & pointer to processed buffer \\
+\hline
+{\em fm\+Encoded} & pointer to raw buffer \\
+\hline
+{\em count} & number of bytes in the final processed file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of errors (currently returns zero)
+\end{DoxyReturn}
+\begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000001}{Todo}]change count from bytes in decoded buffer to bytes in raw buffer. \end{DoxyRefDesc}
+
+
+Definition at line 24 of file decode.\+cpp.
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classDecode_a287c55f9f9888c433d950c08254c1efe_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classDecode_ab154f17b196d8d2f3681756300da2f30}{}\index{Decode@{Decode}!decode\+M\+F\+M@{decode\+M\+F\+M}}
+\index{decode\+M\+F\+M@{decode\+M\+F\+M}!Decode@{Decode}}
+\subsubsection[{decode\+M\+F\+M}]{\setlength{\rightskip}{0pt plus 5cm}int Decode\+::decode\+M\+F\+M (
+\begin{DoxyParamCaption}
+\item[{{\bf B\+Y\+T\+E} $\ast$}]{decoded, }
+\item[{{\bf B\+Y\+T\+E} $\ast$}]{mfm\+Encoded, }
+\item[{unsigned int}]{count}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{classDecode_ab154f17b196d8d2f3681756300da2f30}
+\hyperlink{classDecode_ab154f17b196d8d2f3681756300da2f30}{decode\+M\+F\+M()}
+
+
+\begin{DoxyParams}{Parameters}
+{\em decode} & pointer to processed buffer \\
+\hline
+{\em fm\+Encoded} & pointer to raw buffer \\
+\hline
+{\em count} & number of bytes in the final processed file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of errors (currently returns zero)
+\end{DoxyReturn}
+\begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000002}{Todo}]change count from bytes in decoded buffer to bytes in raw buffer. 
+
+implement \end{DoxyRefDesc}
+
+
+Definition at line 150 of file decode.\+cpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{decode_8h}{decode.\+h}\item 
+\hyperlink{decode_8cpp}{decode.\+cpp}\end{DoxyCompactItemize}

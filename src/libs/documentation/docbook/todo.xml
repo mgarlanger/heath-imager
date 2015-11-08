@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Todo List</title>
+
+<para><variablelist>
+<varlistentry><term><anchor id="todo_1_todo000003"/>globalScope&gt; Global <link linkend="disk__util_8h_1ab8a7dd8f773ae75ecfca3828e48c0308">alignSector</link>  (BYTE *out, BYTE *in, WORD length, BYTE syncByte=PrefixSyncChar_c)</term>
+<listitem>
+<para>- change to just 320 and try to get more out even if it is not complete. </para>
+
+<para>determine if we should write this data or just put 0s.  </para>
+</listitem></varlistentry>
+<varlistentry><term><anchor id="todo_1_todo000003"/>globalScope&gt; Global <link linkend="disk__util_8h_1ab8a7dd8f773ae75ecfca3828e48c0308">alignSector</link>  (BYTE *out, BYTE *in, WORD length, BYTE syncByte=PrefixSyncChar_c)</term>
+<listitem>
+<para>- change to just 320 and try to get more out even if it is not complete. </para>
+
+<para>determine if we should write this data or just put 0s.  </para>
+</listitem></varlistentry>
+<varlistentry><term><anchor id="todo_1_todo000001"/>Global <link linkend="classDecode_1a287c55f9f9888c433d950c08254c1efe">Decode::decodeFM</link>  (BYTE *decoded, BYTE *fmEncoded, unsigned int count)</term>
+<listitem>
+<para>change count from bytes in decoded buffer to bytes in raw buffer.  </para>
+</listitem></varlistentry>
+<varlistentry><term><anchor id="todo_1_todo000002"/>Global <link linkend="classDecode_1ab154f17b196d8d2f3681756300da2f30">Decode::decodeMFM</link>  (BYTE *decoded, BYTE *fmEncoded, unsigned int count)</term>
+<listitem>
+<para>change count from bytes in decoded buffer to bytes in raw buffer. </para>
+
+<para>implement  </para>
+</listitem></varlistentry>
+<varlistentry><term><anchor id="todo_1_todo000012"/>Global <link linkend="classH17Disk_1a498d909fe673835841cb862efc9d2589">H17Disk::addRawSectorToDataBlock</link>  (uint8_t side, uint8_t track, uint8_t sector, uint8_t *buf, uint16_t length)</term>
+<listitem>
+<para>implememnt  </para>
+</listitem></varlistentry>
+<varlistentry><term><anchor id="todo_1_todo000011"/>Global <link linkend="classH17Disk_1a49978c35eab8155da4475519bf5e6e78">H17Disk::addSectorToDataBlock</link>  (uint8_t side, uint8_t track, uint8_t sector, uint8_t *buf, uint16_t length)</term>
+<listitem>
+<para>implememnt  </para>
+</listitem></varlistentry>
+<varlistentry><term><anchor id="todo_1_todo000013"/>Global <link linkend="classH17Disk_1a0c6e6f10c3dceff61a31827a25e32043">H17Disk::getSectorData</link>  (unsigned char side, unsigned char track, unsigned char sector)</term>
+<listitem>
+<para>needs to return both the pointer and length. </para>
+
+<para>implememnt  </para>
+</listitem></varlistentry>
+<varlistentry><term><anchor id="todo_1_todo000010"/>Global <link linkend="classH17Disk_1ab5299643ce037fb442e0ccb21cb80c5f">H17Disk::loadBlock</link>  (unsigned char buf[], unsigned int size, unsigned int &amp;length)</term>
+<listitem>
+<para>check to see if mandatory , and skip the data.  </para>
+</listitem></varlistentry>
+<varlistentry><term><anchor id="todo_1_todo000009"/>Global <link linkend="classH17Disk_1a29f4d35fba24f0d9cee37bcb02120a6c">H17Disk::validateBlock</link>  (unsigned char buf[], unsigned int size, unsigned int &amp;length)</term>
+<listitem>
+<para>check to see if mandatory , and skip the data.  </para>
+</listitem></varlistentry>
+<varlistentry><term><anchor id="todo_1_todo000007"/>Global <link linkend="classH17DiskFlagsBlock_1a335188fe3afe1ac2dea9bd64da8bd498">H17DiskFlagsBlock::H17DiskFlagsBlock</link>  (uint8_t buf[], uint32_t size)</term>
+<listitem>
+<para>verify the default values </para>
+
+<para>handle flag block larger than 3, - check mandatory flag.  </para>
+</listitem></varlistentry>
+<varlistentry><term><anchor id="todo_1_todo000006"/>Global <link linkend="classH17DiskFlagsBlock_1ab22af88da1209fa46912ae9d59566299">H17DiskFlagsBlock::H17DiskFlagsBlock</link>  (bool writeProtect, uint8_t distribution, uint8_t trackSource)</term>
+<listitem>
+<para>verify the default values  </para>
+</listitem></varlistentry>
+<varlistentry><term><anchor id="todo_1_todo000014"/>Global <link linkend="classHeathHSDisk_1a0fa1e73a54c10657388f4739631832fb">HeathHSDisk::physicalTrack</link>  (BYTE track)</term>
+<listitem>
+<para>handle 40 track drives </para>
+</listitem></varlistentry>
+<varlistentry><term><anchor id="todo_1_todo000005"/>globalScope&gt; Global <link linkend="disk__util_8h_1a6fe02d4965ce98f778a023f33b99a653">shiftByte</link>  (BYTE first, BYTE second, BYTE shift)</term>
+<listitem>
+<para>update the processing. </para>
+</listitem></varlistentry>
+</variablelist>
+</para>
+
+</chapter>

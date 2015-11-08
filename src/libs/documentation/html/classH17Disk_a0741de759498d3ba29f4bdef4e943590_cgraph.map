@@ -1,0 +1,13 @@
+<map id="H17Disk::loadBuffer" name="H17Disk::loadBuffer">
+<area shape="rect" id="node2" href="$classH17Disk.html#a96fe20794510f9235881fd62497f598f" title="H17Disk::loadHeader" alt="" coords="193,157,340,184"/>
+<area shape="rect" id="node3" href="$classH17Disk.html#ab5299643ce037fb442e0ccb21cb80c5f" title="H17Disk::loadBlock" alt="" coords="197,208,336,235"/>
+<area shape="rect" id="node4" href="$classH17Disk.html#a4c484465d1c422d5ce5b4661bc72dd3a" title="H17Disk::loadDiskFormatBlock" alt="" coords="388,5,595,32"/>
+<area shape="rect" id="node5" href="$classH17Disk.html#a8dfa864cc65f81413d3b518c6c1e67e6" title="H17Disk::loadFlagsBlock" alt="" coords="406,56,577,83"/>
+<area shape="rect" id="node6" href="$classH17Disk.html#a3a4c239c85de3b29d6d89c8854c8ed9b" title="H17Disk::loadLabelBlock" alt="" coords="407,107,576,133"/>
+<area shape="rect" id="node7" href="$classH17Disk.html#a4b28a58f502aedd83052dbbba759ba28" title="H17Disk::loadCommentBlock" alt="" coords="394,157,589,184"/>
+<area shape="rect" id="node8" href="$classH17Disk.html#a06965b624586dda02e6a1cf7ebf53984" title="H17Disk::loadDateBlock" alt="" coords="408,208,575,235"/>
+<area shape="rect" id="node9" href="$classH17Disk.html#a6183e4e35db3b2ae16a9322f377556e4" title="H17Disk::loadImagerBlock" alt="" coords="402,259,581,285"/>
+<area shape="rect" id="node10" href="$classH17Disk.html#aead615d628b0e4c68f69bd746aeabdb1" title="H17Disk::loadProgramBlock" alt="" coords="398,309,585,336"/>
+<area shape="rect" id="node11" href="$classH17Disk.html#a36b7999d189ddc7dc05ba9adcbf3b946" title="H17Disk::loadDataBlock" alt="" coords="408,360,575,387"/>
+<area shape="rect" id="node12" href="$classH17Disk.html#a31ecffc2c61fe921e9a2ef4018ce5c99" title="H17Disk::loadRawDataBlock" alt="" coords="395,411,588,437"/>
+</map>

@@ -1,0 +1,416 @@
+\hypertarget{disk__util_8h}{}\section{disk\+\_\+util.\+h File Reference}
+\label{disk__util_8h}\index{disk\+\_\+util.\+h@{disk\+\_\+util.\+h}}
+{\ttfamily \#include \char`\"{}hi\+\_\+types.\+h\char`\"{}}\\*
+Include dependency graph for disk\+\_\+util.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=142pt]{disk__util_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{disk__util_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \\*
+\hyperlink{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55ba5a73f5651f9b6ff314dafa9ff2a24d66}{No\+\_\+\+Error} = 0, 
+\hyperlink{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55ba305a91bd293875e004f62ea91729bf0b}{Err\+\_\+\+Read\+Error} = 1, 
+\hyperlink{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55baefe27c0d69ae79692e690938d13c9a48}{Err\+\_\+\+Invalid\+Clocks\+Bits} = 2, 
+\hyperlink{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55ba23a9ed734cb70dc16e411835c824b326}{Err\+\_\+\+Missing\+Header\+Sync} = 3, 
+\\*
+\hyperlink{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55ba89d94aece5e4bd48493a34c9c390df12}{Err\+\_\+\+Wrong\+Track} = 4, 
+\hyperlink{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55ba52b040f939419497de055486559f5c8d}{Err\+\_\+\+Invalid\+Sector} = 5, 
+\hyperlink{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55bad9de3fba0e06a36d78a3ee3dc45dbd6d}{Err\+\_\+\+Invalid\+Header\+Checksum} = 6, 
+\hyperlink{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55baae736a570b476bd248a9a37cd4b3c6dc}{Err\+\_\+\+Missing\+Data\+Sync} = 7, 
+\\*
+\hyperlink{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55ba4fcbda9aa84b4418df24eb8437239ab8}{Err\+\_\+\+Invalid\+Data\+Checksum} = 8
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{disk__util_8h_a6ca0336006e5d440e0adca49fe90a8bd}{process\+Sector} (\hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} $\ast$buffer, \hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} $\ast$out, \hyperlink{hi__types_8h_ab24077addd3b7b13e086987ff296552c}{W\+O\+R\+D} length, \hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} side, \hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} track, \hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} sector)
+\item 
+int \hyperlink{disk__util_8h_ab8a7dd8f773ae75ecfca3828e48c0308}{align\+Sector} (\hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} $\ast$out, \hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} $\ast$in, \hyperlink{hi__types_8h_ab24077addd3b7b13e086987ff296552c}{W\+O\+R\+D} length, \hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} sync\+Byte=\hyperlink{disk__util_8h_a9ae5488cd30a10566ed8841e5f0020cc}{Prefix\+Sync\+Char\+\_\+c})
+\item 
+\hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} \hyperlink{disk__util_8h_a71c4de342bd8034b53d392ee37b5ec97}{update\+Checksum} (\hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} checksum, \hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} val)
+\item 
+\hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} \hyperlink{disk__util_8h_a921b76ac624c5bb49172b4876bb4ca5c}{reverse\+Char} (\hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} val)
+\item 
+\hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} \hyperlink{disk__util_8h_a6fe02d4965ce98f778a023f33b99a653}{shift\+Byte} (\hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} first, \hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} second, \hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} shift)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{disk__util_8h_af44175e8046a0769f7debcbb3304c87e}{}const char $\ast$ {\bfseries error\+Strings} \mbox{[}$\,$\mbox{]}\label{disk__util_8h_af44175e8046a0769f7debcbb3304c87e}
+
+\item 
+const \hyperlink{hi__types_8h_aae9749d96e15ccb4f482dd5f55d98f9b}{B\+Y\+T\+E} \hyperlink{disk__util_8h_a9ae5488cd30a10566ed8841e5f0020cc}{Prefix\+Sync\+Char\+\_\+c} = 0xfd
+\begin{DoxyCompactList}\small\item\em expected sync character for Heath hard-\/sectored \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Processing imaged data blocks 
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55b}{}\subsubsection[{anonymous enum}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}\label{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55b}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{No\+\_\+\+Error@{No\+\_\+\+Error}!disk\+\_\+util.\+h@{disk\+\_\+util.\+h}}\index{disk\+\_\+util.\+h@{disk\+\_\+util.\+h}!No\+\_\+\+Error@{No\+\_\+\+Error}}\item[{\em 
+\hypertarget{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55ba5a73f5651f9b6ff314dafa9ff2a24d66}{}No\+\_\+\+Error\label{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55ba5a73f5651f9b6ff314dafa9ff2a24d66}
+}]No error decoding the sector. \index{Err\+\_\+\+Read\+Error@{Err\+\_\+\+Read\+Error}!disk\+\_\+util.\+h@{disk\+\_\+util.\+h}}\index{disk\+\_\+util.\+h@{disk\+\_\+util.\+h}!Err\+\_\+\+Read\+Error@{Err\+\_\+\+Read\+Error}}\item[{\em 
+\hypertarget{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55ba305a91bd293875e004f62ea91729bf0b}{}Err\+\_\+\+Read\+Error\label{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55ba305a91bd293875e004f62ea91729bf0b}
+}]Error from the \hyperlink{classFC5025}{F\+C5025}, did not provide data back. \index{Err\+\_\+\+Invalid\+Clocks\+Bits@{Err\+\_\+\+Invalid\+Clocks\+Bits}!disk\+\_\+util.\+h@{disk\+\_\+util.\+h}}\index{disk\+\_\+util.\+h@{disk\+\_\+util.\+h}!Err\+\_\+\+Invalid\+Clocks\+Bits@{Err\+\_\+\+Invalid\+Clocks\+Bits}}\item[{\em 
+\hypertarget{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55baefe27c0d69ae79692e690938d13c9a48}{}Err\+\_\+\+Invalid\+Clocks\+Bits\label{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55baefe27c0d69ae79692e690938d13c9a48}
+}]Could not extract the data from the clocks. \index{Err\+\_\+\+Missing\+Header\+Sync@{Err\+\_\+\+Missing\+Header\+Sync}!disk\+\_\+util.\+h@{disk\+\_\+util.\+h}}\index{disk\+\_\+util.\+h@{disk\+\_\+util.\+h}!Err\+\_\+\+Missing\+Header\+Sync@{Err\+\_\+\+Missing\+Header\+Sync}}\item[{\em 
+\hypertarget{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55ba23a9ed734cb70dc16e411835c824b326}{}Err\+\_\+\+Missing\+Header\+Sync\label{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55ba23a9ed734cb70dc16e411835c824b326}
+}]Header sync was missing. \index{Err\+\_\+\+Wrong\+Track@{Err\+\_\+\+Wrong\+Track}!disk\+\_\+util.\+h@{disk\+\_\+util.\+h}}\index{disk\+\_\+util.\+h@{disk\+\_\+util.\+h}!Err\+\_\+\+Wrong\+Track@{Err\+\_\+\+Wrong\+Track}}\item[{\em 
+\hypertarget{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55ba89d94aece5e4bd48493a34c9c390df12}{}Err\+\_\+\+Wrong\+Track\label{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55ba89d94aece5e4bd48493a34c9c390df12}
+}]\hyperlink{classTrack}{Track} number in header does not match expected track. \index{Err\+\_\+\+Invalid\+Sector@{Err\+\_\+\+Invalid\+Sector}!disk\+\_\+util.\+h@{disk\+\_\+util.\+h}}\index{disk\+\_\+util.\+h@{disk\+\_\+util.\+h}!Err\+\_\+\+Invalid\+Sector@{Err\+\_\+\+Invalid\+Sector}}\item[{\em 
+\hypertarget{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55ba52b040f939419497de055486559f5c8d}{}Err\+\_\+\+Invalid\+Sector\label{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55ba52b040f939419497de055486559f5c8d}
+}]sector is out of range \index{Err\+\_\+\+Invalid\+Header\+Checksum@{Err\+\_\+\+Invalid\+Header\+Checksum}!disk\+\_\+util.\+h@{disk\+\_\+util.\+h}}\index{disk\+\_\+util.\+h@{disk\+\_\+util.\+h}!Err\+\_\+\+Invalid\+Header\+Checksum@{Err\+\_\+\+Invalid\+Header\+Checksum}}\item[{\em 
+\hypertarget{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55bad9de3fba0e06a36d78a3ee3dc45dbd6d}{}Err\+\_\+\+Invalid\+Header\+Checksum\label{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55bad9de3fba0e06a36d78a3ee3dc45dbd6d}
+}]header checksum is not valid \index{Err\+\_\+\+Missing\+Data\+Sync@{Err\+\_\+\+Missing\+Data\+Sync}!disk\+\_\+util.\+h@{disk\+\_\+util.\+h}}\index{disk\+\_\+util.\+h@{disk\+\_\+util.\+h}!Err\+\_\+\+Missing\+Data\+Sync@{Err\+\_\+\+Missing\+Data\+Sync}}\item[{\em 
+\hypertarget{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55baae736a570b476bd248a9a37cd4b3c6dc}{}Err\+\_\+\+Missing\+Data\+Sync\label{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55baae736a570b476bd248a9a37cd4b3c6dc}
+}]data sync missing \index{Err\+\_\+\+Invalid\+Data\+Checksum@{Err\+\_\+\+Invalid\+Data\+Checksum}!disk\+\_\+util.\+h@{disk\+\_\+util.\+h}}\index{disk\+\_\+util.\+h@{disk\+\_\+util.\+h}!Err\+\_\+\+Invalid\+Data\+Checksum@{Err\+\_\+\+Invalid\+Data\+Checksum}}\item[{\em 
+\hypertarget{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55ba4fcbda9aa84b4418df24eb8437239ab8}{}Err\+\_\+\+Invalid\+Data\+Checksum\label{disk__util_8h_a06fc87d81c62e9abb8790b6e5713c55ba4fcbda9aa84b4418df24eb8437239ab8}
+}]data checksum is not valid \end{description}
+\end{Desc}
+
+
+Definition at line 11 of file disk\+\_\+util.\+h.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{disk__util_8h_ab8a7dd8f773ae75ecfca3828e48c0308}{}\index{disk\+\_\+util.\+h@{disk\+\_\+util.\+h}!align\+Sector@{align\+Sector}}
+\index{align\+Sector@{align\+Sector}!disk\+\_\+util.\+h@{disk\+\_\+util.\+h}}
+\subsubsection[{align\+Sector}]{\setlength{\rightskip}{0pt plus 5cm}int align\+Sector (
+\begin{DoxyParamCaption}
+\item[{{\bf B\+Y\+T\+E} $\ast$}]{out, }
+\item[{{\bf B\+Y\+T\+E} $\ast$}]{in, }
+\item[{{\bf W\+O\+R\+D}}]{length, }
+\item[{{\bf B\+Y\+T\+E}}]{sync\+Byte}
+\end{DoxyParamCaption}
+)}\label{disk__util_8h_ab8a7dd8f773ae75ecfca3828e48c0308}
+Align sector based on sync bytes, aligns both the header and data blocks and start of next header, if it finds it.
+
+
+\begin{DoxyParams}{Parameters}
+{\em out} & pointer to output buffer aligned if sync bytes are pressed \\
+\hline
+{\em in} & pointer to input buffer \\
+\hline
+{\em length} & length of input buffer\\
+\hline
+\end{DoxyParams}
+Align sector data to the sync byte
+
+
+\begin{DoxyParams}{Parameters}
+{\em out} & -\/ buffer to store aligned data \\
+\hline
+{\em in} & -\/ buffer of unaligned data \\
+\hline
+{\em length} & -\/ size of buffer \\
+\hline
+{\em sync\+Byte} & -\/ byte to sync buffer\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+result 
+\end{DoxyReturn}
+\begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000003}{Todo}]
+\begin{DoxyItemize}
+\item change to just 320 and try to get more out even if it is not complete. 
+\end{DoxyItemize}\end{DoxyRefDesc}
+
+
+\begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000004}{Todo}]determine if we should write this data or just put 0s. \end{DoxyRefDesc}
+
+
+Definition at line 49 of file disk\+\_\+util.\+cpp.
+
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=343pt]{disk__util_8h_ab8a7dd8f773ae75ecfca3828e48c0308_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{disk__util_8h_ab8a7dd8f773ae75ecfca3828e48c0308_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{disk__util_8h_a6ca0336006e5d440e0adca49fe90a8bd}{}\index{disk\+\_\+util.\+h@{disk\+\_\+util.\+h}!process\+Sector@{process\+Sector}}
+\index{process\+Sector@{process\+Sector}!disk\+\_\+util.\+h@{disk\+\_\+util.\+h}}
+\subsubsection[{process\+Sector}]{\setlength{\rightskip}{0pt plus 5cm}int process\+Sector (
+\begin{DoxyParamCaption}
+\item[{{\bf B\+Y\+T\+E} $\ast$}]{buffer, }
+\item[{{\bf B\+Y\+T\+E} $\ast$}]{out, }
+\item[{{\bf W\+O\+R\+D}}]{length, }
+\item[{{\bf B\+Y\+T\+E}}]{side, }
+\item[{{\bf B\+Y\+T\+E}}]{track, }
+\item[{{\bf B\+Y\+T\+E}}]{sector}
+\end{DoxyParamCaption}
+)}\label{disk__util_8h_a6ca0336006e5d440e0adca49fe90a8bd}
+Process the sector
+
+Steps
+
+1) Align sector 2) Find header sync 3) copy out header 4) Find data sync 5) copy out data 6) update and look for next sync
+
+process a sector to by aligning based on sync bytes, and reversal of the bits in each byte
+
+
+\begin{DoxyParams}{Parameters}
+{\em buffer} & -\/ original data \\
+\hline
+{\em out} & -\/ processed sector \\
+\hline
+{\em length} & -\/ length of buffer \\
+\hline
+{\em side} & -\/ side sector was imaged from \\
+\hline
+{\em track} & -\/ track of sector \\
+\hline
+{\em sector} & -\/ sector number\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+result status 
+\end{DoxyReturn}
+
+
+Definition at line 254 of file disk\+\_\+util.\+cpp.
+
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{disk__util_8h_a6ca0336006e5d440e0adca49fe90a8bd_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{disk__util_8h_a6ca0336006e5d440e0adca49fe90a8bd_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{disk__util_8h_a921b76ac624c5bb49172b4876bb4ca5c}{}\index{disk\+\_\+util.\+h@{disk\+\_\+util.\+h}!reverse\+Char@{reverse\+Char}}
+\index{reverse\+Char@{reverse\+Char}!disk\+\_\+util.\+h@{disk\+\_\+util.\+h}}
+\subsubsection[{reverse\+Char}]{\setlength{\rightskip}{0pt plus 5cm}{\bf B\+Y\+T\+E} reverse\+Char (
+\begin{DoxyParamCaption}
+\item[{{\bf B\+Y\+T\+E}}]{val}
+\end{DoxyParamCaption}
+)}\label{disk__util_8h_a921b76ac624c5bb49172b4876bb4ca5c}
+Reverse character bits.
+
+Exchange bits 0 $<$-\/$>$ 7 1 $<$-\/$>$ 6 2 $<$-\/$>$ 5 3 $<$-\/$>$ 4
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & character to reverse the bits\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em bits} & reversed\\
+\hline
+\end{DoxyRetVals}
+reverse the bits in a byte
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & -\/ value to reverse.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the reversed byte. 
+\end{DoxyReturn}
+
+
+Definition at line 216 of file disk\+\_\+util.\+cpp.
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{disk__util_8h_a921b76ac624c5bb49172b4876bb4ca5c_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{disk__util_8h_a6fe02d4965ce98f778a023f33b99a653}{}\index{disk\+\_\+util.\+h@{disk\+\_\+util.\+h}!shift\+Byte@{shift\+Byte}}
+\index{shift\+Byte@{shift\+Byte}!disk\+\_\+util.\+h@{disk\+\_\+util.\+h}}
+\subsubsection[{shift\+Byte}]{\setlength{\rightskip}{0pt plus 5cm}{\bf B\+Y\+T\+E} shift\+Byte (
+\begin{DoxyParamCaption}
+\item[{{\bf B\+Y\+T\+E}}]{first, }
+\item[{{\bf B\+Y\+T\+E}}]{second, }
+\item[{{\bf B\+Y\+T\+E}}]{shift}
+\end{DoxyParamCaption}
+)}\label{disk__util_8h_a6fe02d4965ce98f778a023f33b99a653}
+Shift bytes to extract the next byte
+
+
+\begin{DoxyParams}{Parameters}
+{\em first} & high byte \\
+\hline
+{\em second} & low byte \\
+\hline
+{\em shift} & number of bits to shift right\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em extracted} & byte\\
+\hline
+\end{DoxyRetVals}
+\begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000005}{Todo}]update the processing. \end{DoxyRefDesc}
+
+
+return a byte from 2 original bytes, shifted by the shift value
+
+
+\begin{DoxyParams}{Parameters}
+{\em first} & -\/ first data byte \\
+\hline
+{\em second} & -\/ second data byte \\
+\hline
+{\em shift} & -\/ shift value\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+shift byte 
+\end{DoxyReturn}
+
+
+Definition at line 230 of file disk\+\_\+util.\+cpp.
+
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=242pt]{disk__util_8h_a6fe02d4965ce98f778a023f33b99a653_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{disk__util_8h_a6fe02d4965ce98f778a023f33b99a653_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{disk__util_8h_a71c4de342bd8034b53d392ee37b5ec97}{}\index{disk\+\_\+util.\+h@{disk\+\_\+util.\+h}!update\+Checksum@{update\+Checksum}}
+\index{update\+Checksum@{update\+Checksum}!disk\+\_\+util.\+h@{disk\+\_\+util.\+h}}
+\subsubsection[{update\+Checksum}]{\setlength{\rightskip}{0pt plus 5cm}{\bf B\+Y\+T\+E} update\+Checksum (
+\begin{DoxyParamCaption}
+\item[{{\bf B\+Y\+T\+E}}]{checksum, }
+\item[{{\bf B\+Y\+T\+E}}]{val}
+\end{DoxyParamCaption}
+)}\label{disk__util_8h_a71c4de342bd8034b53d392ee37b5ec97}
+Updates checksum from existing checksum and new character value
+
+
+\begin{DoxyParams}{Parameters}
+{\em checksum} & existing checksum \\
+\hline
+{\em val} & new character to add to checksum\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em new} & checksum\\
+\hline
+\end{DoxyRetVals}
+Update checksum with new data byte
+
+
+\begin{DoxyParams}{Parameters}
+{\em checksum} & -\/ existing checksum \\
+\hline
+{\em val} & -\/ data byte\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+updated checksum 
+\end{DoxyReturn}
+
+
+Definition at line 29 of file disk\+\_\+util.\+cpp.
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{disk__util_8h_a71c4de342bd8034b53d392ee37b5ec97_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{disk__util_8h_a9ae5488cd30a10566ed8841e5f0020cc}{}\index{disk\+\_\+util.\+h@{disk\+\_\+util.\+h}!Prefix\+Sync\+Char\+\_\+c@{Prefix\+Sync\+Char\+\_\+c}}
+\index{Prefix\+Sync\+Char\+\_\+c@{Prefix\+Sync\+Char\+\_\+c}!disk\+\_\+util.\+h@{disk\+\_\+util.\+h}}
+\subsubsection[{Prefix\+Sync\+Char\+\_\+c}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf B\+Y\+T\+E} Prefix\+Sync\+Char\+\_\+c = 0xfd}\label{disk__util_8h_a9ae5488cd30a10566ed8841e5f0020cc}
+
+
+expected sync character for Heath hard-\/sectored 
+
+
+
+Definition at line 45 of file disk\+\_\+util.\+h.
+

@@ -1,0 +1,590 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="classH17DiskFlagsBlock">
+<title>H17DiskFlagsBlock class Reference</title>
+<para>Inheritance diagram for H17DiskFlagsBlock</para>
+<para>
+    <figure>
+        <title>Inheritance graph</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="classH17DiskFlagsBlock__inherit__graph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+<para>Collaboration diagram for H17DiskFlagsBlock</para>
+<para>
+    <figure>
+        <title>Collaboration graph</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="classH17DiskFlagsBlock__coll__graph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+        <section>
+            <title>Private Attributes</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t roFlag_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t distribution_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t trackData_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <link linkend="classH17DiskFlagsBlock_1a335188fe3afe1ac2dea9bd64da8bd498">H17DiskFlagsBlock</link> (
+uint8_t buf, uint32_t size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <link linkend="classH17DiskFlagsBlock_1ab22af88da1209fa46912ae9d59566299">H17DiskFlagsBlock</link> (
+bool writeProtect, uint8_t distribution, uint8_t trackSource)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="classH17DiskFlagsBlock_1ac2cfc45fd4f7f697b0d55d6dff555c9c">~H17DiskFlagsBlock</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual uint8_t <link linkend="classH17DiskFlagsBlock_1a6dd7cfd338fdcdfb7b50f0b2cf1c8ed6">getBlockId</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17DiskFlagsBlock_1a50319616d0931d82ddfb58c00f5909c6">writeToFile</link> (
+std::ofstream &amp; file)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17DiskFlagsBlock_1a5b6fc1d4788fdb8cd88cbc00aa9bf32b">getMandatory</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual uint32_t <link linkend="classH17DiskFlagsBlock_1addf34cf69e125df697a0281fe5fd6a1d">getDataSize</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17DiskFlagsBlock_1ab843a71d840fd2fc3623571ae6c9e56f">dump</link> (
+uint8_t level)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual void <link linkend="classH17DiskFlagsBlock_1abd8ef7b357afb9442537ea6cc335bd80">printBlockName</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual uint8_t * <link linkend="classH17Block_1a6c2432cccdacdfb1a335bd924f19d942">getData</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual uint32_t <link linkend="classH17Block_1a0327b6359cdf502269bbb7c6f35fae18">getBlockSize</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual uint32_t <link linkend="classH17Block_1ad71ae203afc8713d4ee7416757fadbbe">getHeaderSize</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Block_1a5c4d56a6c991c87fb9215797ce63b804">writeBlockHeader</link> (
+std::ofstream &amp; file)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Block_1ae53600d945ed3ffac13d3a769a1e1ab2">analyze</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t DiskFormatBlock_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t FlagsBlock_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t LabelBlock_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t CommentBlock_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t DateBlock_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t ImagerBlock_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t ProgramBlock_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t DataBlock_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t RawDataBlock_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t TrackDataId</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t SectorDataId</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t RawTrackDataId</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t RawSectorDataId</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint32_t blockHeaderSize_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Protected Attributes</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint32_t size_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t * buf_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Block_1a09d4bee92e3b1862412b53a369f9dcc8">dumpText</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Field Documentation</title>
+        </section>
+            <section xml:id="classH17DiskFlagsBlock_1a335188fe3afe1ac2dea9bd64da8bd498">
+                <title>H17DiskFlagsBlock::H17DiskFlagsBlock (uint8_t buf[], uint32_t size)</title> <emphasis></emphasis>
+                
+<para><para><link linkend="todo_1_todo000007">Todo</link> 
+<para>verify the default values </para>
+</para>constructor</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>roFlag</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>dist</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>trackSource</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classH17DiskFlagsBlock_1ab22af88da1209fa46912ae9d59566299">
+                <title>H17DiskFlagsBlock::H17DiskFlagsBlock (bool writeProtect, uint8_t distribution, uint8_t trackSource)</title> <emphasis></emphasis>
+                
+<para><para><link linkend="todo_1_todo000006">Todo</link> 
+<para>verify the default values </para>
+</para>constructor</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>roFlag</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>dist</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>trackSource</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classH17DiskFlagsBlock_1ac2cfc45fd4f7f697b0d55d6dff555c9c">
+                <title>H17DiskFlagsBlock::~H17DiskFlagsBlock ()</title> <emphasis></emphasis>
+                
+<para>destructor </para>
+
+            </section>
+            <section xml:id="classH17DiskFlagsBlock_1a6dd7cfd338fdcdfb7b50f0b2cf1c8ed6">
+                <title>uint8_t H17DiskFlagsBlock::getBlockId ()</title> <emphasis></emphasis>
+                
+<para>get block id</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>block id </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17DiskFlagsBlock_1a50319616d0931d82ddfb58c00f5909c6">
+                <title>bool H17DiskFlagsBlock::writeToFile (std::ofstream &amp;file)</title> <emphasis></emphasis>
+                
+<para>write to file</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>file</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17DiskFlagsBlock_1a5b6fc1d4788fdb8cd88cbc00aa9bf32b">
+                <title>bool H17DiskFlagsBlock::getMandatory ()</title> <emphasis></emphasis>
+                
+<para>get mandatory flag</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>flag </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17DiskFlagsBlock_1addf34cf69e125df697a0281fe5fd6a1d">
+                <title>uint32_t H17DiskFlagsBlock::getDataSize ()</title> <emphasis></emphasis>
+                
+<para>get size of data portion of block</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>size of block </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17DiskFlagsBlock_1ab843a71d840fd2fc3623571ae6c9e56f">
+                <title>bool H17DiskFlagsBlock::dump (uint8_t level)</title> <emphasis></emphasis>
+                
+<para>dump the block to stdout</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>level</entry>
+                                <entry>
+<para>- detail level to display 0 - none 1 - minimal 2 - some 3 - lots 4 - complete</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17DiskFlagsBlock_1abd8ef7b357afb9442537ea6cc335bd80">
+                <title>void H17DiskFlagsBlock::printBlockName ()</title> <emphasis></emphasis>
+                
+<para>print block name </para>
+
+            </section>
+            <section xml:id="classH17Block_1a6c2432cccdacdfb1a335bd924f19d942">
+                <title>uint8_t * H17Block::getData ()</title> <emphasis></emphasis>
+                
+<para>get pointer to data buffer</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>pointer </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Block_1a0327b6359cdf502269bbb7c6f35fae18">
+                <title>uint32_t H17Block::getBlockSize ()</title> <emphasis></emphasis>
+                
+<para>return total block size in bytes</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>total block size in bytes </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Block_1ad71ae203afc8713d4ee7416757fadbbe">
+                <title>uint32_t H17Block::getHeaderSize ()</title> <emphasis></emphasis>
+                
+<para>return header size in bytes</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>header size in bytes </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Block_1a5c4d56a6c991c87fb9215797ce63b804">
+                <title>bool H17Block::writeBlockHeader (std::ofstream &amp;file)</title> <emphasis></emphasis>
+                
+<para>Common code to write the block header</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>blockId</entry>
+                                <entry>
+<para>Block ID </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>flag</entry>
+                                <entry>
+<para>Flag Byte </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para>length of block</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Block_1ae53600d945ed3ffac13d3a769a1e1ab2">
+                <title>bool H17Block::analyze ()</title> <emphasis></emphasis>
+                
+            </section>
+        <section>
+            <title>Field Documentation</title>
+        </section>
+            <section xml:id="classH17Block_1a09d4bee92e3b1862412b53a369f9dcc8">
+                <title>bool H17Block::dumpText ()</title> <emphasis></emphasis>
+                
+<para>dump text</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>true </para>
+</formalpara>
+</para>
+
+            </section>
+</section>

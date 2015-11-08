@@ -1,0 +1,260 @@
+\hypertarget{classSector}{}\section{Sector Class Reference}
+\label{classSector}\index{Sector@{Sector}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classSector_a41c1446e3b2042e1789496b531d2ee3e}{Sector} (uint8\+\_\+t $\ast$buf, uint16\+\_\+t size, uint16\+\_\+t \&length)
+\item 
+\hyperlink{classSector_abe23ebb64205954042b9f6225509797e}{Sector} (uint8\+\_\+t side, uint8\+\_\+t track, uint8\+\_\+t sector, uint8\+\_\+t error, uint8\+\_\+t $\ast$buf, uint16\+\_\+t buf\+Size)
+\item 
+\hyperlink{classSector_aa0f54aaf079dd7461400684bf0be15ff}{$\sim$\+Sector} ()
+\item 
+bool \hyperlink{classSector_aee348b3b95e5cbf896935db4bb801f11}{write\+To\+File} (std\+::ofstream \&file)
+\item 
+bool \hyperlink{classSector_a1d529e827a6c86e0be70a41e09d2cd6a}{write\+To\+H8\+D} (std\+::ofstream \&file)
+\item 
+bool \hyperlink{classSector_ad7467579400021844e83269c21b538f1}{write\+To\+Raw} (std\+::ofstream \&file)
+\item 
+uint8\+\_\+t \hyperlink{classSector_a03c03368b93b01bf6f7c21e2e07d7020}{get\+Sector\+Num} ()
+\item 
+uint16\+\_\+t \hyperlink{classSector_aaeb58606a9aef50b0c9852c3652cc739}{get\+Block\+Size} ()
+\item 
+bool \hyperlink{classSector_aa112f0aa899e1b8b75f11d16a6f0dbb2}{analyze} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classSector_a7e01b4a23ace12dfc297a66e18ac1b8f}{}static const uint8\+\_\+t {\bfseries header\+Size\+\_\+c} = 5\label{classSector_a7e01b4a23ace12dfc297a66e18ac1b8f}
+
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classSector_a38eb5aadac74bf890338be8d286c2d18}{}uint16\+\_\+t {\bfseries buf\+Size\+\_\+m}\label{classSector_a38eb5aadac74bf890338be8d286c2d18}
+
+\item 
+\hypertarget{classSector_aa38da5f2eb24d629cd614a2e4ac31ad9}{}uint8\+\_\+t $\ast$ {\bfseries buf\+\_\+m}\label{classSector_aa38da5f2eb24d629cd614a2e4ac31ad9}
+
+\item 
+\hypertarget{classSector_ac008a1dedaeb686e23a8959dff3af0b5}{}uint8\+\_\+t {\bfseries side\+\_\+m}\label{classSector_ac008a1dedaeb686e23a8959dff3af0b5}
+
+\item 
+\hypertarget{classSector_afefdd8589fb2de914f541d0b6b253d4c}{}uint8\+\_\+t {\bfseries track\+\_\+m}\label{classSector_afefdd8589fb2de914f541d0b6b253d4c}
+
+\item 
+\hypertarget{classSector_acd0f798cccad809378ea3edf1f929e30}{}uint8\+\_\+t {\bfseries sector\+\_\+m}\label{classSector_acd0f798cccad809378ea3edf1f929e30}
+
+\item 
+\hypertarget{classSector_ae94ab62be34748b61a803e8eb2b9b4fc}{}uint8\+\_\+t {\bfseries error\+\_\+m}\label{classSector_ae94ab62be34748b61a803e8eb2b9b4fc}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 14 of file sector.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classSector_a41c1446e3b2042e1789496b531d2ee3e}{}\index{Sector@{Sector}!Sector@{Sector}}
+\index{Sector@{Sector}!Sector@{Sector}}
+\subsubsection[{Sector}]{\setlength{\rightskip}{0pt plus 5cm}Sector\+::\+Sector (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t $\ast$}]{buf, }
+\item[{uint16\+\_\+t}]{size, }
+\item[{uint16\+\_\+t \&}]{length}
+\end{DoxyParamCaption}
+)}\label{classSector_a41c1446e3b2042e1789496b531d2ee3e}
+\hyperlink{classSector}{Sector} constructor
+
+
+\begin{DoxyParams}{Parameters}
+{\em buf} & existing sector written value. \\
+\hline
+{\em size} & length of the buffer \\
+\hline
+{\em length} & amount of space used by this sector \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 55 of file sector.\+cpp.
+
+\hypertarget{classSector_abe23ebb64205954042b9f6225509797e}{}\index{Sector@{Sector}!Sector@{Sector}}
+\index{Sector@{Sector}!Sector@{Sector}}
+\subsubsection[{Sector}]{\setlength{\rightskip}{0pt plus 5cm}Sector\+::\+Sector (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{side, }
+\item[{uint8\+\_\+t}]{track, }
+\item[{uint8\+\_\+t}]{sector, }
+\item[{uint8\+\_\+t}]{error, }
+\item[{uint8\+\_\+t $\ast$}]{buf, }
+\item[{uint16\+\_\+t}]{buf\+Size}
+\end{DoxyParamCaption}
+)}\label{classSector_abe23ebb64205954042b9f6225509797e}
+\hyperlink{classSector}{Sector} constructor
+
+
+\begin{DoxyParams}{Parameters}
+{\em side} & side nubmer for this sector \\
+\hline
+{\em track} & track number for this sector \\
+\hline
+{\em sector} & physical sector number \\
+\hline
+{\em error} & error code for reading this sector \\
+\hline
+{\em buf} & pointer to the sector data \\
+\hline
+{\em buf\+Size} & size of the sector data \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 23 of file sector.\+cpp.
+
+\hypertarget{classSector_aa0f54aaf079dd7461400684bf0be15ff}{}\index{Sector@{Sector}!````~Sector@{$\sim$\+Sector}}
+\index{````~Sector@{$\sim$\+Sector}!Sector@{Sector}}
+\subsubsection[{$\sim$\+Sector}]{\setlength{\rightskip}{0pt plus 5cm}Sector\+::$\sim$\+Sector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classSector_aa0f54aaf079dd7461400684bf0be15ff}
+\hyperlink{classSector}{Sector} destructor 
+
+Definition at line 80 of file sector.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classSector_aa112f0aa899e1b8b75f11d16a6f0dbb2}{}\index{Sector@{Sector}!analyze@{analyze}}
+\index{analyze@{analyze}!Sector@{Sector}}
+\subsubsection[{analyze}]{\setlength{\rightskip}{0pt plus 5cm}bool Sector\+::analyze (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classSector_aa112f0aa899e1b8b75f11d16a6f0dbb2}
+analyze the sector
+
+\begin{DoxyReturn}{Returns}
+success if sector has no error. 
+\end{DoxyReturn}
+
+
+Definition at line 216 of file sector.\+cpp.
+
+\hypertarget{classSector_aaeb58606a9aef50b0c9852c3652cc739}{}\index{Sector@{Sector}!get\+Block\+Size@{get\+Block\+Size}}
+\index{get\+Block\+Size@{get\+Block\+Size}!Sector@{Sector}}
+\subsubsection[{get\+Block\+Size}]{\setlength{\rightskip}{0pt plus 5cm}uint16\+\_\+t Sector\+::get\+Block\+Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classSector_aaeb58606a9aef50b0c9852c3652cc739}
+return size of sector including header
+
+\begin{DoxyReturn}{Returns}
+size 
+\end{DoxyReturn}
+
+
+Definition at line 246 of file sector.\+cpp.
+
+\hypertarget{classSector_a03c03368b93b01bf6f7c21e2e07d7020}{}\index{Sector@{Sector}!get\+Sector\+Num@{get\+Sector\+Num}}
+\index{get\+Sector\+Num@{get\+Sector\+Num}!Sector@{Sector}}
+\subsubsection[{get\+Sector\+Num}]{\setlength{\rightskip}{0pt plus 5cm}uint8\+\_\+t Sector\+::get\+Sector\+Num (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classSector_a03c03368b93b01bf6f7c21e2e07d7020}
+get sector number from the header portion of the sector
+
+\begin{DoxyReturn}{Returns}
+success 
+\end{DoxyReturn}
+
+
+Definition at line 188 of file sector.\+cpp.
+
+\hypertarget{classSector_aee348b3b95e5cbf896935db4bb801f11}{}\index{Sector@{Sector}!write\+To\+File@{write\+To\+File}}
+\index{write\+To\+File@{write\+To\+File}!Sector@{Sector}}
+\subsubsection[{write\+To\+File}]{\setlength{\rightskip}{0pt plus 5cm}bool Sector\+::write\+To\+File (
+\begin{DoxyParamCaption}
+\item[{std\+::ofstream \&}]{file}
+\end{DoxyParamCaption}
+)}\label{classSector_aee348b3b95e5cbf896935db4bb801f11}
+write sector to file
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & file to write to\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+success 
+\end{DoxyReturn}
+
+
+Definition at line 98 of file sector.\+cpp.
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=316pt]{classSector_aee348b3b95e5cbf896935db4bb801f11_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classSector_a1d529e827a6c86e0be70a41e09d2cd6a}{}\index{Sector@{Sector}!write\+To\+H8\+D@{write\+To\+H8\+D}}
+\index{write\+To\+H8\+D@{write\+To\+H8\+D}!Sector@{Sector}}
+\subsubsection[{write\+To\+H8\+D}]{\setlength{\rightskip}{0pt plus 5cm}bool Sector\+::write\+To\+H8\+D (
+\begin{DoxyParamCaption}
+\item[{std\+::ofstream \&}]{file}
+\end{DoxyParamCaption}
+)}\label{classSector_a1d529e827a6c86e0be70a41e09d2cd6a}
+write sector to file
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & file to write to\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+success 
+\end{DoxyReturn}
+
+
+Definition at line 127 of file sector.\+cpp.
+
+\hypertarget{classSector_ad7467579400021844e83269c21b538f1}{}\index{Sector@{Sector}!write\+To\+Raw@{write\+To\+Raw}}
+\index{write\+To\+Raw@{write\+To\+Raw}!Sector@{Sector}}
+\subsubsection[{write\+To\+Raw}]{\setlength{\rightskip}{0pt plus 5cm}bool Sector\+::write\+To\+Raw (
+\begin{DoxyParamCaption}
+\item[{std\+::ofstream \&}]{file}
+\end{DoxyParamCaption}
+)}\label{classSector_ad7467579400021844e83269c21b538f1}
+write sector to file
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & file to write to\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+success 
+\end{DoxyReturn}
+
+
+Definition at line 170 of file sector.\+cpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{sector_8h}{sector.\+h}\item 
+\hyperlink{sector_8cpp}{sector.\+cpp}\end{DoxyCompactItemize}

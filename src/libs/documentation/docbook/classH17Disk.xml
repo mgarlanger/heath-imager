@@ -1,0 +1,3299 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="classH17Disk">
+<title>H17Disk class Reference</title>
+<para>Inheritance diagram for H17Disk</para>
+<para>
+    <figure>
+        <title>Inheritance graph</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="classH17Disk__inherit__graph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+<para>Collaboration diagram for H17Disk</para>
+<para>
+    <figure>
+        <title>Collaboration graph</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="classH17Disk__coll__graph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t DiskFormatBlock_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t FlagsBlock_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t LabelBlock_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t CommentBlock_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t DateBlock_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t ImagerBlock_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t ProgramBlock_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t DataBlock_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t RawDataBlock_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t TrackDataId</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t SectorDataId</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t RawTrackDataId</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t RawSectorDataId</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t DistUnknown</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t DistributionDisk</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t WorkingDisk</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t TrackDataUnknown</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t TrackDataGeneratedFromH8dConversion</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t TrackDataCreatedOnEmulator</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t TrackDataCapturedOnH89</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t TrackDataCapturedOnFC5025</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t versionMajor_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t versionMinor_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t versionPoint_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Private Attributes</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned char sides_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned char tracks_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned char curSide_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned char curTrack_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned char distribution_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned char trackDataSource_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>bool writeProtect_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>bool disableRaw_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t versionMajor_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t versionMinor_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t versionPoint_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>H17Block * blocks_m[256]</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>std::ifstream inFile_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>std::ofstream file_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned int dataSize_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>std::streampos dataBlockSizePos_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>std::streampos trackSizePos_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>std::vector&lt; RawTrack * &gt; rawTracks_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Sector * curTrackSectors_m[maxSectors_c]</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned int sectorErrs_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const unsigned char maxSectors_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t defaultSides_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t defaultTracks_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <link linkend="classH17Disk_1af65aae49c99d4be95b6493b696dbc758">H17Disk</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="classH17Disk_1af2d62014dd9e0cdf5604845e1d1f381c">~H17Disk</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1ad29344c720e1a09c4de310d51ce40449">openForWrite</link> (
+char * name)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a2d9e6faca3284d426af174b18554d4a9">openForRead</link> (
+char * name)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1aa375761378f8a80cb8c5e479008c0e32">openForRecovery</link> (
+char * name)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a8e41c133b13e5c9c2c8f1d39b73d5292">loadFile</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1adfb88c5c9f3c67a0923a4d24e5efe791">saveFile</link> (
+char * name)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a92edc41852a329daed3e91f50e0271c7">saveAsH8D</link> (
+char * name)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a0a7412197ca1478393a45885cc132916">saveAsRaw</link> (
+char * name)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a0741de759498d3ba29f4bdef4e943590">loadBuffer</link> (
+unsigned char buf, unsigned int size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a96fe20794510f9235881fd62497f598f">loadHeader</link> (
+unsigned char buf, unsigned int size, unsigned int &amp; length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1ab5299643ce037fb442e0ccb21cb80c5f">loadBlock</link> (
+unsigned char buf, unsigned int size, unsigned int &amp; length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a4c484465d1c422d5ce5b4661bc72dd3a">loadDiskFormatBlock</link> (
+unsigned char buf, unsigned int size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a8dfa864cc65f81413d3b518c6c1e67e6">loadFlagsBlock</link> (
+unsigned char buf, unsigned int size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a3a4c239c85de3b29d6d89c8854c8ed9b">loadLabelBlock</link> (
+unsigned char buf, unsigned int size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a4b28a58f502aedd83052dbbba759ba28">loadCommentBlock</link> (
+unsigned char buf, unsigned int size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a06965b624586dda02e6a1cf7ebf53984">loadDateBlock</link> (
+unsigned char buf, unsigned int size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a6183e4e35db3b2ae16a9322f377556e4">loadImagerBlock</link> (
+unsigned char buf, unsigned int size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1aead615d628b0e4c68f69bd746aeabdb1">loadProgramBlock</link> (
+unsigned char buf, unsigned int size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a36b7999d189ddc7dc05ba9adcbf3b946">loadDataBlock</link> (
+unsigned char buf, unsigned int size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a22308e6d39b0bcb15b6234ea12f61a60">loadTrackBlock</link> (
+unsigned char buf, unsigned int size, unsigned int &amp; length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1ac9e769a95201984cd0dfae38a7a6d80a">loadSectorBlock</link> (
+unsigned char buf, unsigned int size, unsigned int &amp; length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a31ecffc2c61fe921e9a2ef4018ce5c99">loadRawDataBlock</link> (
+unsigned char buf, unsigned int size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1abc735f36c5a4ab5f1a7d418639fda508">loadRawTrackBlock</link> (
+unsigned char buf, unsigned int size, unsigned int &amp; length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a7fc528a2dc311ed9e614a1b212017033">loadRawSectorBlock</link> (
+unsigned char buf, unsigned int size, unsigned int &amp; length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1aa6f27c9eaafd2242fd90ff28f19140ca">analyze</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a503d2a03bfe0f9bbe3a8bd8dc7d2ec17">decodeFile</link> (
+char * name)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1ada058d8b970b4e72569e2fe000817f75">decodeBuffer</link> (
+unsigned char buf, unsigned int size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1ad9402e7823ac0a2741dc316cae361ecd">validateHeader</link> (
+unsigned char buf, unsigned int size, unsigned int &amp; length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a29f4d35fba24f0d9cee37bcb02120a6c">validateBlock</link> (
+unsigned char buf, unsigned int size, unsigned int &amp; length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1aaf268125dfe0bb84c288aff63f5e865d">validateDiskFormatBlock</link> (
+unsigned char buf, unsigned int size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a676a126b40c2697cbdeb32648a69c15d">validateFlagsBlock</link> (
+unsigned char buf, unsigned int size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a80cc18809c189366f4c8ecf494286129">validateLabelBlock</link> (
+unsigned char buf, unsigned int size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a0f8be0fb5d8f55eb6843b6668f60facd">validateCommentBlock</link> (
+unsigned char buf, unsigned int size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a08c7c7f0cad0cc24224fc73227b9648e">validateDateBlock</link> (
+unsigned char buf, unsigned int size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a592a6390ad6a382cae246886993954a7">validateImagerBlock</link> (
+unsigned char buf, unsigned int size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1adc15505d580fdb29e57c67293d5b3cda">validateProgramBlock</link> (
+unsigned char buf, unsigned int size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a593434e6ce0538943cb044b7d0c9c273">validateDataBlock</link> (
+unsigned char buf, unsigned int size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a532c7c77626521afd001ed4a32610912">validateTrackBlock</link> (
+unsigned char buf, unsigned int size, unsigned int &amp; length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a11e3a3c52730f4502a61f69035d7ab38">validateSectorBlock</link> (
+unsigned char buf, unsigned int size, unsigned int &amp; length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1ae1f57f11daa4d4c624d255851838d704">validateRawDataBlock</link> (
+unsigned char buf, unsigned int size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a8f0fa7dbd52e633a2faa267e453cc486">validateRawTrackBlock</link> (
+unsigned char buf, unsigned int size, unsigned int &amp; length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a60b9074cacd5a89f4b8e8dfb37bccf08">validateRawSectorBlock</link> (
+unsigned char buf, unsigned int size, unsigned int &amp; length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual void <link linkend="classH17Disk_1a63841bed6a8d9e91a221dc5f72672710">dumpSectorHeader</link> (
+unsigned char buf)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual void <link linkend="classH17Disk_1a8748c1a43e28a7bb8cea81e837964c54">dumpSectorData</link> (
+unsigned char buf)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a6246024e33209823c50cb30d4ea18d2c">closeFile</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual void <link linkend="classH17Disk_1aadb042dda8ca52912ce9c76aaa7ca9e5">disableRaw</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a8390bffa0553266decd2e1c21831ea5f">writeHeader</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a40df944449f21c6f5319024f0e179f7c">setSides</link> (
+unsigned char sides)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a2e492914d9f408f25f1223253d20f5bc">setTracks</link> (
+unsigned char tracks)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a888f6eb9e66d45410eb80903df0133d3">writeDiskFormatBlock</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1aeedd102e18abe2cdcf8630d3cdc5492e">setWPParameter</link> (
+bool val)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a9aaab4accbcfce3205c0eadc9679a9f9">setDistributionParameter</link> (
+unsigned char val)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1adda59abe2fa07a5b565f061346e1439a">setTrackDataParameter</link> (
+unsigned char val)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1ac4229315d8704036fe339189cbb649cb">writeLabel</link> (
+unsigned char * buf, uint32_t length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a00a11fce25f33fd27437ac32e5f6139a">writeComment</link> (
+unsigned char * buf, uint32_t length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1ab397651808bc9ffd033584cbe5c1a8be">writeDate</link> (
+unsigned char * buf, uint32_t length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1abed5956f503f0cd51cdb8ebe6cb26c9d">writeImager</link> (
+unsigned char * buf, uint32_t length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a71da855358f9c45a027be13ae2009a5e">writeProgram</link> (
+unsigned char * buf, uint32_t length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a678d8b2633be207d5e3879f41991bcf5">writeParameters</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1ae95a1ef9181111102784f12dc00e341b">startData</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a0eecc11273d8051ccb68b6975fa55fba">startTrack</link> (
+unsigned char side, unsigned char track)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a1fae79b5db5de046c5d7a2a3d72fcaab">addSector</link> (
+unsigned char sector, unsigned char error, unsigned char * buf, uint16_t length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1afd9cbcab815df9a9385ef3864be219e0">addRawSector</link> (
+unsigned char sector, unsigned char * buf, uint16_t length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a4ce50bcef73aef7b49adaeacc9c0990c">endTrack</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a846793318bb41bf41782dd16b156ce14">endDataBlock</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a453aedc5aa6cb970c6e174eadb4c6479">writeRawDataBlock</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual char * <link linkend="classH17Disk_1a0c6e6f10c3dceff61a31827a25e32043">getSectorData</link> (
+unsigned char side, unsigned char track, unsigned char sector)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a49978c35eab8155da4475519bf5e6e78">addSectorToDataBlock</link> (
+uint8_t side, uint8_t track, uint8_t sector, uint8_t * buf, uint16_t length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a498d909fe673835841cb862efc9d2589">addRawSectorToDataBlock</link> (
+uint8_t side, uint8_t track, uint8_t sector, uint8_t * buf, uint16_t length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>bool <link linkend="classH17Disk_1a988a0510cf62884ebf3dc3fc9c43d0b8">writeBlockHeader</link> (
+uint8_t blockId, uint8_t flag, uint32_t length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a6317e8bd90eed1f3785bcde079c72ae6">setDefaults</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1ad8755a4e016bea07fd30796d7b6c1ca0">setDefaultDiskFormat</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual bool <link linkend="classH17Disk_1a78bd33233d9597f81e69db936efe5356">setDefaultFlags</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Field Documentation</title>
+        </section>
+            <section xml:id="classH17Disk_1af65aae49c99d4be95b6493b696dbc758">
+                <title>H17Disk::H17Disk ()</title> <emphasis></emphasis>
+                
+<para>Constructor</para>
+
+<para>Defaults to single-sided, 40 tracks </para>
+
+            </section>
+            <section xml:id="classH17Disk_1af2d62014dd9e0cdf5604845e1d1f381c">
+                <title>H17Disk::~H17Disk ()</title> <emphasis></emphasis>
+                
+<para>destructor </para>
+
+            </section>
+            <section xml:id="classH17Disk_1ad29344c720e1a09c4de310d51ce40449">
+                <title>bool H17Disk::openForWrite (char *name)</title> <emphasis></emphasis>
+                
+<para>open file for writing</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>name</entry>
+                                <entry>
+<para>file name</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a2d9e6faca3284d426af174b18554d4a9">
+                <title>bool H17Disk::openForRead (char *name)</title> <emphasis></emphasis>
+                
+<para>open file for read</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>name</entry>
+                                <entry>
+<para>file name</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1aa375761378f8a80cb8c5e479008c0e32">
+                <title>bool H17Disk::openForRecovery (char *name)</title> <emphasis></emphasis>
+                
+<para>open for recovery</para>
+
+<para>Not yet implemented</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>name</entry>
+                                <entry>
+<para>file name</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a8e41c133b13e5c9c2c8f1d39b73d5292">
+                <title>bool H17Disk::loadFile ()</title> <emphasis></emphasis>
+                
+<para>load file after inFile_m has been opened</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1adfb88c5c9f3c67a0923a4d24e5efe791">
+                <title>bool H17Disk::saveFile (char *name)</title> <emphasis></emphasis>
+                
+<para>save file</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>name</entry>
+                                <entry>
+<para>file name</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a92edc41852a329daed3e91f50e0271c7">
+                <title>bool H17Disk::saveAsH8D (char *name)</title> <emphasis></emphasis>
+                
+<para>save h17disk image as a H8D file</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>name</entry>
+                                <entry>
+<para>H8D file name</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a0a7412197ca1478393a45885cc132916">
+                <title>bool H17Disk::saveAsRaw (char *name)</title> <emphasis></emphasis>
+                
+<para>save h17disk image as a raw file</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>name</entry>
+                                <entry>
+<para>raw file name</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a0741de759498d3ba29f4bdef4e943590">
+                <title>bool H17Disk::loadBuffer (unsigned char buf[], unsigned int size)</title> <emphasis></emphasis>
+                
+<para>load buffer into a h17disk object</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a96fe20794510f9235881fd62497f598f">
+                <title>bool H17Disk::loadHeader (unsigned char buf[], unsigned int size, unsigned int &amp;length)</title> <emphasis></emphasis>
+                
+<para>load header of h17disk file</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry></entry>
+                                <entry></entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classH17Disk_1ab5299643ce037fb442e0ccb21cb80c5f">
+                <title>bool H17Disk::loadBlock (unsigned char buf[], unsigned int size, unsigned int &amp;length)</title> <emphasis></emphasis>
+                
+<para>load block</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry></entry>
+                                <entry></entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classH17Disk_1a4c484465d1c422d5ce5b4661bc72dd3a">
+                <title>bool H17Disk::loadDiskFormatBlock (unsigned char buf[], unsigned int size)</title> <emphasis></emphasis>
+                
+<para>Load DiskFormatBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if validation was succesful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a8dfa864cc65f81413d3b518c6c1e67e6">
+                <title>bool H17Disk::loadFlagsBlock (unsigned char buf[], unsigned int size)</title> <emphasis></emphasis>
+                
+<para>load FlagsBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if load was successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a3a4c239c85de3b29d6d89c8854c8ed9b">
+                <title>bool H17Disk::loadLabelBlock (unsigned char buf[], unsigned int size)</title> <emphasis></emphasis>
+                
+<para>load LabelBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if load was successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a4b28a58f502aedd83052dbbba759ba28">
+                <title>bool H17Disk::loadCommentBlock (unsigned char buf[], unsigned int size)</title> <emphasis></emphasis>
+                
+<para>load CommentBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if load was successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a06965b624586dda02e6a1cf7ebf53984">
+                <title>bool H17Disk::loadDateBlock (unsigned char buf[], unsigned int size)</title> <emphasis></emphasis>
+                
+<para>load DateBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if load was successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a6183e4e35db3b2ae16a9322f377556e4">
+                <title>bool H17Disk::loadImagerBlock (unsigned char buf[], unsigned int size)</title> <emphasis></emphasis>
+                
+<para>load ImagerBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if load was successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1aead615d628b0e4c68f69bd746aeabdb1">
+                <title>bool H17Disk::loadProgramBlock (unsigned char buf[], unsigned int size)</title> <emphasis></emphasis>
+                
+<para>load ProgramBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if load was successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a36b7999d189ddc7dc05ba9adcbf3b946">
+                <title>bool H17Disk::loadDataBlock (unsigned char buf[], unsigned int size)</title> <emphasis></emphasis>
+                
+<para>load DataBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if load was successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a22308e6d39b0bcb15b6234ea12f61a60">
+                <title>bool H17Disk::loadTrackBlock (unsigned char buf[], unsigned int size, unsigned int &amp;length)</title> <emphasis></emphasis>
+                
+<para>load TrackBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para>bytes used in buffer for this block</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if load was successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1ac9e769a95201984cd0dfae38a7a6d80a">
+                <title>bool H17Disk::loadSectorBlock (unsigned char buf[], unsigned int size, unsigned int &amp;length)</title> <emphasis></emphasis>
+                
+<para>load SectorBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>{bool} if load was successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a31ecffc2c61fe921e9a2ef4018ce5c99">
+                <title>bool H17Disk::loadRawDataBlock (unsigned char buf[], unsigned int size)</title> <emphasis></emphasis>
+                
+<para>load RawDataBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if load was successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1abc735f36c5a4ab5f1a7d418639fda508">
+                <title>bool H17Disk::loadRawTrackBlock (unsigned char buf[], unsigned int size, unsigned int &amp;length)</title> <emphasis></emphasis>
+                
+<para>load RawTrackBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if load was successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a7fc528a2dc311ed9e614a1b212017033">
+                <title>bool H17Disk::loadRawSectorBlock (unsigned char buf[], unsigned int size, unsigned int &amp;length)</title> <emphasis></emphasis>
+                
+<para>load raw sector block</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1aa6f27c9eaafd2242fd90ff28f19140ca">
+                <title>bool H17Disk::analyze ()</title> <emphasis></emphasis>
+                
+<para>analyze the disk image</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a503d2a03bfe0f9bbe3a8bd8dc7d2ec17">
+                <title>bool H17Disk::decodeFile (char *name)</title> <emphasis></emphasis>
+                
+<para>decode file and dump results to screen</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>name</entry>
+                                <entry>
+<para>file name</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1ada058d8b970b4e72569e2fe000817f75">
+                <title>bool H17Disk::decodeBuffer (unsigned char buf[], unsigned int size)</title> <emphasis></emphasis>
+                
+<para>decodes memory buffer of a h17disk file</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1ad9402e7823ac0a2741dc316cae361ecd">
+                <title>bool H17Disk::validateHeader (unsigned char buf[], unsigned int size, unsigned int &amp;length)</title> <emphasis></emphasis>
+                
+<para>validate header of a h17disk file.</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry></entry>
+                                <entry></entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classH17Disk_1a29f4d35fba24f0d9cee37bcb02120a6c">
+                <title>bool H17Disk::validateBlock (unsigned char buf[], unsigned int size, unsigned int &amp;length)</title> <emphasis></emphasis>
+                
+<para>validate block</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry></entry>
+                                <entry></entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classH17Disk_1aaf268125dfe0bb84c288aff63f5e865d">
+                <title>bool H17Disk::validateDiskFormatBlock (unsigned char buf[], unsigned int size)</title> <emphasis></emphasis>
+                
+<para>validate DiskFormatBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if validation was succesful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a676a126b40c2697cbdeb32648a69c15d">
+                <title>bool H17Disk::validateFlagsBlock (unsigned char buf[], unsigned int size)</title> <emphasis></emphasis>
+                
+<para>validate FlagsBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if validation was successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a80cc18809c189366f4c8ecf494286129">
+                <title>bool H17Disk::validateLabelBlock (unsigned char buf[], unsigned int size)</title> <emphasis></emphasis>
+                
+<para>validate LabelBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if validation was succesful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a0f8be0fb5d8f55eb6843b6668f60facd">
+                <title>bool H17Disk::validateCommentBlock (unsigned char buf[], unsigned int size)</title> <emphasis></emphasis>
+                
+<para>validate CommentBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if load was successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a08c7c7f0cad0cc24224fc73227b9648e">
+                <title>bool H17Disk::validateDateBlock (unsigned char buf[], unsigned int size)</title> <emphasis></emphasis>
+                
+<para>validate DateBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if load was successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a592a6390ad6a382cae246886993954a7">
+                <title>bool H17Disk::validateImagerBlock (unsigned char buf[], unsigned int size)</title> <emphasis></emphasis>
+                
+<para>validate ImagerBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if load was successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1adc15505d580fdb29e57c67293d5b3cda">
+                <title>bool H17Disk::validateProgramBlock (unsigned char buf[], unsigned int size)</title> <emphasis></emphasis>
+                
+<para>validate ProgramBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if validation was successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a593434e6ce0538943cb044b7d0c9c273">
+                <title>bool H17Disk::validateDataBlock (unsigned char buf[], unsigned int size)</title> <emphasis></emphasis>
+                
+<para>validate DataBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if load was successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a532c7c77626521afd001ed4a32610912">
+                <title>bool H17Disk::validateTrackBlock (unsigned char buf[], unsigned int size, unsigned int &amp;length)</title> <emphasis></emphasis>
+                
+<para>validate TrackBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para>bytes used in buffer for this block</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if load was successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a11e3a3c52730f4502a61f69035d7ab38">
+                <title>bool H17Disk::validateSectorBlock (unsigned char buf[], unsigned int size, unsigned int &amp;length)</title> <emphasis></emphasis>
+                
+<para>validate SectorBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para>bytes used in buffer for this block</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if load was successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1ae1f57f11daa4d4c624d255851838d704">
+                <title>bool H17Disk::validateRawDataBlock (unsigned char buf[], unsigned int size)</title> <emphasis></emphasis>
+                
+<para>validate RawDataBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if load was successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a8f0fa7dbd52e633a2faa267e453cc486">
+                <title>bool H17Disk::validateRawTrackBlock (unsigned char buf[], unsigned int size, unsigned int &amp;length)</title> <emphasis></emphasis>
+                
+<para>validate RawTrackBlock</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para>size of buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para>length of buffer used</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if load was successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a60b9074cacd5a89f4b8e8dfb37bccf08">
+                <title>bool H17Disk::validateRawSectorBlock (unsigned char buf[], unsigned int size, unsigned int &amp;length)</title> <emphasis></emphasis>
+                
+<para>validate raw sector block</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a63841bed6a8d9e91a221dc5f72672710">
+                <title>void H17Disk::dumpSectorHeader (unsigned char buf[])</title> <emphasis></emphasis>
+                
+<para>dump SectorHeader</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classH17Disk_1a8748c1a43e28a7bb8cea81e837964c54">
+                <title>void H17Disk::dumpSectorData (unsigned char buf[])</title> <emphasis></emphasis>
+                
+<para>dump SectorData</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>data buffer </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classH17Disk_1a6246024e33209823c50cb30d4ea18d2c">
+                <title>bool H17Disk::closeFile (void)</title> <emphasis></emphasis>
+                
+<para>close file</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1aadb042dda8ca52912ce9c76aaa7ca9e5">
+                <title>void H17Disk::disableRaw ()</title> <emphasis></emphasis>
+                
+<para>disable raw blocks </para>
+
+            </section>
+            <section xml:id="classH17Disk_1a8390bffa0553266decd2e1c21831ea5f">
+                <title>bool H17Disk::writeHeader ()</title> <emphasis></emphasis>
+                
+<para>write File Header</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a40df944449f21c6f5319024f0e179f7c">
+                <title>bool H17Disk::setSides (unsigned char sides)</title> <emphasis></emphasis>
+                
+<para>set the number of sides</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>sides</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a2e492914d9f408f25f1223253d20f5bc">
+                <title>bool H17Disk::setTracks (unsigned char tracks)</title> <emphasis></emphasis>
+                
+<para>set the number of tracks for the disk</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>tracks</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a888f6eb9e66d45410eb80903df0133d3">
+                <title>bool H17Disk::writeDiskFormatBlock ()</title> <emphasis></emphasis>
+                
+<para>write disk format block</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1aeedd102e18abe2cdcf8630d3cdc5492e">
+                <title>bool H17Disk::setWPParameter (bool val)</title> <emphasis></emphasis>
+                
+<para>set write-protect for disk</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>val</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a9aaab4accbcfce3205c0eadc9679a9f9">
+                <title>bool H17Disk::setDistributionParameter (unsigned char val)</title> <emphasis></emphasis>
+                
+<para>set distribution parameter</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>val</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1adda59abe2fa07a5b565f061346e1439a">
+                <title>bool H17Disk::setTrackDataParameter (unsigned char val)</title> <emphasis></emphasis>
+                
+<para>set track data parameter</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>val</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1ac4229315d8704036fe339189cbb649cb">
+                <title>bool H17Disk::writeLabel (unsigned char *buf, uint32_t length)</title> <emphasis></emphasis>
+                
+<para>write label block</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a00a11fce25f33fd27437ac32e5f6139a">
+                <title>bool H17Disk::writeComment (unsigned char *buf, uint32_t length)</title> <emphasis></emphasis>
+                
+<para>write comment block</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1ab397651808bc9ffd033584cbe5c1a8be">
+                <title>bool H17Disk::writeDate (unsigned char *buf, uint32_t length)</title> <emphasis></emphasis>
+                
+<para>write date block</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1abed5956f503f0cd51cdb8ebe6cb26c9d">
+                <title>bool H17Disk::writeImager (unsigned char *buf, uint32_t length)</title> <emphasis></emphasis>
+                
+<para>write imager block</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a71da855358f9c45a027be13ae2009a5e">
+                <title>bool H17Disk::writeProgram (unsigned char *buf, uint32_t length)</title> <emphasis></emphasis>
+                
+<para>write program</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a678d8b2633be207d5e3879f41991bcf5">
+                <title>bool H17Disk::writeParameters ()</title> <emphasis></emphasis>
+                
+<para>write parameter block</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1ae95a1ef9181111102784f12dc00e341b">
+                <title>bool H17Disk::startData ()</title> <emphasis></emphasis>
+                
+<para>start data block</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a0eecc11273d8051ccb68b6975fa55fba">
+                <title>bool H17Disk::startTrack (unsigned char side, unsigned char track)</title> <emphasis></emphasis>
+                
+<para>start track for data.</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>side</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>track</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a1fae79b5db5de046c5d7a2a3d72fcaab">
+                <title>bool H17Disk::addSector (unsigned char sector, unsigned char error, unsigned char *buf, uint16_t length)</title> <emphasis></emphasis>
+                
+<para>add a sector to the track</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>sector</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>error</entry>
+                                <entry>
+<para>- error code </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para>- pointer to buffer </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para>- length of buffer</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1afd9cbcab815df9a9385ef3864be219e0">
+                <title>bool H17Disk::addRawSector (unsigned char sector, unsigned char *buf, uint16_t length)</title> <emphasis></emphasis>
+                
+<para>add raw data sector</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>sector</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a4ce50bcef73aef7b49adaeacc9c0990c">
+                <title>bool H17Disk::endTrack ()</title> <emphasis></emphasis>
+                
+<para>end track and update size of track</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a846793318bb41bf41782dd16b156ce14">
+                <title>bool H17Disk::endDataBlock ()</title> <emphasis></emphasis>
+                
+<para>end data block and update size</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a453aedc5aa6cb970c6e174eadb4c6479">
+                <title>bool H17Disk::writeRawDataBlock ()</title> <emphasis></emphasis>
+                
+<para>write raw data block</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a0c6e6f10c3dceff61a31827a25e32043">
+                <title>char * H17Disk::getSectorData (unsigned char side, unsigned char track, unsigned char sector)</title> <emphasis></emphasis>
+                
+<para>get sector data</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>side</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>track</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>sector</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>pointer to buffer</para>
+</formalpara>
+<para><link linkend="todo_1_todo000013">Todo</link> 
+<para>needs to return both the pointer and length. </para>
+
+<para>implememnt </para>
+</para></para>
+
+            </section>
+            <section xml:id="classH17Disk_1a49978c35eab8155da4475519bf5e6e78">
+                <title>bool H17Disk::addSectorToDataBlock (uint8_t side, uint8_t track, uint8_t sector, uint8_t *buf, uint16_t length)</title> <emphasis></emphasis>
+                
+<para>add sector to data block</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>side</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>track</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>sector</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <para><link linkend="todo_1_todo000011">Todo</link> 
+<para>implememnt </para>
+</para></para>
+
+            </section>
+            <section xml:id="classH17Disk_1a498d909fe673835841cb862efc9d2589">
+                <title>bool H17Disk::addRawSectorToDataBlock (uint8_t side, uint8_t track, uint8_t sector, uint8_t *buf, uint16_t length)</title> <emphasis></emphasis>
+                
+<para>add raw sector to data block</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>side</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>track</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>sector</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <para><link linkend="todo_1_todo000012">Todo</link> 
+<para>implememnt </para>
+</para></para>
+
+            </section>
+            <section xml:id="classH17Disk_1a988a0510cf62884ebf3dc3fc9c43d0b8">
+                <title>bool H17Disk::writeBlockHeader (uint8_t blockId, uint8_t flag, uint32_t length)</title> <emphasis></emphasis>
+                
+<para>Common code to write the block header</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>blockId</entry>
+                                <entry>
+<para>Block ID </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>flag</entry>
+                                <entry>
+<para>Flag Byte </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para>length of block</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>if successful </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a6317e8bd90eed1f3785bcde079c72ae6">
+                <title>bool H17Disk::setDefaults ()</title> <emphasis></emphasis>
+                
+<para>set default values for a h17disk file format</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1ad8755a4e016bea07fd30796d7b6c1ca0">
+                <title>bool H17Disk::setDefaultDiskFormat ()</title> <emphasis></emphasis>
+                
+<para>set default disk parameters</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classH17Disk_1a78bd33233d9597f81e69db936efe5356">
+                <title>bool H17Disk::setDefaultFlags ()</title> <emphasis></emphasis>
+                
+<para>set default flags</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+</section>

@@ -1,0 +1,1261 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="classFC5025">
+<title>FC5025 class Reference</title>
+<para>Inheritance diagram for FC5025</para>
+<para>
+    <figure>
+        <title>Inheritance graph</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="classFC5025__inherit__graph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+<para>Collaboration diagram for FC5025</para>
+<para>
+    <figure>
+        <title>Collaboration graph</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="classFC5025__coll__graph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="classFC5025_1a20c6ea9759857c2a4035ee76812ab68f">Opcode</link> {
+<link linkend="classFC5025_1a20c6ea9759857c2a4035ee76812ab68faed7ecb1dbb9be8c65f909819dac7aa54">Seek</link>= 0xc0,
+<link linkend="classFC5025_1a20c6ea9759857c2a4035ee76812ab68faf01242ef29e5426615adc0f4c0f0d43d">SelfTest</link>= 0xc1,
+<link linkend="classFC5025_1a20c6ea9759857c2a4035ee76812ab68fa4ea7801f17a4e5485e8b050c052fb443">Flags</link>= 0xc2,
+<link linkend="classFC5025_1a20c6ea9759857c2a4035ee76812ab68fa58a727fbd7603ad85b737dd2bc703ad3">DriveStatus</link>= 0xc3,
+<link linkend="classFC5025_1a20c6ea9759857c2a4035ee76812ab68facd27b3ae7db40e9849a1412e04b889b0">Indexes</link>= 0xc4,
+<link linkend="classFC5025_1a20c6ea9759857c2a4035ee76812ab68fa205d5c95f79a49e468e731ad838f7548">ReadFlexible</link>= 0xc6,
+<link linkend="classFC5025_1a20c6ea9759857c2a4035ee76812ab68fa94eeb9bd2130952aa54f3db581c990ef">ReadId</link>= 0xc7
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="classFC5025_1a5c77c7b92ba3ef9204ce67d76dc62f8c">Format</link> {
+<link linkend="classFC5025_1a5c77c7b92ba3ef9204ce67d76dc62f8ca7149468cf1e5d6072f340111176ce4f4">AppleGCR</link>= 1,
+<link linkend="classFC5025_1a5c77c7b92ba3ef9204ce67d76dc62f8ca9112f6d10d2c6324317c20b87bcd957e">CommodoreGCR</link>= 2,
+<link linkend="classFC5025_1a5c77c7b92ba3ef9204ce67d76dc62f8caff94b93682a7bb18a97d720c82e253cb">FM</link>= 3,
+<link linkend="classFC5025_1a5c77c7b92ba3ef9204ce67d76dc62f8caab1058f58be7fb2b742712bdb690a9de">MFM</link>= 4
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="classFC5025_1af1902ae236f23ab73eb0d64f737b3095">Density</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="classFC5025_1af510c7f00e18b356f791b31be8101a2e">Key</link> {
+<link linkend="classFC5025_1af510c7f00e18b356f791b31be8101a2ea70a47cae4eb221930f2663fd244369ea">NoError</link>= 0,
+<link linkend="classFC5025_1af510c7f00e18b356f791b31be8101a2ea3848aae9dcc0f7edeebc0d2d283502f5">SeekError</link>= 2,
+<link linkend="classFC5025_1af510c7f00e18b356f791b31be8101a2eaca888589b1a5680079fb2d6aab769358">DiagError</link>= 4,
+<link linkend="classFC5025_1af510c7f00e18b356f791b31be8101a2ea03334d5ec52b9fbd5b6237e636ac6d50">CommandError</link>= 5
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="classFC5025_1aca67e0584955f19ae89c3be0fa2ed562">ASC_Seek</link> {
+<link linkend="classFC5025_1aca67e0584955f19ae89c3be0fa2ed562a975a50b299e3b20bcb2670aa6b374be3">NoReferencePosition</link>= 6
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="classFC5025_1ada53660e7071c46026f58d5bb85fe5d5">ASC_Diag</link> {
+<link linkend="classFC5025_1ada53660e7071c46026f58d5bb85fe5d5a2d153252fe7fb8ab5a73347413ea9246">DiagnoticFailure</link>= 0x40
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="classFC5025_1a2552265feefbe42c9bb4bc8064c440c3">ASCQ_Diag</link> {
+<link linkend="classFC5025_1a2552265feefbe42c9bb4bc8064c440c3a2d153252fe7fb8ab5a73347413ea9246">DiagnoticFailure</link>= 0x80
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="classFC5025_1a96c5fbc52b7a2a52e83eb379a1fd28a2">ASC_Command</link> {
+<link linkend="classFC5025_1a96c5fbc52b7a2a52e83eb379a1fd28a2ae01b8763e8076df4395e3fa649286e67">InvalidCommand</link>= 0x20,
+<link linkend="classFC5025_1a96c5fbc52b7a2a52e83eb379a1fd28a2a55f2db628c561fd08618598c69b3278d">InvalidField</link>= 0x24,
+<link linkend="classFC5025_1a96c5fbc52b7a2a52e83eb379a1fd28a2a03bca38119259dc2d3153fadbf086b18">SequenceError</link>= 0x2c
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t ReadFlag_Side_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t ReadFlag_IdField_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t ReadFlag_OverrunRecovery_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t ReadFlag_NoAutosync_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t ReadFlag_Angular_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t ReadFlag_NoAdaptive_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static FC5025 * pInst_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint16_t VendorID_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint16_t ProductID_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint32_t cswSignature_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Private Attributes</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>usb_dev_handle * udev_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t lastSenseKey_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t lastASC_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t lastASCQ_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t drive_Tracks_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t drive_Sides_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint16_t drive_RPM_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t drive_StepRate_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t disk_Tracks_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t disk_Sides_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint16_t disk_RPM_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static <link linkend="classFC5025">FC5025</link> * <link linkend="classFC5025_1a3fa1262c4bde8788a2d71d07dfc88630">inst</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="classFC5025_1ac645d8e876d7121ca75db81ef99ee7f4">bulkCDB</link> (
+void * cdb, int length, int timeout, uint8_t * csw_out, uint8_t * xferbuf, int xferlen, int * xferlen_out)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="classFC5025_1a867a0dfff92f111697ca74655bb42d26">recalibrate</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="classFC5025_1ab38385df803acdde0c55e472669ffc2d">seek</link> (
+uint8_t track)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="classFC5025_1aa796eca9259c5c1718e09184d94630a9">readId</link> (
+uint8_t * out, int length, uint8_t side, uint8_t format, int bitcell, uint8_t idam0, uint8_t idam1, uint8_t idam2)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="classFC5025_1a9c372002cbdc43034ed601f022e22751">flags</link> (
+uint8_t in, uint8_t mask, int * out)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="classFC5025_1afff5293f6d1011a7b107607f544fedf5">setDensity</link> (
+int density)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="classFC5025_1a59d919ef113972193186371c7db7ee9d">open</link> (
+struct usb_device * dev)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="classFC5025_1a52c3aa7a28679f4afb203805f4c33510">close</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="classFC5025_1a644103f08f11ac57a1faf8710a3d7b4c">find</link> (
+struct usb_device ** devs, int max)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="classFC5025_1a178ad6a12a928f270db02fdbb463db95">driveStatus</link> (
+uint8_t * track, uint16_t * speed, uint8_t * sectorCount, uint8_t * flags)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="classFC5025_1a794efc97b600cfa4e5c942458cdf3833">configureDiskDrive</link> (
+uint8_t tracks, uint8_t sides, uint16_t rpm, uint8_t stepRate)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="classFC5025_1a2277f14f5c11732eeabff350d1aa3203">getDiskDrive</link> (
+uint8_t &amp; tracks, uint8_t &amp; sides, uint16_t &amp; rpm, uint8_t &amp; stepRate)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="classFC5025_1af4a65dba5d2145adc0a0bb69d8ce6ae0">configureFloppyDisk</link> (
+uint8_t tracks, uint8_t sides, uint16_t rpm)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <link linkend="classFC5025_1a01786b9fd3a20919da5e702794fa95e6">FC5025</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>virtual <link linkend="classFC5025_1a5ceae55a353876d38857b965e87e6aeb">~FC5025</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="classFC5025_1ad03589bd35682da51fe0cb2e7523688d">internalSeek</link> (
+uint8_t mode, uint8_t stepRate, uint8_t track)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+            <section xml:id="classFC5025_1a20c6ea9759857c2a4035ee76812ab68f">
+               <title>enum Opcode </title>
+               
+               <formalpara>
+                    <title>Enumerator:</title>
+                    <variablelist>
+                        <varlistentry xml:id="classFC5025_1a20c6ea9759857c2a4035ee76812ab68faed7ecb1dbb9be8c65f909819dac7aa54">
+                            <term>Seek</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry xml:id="classFC5025_1a20c6ea9759857c2a4035ee76812ab68faf01242ef29e5426615adc0f4c0f0d43d">
+                            <term>SelfTest</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry xml:id="classFC5025_1a20c6ea9759857c2a4035ee76812ab68fa4ea7801f17a4e5485e8b050c052fb443">
+                            <term>Flags</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry xml:id="classFC5025_1a20c6ea9759857c2a4035ee76812ab68fa58a727fbd7603ad85b737dd2bc703ad3">
+                            <term>DriveStatus</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry xml:id="classFC5025_1a20c6ea9759857c2a4035ee76812ab68facd27b3ae7db40e9849a1412e04b889b0">
+                            <term>Indexes</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry xml:id="classFC5025_1a20c6ea9759857c2a4035ee76812ab68fa205d5c95f79a49e468e731ad838f7548">
+                            <term>ReadFlexible</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry xml:id="classFC5025_1a20c6ea9759857c2a4035ee76812ab68fa94eeb9bd2130952aa54f3db581c990ef">
+                            <term>ReadId</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                     </variablelist>
+                </formalpara>
+                <para>Definition at line 86 of file fc5025.h
+                    <computeroutput><literallayout>
+{
+Seek= 0xc0, 
+SelfTest= 0xc1, 
+Flags= 0xc2, 
+DriveStatus= 0xc3, 
+Indexes= 0xc4, 
+ReadFlexible= 0xc6, 
+ReadId= 0xc7, 
+}Opcode;
+                    </literallayout></computeroutput>
+                </para>
+            </section>
+            <section xml:id="classFC5025_1a5c77c7b92ba3ef9204ce67d76dc62f8c">
+               <title>enum Format </title>
+               
+               <formalpara>
+                    <title>Enumerator:</title>
+                    <variablelist>
+                        <varlistentry xml:id="classFC5025_1a5c77c7b92ba3ef9204ce67d76dc62f8ca7149468cf1e5d6072f340111176ce4f4">
+                            <term>AppleGCR</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry xml:id="classFC5025_1a5c77c7b92ba3ef9204ce67d76dc62f8ca9112f6d10d2c6324317c20b87bcd957e">
+                            <term>CommodoreGCR</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry xml:id="classFC5025_1a5c77c7b92ba3ef9204ce67d76dc62f8caff94b93682a7bb18a97d720c82e253cb">
+                            <term>FM</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry xml:id="classFC5025_1a5c77c7b92ba3ef9204ce67d76dc62f8caab1058f58be7fb2b742712bdb690a9de">
+                            <term>MFM</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                     </variablelist>
+                </formalpara>
+                <para>Definition at line 97 of file fc5025.h
+                    <computeroutput><literallayout>
+{
+AppleGCR= 1, 
+CommodoreGCR= 2, 
+FM= 3, 
+MFM= 4, 
+}Format;
+                    </literallayout></computeroutput>
+                </para>
+            </section>
+            <section xml:id="classFC5025_1af1902ae236f23ab73eb0d64f737b3095">
+               <title>enum Density </title>
+               
+            <section xml:id="classFC5025_1af510c7f00e18b356f791b31be8101a2e">
+               <title>enum Key </title>
+               
+               <formalpara>
+                    <title>Enumerator:</title>
+                    <variablelist>
+                        <varlistentry xml:id="classFC5025_1af510c7f00e18b356f791b31be8101a2ea70a47cae4eb221930f2663fd244369ea">
+                            <term>NoError</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry xml:id="classFC5025_1af510c7f00e18b356f791b31be8101a2ea3848aae9dcc0f7edeebc0d2d283502f5">
+                            <term>SeekError</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry xml:id="classFC5025_1af510c7f00e18b356f791b31be8101a2eaca888589b1a5680079fb2d6aab769358">
+                            <term>DiagError</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry xml:id="classFC5025_1af510c7f00e18b356f791b31be8101a2ea03334d5ec52b9fbd5b6237e636ac6d50">
+                            <term>CommandError</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                     </variablelist>
+                </formalpara>
+                <para>Definition at line 119 of file fc5025.h
+                    <computeroutput><literallayout>
+{
+NoError= 0, 
+SeekError= 2, 
+DiagError= 4, 
+CommandError= 5, 
+}Key;
+                    </literallayout></computeroutput>
+                </para>
+            </section>
+            <section xml:id="classFC5025_1aca67e0584955f19ae89c3be0fa2ed562">
+               <title>enum ASC_Seek </title>
+               
+               <formalpara>
+                    <title>Enumerator:</title>
+                    <variablelist>
+                        <varlistentry xml:id="classFC5025_1aca67e0584955f19ae89c3be0fa2ed562a975a50b299e3b20bcb2670aa6b374be3">
+                            <term>NoReferencePosition</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                     </variablelist>
+                </formalpara>
+                <para>Definition at line 127 of file fc5025.h
+                    <computeroutput><literallayout>
+{
+NoReferencePosition= 6, 
+}ASC_Seek;
+                    </literallayout></computeroutput>
+                </para>
+            </section>
+            <section xml:id="classFC5025_1ada53660e7071c46026f58d5bb85fe5d5">
+               <title>enum ASC_Diag </title>
+               
+               <formalpara>
+                    <title>Enumerator:</title>
+                    <variablelist>
+                        <varlistentry xml:id="classFC5025_1ada53660e7071c46026f58d5bb85fe5d5a2d153252fe7fb8ab5a73347413ea9246">
+                            <term>DiagnoticFailure</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                     </variablelist>
+                </formalpara>
+                <para>Definition at line 132 of file fc5025.h
+                    <computeroutput><literallayout>
+{
+DiagnoticFailure= 0x40, 
+}ASC_Diag;
+                    </literallayout></computeroutput>
+                </para>
+            </section>
+            <section xml:id="classFC5025_1a2552265feefbe42c9bb4bc8064c440c3">
+               <title>enum ASCQ_Diag </title>
+               
+               <formalpara>
+                    <title>Enumerator:</title>
+                    <variablelist>
+                        <varlistentry xml:id="classFC5025_1a2552265feefbe42c9bb4bc8064c440c3a2d153252fe7fb8ab5a73347413ea9246">
+                            <term>DiagnoticFailure</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                     </variablelist>
+                </formalpara>
+                <para>Definition at line 137 of file fc5025.h
+                    <computeroutput><literallayout>
+{
+DiagnoticFailure= 0x80, 
+}ASCQ_Diag;
+                    </literallayout></computeroutput>
+                </para>
+            </section>
+            <section xml:id="classFC5025_1a96c5fbc52b7a2a52e83eb379a1fd28a2">
+               <title>enum ASC_Command </title>
+               
+               <formalpara>
+                    <title>Enumerator:</title>
+                    <variablelist>
+                        <varlistentry xml:id="classFC5025_1a96c5fbc52b7a2a52e83eb379a1fd28a2ae01b8763e8076df4395e3fa649286e67">
+                            <term>InvalidCommand</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry xml:id="classFC5025_1a96c5fbc52b7a2a52e83eb379a1fd28a2a55f2db628c561fd08618598c69b3278d">
+                            <term>InvalidField</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                        <varlistentry xml:id="classFC5025_1a96c5fbc52b7a2a52e83eb379a1fd28a2a03bca38119259dc2d3153fadbf086b18">
+                            <term>SequenceError</term>
+                            <listitem>
+                                <para></para>
+                            </listitem>
+                        </varlistentry>
+                     </variablelist>
+                </formalpara>
+                <para>Definition at line 142 of file fc5025.h
+                    <computeroutput><literallayout>
+{
+InvalidCommand= 0x20, 
+InvalidField= 0x24, 
+SequenceError= 0x2c, 
+}ASC_Command;
+                    </literallayout></computeroutput>
+                </para>
+            </section>
+        <section>
+            <title>Field Documentation</title>
+        </section>
+            <section xml:id="classFC5025_1a3fa1262c4bde8788a2d71d07dfc88630">
+                <title>FC5025 * FC5025::inst ()</title> <emphasis></emphasis>
+                
+<para>get singleton</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para><link linkend="classFC5025">FC5025</link> </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classFC5025_1ac645d8e876d7121ca75db81ef99ee7f4">
+                <title>int FC5025::bulkCDB (void *cdb, int length, int timeout, uint8_t *csw_out, uint8_t *xferbuf, int xferlen, int *xferlen_out)</title> <emphasis></emphasis>
+                
+<para>common cdb</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>cdb</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>timeout</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>csw_out</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>xferbuf</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>xferlen</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>xferlen_out</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>status </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classFC5025_1a867a0dfff92f111697ca74655bb42d26">
+                <title>int FC5025::recalibrate (void)</title> <emphasis></emphasis>
+                
+<para>recalibrate - try to find track zero</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>status </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classFC5025_1ab38385df803acdde0c55e472669ffc2d">
+                <title>int FC5025::seek (uint8_t track)</title> <emphasis></emphasis>
+                
+<para>seek to a specified track</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>track</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>status </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classFC5025_1aa796eca9259c5c1718e09184d94630a9">
+                <title>int FC5025::readId (uint8_t *out, int length, uint8_t side, uint8_t format, int bitcell, uint8_t idam0, uint8_t idam1, uint8_t idam2)</title> <emphasis></emphasis>
+                
+<para>read id</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>out</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>side</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>format</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>bitcell</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>idam0</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>idam1</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>idam2</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>status </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classFC5025_1a9c372002cbdc43034ed601f022e22751">
+                <title>int FC5025::flags (uint8_t in, uint8_t mask, int *out)</title> <emphasis></emphasis>
+                
+<para>set flags</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>in</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>mask</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>out</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>status </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classFC5025_1afff5293f6d1011a7b107607f544fedf5">
+                <title>int FC5025::setDensity (int density)</title> <emphasis></emphasis>
+                
+<para>set density</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>density</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>status </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classFC5025_1a59d919ef113972193186371c7db7ee9d">
+                <title>int FC5025::open (struct usb_device *dev)</title> <emphasis></emphasis>
+                
+<para>open device</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>dev</entry>
+                                <entry>
+<para>device to open</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>0 - success, 1 - failure </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classFC5025_1a52c3aa7a28679f4afb203805f4c33510">
+                <title>int FC5025::close (void)</title> <emphasis></emphasis>
+                
+<para>close device</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>status </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classFC5025_1a644103f08f11ac57a1faf8710a3d7b4c">
+                <title>int FC5025::find (struct usb_device **devs, int max)</title> <emphasis></emphasis>
+                
+<para>find devices</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>devs</entry>
+                                <entry>
+<para>list of the devices found </para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>max</entry>
+                                <entry>
+<para>maximum number of devices to return</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>number of devices found </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classFC5025_1a178ad6a12a928f270db02fdbb463db95">
+                <title>int FC5025::driveStatus (uint8_t *track, uint16_t *speed, uint8_t *sectorCount, uint8_t *flags)</title> <emphasis></emphasis>
+                
+<para>get drive status</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>track</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>diskSpeed</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>sectorCount</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>ds_flags</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>status </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classFC5025_1a794efc97b600cfa4e5c942458cdf3833">
+                <title>void FC5025::configureDiskDrive (uint8_t tracks, uint8_t sides, uint16_t rpm, uint8_t stepRate)</title> <emphasis></emphasis>
+                
+<para>configure disk drive</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>tracks</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>sides</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>rpm</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>stepRate</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classFC5025_1a2277f14f5c11732eeabff350d1aa3203">
+                <title>void FC5025::getDiskDrive (uint8_t &amp;tracks, uint8_t &amp;sides, uint16_t &amp;rpm, uint8_t &amp;stepRate)</title> <emphasis></emphasis>
+                
+<para>get disk drive</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>tracks</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>sides</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>rpm</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>stepRate</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classFC5025_1af4a65dba5d2145adc0a0bb69d8ce6ae0">
+                <title>void FC5025::configureFloppyDisk (uint8_t tracks, uint8_t sides, uint16_t rpm)</title> <emphasis></emphasis>
+                
+<para>configure floppy disk</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>tracks</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>sides</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>rpm</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classFC5025_1a01786b9fd3a20919da5e702794fa95e6">
+                <title>FC5025::FC5025 ()</title> <emphasis></emphasis>
+                
+<para>Constructor </para>
+
+            </section>
+            <section xml:id="classFC5025_1a5ceae55a353876d38857b965e87e6aeb">
+                <title>FC5025::~FC5025 ()</title> <emphasis></emphasis>
+                
+<para>Destructor </para>
+
+            </section>
+            <section xml:id="classFC5025_1ad03589bd35682da51fe0cb2e7523688d">
+                <title>int FC5025::internalSeek (uint8_t mode, uint8_t stepRate, uint8_t track)</title> <emphasis></emphasis>
+                
+<para>internal seek command</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>mode</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>stepRate</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>track</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>status </para>
+</formalpara>
+</para>
+
+            </section>
+</section>

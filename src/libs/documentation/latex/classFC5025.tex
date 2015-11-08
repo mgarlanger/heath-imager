@@ -1,0 +1,788 @@
+\hypertarget{classFC5025}{}\section{F\+C5025 Class Reference}
+\label{classFC5025}\index{F\+C5025@{F\+C5025}}
+
+
+Collaboration diagram for F\+C5025\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=188pt]{classFC5025__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classFC5025_a20c6ea9759857c2a4035ee76812ab68f}{}enum {\bfseries Opcode} \+: uint8\+\_\+t \{ \\*
+{\bfseries Seek} = 0xc0, 
+{\bfseries Self\+Test} = 0xc1, 
+{\bfseries Flags} = 0xc2, 
+{\bfseries Drive\+Status} = 0xc3, 
+\\*
+{\bfseries Indexes} = 0xc4, 
+{\bfseries Read\+Flexible} = 0xc6, 
+{\bfseries Read\+Id} = 0xc7
+ \}\label{classFC5025_a20c6ea9759857c2a4035ee76812ab68f}
+
+\item 
+\hypertarget{classFC5025_a5c77c7b92ba3ef9204ce67d76dc62f8c}{}enum {\bfseries Format} \+: uint8\+\_\+t \{ {\bfseries Apple\+G\+C\+R} = 1, 
+{\bfseries Commodore\+G\+C\+R} = 2, 
+{\bfseries F\+M} = 3, 
+{\bfseries M\+F\+M} = 4
+ \}\label{classFC5025_a5c77c7b92ba3ef9204ce67d76dc62f8c}
+
+\item 
+\hypertarget{classFC5025_af1902ae236f23ab73eb0d64f737b3095}{}enum {\bfseries Density} \+: uint8\+\_\+t \label{classFC5025_af1902ae236f23ab73eb0d64f737b3095}
+
+\item 
+\hypertarget{classFC5025_af510c7f00e18b356f791b31be8101a2e}{}enum {\bfseries Key} \+: uint8\+\_\+t \{ {\bfseries No\+Error} = 0, 
+{\bfseries Seek\+Error} = 2, 
+{\bfseries Diag\+Error} = 4, 
+{\bfseries Command\+Error} = 5
+ \}\label{classFC5025_af510c7f00e18b356f791b31be8101a2e}
+
+\item 
+\hypertarget{classFC5025_aca67e0584955f19ae89c3be0fa2ed562}{}enum {\bfseries A\+S\+C\+\_\+\+Seek} \+: uint8\+\_\+t \{ {\bfseries No\+Reference\+Position} = 6
+ \}\label{classFC5025_aca67e0584955f19ae89c3be0fa2ed562}
+
+\item 
+\hypertarget{classFC5025_ada53660e7071c46026f58d5bb85fe5d5}{}enum {\bfseries A\+S\+C\+\_\+\+Diag} \+: uint8\+\_\+t \{ {\bfseries Diagnotic\+Failure} = 0x40
+ \}\label{classFC5025_ada53660e7071c46026f58d5bb85fe5d5}
+
+\item 
+\hypertarget{classFC5025_a2552265feefbe42c9bb4bc8064c440c3}{}enum {\bfseries A\+S\+C\+Q\+\_\+\+Diag} \+: uint8\+\_\+t \{ {\bfseries Diagnotic\+Failure} = 0x80
+ \}\label{classFC5025_a2552265feefbe42c9bb4bc8064c440c3}
+
+\item 
+\hypertarget{classFC5025_a96c5fbc52b7a2a52e83eb379a1fd28a2}{}enum {\bfseries A\+S\+C\+\_\+\+Command} \+: uint8\+\_\+t \{ {\bfseries Invalid\+Command} = 0x20, 
+{\bfseries Invalid\+Field} = 0x24, 
+{\bfseries Sequence\+Error} = 0x2c
+ \}\label{classFC5025_a96c5fbc52b7a2a52e83eb379a1fd28a2}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classFC5025_ac645d8e876d7121ca75db81ef99ee7f4}{bulk\+C\+D\+B} (void $\ast$cdb, int length, int timeout, uint8\+\_\+t $\ast$csw\+\_\+out, uint8\+\_\+t $\ast$xferbuf, int xferlen, int $\ast$xferlen\+\_\+out)
+\item 
+int \hyperlink{classFC5025_a867a0dfff92f111697ca74655bb42d26}{recalibrate} (void)
+\item 
+int \hyperlink{classFC5025_ab38385df803acdde0c55e472669ffc2d}{seek} (uint8\+\_\+t track)
+\item 
+int \hyperlink{classFC5025_aa796eca9259c5c1718e09184d94630a9}{read\+Id} (uint8\+\_\+t $\ast$out, int length, uint8\+\_\+t side, uint8\+\_\+t format, int bitcell, uint8\+\_\+t idam0, uint8\+\_\+t idam1, uint8\+\_\+t idam2)
+\item 
+int \hyperlink{classFC5025_a9c372002cbdc43034ed601f022e22751}{flags} (uint8\+\_\+t in, uint8\+\_\+t mask, int $\ast$out)
+\item 
+int \hyperlink{classFC5025_afff5293f6d1011a7b107607f544fedf5}{set\+Density} (int density)
+\item 
+int \hyperlink{classFC5025_a59d919ef113972193186371c7db7ee9d}{open} (struct usb\+\_\+device $\ast$dev)
+\item 
+int \hyperlink{classFC5025_a52c3aa7a28679f4afb203805f4c33510}{close} (void)
+\item 
+int \hyperlink{classFC5025_a644103f08f11ac57a1faf8710a3d7b4c}{find} (struct usb\+\_\+device $\ast$$\ast$devs, int max)
+\item 
+int \hyperlink{classFC5025_a178ad6a12a928f270db02fdbb463db95}{drive\+Status} (uint8\+\_\+t $\ast$track, uint16\+\_\+t $\ast$speed, uint8\+\_\+t $\ast$sector\+Count, uint8\+\_\+t $\ast$\hyperlink{classFC5025_a9c372002cbdc43034ed601f022e22751}{flags})
+\item 
+void \hyperlink{classFC5025_a794efc97b600cfa4e5c942458cdf3833}{configure\+Disk\+Drive} (uint8\+\_\+t tracks, uint8\+\_\+t sides, uint16\+\_\+t rpm, uint8\+\_\+t step\+Rate)
+\item 
+void \hyperlink{classFC5025_a2277f14f5c11732eeabff350d1aa3203}{get\+Disk\+Drive} (uint8\+\_\+t \&tracks, uint8\+\_\+t \&sides, uint16\+\_\+t \&rpm, uint8\+\_\+t \&step\+Rate)
+\item 
+void \hyperlink{classFC5025_af4a65dba5d2145adc0a0bb69d8ce6ae0}{configure\+Floppy\+Disk} (uint8\+\_\+t tracks, uint8\+\_\+t sides, uint16\+\_\+t rpm)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classFC5025}{F\+C5025} $\ast$ \hyperlink{classFC5025_a3fa1262c4bde8788a2d71d07dfc88630}{inst} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classFC5025_a81fe505f0571c2840b5ac3a0e055d510}{}static const uint8\+\_\+t {\bfseries Read\+Flag\+\_\+\+Side\+\_\+c} = 0x01\label{classFC5025_a81fe505f0571c2840b5ac3a0e055d510}
+
+\item 
+\hypertarget{classFC5025_a41fd525aaaa28348be523122c2dd5c63}{}static const uint8\+\_\+t {\bfseries Read\+Flag\+\_\+\+Id\+Field\+\_\+c} = 0x02\label{classFC5025_a41fd525aaaa28348be523122c2dd5c63}
+
+\item 
+\hypertarget{classFC5025_a40dc0e101b49a93d22ab60398dc55ca1}{}static const uint8\+\_\+t {\bfseries Read\+Flag\+\_\+\+Overrun\+Recovery\+\_\+c} = 0x04\label{classFC5025_a40dc0e101b49a93d22ab60398dc55ca1}
+
+\item 
+\hypertarget{classFC5025_a1a862121d6b98c13b3cc4249cee333ea}{}static const uint8\+\_\+t {\bfseries Read\+Flag\+\_\+\+No\+Autosync\+\_\+c} = 0x08\label{classFC5025_a1a862121d6b98c13b3cc4249cee333ea}
+
+\item 
+\hypertarget{classFC5025_aaf2e391a9013cb2fc59dc7ca2559a437}{}static const uint8\+\_\+t {\bfseries Read\+Flag\+\_\+\+Angular\+\_\+c} = 0x10\label{classFC5025_aaf2e391a9013cb2fc59dc7ca2559a437}
+
+\item 
+\hypertarget{classFC5025_ac3fdb86284d3dc63ef845b4c4dc66ec6}{}static const uint8\+\_\+t {\bfseries Read\+Flag\+\_\+\+No\+Adaptive\+\_\+c} = 0x20\label{classFC5025_ac3fdb86284d3dc63ef845b4c4dc66ec6}
+
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classFC5025_a01786b9fd3a20919da5e702794fa95e6}{F\+C5025} ()
+\item 
+virtual \hyperlink{classFC5025_a5ceae55a353876d38857b965e87e6aeb}{$\sim$\+F\+C5025} ()
+\item 
+int \hyperlink{classFC5025_ad03589bd35682da51fe0cb2e7523688d}{internal\+Seek} (uint8\+\_\+t mode, uint8\+\_\+t step\+Rate, uint8\+\_\+t track)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classFC5025_abf6e25d1e52203481358c5cfe3e7af37}{}usb\+\_\+dev\+\_\+handle $\ast$ {\bfseries udev\+\_\+m}\label{classFC5025_abf6e25d1e52203481358c5cfe3e7af37}
+
+\item 
+\hypertarget{classFC5025_ad8e41355041f79941a2ae31a2398c20a}{}uint8\+\_\+t {\bfseries last\+Sense\+Key\+\_\+m}\label{classFC5025_ad8e41355041f79941a2ae31a2398c20a}
+
+\item 
+\hypertarget{classFC5025_aded61ba4384be70cf0519be5e79da8bb}{}uint8\+\_\+t {\bfseries last\+A\+S\+C\+\_\+m}\label{classFC5025_aded61ba4384be70cf0519be5e79da8bb}
+
+\item 
+\hypertarget{classFC5025_a4fd804183b18b85ae5da66dd9d2f288f}{}uint8\+\_\+t {\bfseries last\+A\+S\+C\+Q\+\_\+m}\label{classFC5025_a4fd804183b18b85ae5da66dd9d2f288f}
+
+\item 
+\hypertarget{classFC5025_a7d38def4944d0fc41a700f5acb89827a}{}uint8\+\_\+t {\bfseries drive\+\_\+\+Tracks\+\_\+m}\label{classFC5025_a7d38def4944d0fc41a700f5acb89827a}
+
+\item 
+\hypertarget{classFC5025_a059f7ea221799ed790c7a72c7ac4606e}{}uint8\+\_\+t {\bfseries drive\+\_\+\+Sides\+\_\+m}\label{classFC5025_a059f7ea221799ed790c7a72c7ac4606e}
+
+\item 
+\hypertarget{classFC5025_ad3b4907b0ef1e13b33b60b65c07bbb00}{}uint16\+\_\+t {\bfseries drive\+\_\+\+R\+P\+M\+\_\+m}\label{classFC5025_ad3b4907b0ef1e13b33b60b65c07bbb00}
+
+\item 
+\hypertarget{classFC5025_aaea018a0fb54263219f7a5991889dec0}{}uint8\+\_\+t {\bfseries drive\+\_\+\+Step\+Rate\+\_\+m}\label{classFC5025_aaea018a0fb54263219f7a5991889dec0}
+
+\item 
+\hypertarget{classFC5025_a7857b1f818b0a9489bb0476a0621529d}{}uint8\+\_\+t {\bfseries disk\+\_\+\+Tracks\+\_\+m}\label{classFC5025_a7857b1f818b0a9489bb0476a0621529d}
+
+\item 
+\hypertarget{classFC5025_aa643620f521f2ee83b70a79ad81704b2}{}uint8\+\_\+t {\bfseries disk\+\_\+\+Sides\+\_\+m}\label{classFC5025_aa643620f521f2ee83b70a79ad81704b2}
+
+\item 
+\hypertarget{classFC5025_a6b142a76cdcf4ab3b901c82290a534b4}{}uint16\+\_\+t {\bfseries disk\+\_\+\+R\+P\+M\+\_\+m}\label{classFC5025_a6b142a76cdcf4ab3b901c82290a534b4}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classFC5025_ab2baec0c4357e5e9a1dcbb5ab2826dac}{}static \hyperlink{classFC5025}{F\+C5025} $\ast$ {\bfseries p\+Inst\+\_\+m} = nullptr\label{classFC5025_ab2baec0c4357e5e9a1dcbb5ab2826dac}
+
+\item 
+\hypertarget{classFC5025_ae52af5b012e31fac220c555b8e75c16b}{}static const uint16\+\_\+t {\bfseries Vendor\+I\+D\+\_\+c} = 0x16c0\label{classFC5025_ae52af5b012e31fac220c555b8e75c16b}
+
+\item 
+\hypertarget{classFC5025_a6fbbb73e88aa88a86093030aa8ff2165}{}static const uint16\+\_\+t {\bfseries Product\+I\+D\+\_\+c} = 0x06d6\label{classFC5025_a6fbbb73e88aa88a86093030aa8ff2165}
+
+\item 
+\hypertarget{classFC5025_a9b59e60426e62388838366955ad7cdaf}{}static const uint32\+\_\+t {\bfseries csw\+Signature\+\_\+c} = 0x46435342\label{classFC5025_a9b59e60426e62388838366955ad7cdaf}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 25 of file fc5025.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classFC5025_a01786b9fd3a20919da5e702794fa95e6}{}\index{F\+C5025@{F\+C5025}!F\+C5025@{F\+C5025}}
+\index{F\+C5025@{F\+C5025}!F\+C5025@{F\+C5025}}
+\subsubsection[{F\+C5025}]{\setlength{\rightskip}{0pt plus 5cm}F\+C5025\+::\+F\+C5025 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\label{classFC5025_a01786b9fd3a20919da5e702794fa95e6}
+Constructor 
+
+Definition at line 51 of file fc5025.\+cpp.
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classFC5025_a01786b9fd3a20919da5e702794fa95e6_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classFC5025_a5ceae55a353876d38857b965e87e6aeb}{}\index{F\+C5025@{F\+C5025}!````~F\+C5025@{$\sim$\+F\+C5025}}
+\index{````~F\+C5025@{$\sim$\+F\+C5025}!F\+C5025@{F\+C5025}}
+\subsubsection[{$\sim$\+F\+C5025}]{\setlength{\rightskip}{0pt plus 5cm}F\+C5025\+::$\sim$\+F\+C5025 (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [virtual]}}\label{classFC5025_a5ceae55a353876d38857b965e87e6aeb}
+Destructor 
+
+Definition at line 81 of file fc5025.\+cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classFC5025_ac645d8e876d7121ca75db81ef99ee7f4}{}\index{F\+C5025@{F\+C5025}!bulk\+C\+D\+B@{bulk\+C\+D\+B}}
+\index{bulk\+C\+D\+B@{bulk\+C\+D\+B}!F\+C5025@{F\+C5025}}
+\subsubsection[{bulk\+C\+D\+B}]{\setlength{\rightskip}{0pt plus 5cm}int F\+C5025\+::bulk\+C\+D\+B (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{cdb, }
+\item[{int}]{length, }
+\item[{int}]{timeout, }
+\item[{uint8\+\_\+t $\ast$}]{csw\+\_\+out, }
+\item[{uint8\+\_\+t $\ast$}]{xferbuf, }
+\item[{int}]{xferlen, }
+\item[{int $\ast$}]{xferlen\+\_\+out}
+\end{DoxyParamCaption}
+)}\label{classFC5025_ac645d8e876d7121ca75db81ef99ee7f4}
+common cdb
+
+
+\begin{DoxyParams}{Parameters}
+{\em cdb} & \\
+\hline
+{\em length} & \\
+\hline
+{\em timeout} & \\
+\hline
+{\em csw\+\_\+out} & \\
+\hline
+{\em xferbuf} & \\
+\hline
+{\em xferlen} & \\
+\hline
+{\em xferlen\+\_\+out} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+status 
+\end{DoxyReturn}
+
+
+Definition at line 117 of file fc5025.\+cpp.
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classFC5025_ac645d8e876d7121ca75db81ef99ee7f4_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classFC5025_a52c3aa7a28679f4afb203805f4c33510}{}\index{F\+C5025@{F\+C5025}!close@{close}}
+\index{close@{close}!F\+C5025@{F\+C5025}}
+\subsubsection[{close}]{\setlength{\rightskip}{0pt plus 5cm}int F\+C5025\+::close (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\label{classFC5025_a52c3aa7a28679f4afb203805f4c33510}
+close device
+
+\begin{DoxyReturn}{Returns}
+status 
+\end{DoxyReturn}
+
+
+Definition at line 470 of file fc5025.\+cpp.
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=271pt]{classFC5025_a52c3aa7a28679f4afb203805f4c33510_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classFC5025_a794efc97b600cfa4e5c942458cdf3833}{}\index{F\+C5025@{F\+C5025}!configure\+Disk\+Drive@{configure\+Disk\+Drive}}
+\index{configure\+Disk\+Drive@{configure\+Disk\+Drive}!F\+C5025@{F\+C5025}}
+\subsubsection[{configure\+Disk\+Drive}]{\setlength{\rightskip}{0pt plus 5cm}void F\+C5025\+::configure\+Disk\+Drive (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{tracks, }
+\item[{uint8\+\_\+t}]{sides, }
+\item[{uint16\+\_\+t}]{rpm, }
+\item[{uint8\+\_\+t}]{step\+Rate}
+\end{DoxyParamCaption}
+)}\label{classFC5025_a794efc97b600cfa4e5c942458cdf3833}
+configure disk drive
+
+
+\begin{DoxyParams}{Parameters}
+{\em tracks} & \\
+\hline
+{\em sides} & \\
+\hline
+{\em rpm} & \\
+\hline
+{\em step\+Rate} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 527 of file fc5025.\+cpp.
+
+\hypertarget{classFC5025_af4a65dba5d2145adc0a0bb69d8ce6ae0}{}\index{F\+C5025@{F\+C5025}!configure\+Floppy\+Disk@{configure\+Floppy\+Disk}}
+\index{configure\+Floppy\+Disk@{configure\+Floppy\+Disk}!F\+C5025@{F\+C5025}}
+\subsubsection[{configure\+Floppy\+Disk}]{\setlength{\rightskip}{0pt plus 5cm}void F\+C5025\+::configure\+Floppy\+Disk (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{tracks, }
+\item[{uint8\+\_\+t}]{sides, }
+\item[{uint16\+\_\+t}]{rpm}
+\end{DoxyParamCaption}
+)}\label{classFC5025_af4a65dba5d2145adc0a0bb69d8ce6ae0}
+configure floppy disk
+
+
+\begin{DoxyParams}{Parameters}
+{\em tracks} & \\
+\hline
+{\em sides} & \\
+\hline
+{\em rpm} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 566 of file fc5025.\+cpp.
+
+\hypertarget{classFC5025_a178ad6a12a928f270db02fdbb463db95}{}\index{F\+C5025@{F\+C5025}!drive\+Status@{drive\+Status}}
+\index{drive\+Status@{drive\+Status}!F\+C5025@{F\+C5025}}
+\subsubsection[{drive\+Status}]{\setlength{\rightskip}{0pt plus 5cm}int F\+C5025\+::drive\+Status (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t $\ast$}]{track, }
+\item[{uint16\+\_\+t $\ast$}]{disk\+Speed, }
+\item[{uint8\+\_\+t $\ast$}]{sector\+Count, }
+\item[{uint8\+\_\+t $\ast$}]{ds\+\_\+flags}
+\end{DoxyParamCaption}
+)}\label{classFC5025_a178ad6a12a928f270db02fdbb463db95}
+get drive status
+
+
+\begin{DoxyParams}{Parameters}
+{\em track} & \\
+\hline
+{\em disk\+Speed} & \\
+\hline
+{\em sector\+Count} & \\
+\hline
+{\em ds\+\_\+flags} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+status 
+\end{DoxyReturn}
+
+
+Definition at line 384 of file fc5025.\+cpp.
+
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classFC5025_a178ad6a12a928f270db02fdbb463db95_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classFC5025_a644103f08f11ac57a1faf8710a3d7b4c}{}\index{F\+C5025@{F\+C5025}!find@{find}}
+\index{find@{find}!F\+C5025@{F\+C5025}}
+\subsubsection[{find}]{\setlength{\rightskip}{0pt plus 5cm}int F\+C5025\+::find (
+\begin{DoxyParamCaption}
+\item[{struct usb\+\_\+device $\ast$$\ast$}]{devs, }
+\item[{int}]{max}
+\end{DoxyParamCaption}
+)}\label{classFC5025_a644103f08f11ac57a1faf8710a3d7b4c}
+find devices
+
+
+\begin{DoxyParams}{Parameters}
+{\em devs} & list of the devices found \\
+\hline
+{\em max} & maximum number of devices to return\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of devices found 
+\end{DoxyReturn}
+
+
+Definition at line 489 of file fc5025.\+cpp.
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=293pt]{classFC5025_a644103f08f11ac57a1faf8710a3d7b4c_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classFC5025_a9c372002cbdc43034ed601f022e22751}{}\index{F\+C5025@{F\+C5025}!flags@{flags}}
+\index{flags@{flags}!F\+C5025@{F\+C5025}}
+\subsubsection[{flags}]{\setlength{\rightskip}{0pt plus 5cm}int F\+C5025\+::flags (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{in, }
+\item[{uint8\+\_\+t}]{mask, }
+\item[{int $\ast$}]{out}
+\end{DoxyParamCaption}
+)}\label{classFC5025_a9c372002cbdc43034ed601f022e22751}
+set flags
+
+
+\begin{DoxyParams}{Parameters}
+{\em in} & \\
+\hline
+{\em mask} & \\
+\hline
+{\em out} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+status 
+\end{DoxyReturn}
+
+
+Definition at line 340 of file fc5025.\+cpp.
+
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=291pt]{classFC5025_a9c372002cbdc43034ed601f022e22751_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=301pt]{classFC5025_a9c372002cbdc43034ed601f022e22751_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classFC5025_a2277f14f5c11732eeabff350d1aa3203}{}\index{F\+C5025@{F\+C5025}!get\+Disk\+Drive@{get\+Disk\+Drive}}
+\index{get\+Disk\+Drive@{get\+Disk\+Drive}!F\+C5025@{F\+C5025}}
+\subsubsection[{get\+Disk\+Drive}]{\setlength{\rightskip}{0pt plus 5cm}void F\+C5025\+::get\+Disk\+Drive (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t \&}]{tracks, }
+\item[{uint8\+\_\+t \&}]{sides, }
+\item[{uint16\+\_\+t \&}]{rpm, }
+\item[{uint8\+\_\+t \&}]{step\+Rate}
+\end{DoxyParamCaption}
+)}\label{classFC5025_a2277f14f5c11732eeabff350d1aa3203}
+get disk drive
+
+
+\begin{DoxyParams}{Parameters}
+{\em tracks} & \\
+\hline
+{\em sides} & \\
+\hline
+{\em rpm} & \\
+\hline
+{\em step\+Rate} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 547 of file fc5025.\+cpp.
+
+\hypertarget{classFC5025_a3fa1262c4bde8788a2d71d07dfc88630}{}\index{F\+C5025@{F\+C5025}!inst@{inst}}
+\index{inst@{inst}!F\+C5025@{F\+C5025}}
+\subsubsection[{inst}]{\setlength{\rightskip}{0pt plus 5cm}{\bf F\+C5025} $\ast$ F\+C5025\+::inst (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{classFC5025_a3fa1262c4bde8788a2d71d07dfc88630}
+get singleton
+
+\begin{DoxyReturn}{Returns}
+\hyperlink{classFC5025}{F\+C5025} 
+\end{DoxyReturn}
+
+
+Definition at line 92 of file fc5025.\+cpp.
+
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=281pt]{classFC5025_a3fa1262c4bde8788a2d71d07dfc88630_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=320pt]{classFC5025_a3fa1262c4bde8788a2d71d07dfc88630_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classFC5025_ad03589bd35682da51fe0cb2e7523688d}{}\index{F\+C5025@{F\+C5025}!internal\+Seek@{internal\+Seek}}
+\index{internal\+Seek@{internal\+Seek}!F\+C5025@{F\+C5025}}
+\subsubsection[{internal\+Seek}]{\setlength{\rightskip}{0pt plus 5cm}int F\+C5025\+::internal\+Seek (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{mode, }
+\item[{uint8\+\_\+t}]{step\+Rate, }
+\item[{uint8\+\_\+t}]{track}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\label{classFC5025_ad03589bd35682da51fe0cb2e7523688d}
+internal seek command
+
+
+\begin{DoxyParams}{Parameters}
+{\em mode} & \\
+\hline
+{\em step\+Rate} & \\
+\hline
+{\em track} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+status 
+\end{DoxyReturn}
+
+
+Definition at line 224 of file fc5025.\+cpp.
+
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=324pt]{classFC5025_ad03589bd35682da51fe0cb2e7523688d_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=329pt]{classFC5025_ad03589bd35682da51fe0cb2e7523688d_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classFC5025_a59d919ef113972193186371c7db7ee9d}{}\index{F\+C5025@{F\+C5025}!open@{open}}
+\index{open@{open}!F\+C5025@{F\+C5025}}
+\subsubsection[{open}]{\setlength{\rightskip}{0pt plus 5cm}int F\+C5025\+::open (
+\begin{DoxyParamCaption}
+\item[{struct usb\+\_\+device $\ast$}]{dev}
+\end{DoxyParamCaption}
+)}\label{classFC5025_a59d919ef113972193186371c7db7ee9d}
+open device
+
+
+\begin{DoxyParams}{Parameters}
+{\em dev} & device to open\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 -\/ success, 1 -\/ failure 
+\end{DoxyReturn}
+
+
+Definition at line 445 of file fc5025.\+cpp.
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=263pt]{classFC5025_a59d919ef113972193186371c7db7ee9d_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classFC5025_aa796eca9259c5c1718e09184d94630a9}{}\index{F\+C5025@{F\+C5025}!read\+Id@{read\+Id}}
+\index{read\+Id@{read\+Id}!F\+C5025@{F\+C5025}}
+\subsubsection[{read\+Id}]{\setlength{\rightskip}{0pt plus 5cm}int F\+C5025\+::read\+Id (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t $\ast$}]{out, }
+\item[{int}]{length, }
+\item[{uint8\+\_\+t}]{side, }
+\item[{uint8\+\_\+t}]{format, }
+\item[{int}]{bitcell, }
+\item[{uint8\+\_\+t}]{idam0, }
+\item[{uint8\+\_\+t}]{idam1, }
+\item[{uint8\+\_\+t}]{idam2}
+\end{DoxyParamCaption}
+)}\label{classFC5025_aa796eca9259c5c1718e09184d94630a9}
+read id
+
+
+\begin{DoxyParams}{Parameters}
+{\em out} & \\
+\hline
+{\em length} & \\
+\hline
+{\em side} & \\
+\hline
+{\em format} & \\
+\hline
+{\em bitcell} & \\
+\hline
+{\em idam0} & \\
+\hline
+{\em idam1} & \\
+\hline
+{\em idam2} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+status 
+\end{DoxyReturn}
+
+
+Definition at line 289 of file fc5025.\+cpp.
+
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=297pt]{classFC5025_aa796eca9259c5c1718e09184d94630a9_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classFC5025_a867a0dfff92f111697ca74655bb42d26}{}\index{F\+C5025@{F\+C5025}!recalibrate@{recalibrate}}
+\index{recalibrate@{recalibrate}!F\+C5025@{F\+C5025}}
+\subsubsection[{recalibrate}]{\setlength{\rightskip}{0pt plus 5cm}int F\+C5025\+::recalibrate (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\label{classFC5025_a867a0dfff92f111697ca74655bb42d26}
+recalibrate -\/ try to find track zero
+
+\begin{DoxyReturn}{Returns}
+status 
+\end{DoxyReturn}
+
+
+Definition at line 256 of file fc5025.\+cpp.
+
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classFC5025_a867a0dfff92f111697ca74655bb42d26_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classFC5025_ab38385df803acdde0c55e472669ffc2d}{}\index{F\+C5025@{F\+C5025}!seek@{seek}}
+\index{seek@{seek}!F\+C5025@{F\+C5025}}
+\subsubsection[{seek}]{\setlength{\rightskip}{0pt plus 5cm}int F\+C5025\+::seek (
+\begin{DoxyParamCaption}
+\item[{uint8\+\_\+t}]{track}
+\end{DoxyParamCaption}
+)}\label{classFC5025_ab38385df803acdde0c55e472669ffc2d}
+seek to a specified track
+
+
+\begin{DoxyParams}{Parameters}
+{\em track} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+status 
+\end{DoxyReturn}
+
+
+Definition at line 269 of file fc5025.\+cpp.
+
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classFC5025_ab38385df803acdde0c55e472669ffc2d_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{classFC5025_afff5293f6d1011a7b107607f544fedf5}{}\index{F\+C5025@{F\+C5025}!set\+Density@{set\+Density}}
+\index{set\+Density@{set\+Density}!F\+C5025@{F\+C5025}}
+\subsubsection[{set\+Density}]{\setlength{\rightskip}{0pt plus 5cm}int F\+C5025\+::set\+Density (
+\begin{DoxyParamCaption}
+\item[{int}]{density}
+\end{DoxyParamCaption}
+)}\label{classFC5025_afff5293f6d1011a7b107607f544fedf5}
+set density
+
+
+\begin{DoxyParams}{Parameters}
+{\em density} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+status 
+\end{DoxyReturn}
+
+
+Definition at line 432 of file fc5025.\+cpp.
+
+
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classFC5025_afff5293f6d1011a7b107607f544fedf5_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{fc5025_8h}{fc5025.\+h}\item 
+\hyperlink{fc5025_8cpp}{fc5025.\+cpp}\end{DoxyCompactItemize}

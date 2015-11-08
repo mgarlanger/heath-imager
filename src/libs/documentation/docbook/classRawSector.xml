@@ -1,0 +1,293 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="classRawSector">
+<title>RawSector class Reference</title>
+<para>Inheritance diagram for RawSector</para>
+<para>
+    <figure>
+        <title>Inheritance graph</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="classRawSector__inherit__graph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+<para>Collaboration diagram for RawSector</para>
+<para>
+    <figure>
+        <title>Collaboration graph</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="classRawSector__coll__graph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static const uint8_t headerSize_c</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Private Attributes</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint16_t bufSize_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t * buf_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t side_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t track_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint8_t sector_m</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title></title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <link linkend="classRawSector_1aab8c7e37912c1e0a202fced4e38a7cf2">RawSector</link> (
+uint8_t side, uint8_t track, uint8_t sector, uint8_t * buf, uint16_t bufSize)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <link linkend="classRawSector_1aae1fd3df7895272b1293c8fcba3237a3">RawSector</link> (
+uint8_t * buf, uint32_t size, uint16_t &amp; length)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para> <link linkend="classRawSector_1ab0d545dbebfb52c8381084d23f3eebf9">~RawSector</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>bool <link linkend="classRawSector_1ade2a6ad9839a90d53d176d088112933d">writeToFile</link> (
+std::ofstream &amp; file)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint16_t <link linkend="classRawSector_1af2fcbc00a76de74b6341144bc901b684">getBufSize</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>uint16_t <link linkend="classRawSector_1a186880d783789b622a2ce2f42792276c">getBlockSize</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="classRawSector_1acc17f663cd4f8ca440d9636ab2f7fb9c">dumpSector</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Field Documentation</title>
+        </section>
+            <section xml:id="classRawSector_1aab8c7e37912c1e0a202fced4e38a7cf2">
+                <title>RawSector::RawSector (uint8_t side, uint8_t track, uint8_t sector, uint8_t *buf, uint16_t bufSize)</title> <emphasis></emphasis>
+                
+<para>constructor - for when only sector data is available</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>side</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>track</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>sector</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>bufSize</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classRawSector_1aae1fd3df7895272b1293c8fcba3237a3">
+                <title>RawSector::RawSector (uint8_t *buf, uint32_t size, uint16_t &amp;length)</title> <emphasis></emphasis>
+                
+<para>constructor - for decoding an existing file.</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>buf</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>size</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+                                <entry>length</entry>
+                                <entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                </para>
+
+            </section>
+            <section xml:id="classRawSector_1ab0d545dbebfb52c8381084d23f3eebf9">
+                <title>RawSector::~RawSector ()</title> <emphasis></emphasis>
+                
+<para>destructor </para>
+
+            </section>
+            <section xml:id="classRawSector_1ade2a6ad9839a90d53d176d088112933d">
+                <title>bool RawSector::writeToFile (std::ofstream &amp;file)</title> <emphasis></emphasis>
+                
+<para>write data to a file in h17disk format</para>
+
+<para>
+                <formalpara>
+                    <title/>
+                    <table frame="all">
+                        <title>Parameters                        </title>
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+                                <entry>file</entry>
+                                <entry>
+<para>- file to write to</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                </formalpara>
+                <formalpara><title>Returns: </title>
+
+<para>success </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classRawSector_1af2fcbc00a76de74b6341144bc901b684">
+                <title>uint16_t RawSector::getBufSize ()</title> <emphasis></emphasis>
+                
+<para>Get buffer size</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>buffer size </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classRawSector_1a186880d783789b622a2ce2f42792276c">
+                <title>uint16_t RawSector::getBlockSize ()</title> <emphasis></emphasis>
+                
+<para>Get entire size of block including header</para>
+
+<para><formalpara><title>Returns: </title>
+
+<para>block size </para>
+</formalpara>
+</para>
+
+            </section>
+            <section xml:id="classRawSector_1acc17f663cd4f8ca440d9636ab2f7fb9c">
+                <title>void RawSector::dumpSector ()</title> <emphasis></emphasis>
+                
+<para>dump sector </para>
+
+            </section>
+</section>
