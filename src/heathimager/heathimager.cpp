@@ -470,11 +470,34 @@ destroy_diskinfo(GtkWidget *widget, gpointer gdata)
 }
 
 
+void
+configDrivePressed(GtkWidget *widget, gpointer gdata)
+{
+
+    GtkWidget      *driveInfoWindow  = gtk_dialog_new();
+    GtkWidget      *saveButton       = gtk_button_new_with_label("Save");
+    GtkWidget      *cancelButton     = gtk_button_new_with_label("Cancel");
+    GtkWidget      *trackLabel       = gtk_label_new("Track:   --\n");
+    GtkWidget      *speedLabel       = gtk_label_new("RPM:     --\n");
+    GtkWidget      *sectorCountLabel = gtk_label_new("Sectors: --\n");
+    GtkWidget      *flagsLabel       = gtk_label_new("Flags:   --\n");
+    GtkWidget      *errorLabel       = gtk_label_new("");
+    char            status_text[80];
+    uint8_t         track,
+                    sectorCount,
+                    flags;
+    uint16_t        speed;
+    int             retVal;
+    gint            delete_signal;
+    Drive           drive(selected_drive);
+
+
+}
+
 void 
 diskInfoPressed(GtkWidget * widget, gpointer gdata)
 {
     GtkWidget      *diskInfoWindow   = gtk_dialog_new();
-    GtkWidget      *button           = gtk_button_new();
     GtkWidget      *stopButton       = gtk_button_new_with_label("Stop");
     GtkWidget      *doneButton       = gtk_button_new_with_label("Done");
     GtkWidget      *trackLabel       = gtk_label_new("Track:   --\n");
@@ -1121,19 +1144,20 @@ main(int argc, char *argv[])
     gtk_widget_show(trackDrop);
     gtk_widget_show(optionBox);
  
-    // Disk Speed select
-    subFrame = gtk_frame_new("Disk Speed (RPM)");
-    gtk_box_pack_start(GTK_BOX(optionBox), subFrame, FALSE, FALSE, 0);
-    gtk_widget_show(subFrame);
+    // Disk Speed select - not needed all disks are 300 RPM and only the drive changes between 300 or 360
+    // should add a popup that allows user to select drive type.
+    //subFrame = gtk_frame_new("Disk Speed (RPM)");
+    //gtk_box_pack_start(GTK_BOX(optionBox), subFrame, FALSE, FALSE, 0);
+    //gtk_widget_show(subFrame);
 
-    speedDrop = gtk_option_menu_new();
-    speedDrop_Menu = gtk_menu_new();
-    add_speed(speedDrop_Menu);
-    gtk_option_menu_set_menu(GTK_OPTION_MENU(speedDrop), speedDrop_Menu);
-    gtk_container_add(GTK_CONTAINER(subFrame), speedDrop);
-    gtk_widget_show(speedDrop);
+    //speedDrop = gtk_option_menu_new();
+    //speedDrop_Menu = gtk_menu_new();
+    //add_speed(speedDrop_Menu);
+    //gtk_option_menu_set_menu(GTK_OPTION_MENU(speedDrop), speedDrop_Menu);
+    //gtk_container_add(GTK_CONTAINER(subFrame), speedDrop);
+    //gtk_widget_show(speedDrop);
 
-    gtk_widget_show(optionBox);
+    //gtk_widget_show(optionBox);
 
     // Disk parameters:
     //

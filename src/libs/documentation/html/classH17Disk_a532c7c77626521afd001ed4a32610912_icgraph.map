@@ -1,6 +1,0 @@
-<map id="H17Disk::validateTrackBlock" name="H17Disk::validateTrackBlock">
-<area shape="rect" id="node2" href="$classH17Disk.html#a593434e6ce0538943cb044b7d0c9c273" title="H17Disk::validateDataBlock" alt="" coords="245,5,432,32"/>
-<area shape="rect" id="node3" href="$classH17Disk.html#a29f4d35fba24f0d9cee37bcb02120a6c" title="H17Disk::validateBlock" alt="" coords="480,5,639,32"/>
-<area shape="rect" id="node4" href="$classH17Disk.html#ada058d8b970b4e72569e2fe000817f75" title="H17Disk::decodeBuffer" alt="" coords="687,5,845,32"/>
-<area shape="rect" id="node5" href="$classH17Disk.html#a503d2a03bfe0f9bbe3a8bd8dc7d2ec17" title="H17Disk::decodeFile" alt="" coords="893,5,1037,32"/>
-</map>

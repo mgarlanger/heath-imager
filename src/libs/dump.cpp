@@ -11,7 +11,6 @@
 
 //! dumpDataBlock()
 //!
-//! @param title   Title to display
 //! @param buf     buffer data
 //! @param length  length of buffer
 //!

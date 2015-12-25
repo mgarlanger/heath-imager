@@ -22,6 +22,8 @@ public:
                          unsigned int  count);
 
 private:
+
+    //! current state of the decoding
     enum State { none, hi, lo };
 };
 

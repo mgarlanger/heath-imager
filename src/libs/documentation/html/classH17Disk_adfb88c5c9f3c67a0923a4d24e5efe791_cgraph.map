@@ -1,8 +1,0 @@
-<map id="H17Disk::saveFile" name="H17Disk::saveFile">
-<area shape="rect" id="node2" href="$classH17Disk.html#ad29344c720e1a09c4de310d51ce40449" title="H17Disk::openForWrite" alt="" coords="184,5,343,32"/>
-<area shape="rect" id="node3" href="$classH17Disk.html#a8390bffa0553266decd2e1c21831ea5f" title="H17Disk::writeHeader" alt="" coords="188,56,339,83"/>
-<area shape="rect" id="node4" href="$classH17Block.html#a59901675cd140c907fb6de4c8e0452d5" title="H17Block::writeToFile" alt="" coords="188,107,339,133"/>
-<area shape="rect" id="node5" href="$classH17Block.html#a5c4d56a6c991c87fb9215797ce63b804" title="H17Block::writeBlockHeader" alt="" coords="391,56,581,83"/>
-<area shape="rect" id="node6" href="$classH17Block.html#aa2e87b141623b4c897c5337ea0535d1c" title="H17Block::getDataSize" alt="" coords="629,81,788,108"/>
-<area shape="rect" id="node7" href="$classH17Block.html#a6c2432cccdacdfb1a335bd924f19d942" title="H17Block::getData" alt="" coords="419,157,553,184"/>
-</map>

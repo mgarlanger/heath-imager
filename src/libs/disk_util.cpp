@@ -7,6 +7,8 @@
 
 #include <cstring>
 
+//! sector error codes converted to human text
+//!
 const char *sectorErrorStrings[] = {
     "No error.",
     "Read Error - no data",

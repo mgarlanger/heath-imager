@@ -1,6 +1,6 @@
-//! \file raw_track.h
+//! \file track.h
 //!
-//! Handles the raw data from fc5025
+//! Handles the track data
 //!
 
 #ifndef __TRACK_H__

@@ -1,8 +1,0 @@
-<map id="H17Disk::dumpSectorHeader" name="H17Disk::dumpSectorHeader">
-<area shape="rect" id="node2" href="$classH17Disk.html#a11e3a3c52730f4502a61f69035d7ab38" title="H17Disk::validateSectorBlock" alt="" coords="247,5,444,32"/>
-<area shape="rect" id="node3" href="$classH17Disk.html#a532c7c77626521afd001ed4a32610912" title="H17Disk::validateTrackBlock" alt="" coords="492,5,684,32"/>
-<area shape="rect" id="node4" href="$classH17Disk.html#a593434e6ce0538943cb044b7d0c9c273" title="H17Disk::validateDataBlock" alt="" coords="732,5,919,32"/>
-<area shape="rect" id="node5" href="$classH17Disk.html#a29f4d35fba24f0d9cee37bcb02120a6c" title="H17Disk::validateBlock" alt="" coords="967,5,1125,32"/>
-<area shape="rect" id="node6" href="$classH17Disk.html#ada058d8b970b4e72569e2fe000817f75" title="H17Disk::decodeBuffer" alt="" coords="1173,5,1332,32"/>
-<area shape="rect" id="node7" href="$classH17Disk.html#a503d2a03bfe0f9bbe3a8bd8dc7d2ec17" title="H17Disk::decodeFile" alt="" coords="1380,5,1524,32"/>
-</map>

@@ -1,4 +1,4 @@
-//! \file raw_track.cpp
+//! \file track.cpp
 //!
 //! Handles h17 hard sector track
 //!
@@ -8,7 +8,6 @@
 #include "h17disk.h"
 
 #include "h17block.h"
-
 
 
 //! Constructor Track

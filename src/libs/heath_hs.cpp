@@ -28,7 +28,7 @@ HeathHSDisk::HeathHSDisk(BYTE sides,
                                     tpi_m(tpi),
                                     speed_m(rpm)
 {
-    bitcellTiming_m = 6666;
+    bitcellTiming_m = 6667;
 }
 
 
@@ -182,12 +182,13 @@ HeathHSDisk::setSpeed(WORD rpm)
      // if drive is 300 RPM, (not a TEAC 1.2M) then set bitcell timing to the slower speed
      if(rpm == 300)
      {
+         // \TODO determine if this is right... seems like it should be bigger than 6667
          bitcellTiming_m = 5555;
      } 
      else
      {
          // otherwise default speed.
-         bitcellTiming_m = 6666;
+         bitcellTiming_m = 6667;
      }
 }
 

@@ -1,6 +1,0 @@
-<map id="H17Disk::loadRawDataBlock" name="H17Disk::loadRawDataBlock">
-<area shape="rect" id="node2" href="$classH17Disk.html#ab5299643ce037fb442e0ccb21cb80c5f" title="H17Disk::loadBlock" alt="" coords="247,5,385,32"/>
-<area shape="rect" id="node3" href="$classH17Disk.html#a0741de759498d3ba29f4bdef4e943590" title="H17Disk::loadBuffer" alt="" coords="433,5,573,32"/>
-<area shape="rect" id="node4" href="$classH17Disk.html#a8e41c133b13e5c9c2c8f1d39b73d5292" title="H17Disk::loadFile" alt="" coords="621,5,748,32"/>
-<area shape="rect" id="node5" href="$classH17Disk.html#aa375761378f8a80cb8c5e479008c0e32" title="H17Disk::openForRecovery" alt="" coords="796,5,980,32"/>
-</map>

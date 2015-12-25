@@ -51,6 +51,9 @@ const uint8_t H17Disk::versionMajor_c = 1;
 const uint8_t H17Disk::versionMinor_c = 0;
 const uint8_t H17Disk::versionPoint_c = 0;
 
+const uint8_t H17Disk::MandatoryFlagMask = 0x80;
+const uint8_t H17Disk::MandatoryFlag_Mandatory = 0x80;
+const uint8_t H17Disk::MandatoryFlag_NotMandatory = 0x00;
 
 //!  Constructor
 //!
@@ -267,7 +270,7 @@ H17Disk::saveAsH8D(char *name)
 }
 
 
-//! save h17disk image as a raw file
+//! save h17disk image as a raw file - full track data including sector headers and sync bytes
 //!
 //! @param name      raw file name
 //!
@@ -689,7 +692,7 @@ H17Disk::validateDiskFormatBlock(unsigned char buf[],
 //! @param      buf     data buffer
 //! @param      size    size of buffer
 //!
-//! @return   if validation was succesful
+//! @return   if load was succesful
 //!
 bool
 H17Disk::loadDiskFormatBlock(unsigned char buf[],
@@ -774,7 +777,7 @@ H17Disk::loadLabelBlock(unsigned char buf[],
 //! @param      buf     data buffer
 //! @param      size    size of buffer
 //!
-//! @return   if load was successful
+//! @return   if validate was successful
 //!
 bool
 H17Disk::validateCommentBlock(unsigned char buf[],
@@ -831,7 +834,7 @@ H17Disk::loadCommentBlock(unsigned char buf[],
 //! @param      buf     data buffer
 //! @param      size    size of buffer
 //! 
-//! @return  if load was successful
+//! @return  if validate was successful
 //!
 bool
 H17Disk::validateDateBlock(unsigned char buf[],
@@ -888,7 +891,7 @@ H17Disk::loadDateBlock(unsigned char  buf[],
 //! @param      buf     data buffer
 //! @param      size    size of buffer
 //! 
-//! @return  if load was successful
+//! @return  if validation was successful
 bool
 H17Disk::validateImagerBlock(unsigned char buf[],
                              unsigned int size)
@@ -1062,7 +1065,7 @@ H17Disk::loadFlagsBlock(unsigned char buf[],
 //! @param      buf     data buffer
 //! @param      size    size of buffer
 //!
-//! @return  if load was successful
+//! @return  if validation was successful
 //!
 bool
 H17Disk::validateDataBlock(unsigned char buf[],
@@ -1127,7 +1130,7 @@ H17Disk::loadDataBlock(unsigned char buf[],
 //! @param      size    size of buffer
 //! @param      length  bytes used in buffer for this block
 //!
-//! @return   if load was successful
+//! @return   if validation was successful
 //!
 bool
 H17Disk::validateTrackBlock(unsigned char buf[],
@@ -1205,7 +1208,7 @@ H17Disk::loadTrackBlock(unsigned char buf[],
 //! @param      size    size of buffer
 //! @param      length  bytes used in buffer for this block
 //!
-//! @return   if load was successful
+//! @return   if validation was successful
 //!
 bool
 H17Disk::validateSectorBlock(unsigned char buf[],
@@ -1237,75 +1240,9 @@ H17Disk::validateSectorBlock(unsigned char buf[],
     }
 
     printf("      Data:---------------------------------------------------------------\n");
+    dumpDataBlock(buf, blockLength);
+    unsigned int pos;
 
-    uint8_t printAble[16];
-    unsigned int i = 0;
-    unsigned int pos = 4;
-    for (i = 0; i < blockLength - 4; i++)
-    {
-        printAble[i % 16] = isprint(buf[pos]) ? buf[pos] : '.';
-        if  ((i % 16) == 0)
-        {
-            printf("        %03d: ", i);
-        }
-        printf("%02x", buf[pos]);
-
-        if ((i % 16) == 7)
-        {
-            printf(" ");
-        }
-        if ((i % 16) == 15)
-        {
-            printf("        |");
-            for(int i = 0; i < 8; i++)
-            {
-                printf("%c", printAble[i]);
-            }
-            printf("  ");
-            for(int i = 8; i < 16; i++)
-            {
-                printf("%c", printAble[i]);
-            }
-      
-            printf("|\n");
-        }
-        pos++;
-    } 
-    if ((i % 16) != 0) 
-    {
-        unsigned int pos = i % 16;
-        unsigned int numSpaces = (16 - pos ) * 2 + ((16 - pos) >> 3);
-        while(numSpaces--) {
-            printf(" ");
-        }
-        printf("        |");
-        for(unsigned int i = 0; i < 8; i++)
-        {
-            if (i < pos)
-            {
-                printf("%c", printAble[i]);
-            }
-            else 
-            {
-                printf(" ");
-            }
-        }
-        printf("  ");
-        for(unsigned int i = 8; i < 16; i++)
-        {
-            if (i < pos)
-            {
-                printf("%c", printAble[i]);
-            }
-            else
-            {
-                printf(" ");
-            }
-        }
-
-        printf("|\n");
-    } 
-    printf("\n");
     printf("        ------------------------------------------------------------------\n");
     
     // dump actual sector data.
@@ -1398,11 +1335,23 @@ H17Disk::loadSectorBlock(unsigned char buf[],
 void
 H17Disk::dumpSectorHeader(unsigned char buf[])
 {
+    uint8_t calculatedChecksum = 0;
+
     printf("    Sector Header\n");
     printf("       Volume: %3d\n", buf[1]);
+    calculatedChecksum = updateChecksum(calculatedChecksum, buf[1]);
     printf("       Track:   %2d\n", buf[2]);
+    calculatedChecksum = updateChecksum(calculatedChecksum, buf[2]);
     printf("       Sector:   %d\n", buf[3]);
-    printf("       Chksum: 0x%02x\n", buf[4]);
+    calculatedChecksum = updateChecksum(calculatedChecksum, buf[3]);
+    if (buf[4] == calculatedChecksum)
+    {
+        printf("       Chksum: 0x%02x\n", buf[4]);
+    }
+    else
+    {
+        printf("       Chksum: 0x%02x (expected 0x%02x)\n", calculatedChecksum, buf[4]);
+    }
 }
 
 
@@ -1415,9 +1364,12 @@ H17Disk::dumpSectorData(unsigned char buf[])
 {
     printf("    Sector Data:\n");
     uint8_t printAble[16];
+    uint8_t calculatedChecksum = 0;
+
 
     for (unsigned int i = 0; i < 256; i++)
     {
+        calculatedChecksum = updateChecksum(calculatedChecksum, buf[i]);
         printAble[i % 16] = isprint(buf[i]) ? buf[i] : '.';
         if  ((i % 16) == 0)
         {
@@ -1446,7 +1398,14 @@ H17Disk::dumpSectorData(unsigned char buf[])
         }
     }
 
-    printf("       Chksum: %02x\n", buf[256]);
+    if (buf[256] == calculatedChecksum)
+    {
+        printf("       Chksum: 0x%02x\n", buf[256]);
+    }
+    else
+    {
+        printf("       Chksum: 0x%02x (expected 0x%02x)\n", calculatedChecksum, buf[256]);
+    }
 }
 
 
@@ -1592,14 +1551,8 @@ printBinary(unsigned char val)
 {
     for (int i = 0; i < 8; i++)
     {
-#if 0
-        printf("%d", val & 0x01);
-        val >>= 1;
-#else
         printf("%d", (val & 0x80) >> 7);
         val <<= 1;
-#endif
-
     } 
     printf("#");
 }
