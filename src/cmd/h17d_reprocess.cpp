@@ -18,5 +18,14 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     image.decodeFile(argv[1]);
+
+    // TODO reprocess raw blocks to get a possibly better image.
+    // For all sectors with an error, 
+    //    1) pick processed raw block with highest error number (lowest type of error). 
+    //    2) process header and data portions separately
+    //
+    image.reprocessFile();
+
+    image.saveFile(argv[2]);
 }
 

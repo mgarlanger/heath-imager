@@ -48,7 +48,6 @@ static uint8_t                 disk_tpi        = 48;
 static uint16_t                disk_rpm        = 300;
 
 static uint16_t                speed_rpm       = 300;
-static uint16_t                speed_param     = 5555;
 static GtkTextBuffer          *textBufferLabel;
 static GtkTextBuffer          *textBufferComment;
 static GtkTextBuffer          *textBufferImager;

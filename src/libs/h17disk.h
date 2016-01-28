@@ -54,6 +54,10 @@ public:
     static const uint8_t TrackDataCapturedOnH89;
     static const uint8_t TrackDataCapturedOnFC5025;
 
+    static const uint8_t MandatoryFlagMask;
+    static const uint8_t MandatoryFlag_Mandatory;
+    static const uint8_t MandatoryFlag_NotMandatory;
+
 
     // Open a file
     virtual bool openForWrite(char *name);
@@ -84,6 +88,7 @@ public:
 
     virtual bool analyze();
     virtual bool decodeFile(char *name);
+    virtual bool reprocessFile();
 
     virtual bool decodeBuffer(unsigned char buf[], unsigned int size);
     virtual bool validateHeader(unsigned char buf[], unsigned int size, unsigned int &length);

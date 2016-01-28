@@ -28,7 +28,10 @@ HeathHSDisk::HeathHSDisk(BYTE sides,
                                     tpi_m(tpi),
                                     speed_m(rpm)
 {
+    // for 360 RPM drives - default
     bitcellTiming_m = 6667;
+    // for 300 RPM drives
+    //bitcellTiming_m = 8000;
 }
 
 
@@ -162,12 +165,29 @@ HeathHSDisk::physicalTrack(BYTE track)
     // if the disk is 96 tpi, then it's a 1 to 1 mapping with the TEAC 1.2M
     if (tpi_m == 96)
     {
-        return track;
+        if (driveTpi_m == 96)
+        {
+            return track;
+        }
+        else
+        {
+            // \todo - unsupported, 96tpi disk in a 48 tpi drive.
+            // exception 
+            return track;
+        }
     }
     else
     {
-        // otherwise have to skip tracks
-        return track * 2;
+        // disk is 48 tpi
+        if (driveTpi_m == 96)
+        {
+            // otherwise have to skip tracks
+            return track * 2;
+        }
+        else 
+        {
+            return track;
+        }
     }
 }
 
@@ -182,8 +202,7 @@ HeathHSDisk::setSpeed(WORD rpm)
      // if drive is 300 RPM, (not a TEAC 1.2M) then set bitcell timing to the slower speed
      if(rpm == 300)
      {
-         // \TODO determine if this is right... seems like it should be bigger than 6667
-         bitcellTiming_m = 5555;
+         bitcellTiming_m = 8000;
      } 
      else
      {
@@ -191,6 +210,19 @@ HeathHSDisk::setSpeed(WORD rpm)
          bitcellTiming_m = 6667;
      }
 }
+
+
+//! set drive tpi
+//!
+//! @param tpi
+//!
+void
+HeathHSDisk::setDriveTpi(BYTE tpi)
+{
+
+     driveTpi_m = tpi;
+}
+
 
 
 //! set number of sides for the disk

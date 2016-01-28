@@ -29,6 +29,7 @@ public:
     virtual BYTE maxSide(void);
 
     virtual void setSpeed(WORD speed);
+    virtual void setDriveTpi(BYTE tpi);
 
     virtual BYTE minSector(BYTE track,
                            BYTE side);
@@ -71,6 +72,7 @@ private:
     BYTE maxTrack_m;
     BYTE tpi_m;
     WORD speed_m;
+    BYTE driveTpi_m;
     WORD bitcellTiming_m;
 
     // set sector size to exactly 320 bytes, based on Heath's manual of 62.5 microSecond

@@ -213,6 +213,21 @@ H17Disk::loadFile()
 }
 
 
+//! reprocess file
+//!
+//!  For all sectors with an error
+//!    1) pick processed raw block with highest error number (lowest type of error).
+//!    2) process header and data portions separately
+//!
+//! @return success
+bool
+H17Disk::reprocessFile()
+{
+
+    return true;    
+}
+
+
 //! save file
 //!
 //! @param name file name
@@ -1145,6 +1160,7 @@ H17Disk::validateTrackBlock(unsigned char buf[],
     }
     printf("     Side:   %d\n", buf[0]);
     printf("     Track:  %d\n", buf[1]);
+    curTrack_m = buf[1];
     unsigned int blockLength = (buf[2] << 8) | (buf[3]);
     unsigned int pos = 4;
     unsigned int len;
@@ -1224,7 +1240,7 @@ H17Disk::validateSectorBlock(unsigned char buf[],
     printf("        Sector:   %d\n", buf[0]);
     if (buf[1])
     {
-        printf("        Error:    %d - %s\n", buf[1], sectorErrorStrings[buf[1]]);
+        printf("        Error:    %d(on Track: %d) - %s\n", buf[1], curTrack_m,  sectorErrorStrings[buf[1]]);
     }
     else
     {
