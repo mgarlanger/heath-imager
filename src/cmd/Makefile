@@ -3,9 +3,10 @@ CXX     = g++
 OUTPUT_DIR=../../output/cmd/
 OUTPUT_PROG=../../output/
 
-HOST_OBJS=h17dinfo h17d_reprocess
+HOST_OBJS=h17dinfo h17d_reprocess h17d_clone h17d_h8d h17d_raw
 HOST_PROGS=$(addprefix $(OUTPUT_DIR), $(HOST_OBJS)) $(OUTPUT_PROG)
-CXXFLAGS=-I../libs -Wall -O3 -std=c++11
+//CXXFLAGS=-I../libs -Wall -O3 -std=c++11
+CXXFLAGS=-I../libs -Wall -O0 -std=c++11 -g
 FC5025_A=$(OUTPUT_PROG)/libs/fc5025lib.a
 H17DISK_A=$(OUTPUT_PROG)/libs/h17disk.a
 

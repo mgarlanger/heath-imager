@@ -1,86 +1,162 @@
-/* Heathkit H17 Hard-sectored Disks */
+//! \file heath_hs.cpp
+//!
+//! Heathkit H17 Hard-sectored Disk h17disk file formats
+//!
 
 #include "heath_hs.h"
-#include "fc5025.h"
 #include "decode.h"
 #include "disk_util.h"
+#include "fc5025.h"
 
 #include <stdio.h>
-#include <stdint.h>
 #include <arpa/inet.h>
-#include <usb.h>
 #include <string.h>
 
+
+//! constructor
+//!
+//! @param sides
+//! @param tracks
+//! @param tpi
+//! @param rpm
+//!
 HeathHSDisk::HeathHSDisk(BYTE sides,
                          BYTE tracks,
                          BYTE tpi,
                          WORD rpm): maxSide_m(sides),
-                                 maxTrack_m(tracks),
-                                 tpi_m(tpi),
-                                 speed_m(rpm)
+                                    maxTrack_m(tracks),
+                                    tpi_m(tpi),
+                                    speed_m(rpm)
 {
-   bitcellTiming_m = 6666;
+    bitcellTiming_m = 6666;
 }
 
+
+//! destructor
+//!
 HeathHSDisk::~HeathHSDisk()
 {
 
 }
 
 
-BYTE HeathHSDisk::minTrack(void)
+//! return minimum track number
+//!
+//! @return track number
+//!
+BYTE
+HeathHSDisk::minTrack(void)
 {
     return 0;
 }
 
-BYTE HeathHSDisk::maxTrack(void)
+
+//! return maximum track number
+//!
+//! @return track number
+//!
+BYTE
+HeathHSDisk::maxTrack(void)
 {
-    return maxTrack_m;
+    return maxTrack_m - 1;
 }
 
-WORD HeathHSDisk::minSpeed(void)
+
+//! return minimum speed
+//!
+//! @return speed
+//!
+WORD
+HeathHSDisk::minSpeed(void)
 {
     return 300;
 }
 
-WORD HeathHSDisk::rpm(void)
+
+//! return RPM - rotations per minute
+//!
+//! @return speed
+WORD
+HeathHSDisk::rpm(void)
 {
     return speed_m;
 }
 
 
-BYTE HeathHSDisk::minSide(void)
+//! return minimum side number
+//!
+//! @return side number
+//!
+BYTE
+HeathHSDisk::minSide(void)
 {
     return 0;
 }
 
-BYTE HeathHSDisk::maxSide(void)
+
+//! return maximum side number
+//!
+//! @return side number
+//!
+BYTE
+HeathHSDisk::maxSide(void)
 {
-    return maxSide_m;
+    return maxSide_m - 1;
 }
 
-BYTE HeathHSDisk::minSector(BYTE track, BYTE side)
+
+//! return minimum sector number
+//!
+//! @return sector number
+//!
+BYTE
+HeathHSDisk::minSector(BYTE track, BYTE side)
 {
     return 0;
 }
 
-BYTE HeathHSDisk::maxSector(BYTE track, BYTE side)
+
+//! return maximum sector number
+//!
+//! @return sector number
+//!
+BYTE
+HeathHSDisk::maxSector(BYTE track, BYTE side)
 {
     return 9;
 }
 
-BYTE HeathHSDisk::tpi(void)
+
+//! return TPI - tracks per inch
+//!
+//! @return tpi
+//!
+BYTE
+HeathHSDisk::tpi(void)
 {
     return tpi_m;
 }
 
-BYTE HeathHSDisk::density(void)
+
+//! return density
+//!
+//! @return density
+//!
+BYTE
+HeathHSDisk::density(void)
 {
     // single density is 1 for fc5025.
     return 1;
 }
 
-BYTE HeathHSDisk::physicalTrack(BYTE track)
+
+//! return physical track number to seek to based on type of disk
+//! \todo handle 40 track drives
+//!
+//! @return physical track number
+//!
+BYTE
+HeathHSDisk::physicalTrack(BYTE track)
 {
     // if the disk is 96 tpi, then it's a 1 to 1 mapping with the TEAC 1.2M
     if (tpi_m == 96)
@@ -94,84 +170,137 @@ BYTE HeathHSDisk::physicalTrack(BYTE track)
     }
 }
 
-void HeathHSDisk::setSpeed(WORD rpm)
+
+//! set drive rpm
+//!
+//! @param rpm
+//!
+void
+HeathHSDisk::setSpeed(WORD rpm)
 {
-  // if drive is 300 RPM, (not a TEAC 1.2M) then set bitcell timing to the slower speed
-  if(rpm == 300)
-  {
-     bitcellTiming_m = 5555;
-  } else {
-     // otherwise default speed.
-     bitcellTiming_m = 6666;
-  }
+     // if drive is 300 RPM, (not a TEAC 1.2M) then set bitcell timing to the slower speed
+     if(rpm == 300)
+     {
+         bitcellTiming_m = 5555;
+     } 
+     else
+     {
+         // otherwise default speed.
+         bitcellTiming_m = 6666;
+     }
 }
 
-bool HeathHSDisk::setSides(BYTE sides)
+
+//! set number of sides for the disk
+//!
+//! @param sides
+//!
+bool
+HeathHSDisk::setSides(BYTE sides)
 {
     bool returnVal = true;
 
     if (sides == 2)
     {
-        maxSide_m = 1;
+        maxSide_m = 2;
     }
     else
     {
-        maxSide_m = 0;
+        maxSide_m = 1;
         returnVal = (sides == 1);
     }
     
     return returnVal;
 }
 
-bool HeathHSDisk::setTracks(BYTE tracks)
+
+//! set the number of tracks for the disk
+//!
+//! @param tracks
+//!
+bool
+HeathHSDisk::setTracks(BYTE tracks)
 {
     bool returnVal = true;
 
     if (tracks == 80)
     {
         tpi_m      = 96;
-        maxTrack_m = 79;
+        maxTrack_m = 80;
     }
     else
     {
         tpi_m      = 48;
-        maxTrack_m = 39;
+        maxTrack_m = 40;
         returnVal  = (tracks == 40);
     }
     
     return returnVal;
 }
 
-int HeathHSDisk::sectorBytes(BYTE side, BYTE track, BYTE sector)
+
+//! return the number of bytes per sector
+//!
+//! @param side
+//! @param track
+//! @param sector
+//!
+//! @return number of bytes
+//!
+WORD
+HeathHSDisk::sectorBytes(BYTE side, BYTE track, BYTE sector)
 {
     return sectorBytes_c; 
 }
 
-int HeathHSDisk::sectorRawBytes(BYTE side, BYTE track, BYTE sector)
+
+//! return the number of bytes per raw sector
+//!
+//! @param side
+//! @param track
+//! @param sector
+//!
+//! @return number of bytes
+//!
+WORD
+HeathHSDisk::sectorRawBytes(BYTE side, BYTE track, BYTE sector)
 {
     return sectorRawBytes_c;
 }
 
-int HeathHSDisk::readSector(BYTE *buffer, BYTE *rawBuffer, BYTE side, BYTE track, BYTE sector)
+
+//! read a given sector of a disk through the FC5025 device
+//!
+//! @param buffer     buffer to write the processed sector
+//! @param rawBuffer  buffer to write the raw sector
+//! @param side       disk side to read
+//! @param track      track to read
+//! @param sector     sector to read 
+//!
+//! @return status
+//!
+int
+HeathHSDisk::readSector(BYTE *buffer, BYTE *rawBuffer, BYTE side, BYTE track, BYTE sector)
 {
     int             xferlen = sectorRawBytes_c;
     int             xferlen_out;
-    unsigned char   raw[sectorRawBytes_c];
-    unsigned char   data[sectorBytes_c];
-    unsigned char   out[sectorBytes_c];
+    unsigned char   raw[sectorRawBytes_c];  // as read in from the fc5025
+    unsigned char   data[sectorBytes_c];    // after removing clock-bits
+    unsigned char   out[sectorBytes_c];     // after processing sector for alignment
+
     struct
     {
-        FC5025::Opcode  opcode;
-        uint8_t         flags;
-        FC5025::Format  format;
-        uint16_t        bitcell;
-        uint8_t         sectorhole;
-        uint8_t         rdelayh;
-        uint16_t        rdelayl;
-        uint8_t         idam;
-        uint8_t         id_pat[12];
-        uint8_t         id_mask[12];
-        uint8_t         dam[3];
+        FC5025::Opcode  opcode;       // command for the fc5025
+        uint8_t         flags;        // side flag
+        FC5025::Format  format;       // density - FM/MFM
+        uint16_t        bitcell;      // timing for a bit cell
+        uint8_t         sectorhole;   // which physical sector to read
+        uint8_t         rdelay_hi;    // delay after hole before starting to read
+        uint16_t        rdelay_lo;
+        uint8_t         idam;         // not used
+        uint8_t         id_pat[12];   // not used
+        uint8_t         id_mask[12];  // not used
+        uint8_t         dam[3];       // not used
     } __attribute__ ((__packed__)) cdb =
     {
         FC5025::Opcode::ReadFlexible,  // opcode
@@ -179,11 +308,12 @@ int HeathHSDisk::readSector(BYTE *buffer, BYTE *rawBuffer, BYTE side, BYTE track
         FC5025::Format::FM,            // format
         htons(bitcellTiming_m),        // bitcell
         (uint8_t) (sector + 1),        // sectorhole - FC5025 expect one based number instead of zero based.
-        0,                             // rdelayh
-        0,                             // rdelayl - no delay, start instantly after the hole.
+        0,                             // rdelay_hi - no delay, start immediately
+        0,                             // rdelay_lo
         0x0,                           // idam
         {0, },                         // id_pat ... idmask .. dam
     };
+
     int   status = No_Error;
    
     printf("bit timing: %d\n", bitcellTiming_m);
@@ -224,12 +354,29 @@ int HeathHSDisk::readSector(BYTE *buffer, BYTE *rawBuffer, BYTE side, BYTE track
 }
 
 
-int HeathHSDisk::trackBytes(BYTE head, BYTE track)
+//! returns the number of bytes for a track
+//! 
+//! @param head
+//! @param track
+//!
+//! @return number of bytes
+//!
+WORD
+HeathHSDisk::trackBytes(BYTE head, BYTE track)
 {
     return sectorBytes_c * 10;
 }
 
-int HeathHSDisk::trackRawBytes(BYTE head, BYTE track)
+
+//! returns the number of byte for a raw track
+//! 
+//! @param head
+//! @param track
+//!
+//! @return number of bytes
+//!
+WORD
+HeathHSDisk::trackRawBytes(BYTE head, BYTE track)
 {
     return sectorRawBytes_c * 10;
 }

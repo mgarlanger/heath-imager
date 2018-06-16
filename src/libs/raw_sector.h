@@ -1,3 +1,8 @@
+//! \file raw_sector.h
+//!
+//! Handles the raw data from fc5025
+//!
+//!
 #ifndef __RAW_SECTOR_H__
 #define __RAW_SECTOR_H__
 
@@ -7,27 +12,35 @@
 
 class RawSector
 {
+
 public:
-    RawSector(unsigned char  side,
-              unsigned char  track,
-              unsigned char  sector,
-              unsigned char *buf,
-              unsigned int   bufSize);
+
+    RawSector(uint8_t   side,
+              uint8_t   track,
+              uint8_t   sector,
+              uint8_t  *buf,
+              uint16_t  bufSize);
+
+    RawSector(uint8_t  *buf,
+              uint32_t  size,
+              uint16_t  &length);
+
     ~RawSector();
 
-    bool writeToFile(std::ofstream &file);
-    unsigned int getBufSize();
-    unsigned int getBlockSize();
-    void dumpSector();
+    bool     writeToFile(std::ofstream &file);
+    uint16_t getBufSize();
+    uint16_t getBlockSize();
+    void     dumpSector();
 
     static const uint8_t headerSize_c = 4;
 
 private:
-    unsigned int   bufSize_m;
-    unsigned char *buf_m;
-    unsigned char  side_m;
-    unsigned char  track_m;
-    unsigned char  sector_m;
+
+    uint16_t   bufSize_m;
+    uint8_t   *buf_m;
+    uint8_t    side_m;
+    uint8_t    track_m;
+    uint8_t    sector_m;
 
 };
 
