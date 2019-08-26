@@ -27,8 +27,8 @@ Sector::Sector(uint8_t   side,
                uint8_t  *buf,
                uint16_t  bufSize): bufSize_m(bufSize),
                                    buf_m(nullptr),
-                                   side_m(side),
-                                   track_m(track),
+                                   // side_m(side),
+                                   // track_m(track),
                                    sector_m(sector),
                                    error_m(error)
 {

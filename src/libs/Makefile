@@ -4,6 +4,13 @@ CXX        = g++
 # CXXFLAGS   = -Wall -Werror -O3 -std=c++11
 CXXFLAGS   = -Wall -Werror -O3 -std=c++0x
 #CXXFLAGS   = -Wall -Werror -O0 -std=c++11 -g
+ifeq ($(OS), Linux)
+	ARFLAGS = crf
+else
+	# Mac OS X
+	ARFLAGS = rcs
+endif
+
 LDFLAGS    =
 OUTPUT_DIR = ../../output/libs/
 _TARGET    = fc5025lib.a
@@ -29,10 +36,10 @@ dummy_build_folder := $(shell mkdir -p $(OUTPUT_DIR))
 all: $(MAKE_TS) $(TARGET) $(H17LIB)
 
 $(TARGET): $(OBJS) 
-	$(AR) crf $@ $^
+	$(AR) $(ARFLAGS) $@ $^
 
 $(H17LIB): $(H17OBJS) 
-	$(AR) crf $@ $^
+	$(AR) $(ARFLAGS) $@ $^
 
 $(OUTPUT_DIR)%.o: %.cpp
 	$(CXX) $(CXXFLAGS) -MMD -c $< -o $@
