@@ -42,8 +42,8 @@ private:
 
     uint16_t  bufSize_m;
     uint8_t  *buf_m;
-    uint8_t   side_m;  // \todo determine if side and track is needed, since it is not stored.
-    uint8_t   track_m;
+    // uint8_t   side_m;  // \todo determine if side and track is needed, since it is not stored.
+    // uint8_t   track_m;
     uint8_t   sector_m;
     uint8_t   error_m;
 

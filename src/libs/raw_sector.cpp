@@ -21,8 +21,8 @@ RawSector::RawSector(uint8_t    side,
                      uint8_t    sector,
                      uint8_t   *buf,
                      uint16_t   bufSize): bufSize_m(bufSize),
-                                          side_m(side),
-                                          track_m(track),
+                                          // side_m(side),
+                                          // track_m(track),
                                           sector_m(sector)
 {
     buf_m = new uint8_t[bufSize_m];

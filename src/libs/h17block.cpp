@@ -222,9 +222,9 @@ H17DiskFormatBlock::H17DiskFormatBlock(uint8_t buf[],
 //! @param sides
 //! @param tracks
 //!
-H17DiskFormatBlock::H17DiskFormatBlock(uint8_t sides = 1,
-                                       uint8_t tracks = 40): sides_m(sides),
-                                                             tracks_m(tracks)
+H17DiskFormatBlock::H17DiskFormatBlock(uint8_t sides,
+                                       uint8_t tracks): sides_m(sides),
+                                                        tracks_m(tracks)
 {
     printf("%s\n", __PRETTY_FUNCTION__);
 
@@ -337,11 +337,11 @@ H17DiskFormatBlock::getDataSize()
 //! @param dist
 //! @param trackSource
 //!
-H17DiskFlagsBlock::H17DiskFlagsBlock(bool roFlag = false,
-                                     uint8_t dist = 0,
-                                     uint8_t trackSource = 0): roFlag_m(roFlag),
-                                                               distribution_m(dist),
-                                                               trackData_m(trackSource)
+H17DiskFlagsBlock::H17DiskFlagsBlock(bool roFlag,
+                                     uint8_t dist,
+                                     uint8_t trackSource): roFlag_m(roFlag),
+                                                           distribution_m(dist),
+                                                           trackData_m(trackSource)
 {
     printf("%s\n", __PRETTY_FUNCTION__);
 
