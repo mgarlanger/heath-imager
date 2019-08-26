@@ -29,7 +29,8 @@ HeathHSDisk::HeathHSDisk(BYTE sides,
                                     speed_m(rpm)
 {
     // for 360 RPM drives - default
-    bitcellTiming_m = 6667;
+    bitcellTiming_m = 6666;
+    driveTpi_m = 96;
     // for 300 RPM drives
     //bitcellTiming_m = 8000;
 }
