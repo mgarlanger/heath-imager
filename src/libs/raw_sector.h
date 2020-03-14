@@ -38,8 +38,6 @@ private:
 
     uint16_t   bufSize_m;
     uint8_t   *buf_m;
-    // uint8_t    side_m;
-    // uint8_t    track_m;
     uint8_t    sector_m;
 
 };

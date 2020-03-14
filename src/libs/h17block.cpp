@@ -29,7 +29,7 @@ H17Block::H17Block(): size_m(0),
 //!
 H17Block::H17Block(uint8_t buf[], uint32_t size)
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
     buf_m = new unsigned char[size];
     size_m = size;
 
@@ -40,7 +40,7 @@ H17Block::H17Block(uint8_t buf[], uint32_t size)
 //!
 H17Block::~H17Block()
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    //printf("%s\n", __PRETTY_FUNCTION__);
     if (buf_m)
     {
         delete[] buf_m;
@@ -200,7 +200,7 @@ H17DiskFormatBlock::H17DiskFormatBlock(uint8_t buf[],
                                        uint32_t size): sides_m(1),
                                                        tracks_m(40)
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
     switch (size)
     {
         default:
@@ -226,7 +226,7 @@ H17DiskFormatBlock::H17DiskFormatBlock(uint8_t sides,
                                        uint8_t tracks): sides_m(sides),
                                                         tracks_m(tracks)
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
 
 }
 
@@ -235,9 +235,10 @@ H17DiskFormatBlock::H17DiskFormatBlock(uint8_t sides,
 //!
 H17DiskFormatBlock::~H17DiskFormatBlock()
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
 
 }
+
 
 
 //! print block name
@@ -259,6 +260,27 @@ H17DiskFormatBlock::getBlockId()
     return DiskFormatBlock_c;
 }
 
+//! get sides
+//!
+//! @return sides
+//!
+uint8_t
+H17DiskFormatBlock::getSides()
+{
+    return sides_m;
+}
+
+//! get block id
+//!
+//! @return id
+//!
+uint8_t
+H17DiskFormatBlock::getTracks()
+{
+    return tracks_m;
+}
+
+
 
 //! write block to file
 //!
@@ -269,7 +291,7 @@ H17DiskFormatBlock::getBlockId()
 bool
 H17DiskFormatBlock::writeToFile(std::ofstream &file)
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
     writeBlockHeader(file);
 
     unsigned char buf[2] = { sides_m, tracks_m };
@@ -343,7 +365,7 @@ H17DiskFlagsBlock::H17DiskFlagsBlock(bool roFlag,
                                                            distribution_m(dist),
                                                            trackData_m(trackSource)
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
 
 }
 
@@ -360,7 +382,7 @@ H17DiskFlagsBlock::H17DiskFlagsBlock(uint8_t buf[],
                                                      distribution_m(0),
                                                      trackData_m(0)
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
     /// \todo handle flag block larger than 3, - check mandatory flag.
     switch (size)
     {
@@ -384,7 +406,7 @@ H17DiskFlagsBlock::H17DiskFlagsBlock(uint8_t buf[],
 //! 
 H17DiskFlagsBlock::~H17DiskFlagsBlock()
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
 
 }
 
@@ -429,7 +451,7 @@ H17DiskFlagsBlock::getDataSize()
 bool
 H17DiskFlagsBlock::writeToFile(std::ofstream &file)
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
     uint8_t buf[3] = { roFlag_m, distribution_m, trackData_m };
 
     writeBlockHeader(file);
@@ -485,7 +507,7 @@ H17DiskFlagsBlock::getMandatory()
 //!
 H17DiskLabelBlock::H17DiskLabelBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
 
 }
 
@@ -494,7 +516,7 @@ H17DiskLabelBlock::H17DiskLabelBlock(uint8_t buf[], uint32_t size): H17Block::H1
 //! 
 H17DiskLabelBlock::~H17DiskLabelBlock()
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
 
 }
 
@@ -556,13 +578,13 @@ H17DiskLabelBlock::dump(uint8_t level)
 
 H17DiskCommentBlock::H17DiskCommentBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
 
 }
 
 H17DiskCommentBlock::~H17DiskCommentBlock()
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
 
 }
 
@@ -621,13 +643,13 @@ H17DiskCommentBlock::getMandatory()
 
 H17DiskDateBlock::H17DiskDateBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
 
 }
 
 H17DiskDateBlock::~H17DiskDateBlock()
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
 
 }
 
@@ -686,13 +708,13 @@ H17DiskDateBlock::getMandatory()
 
 H17DiskImagerBlock::H17DiskImagerBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
 
 }
 
 H17DiskImagerBlock::~H17DiskImagerBlock()
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
 
 }
 
@@ -751,13 +773,13 @@ H17DiskImagerBlock::getMandatory()
 
 H17DiskProgramBlock::H17DiskProgramBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
 
 }
 
 H17DiskProgramBlock::~H17DiskProgramBlock()
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
 
 }
 
@@ -817,7 +839,7 @@ H17DiskProgramBlock::getMandatory()
 //H17DiskDataBlock::H17DiskDataBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
 H17DiskDataBlock::H17DiskDataBlock(uint8_t buf[], uint32_t size)
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
 
     size_m = size;
   
@@ -834,7 +856,7 @@ H17DiskDataBlock::H17DiskDataBlock(uint8_t buf[], uint32_t size)
 
 H17DiskDataBlock::~H17DiskDataBlock()
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
 
     for (unsigned int i = 0 ; i < tracks_m.size(); i++)
     {
@@ -853,6 +875,45 @@ H17DiskDataBlock::printBlockName()
     printf("  Data\n");
 }
 
+
+Track *
+H17DiskDataBlock::getTrack(uint8_t side, uint8_t track)
+{
+    for (unsigned int i = 0 ; i < tracks_m.size(); i++)
+    {
+        if (tracks_m[i]->getTrackNumber() == track &&
+            tracks_m[i]->getSideNumber() == side)
+        {
+            return tracks_m[i];
+        }
+    }
+
+    return nullptr; 
+}
+
+Sector *
+H17DiskDataBlock::getSector(uint8_t side, uint8_t track, uint8_t sector)
+{
+    Track *trk = getTrack(side, track);
+
+    if (trk) {
+       return trk->getSector(sector);
+    }
+
+    return nullptr; 
+}
+
+Sector *
+H17DiskDataBlock::getSector(uint16_t sectorNum)
+{
+    // determine track/sector number based on sectorNum
+    // TODO: how to map sector 0->1599 to side/track/sector
+
+    uint8_t sectNum = sectorNum % 10;
+    uint8_t trackNum = sectorNum / 10;
+
+    return getSector(0, trackNum, sectNum);
+}
 
 //! get block id
 //!
@@ -874,7 +935,7 @@ H17DiskDataBlock::getBlockId()
 bool
 H17DiskDataBlock::writeToFile(std::ofstream &file)
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
 
     writeBlockHeader(file);
 
@@ -896,7 +957,7 @@ H17DiskDataBlock::writeToFile(std::ofstream &file)
 bool
 H17DiskDataBlock::writeAsH8D(std::ofstream &file)
 {   
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
     
     for (unsigned int i = 0 ; i < tracks_m.size(); i++)
     {   
@@ -916,7 +977,7 @@ H17DiskDataBlock::writeAsH8D(std::ofstream &file)
 bool
 H17DiskDataBlock::writeAsRaw(std::ofstream &file)
 {  
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
    
     for (unsigned int i = 0 ; i < tracks_m.size(); i++)
     {
@@ -1001,7 +1062,7 @@ H17DiskDataBlock::getMandatory()
 
 H17DiskRawDataBlock::H17DiskRawDataBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
 
     size_m = size;
 
@@ -1017,7 +1078,7 @@ H17DiskRawDataBlock::H17DiskRawDataBlock(uint8_t buf[], uint32_t size): H17Block
 
 H17DiskRawDataBlock::~H17DiskRawDataBlock()
 {
-    printf("%s: %lu\n", __PRETTY_FUNCTION__, rawTracks_m.size());
+    // printf("%s: %lu\n", __PRETTY_FUNCTION__, rawTracks_m.size());
 
     for (unsigned int i = 0 ; i < rawTracks_m.size(); i++)
     {   
@@ -1049,7 +1110,7 @@ H17DiskRawDataBlock::getBlockId()
 bool
 H17DiskRawDataBlock::writeToFile(std::ofstream &file)
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
 
     writeBlockHeader(file);
 

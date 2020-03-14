@@ -20,9 +20,11 @@
 #define htov32(x) swap32(htonl(x))
 
 FC5025 *FC5025::pInst_m = nullptr;
-
+const uint8_t FC5025::testResponseSize_c = 32;
 
 // \todo move this into class.
+// CBW - Command Block Wrapper
+// 
 static struct
 {
     uint8_t      signature[4];
@@ -50,27 +52,15 @@ FC5025::FC5025()
 {
     // set drive parameters to default
     // - default for TEAC  1.2M
-    drive_Tracks_m   = 80;
-    drive_Sides_m    = 2;
-    drive_RPM_m      = 360;
-    drive_StepRate_m = 15;     // 3 mSec
+    //drive_StepRate_m = 15;     // 3 mSec
    
     // H-17-1 
-    //drive_Tracks_m   = 40;
-    //drive_Sides_m    = 1;
-    //drive_RPM_m      = 300;
     //drive_StepRate_m = 150;  // 30 mSec
 
     // H-17-4 
-    //drive_Tracks_m   = 80;
-    //drive_Sides_m    = 2;
-    //drive_RPM_m      = 300;
-    //drive_StepRate_m = 30;   // 6 mSec
+    drive_StepRate_m = 30;   // 6 mSec
 
-    // default hard-sectored disk
-    disk_Tracks_m    = 40;
-    disk_Sides_m     = 1;
-    disk_RPM_m       = 300;
+    //cbw = new struct CommandBlockWrapper();
 }
 
 
@@ -100,11 +90,12 @@ FC5025::inst()
 
 
 //! common cdb 
+//! Command Descriptor Block
 //!
-//! @param cdb
+//! @param cdb       - Command Descriptor Block
 //! @param length
 //! @param timeout
-//! @param csw_out
+//! @param csw_out   - Command Status Wrapper
 //! @param xferbuf
 //! @param xferlen
 //! @param xferlen_out
@@ -148,7 +139,7 @@ FC5025::bulkCDB(void          *cdb,
     ret = usb_bulk_write(udev_m, 1, (const char *) &cbw, 63, 1500);
     if (ret != 63)
     {
-        printf("%s: failed 1\n", __FUNCTION__);
+        printf("%s: failed usb_bulk_write1\n", __FUNCTION__);
         return 1;
     }
 
@@ -159,7 +150,7 @@ FC5025::bulkCDB(void          *cdb,
         ret = usb_bulk_read(udev_m, 0x81, (char *) xferbuf, xferlen, timeout);
         if (ret < 0)
         {
-            printf("%s: failed 2\n", __FUNCTION__);
+            printf("%s: failed usb_bulk_read data\n", __FUNCTION__);
             return 1;
         }
         if (xferlen_out != NULL)
@@ -173,13 +164,13 @@ FC5025::bulkCDB(void          *cdb,
     ret = usb_bulk_read(udev_m, 0x81, (char *) &csw, 32, timeout);
     if ((ret < 12) || (ret > 31))
     {
-        printf("%s: failed 3\n", __FUNCTION__);
+        printf("%s: failed usb_bulk_read of status, ret: %d\n", __FUNCTION__, ret);
         return 1;
     }
 
     if (csw.signature != htov32(cswSignature_c))
     {
-        printf("%s: failed 4\n", __FUNCTION__);
+        printf("%s: failed csw signature\n", __FUNCTION__);
         return 1;
     }
 
@@ -187,7 +178,7 @@ FC5025::bulkCDB(void          *cdb,
     if (csw.tag != cbw.tag)
     {
         // response tag did not match transmitted tag
-        printf("%s: failed 5\n", __FUNCTION__);
+        printf("%s: failed csw tag\n", __FUNCTION__);
         return 1;
     }
 
@@ -220,7 +211,6 @@ FC5025::bulkCDB(void          *cdb,
 //!
 int
 FC5025::internalSeek(uint8_t mode,
-                     uint8_t stepRate,
                      uint8_t track)
 {
     int retVal;
@@ -235,15 +225,41 @@ FC5025::internalSeek(uint8_t mode,
     {   
         Opcode::Seek,
         mode,
-        stepRate,
+        drive_StepRate_m,
         track
     };
     
-    retVal = bulkCDB(&cdb, sizeof(cdb), 600, NULL, NULL, 0, NULL);
+    retVal = bulkCDB(&cdb, sizeof(cdb), 1000, NULL, NULL, 0, NULL);
     usleep(15000);
 
     return retVal;
 }
+
+int
+FC5025::testBoard(void)
+{
+    int             retVal;
+    int             xferlen = testResponseSize_c;
+    int             xferlen_out;
+
+    unsigned char   raw[testResponseSize_c];  // as read in from the fc5025
+
+    struct
+    {
+        Opcode    opcode;
+        uint16_t  testNumber;
+    } __attribute__ ((__packed__)) cdb =
+    {
+        Opcode::SelfTest,
+        0,
+    };
+
+    retVal = bulkCDB(&cdb, sizeof(cdb), 300, NULL, raw, xferlen, &xferlen_out);
+
+    
+    return retVal;
+}
+
 
 
 //! recalibrate - try to find track zero
@@ -253,7 +269,7 @@ FC5025::internalSeek(uint8_t mode,
 int
 FC5025::recalibrate(void)
 {
-    return internalSeek( 3, drive_StepRate_m, 100);
+    return internalSeek(3, 100);
 }
 
 
@@ -266,7 +282,7 @@ FC5025::recalibrate(void)
 int
 FC5025::seek(uint8_t       track)
 {
-    return internalSeek(0, drive_StepRate_m, track);
+    return internalSeek(0, track);
 }
 
 
@@ -322,6 +338,78 @@ FC5025::readId(uint8_t       *out,
         status |= 1;
     }
 
+    return status;
+}
+
+//! read hard-sectored Sector 
+//! 
+//! @param out      caller allocated buffer to read the sector into
+//! @param length   maxLength of data to read into out
+//! @param side     side to read
+//! @param track    track to read from
+//! @param sector   sector to read
+//! @param bitcellTime  bitcell time - based on disk speed and speed media was written to.
+//!
+//! @return status
+//! 
+int
+FC5025::readHardSectorSector(uint8_t      *out,
+                             uint16_t      length,
+                             uint8_t       side,
+                             uint8_t       track,
+                             uint8_t       sector,
+                             uint16_t      bitcellTime) 
+{
+    int             xferlen = length;
+    int             xferlen_out;
+    //unsigned char   raw[length];  // as read in from the fc5025
+
+    struct
+    {
+        Opcode          opcode;       // command for the fc5025
+        uint8_t         flags;        // side flag
+        Format          format;       // density - FM/MFM
+        uint16_t        bitcell;      // timing for a bit cell
+        uint8_t         sectorhole;   // which physical sector to read
+        uint8_t         rdelay_hi;    // delay after hole before starting to read
+        uint16_t        rdelay_lo;
+        uint8_t         idam;         // not used
+        uint8_t         id_pat[12];   // not used
+        uint8_t         id_mask[12];  // not used
+        uint8_t         dam[3];       // not used
+    } __attribute__ ((__packed__)) cdb =
+    {
+        Opcode::ReadFlexible,          // opcode
+        side,                          // flags
+        Format::FM,                    // format
+        htons(bitcellTime),            // bitcell Time
+        (uint8_t) (sector + 1),        // sectorhole - FC5025 expect one based instead of zero based.
+        0,                             // rdelay_hi - no delay, start immediately
+        0,                             // rdelay_lo
+        0x0,                           // idam
+        {0, },                         // id_pat ... idmask .. dam
+    };
+
+    int   status = 0;
+
+  
+    //printf("bit timing: %d\n", bitcellTiming_m);
+
+    status = bulkCDB(&cdb, sizeof(cdb), 4000, NULL, out, xferlen, &xferlen_out);
+    if (xferlen_out != xferlen)
+    {
+        printf("%s - xferlen: %d  xferlen_out: %d\n", __FUNCTION__, xferlen, xferlen_out);
+        status = 1;
+        return status;
+    }
+   
+    printf("%s - xfer success\n", __FUNCTION__);
+/*
+    if (out)
+    {
+        memcpy(out, raw, length);
+    }
+*/
     return status;
 }
 
@@ -514,65 +602,29 @@ FC5025::find(struct usb_device **devs,
 }
 
 
-//! configure disk drive
+//! set disk drive step rate
 //!
-//! @param tracks
-//! @param sides
-//! @param rpm
 //! @param stepRate
 //!
 //! @return void
 //!
 void
-FC5025::configureDiskDrive(uint8_t   tracks,
-                           uint8_t   sides,
-                           uint16_t  rpm,
-                           uint8_t   stepRate)
+FC5025::setStepRate(uint8_t   stepRate)
 {
-    drive_Tracks_m   = tracks;
-    drive_Sides_m    = sides;
-    drive_RPM_m      = rpm;
     drive_StepRate_m = stepRate;
 }
 
 
-//! get disk drive
+//! get disk drive step rate
 //!
-//! @param tracks
-//! @param sides
-//! @param rpm
 //! @param stepRate
 //!
 //! @return void
 //!
 void 
-FC5025::getDiskDrive(uint8_t   &tracks,
-                     uint8_t   &sides,
-                     uint16_t  &rpm,
-                     uint8_t   &stepRate)
+FC5025::getStepRate(uint8_t   &stepRate)
 {
-    tracks   = drive_Tracks_m;
-    sides    = drive_Sides_m;
-    rpm      = drive_RPM_m;
     stepRate = drive_StepRate_m;
 }
 
-
-//! configure floppy disk
-//!
-//! @param tracks
-//! @param sides
-//! @param rpm
-//!
-//! @return void
-//!
-void
-FC5025::configureFloppyDisk(uint8_t  tracks,
-                            uint8_t  sides,
-                            uint16_t rpm)
-{
-    disk_Tracks_m = tracks;
-    disk_Sides_m  = sides;
-    disk_RPM_m    = rpm;
-}
 

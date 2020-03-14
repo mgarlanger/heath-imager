@@ -138,7 +138,7 @@ Decode::decodeFM(BYTE         *decoded,
 //!  decodeMFM()
 //!
 //!  @param decode        pointer to processed buffer
-//!  @param fmEncoded     pointer to raw buffer
+//!  @param mfmEncoded    pointer to raw buffer
 //!  @param count         number of bytes in the final processed file
 //!
 //!  @return number of errors (currently returns zero) 

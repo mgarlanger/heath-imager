@@ -2,7 +2,8 @@
 
 CXX        = g++
 # CXXFLAGS   = -Wall -Werror -O3 -std=c++11
-CXXFLAGS   = -Wall -Werror -O3 -std=c++0x
+#CXXFLAGS   = -Wall -Werror -O3 -std=c++0x
+CXXFLAGS   = -Wall -Werror -O0 -std=c++0x -g
 #CXXFLAGS   = -Wall -Werror -O0 -std=c++11 -g
 ifeq ($(OS), Linux)
 	ARFLAGS = crf
@@ -24,7 +25,7 @@ SRCS       = decode.cpp disk.cpp drive.cpp heath_hs.cpp fc5025.cpp
 _OBJS      = $(SRCS:.cpp=.o)
 OBJS       = $(addprefix $(OUTPUT_DIR),$(_OBJS))
 DEPS       = $(OBJS:.o=.d)
-H17SRCS    = h17disk.cpp h17block.cpp raw_track.cpp raw_sector.cpp sector.cpp track.cpp disk_util.cpp dump.cpp
+H17SRCS    = h17disk.cpp h17block.cpp raw_track.cpp raw_sector.cpp sector.cpp track.cpp disk_util.cpp dump.cpp hdos.cpp cpm.cpp
 _H17OBJS   = $(H17SRCS:.cpp=.o)
 H17OBJS    = $(addprefix $(OUTPUT_DIR),$(_H17OBJS))
 H17DEPS    = $(H17OBJS:.o=.d)

@@ -46,6 +46,7 @@ public:
     static const uint8_t DistUnknown;
     static const uint8_t DistributionDisk;
     static const uint8_t WorkingDisk;
+    static const uint8_t CopyOfDistributionDisk;
  
     //  
     static const uint8_t TrackDataUnknown;
@@ -87,7 +88,7 @@ public:
     virtual bool loadRawSectorBlock(unsigned char buf[], unsigned int size, unsigned int &length);
 
     virtual bool analyze();
-    virtual bool decodeFile(char *name);
+    virtual bool decodeFile(char *name, bool summary = false);
     virtual bool reprocessFile();
 
     virtual bool decodeBuffer(unsigned char buf[], unsigned int size);
@@ -172,6 +173,8 @@ public:
 
 //  - raw data...    virtual bool convertToData();
 
+    virtual H17Block* getH17Block(uint8_t blockId);
+
     static const uint8_t versionMajor_c;
     static const uint8_t versionMinor_c;
     static const uint8_t versionPoint_c;
@@ -202,6 +205,7 @@ private:
 
     std::streampos  dataBlockSizePos_m, trackSizePos_m;
 
+    bool          summarize_m;
 //    virtual bool writeHeader();
 
     bool writeBlockHeader(uint8_t blockId, uint8_t flag, uint32_t length);

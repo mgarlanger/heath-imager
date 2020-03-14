@@ -60,19 +60,14 @@ get_desc(DriveInfo *drive)
     {
         return 1;
     }
+
     if (usb_get_descriptor(udev, USB_DT_DEVICE, 0, &descriptor, sizeof(descriptor)) != 
-                           sizeof(descriptor))
+                           sizeof(descriptor) ||
+       (usb_get_string_simple(udev, descriptor.iProduct, drive->desc, 256) <= 0))
     {
         retVal = 1;
-        goto done;
-    }
-    if (usb_get_string_simple(udev, descriptor.iProduct, drive->desc, 256) <= 0)
-    {
-        retVal = 1;
-        goto done;
     }
 
-done:
     usb_close(udev);
     return retVal;
 }
@@ -98,6 +93,7 @@ Drive::get_drive_list(void)
     {
         return NULL;
     }
+
     if (devs != NULL)
     {
         free(devs);
@@ -109,11 +105,14 @@ Drive::get_drive_list(void)
     {
         return NULL;
     }
+
     listed_devs = FC5025::inst()->find(devs, total_devs);
+
     if (listed_devs == 0)
     {
         return NULL;
     }
+
     if (drives != NULL)
     {
         free(drives);

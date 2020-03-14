@@ -12,7 +12,7 @@
 #include "disk_util.h"
 #include "raw_sector.h"
 
-#define VERSION_STRING "1.0"
+#define VERSION_STRING "1.1.0"
 
 #define DIRECTORY_SEPARATOR "/"
 
@@ -24,7 +24,9 @@ static GtkWidget              *description_field;
 static GtkWidget              *outdir_field;
 static struct DriveInfo       *selected_drive   = NULL;
 static GtkWidget              *imgbutton,
-                              *diskInfoButton;
+                              *diskInfoButton,
+                              *testBoardButton,
+                              *testInterfaceButton;
 GtkWidget                     *listbox,
                               *pop_button;
 
@@ -36,23 +38,35 @@ static char                   *selected_item_name;
 static int                     modal           = 0;
 static int                     img_cancelled;
 static int                     diskinfoStop;
+static int                     testBoardDone;
+static int                     testInterfaceDone;
+
+
 static bool                    wpDisk          = false;
 static uint8_t                 dist_status     = 0;
-static uint8_t                 side_status     = 1;
-static uint8_t                 track_status    = 40;
-static uint8_t                 tpi_status      = 48;
 
 static uint8_t                 drive_tpi       = 96;
 static uint16_t                drive_rpm       = 360;
-static uint8_t                 disk_tpi        = 48;
-static uint16_t                disk_rpm        = 300;
+static uint8_t                 drive_sides     = 2;
 
-static uint16_t                speed_rpm       = 300;
+static uint8_t                 disk_tracks     = 40;
+static uint8_t                 disk_sides      = 1;
+
 static GtkTextBuffer          *textBufferLabel;
 static GtkTextBuffer          *textBufferComment;
 static GtkTextBuffer          *textBufferImager;
 
 //using namespace std;
+
+
+bool fileExists(char *name) {
+    if (FILE *file = fopen(name, "r")) {
+        fclose(file);
+        return true;
+    } else {
+        return false;
+    }   
+}
 
 
 void
@@ -171,13 +185,6 @@ disallow_delete(GtkWidget * widget, gpointer gdata)
 
 
 void
-toggleWP(GtkWidget * widget, gpointer gdata)
-{
-    wpDisk = !wpDisk;
-}
-
-
-void
 quitpressed(GtkWidget * widget, gpointer gdata)
 {
     gtk_main_quit();
@@ -231,7 +238,7 @@ read_one_sector(H17Disk       *image,
                 int            sector,
                 GtkWidget     *error_label)
 {
-    const int      maxRetries_c = 10;
+    const int      maxRetries_c = 6;
     uint8_t        buf[HeathHSDisk::defaultSectorBytes()];
     uint8_t        rawBuf[HeathHSDisk::defaultSectorRawBytes()];
     char           errtext[80];
@@ -426,6 +433,17 @@ diskInfoStop(GtkWidget *widget, gpointer gdata)
     diskinfoStop = 1;
 }
 
+void
+setTestBoardDone(GtkWidget *widget, gpointer gdata)
+{
+    testBoardDone = 1;
+}
+
+void
+setTestInterfaceDone(GtkWidget *widget, gpointer gdata)
+{
+    testInterfaceDone = 1;
+}
 
 void
 imgcancel(GtkWidget * widget, gpointer gdata)
@@ -558,7 +576,6 @@ diskInfoPressed(GtkWidget * widget, gpointer gdata)
     gtk_grab_add(diskInfoWindow);
     refresh_screen();
 
-//    drive = new Drive(selected_drive);
  
     if (drive.getStatus() != 0)
     {
@@ -586,13 +603,79 @@ diskInfoPressed(GtkWidget * widget, gpointer gdata)
         gtk_label_set(GTK_LABEL(flagsLabel), status_text);
         refresh_screen();
         usleep(100000);
-    } 
+    }
     gtk_widget_set_sensitive(doneButton, 1);
     gtk_widget_set_sensitive(stopButton, 0);
     gtk_signal_disconnect(GTK_OBJECT(diskInfoWindow), delete_signal);
     modal = 0;
 }
 
+void
+testBoardPressed(GtkWidget * widget, gpointer gdata)
+{
+    GtkWidget      *testBoardWindow  = gtk_dialog_new();
+    GtkWidget      *okButton         = gtk_button_new_with_label("Ok");
+
+    GtkWidget      *resultLabel      = gtk_label_new("Result:  ----\n");
+    char            status_text[80];
+    int             retVal;
+    gint            delete_signal;
+    Drive           drive(selected_drive);
+
+    testBoardDone = 0;
+
+    gtk_window_set_title(GTK_WINDOW(testBoardWindow), "Board Test");
+    delete_signal = gtk_signal_connect(GTK_OBJECT(testBoardWindow), "delete_event",
+                                       GTK_SIGNAL_FUNC(disallow_delete), NULL);
+    gtk_signal_connect(GTK_OBJECT(testBoardWindow), "destroy", (GtkSignalFunc) destroy_diskinfo,
+                       (gpointer) testBoardWindow);
+    modal = 1;
+    gtk_container_border_width(GTK_CONTAINER(testBoardWindow), 10);
+
+    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(testBoardWindow)->vbox), resultLabel, TRUE, TRUE, 0);
+    gtk_widget_show(resultLabel);
+
+    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(testBoardWindow)->action_area), okButton, TRUE,
+                       TRUE, 0);
+    gtk_signal_connect(GTK_OBJECT(okButton), "clicked", GTK_SIGNAL_FUNC(setTestBoardDone),
+                       testBoardWindow);
+    gtk_widget_set_sensitive(okButton, 1);
+    gtk_widget_show(okButton);
+
+
+    if (drive.getStatus() != 0)
+    {
+       // gtk_label_set(GTK_LABEL(errorLabel), "Unable to open drive");
+        return;
+    }
+
+    while (!testBoardDone)
+    {
+    /*
+        if ((retVal = FC5025::inst()->driveStatus(&track, &speed, &sectorCount, &flags)) != 0)
+        {
+            gtk_label_set(GTK_LABEL(errorLabel), "Unable to get drive status");
+            gtk_widget_set_sensitive(doneButton, 1);
+            gtk_widget_set_sensitive(stopButton, 0);
+            gtk_signal_disconnect(GTK_OBJECT(diskInfoWindow), delete_signal);
+            modal = 0;
+            return;
+        }
+        snprintf(status_text, sizeof(status_text), "Track:        %02d\n", track);
+        gtk_label_set(GTK_LABEL(trackLabel), status_text);
+        snprintf(status_text, sizeof(status_text), "Speed:        %6.2f\n", speed/100.0);
+        gtk_label_set(GTK_LABEL(speedLabel), status_text);
+        snprintf(status_text, sizeof(status_text), "Sector Count: %02d\n", sectorCount);
+        gtk_label_set(GTK_LABEL(sectorCountLabel), status_text);
+        snprintf(status_text, sizeof(status_text), "Flags:        0x%02x\n", flags);
+        gtk_label_set(GTK_LABEL(flagsLabel), status_text);
+        refresh_screen();
+        usleep(100000);
+    */
+    }
+    gtk_signal_disconnect(GTK_OBJECT(testBoardWindow), delete_signal);
+    modal = 0;
+}
 
 /// Start imaging a disk.
 void
@@ -608,13 +691,11 @@ imgPressed(GtkWidget * widget, gpointer gdata)
     GtkWidget      *error_label  = gtk_label_new("");
     GtkWidget      *button_label = gtk_label_new("In progress...");
     float           progress_per_halftrack;
-    Disk           *disk         = new HeathHSDisk(side_status, track_status, tpi_status, speed_rpm);
+    Disk           *disk         = new HeathHSDisk(disk_sides, disk_tracks, drive_tpi, drive_rpm);
     int             track,
                     side;
     char           *in_filename;
     char           *out_filename;
-    FILE           *f;
-    FILE           *f_raw;
     gint            delete_signal;
     H17Disk        *image;
     Drive           drive(selected_drive);
@@ -697,16 +778,29 @@ imgPressed(GtkWidget * widget, gpointer gdata)
     strcpy(out_filename, gtk_entry_get_text(GTK_ENTRY(outdir_field)));
     strcat(out_filename, DIRECTORY_SEPARATOR);
     strcat(out_filename, gtk_entry_get_text(GTK_ENTRY(fname_field)));
+
+    if (fileExists(out_filename))
+    {
+        imgFailed(image_window, delete_signal, status_label, button_label,
+                  button, cancelbutton, (char *) "File already exists!");
+        return;
+    }
     image = new H17Disk();
     if (recovery)
     { 
        image->openForRecovery(in_filename);
     }
 
-    image->openForWrite(out_filename);
+    if (!image->openForWrite(out_filename))
+    {
+        imgFailed(image_window, delete_signal, status_label, button_label,
+                  button, cancelbutton, (char *) "File can not be opened!");
+        return;
+    }
+
     if (FC5025::inst()->recalibrate() != 0)
     {
-        fclose(f);
+        image->closeFile();
         imgFailed(image_window, delete_signal, status_label, button_label,
                   button, cancelbutton, (char *) "Unable to recalibrate drive.");
         return;
@@ -715,7 +809,7 @@ imgPressed(GtkWidget * widget, gpointer gdata)
 
     if (FC5025::inst()->setDensity(disk->density()) != 0)
     {
-        fclose(f);
+        image->closeFile();
         imgFailed(image_window, delete_signal, status_label, button_label,
                   button, cancelbutton, (char *) "Unable to set density.");
         return;
@@ -781,6 +875,8 @@ imgPressed(GtkWidget * widget, gpointer gdata)
 
     image->closeFile();
 
+    //FC5025::inst()->seek(0);
+
     if (!errors)
     {
         gtk_label_set(GTK_LABEL(status_label), "Successfully read disk.");
@@ -806,11 +902,15 @@ update_sensitivity(void)
     {
         gtk_widget_set_sensitive(imgbutton, 0);
         gtk_widget_set_sensitive(diskInfoButton, 0);
+        //gtk_widget_set_sensitive(testBoardButton, 0);
+        //gtk_widget_set_sensitive(testInterfaceButton, 0);
     }
     else
     {
         gtk_widget_set_sensitive(imgbutton, 1);
         gtk_widget_set_sensitive(diskInfoButton, 1);
+        //gtk_widget_set_sensitive(testBoardButton, 1);
+        //gtk_widget_set_sensitive(testInterfaceButton, 1);
     }
 }
 
@@ -822,7 +922,7 @@ drive_changed(GtkWidget * widget, gpointer data)
     update_sensitivity();
 }
 
-
+// Disk Flags
 void
 dist_changed(GtkWidget *widget, gpointer data)
 {
@@ -836,33 +936,42 @@ wp_changed(GtkWidget *widget, gpointer data)
     wpDisk = *(bool *) data;
 }
 
-
+// disk settings
 void
-side_changed(GtkWidget *widget, gpointer data)
+disk_side_changed(GtkWidget *widget, gpointer data)
 {
-    printf("side_changed: %d\n",*(uint8_t *)  data);
-    side_status = *(uint8_t *) data;
+    disk_sides = *(uint8_t *) data;
 }
 
 
 void
-track_changed(GtkWidget *widget, gpointer data)
+disk_track_changed(GtkWidget *widget, gpointer data)
 {
-    track_status = *(uint8_t *) data;
-    tpi_status = (track_status == 80) ? 96 : 48;
+    disk_tracks = *(uint8_t *) data;
+}
+
+void
+add_disk_track(GtkWidget *menu)
+{
+    GtkWidget       *mitem;
+    static uint8_t   value[2] = {40, 80};
+
+    mitem = gtk_menu_item_new_with_label("40 Tracks");
+    gtk_menu_append(GTK_MENU(menu), mitem);
+    gtk_widget_show(mitem);
+    gtk_signal_connect(GTK_OBJECT(mitem), "activate",
+                       GTK_SIGNAL_FUNC(disk_track_changed), &value[0]);
+
+    mitem = gtk_menu_item_new_with_label("80 Tracks");
+    gtk_menu_append(GTK_MENU(menu), mitem);
+    gtk_widget_show(mitem);
+    gtk_signal_connect(GTK_OBJECT(mitem), "activate",
+                       GTK_SIGNAL_FUNC(disk_track_changed), &value[1]);
 }
 
 
 void
-speed_changed(GtkWidget *widget, gpointer data)
-{
-    speed_rpm = *(int *) data;
-    printf("New speed: %d \n", speed_rpm);
-}
-
-
-void
-add_side(GtkWidget *menu)
+add_disk_side(GtkWidget *menu)
 {
     GtkWidget       *mitem;
     static uint8_t   value[2] = {1, 2};
@@ -871,38 +980,85 @@ add_side(GtkWidget *menu)
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
     gtk_signal_connect(GTK_OBJECT(mitem), "activate",
-                       GTK_SIGNAL_FUNC(side_changed), &value[0]);
+                       GTK_SIGNAL_FUNC(disk_side_changed), &value[0]);
 
     mitem = gtk_menu_item_new_with_label("Double-Sided");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
     gtk_signal_connect(GTK_OBJECT(mitem), "activate",
-                       GTK_SIGNAL_FUNC(side_changed), &value[1]);
+                       GTK_SIGNAL_FUNC(disk_side_changed), &value[1]);
 }
 
 
 void
-add_track(GtkWidget *menu)
+drive_side_changed(GtkWidget *widget, gpointer data)
+{   
+    printf("side_changed: %d\n",*(uint8_t *)  data);
+    drive_sides = *(uint8_t *) data;
+}
+
+
+void
+add_drive_sides(GtkWidget *menu)
+{
+    GtkWidget       *mitem;
+    static uint8_t   value[2] = {1, 2};
+
+    mitem = gtk_menu_item_new_with_label("Single-Sided");
+    gtk_menu_append(GTK_MENU(menu), mitem);
+    gtk_widget_show(mitem);
+    gtk_signal_connect(GTK_OBJECT(mitem), "activate",
+                       GTK_SIGNAL_FUNC(drive_side_changed), &value[0]);
+
+    mitem = gtk_menu_item_new_with_label("Double-Sided");
+    gtk_menu_append(GTK_MENU(menu), mitem);
+    gtk_widget_show(mitem);
+    gtk_signal_connect(GTK_OBJECT(mitem), "activate",
+                       GTK_SIGNAL_FUNC(drive_side_changed), &value[1]);
+
+    gtk_menu_set_active(GTK_MENU(menu), 1);
+}
+
+void
+drive_tpi_changed(GtkWidget *widget, gpointer data)
+{   
+    drive_tpi = *(uint8_t *) data;
+    // tpi_status = (track_status == 80) ? 96 : 48;
+}
+
+void
+add_drive_tpi(GtkWidget *menu)
 {   
     GtkWidget       *mitem;
-    static uint8_t   value[2] = {40, 80};
+    static uint8_t   value[2] = {48, 96};
 
     mitem = gtk_menu_item_new_with_label( "40 Track/48 TPI");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
     gtk_signal_connect(GTK_OBJECT(mitem), "activate",
-                       GTK_SIGNAL_FUNC(track_changed), &value[0]);
+                       GTK_SIGNAL_FUNC(drive_tpi_changed), &value[0]);
     
     mitem = gtk_menu_item_new_with_label( "80 Track/96 TPI");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
     gtk_signal_connect(GTK_OBJECT(mitem), "activate",
-                       GTK_SIGNAL_FUNC(track_changed), &value[1]);
+                       GTK_SIGNAL_FUNC(drive_tpi_changed), &value[1]);
+
+    gtk_menu_set_active(GTK_MENU(menu), 1);
 }
 
 
 void
-add_speed(GtkWidget *menu)
+drive_rpm_changed(GtkWidget *widget, gpointer data)
+{  
+    printf("original rpm: %d\n", drive_rpm);
+    drive_rpm = *(int *) data;
+    printf("new rpm: %d\n", drive_rpm);
+}
+
+
+void
+add_drive_rpm(GtkWidget *menu)
 {
     GtkWidget      *mitem;
     static int   value[2] = {300, 360};
@@ -911,13 +1067,17 @@ add_speed(GtkWidget *menu)
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
     gtk_signal_connect(GTK_OBJECT(mitem), "activate",
-                       GTK_SIGNAL_FUNC(speed_changed), &value[0]);
+                       GTK_SIGNAL_FUNC(drive_rpm_changed), &value[0]);
+    gtk_menu_item_deselect((GtkMenuItem *) mitem);
 
     mitem = gtk_menu_item_new_with_label( "360 RPM");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
     gtk_signal_connect(GTK_OBJECT(mitem), "activate",
-                       GTK_SIGNAL_FUNC(speed_changed), &value[1]);
+                       GTK_SIGNAL_FUNC(drive_rpm_changed), &value[1]);
+    gtk_menu_item_select((GtkMenuItem *) mitem);
+
+    gtk_menu_set_active(GTK_MENU(menu), 1);
 }
 
 
@@ -945,7 +1105,7 @@ void
 add_distribution(GtkWidget *menu)
 {
     GtkWidget      *mitem;
-    static uint8_t  value[3] = {0, 1, 2 };
+    static uint8_t  value[4] = {0, 1, 2, 3 };
 
     mitem = gtk_menu_item_new_with_label( "Disk Status Unknown");
     gtk_menu_append(GTK_MENU(menu), mitem);
@@ -964,6 +1124,12 @@ add_distribution(GtkWidget *menu)
     gtk_widget_show(mitem);
     gtk_signal_connect(GTK_OBJECT(mitem), "activate",
                        GTK_SIGNAL_FUNC(dist_changed), &value[2]);
+
+    mitem = gtk_menu_item_new_with_label( "Copy of a Distribution Disk");
+    gtk_menu_append(GTK_MENU(menu), mitem);
+    gtk_widget_show(mitem);
+    gtk_signal_connect(GTK_OBJECT(mitem), "activate",
+                       GTK_SIGNAL_FUNC(dist_changed), &value[3]);
 }
 
 
@@ -1030,6 +1196,10 @@ main(int argc, char *argv[])
                    *trackDropMenu,
                    *speedDrop,
                    *speedDrop_Menu,
+                   *driveSidesDrop,
+                   *driveSidesDrop_Menu,
+                   *driveTpiDrop,
+                   *driveTpiDrop_Menu,
                    *distdrop,
                    *distdrop_menu,
                    *wpDrop,
@@ -1120,48 +1290,86 @@ main(int argc, char *argv[])
 
     optionBox = gtk_vbox_new(FALSE, 5);
     gtk_container_add(GTK_CONTAINER(frame), optionBox);
+
+    // disk sides
     subFrame = gtk_frame_new("Sides");
     gtk_box_pack_start(GTK_BOX(optionBox), subFrame, FALSE, FALSE, 0);
     gtk_widget_show(subFrame); 
    
     sideDrop = gtk_option_menu_new();
     sideDropMenu = gtk_menu_new();
-    add_side(sideDropMenu);
+    add_disk_side(sideDropMenu);
     gtk_option_menu_set_menu(GTK_OPTION_MENU(sideDrop), sideDropMenu);
     gtk_container_add(GTK_CONTAINER(subFrame), sideDrop);
     gtk_widget_show(sideDrop);
 
+    // disk Tracks
     subFrame = gtk_frame_new("Tracks");
     gtk_box_pack_start(GTK_BOX(optionBox), subFrame, FALSE, FALSE, 0);
     gtk_widget_show(subFrame);
 
     trackDrop = gtk_option_menu_new();
     trackDropMenu = gtk_menu_new();
-    add_track(trackDropMenu);
+    add_disk_track(trackDropMenu);
     gtk_option_menu_set_menu(GTK_OPTION_MENU(trackDrop), trackDropMenu);
     gtk_container_add(GTK_CONTAINER(subFrame), trackDrop);
     gtk_widget_show(trackDrop);
     gtk_widget_show(optionBox);
  
-    // Disk Speed select - not needed all disks are 300 RPM and only the drive changes between 300 or 360
-    // should add a popup that allows user to select drive type.
-    //subFrame = gtk_frame_new("Disk Speed (RPM)");
-    //gtk_box_pack_start(GTK_BOX(optionBox), subFrame, FALSE, FALSE, 0);
-    //gtk_widget_show(subFrame);
+    // Disk Speed select - not needed all hard-sectored disks are 300 RPM and only the drive changes between 300 or 360
 
-    //speedDrop = gtk_option_menu_new();
-    //speedDrop_Menu = gtk_menu_new();
-    //add_speed(speedDrop_Menu);
-    //gtk_option_menu_set_menu(GTK_OPTION_MENU(speedDrop), speedDrop_Menu);
-    //gtk_container_add(GTK_CONTAINER(subFrame), speedDrop);
-    //gtk_widget_show(speedDrop);
+    // Drive settings
+    frame = gtk_frame_new("Drive Settings");
+    gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 5);
+    gtk_widget_show(frame);
+    optionBox = gtk_vbox_new(FALSE, 5);
+    gtk_container_add(GTK_CONTAINER(frame), optionBox);
+    
+    // Drive RPM
+    subFrame = gtk_frame_new("Speed (RPM)");
+    gtk_box_pack_start(GTK_BOX(optionBox), subFrame, FALSE, FALSE, 5);
+    gtk_widget_show(subFrame);
+    
+    speedDrop = gtk_option_menu_new();
+    speedDrop_Menu = gtk_menu_new();
+    add_drive_rpm(speedDrop_Menu);
+    gtk_option_menu_set_menu(GTK_OPTION_MENU(speedDrop), speedDrop_Menu);
+    gtk_container_add(GTK_CONTAINER(subFrame), speedDrop);
+    gtk_widget_show(speedDrop);
 
-    //gtk_widget_show(optionBox);
+    // Drive Sides
+    subFrame = gtk_frame_new("Sides");
+    gtk_box_pack_start(GTK_BOX(optionBox), subFrame, FALSE, FALSE, 5);
+    gtk_widget_show(subFrame);
+
+    driveSidesDrop = gtk_option_menu_new();
+    //driveSidesDrop = gtk_combo_box_new();
+    driveSidesDrop_Menu = gtk_menu_new();
+    add_drive_sides(driveSidesDrop_Menu);
+    gtk_option_menu_set_history(GTK_OPTION_MENU(driveSidesDrop), 1);
+    gtk_option_menu_set_menu(GTK_OPTION_MENU(driveSidesDrop), driveSidesDrop_Menu);
+    gtk_container_add(GTK_CONTAINER(subFrame), driveSidesDrop);
+    gtk_widget_show(driveSidesDrop); 
+
+    // Drive TPI
+    subFrame = gtk_frame_new("TPI");
+    gtk_box_pack_start(GTK_BOX(optionBox), subFrame, FALSE, FALSE, 5);
+    gtk_widget_show(subFrame);
+    
+    driveTpiDrop = gtk_option_menu_new();
+    driveTpiDrop_Menu = gtk_menu_new();
+    add_drive_tpi(driveTpiDrop_Menu);
+    gtk_option_menu_set_menu(GTK_OPTION_MENU(driveTpiDrop), driveTpiDrop_Menu);
+    gtk_container_add(GTK_CONTAINER(subFrame), driveTpiDrop);
+    gtk_widget_show(driveTpiDrop);
+
+
+    gtk_widget_show(optionBox);
 
     // Disk parameters:
     //
     frame = gtk_frame_new("Disk Flags");
-    gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 20);
     gtk_widget_show(frame);
     optionBox = gtk_vbox_new(FALSE, 5);
     gtk_container_add(GTK_CONTAINER(frame), optionBox);
@@ -1222,7 +1430,19 @@ main(int argc, char *argv[])
     gtk_box_pack_start(GTK_BOX(vbox), diskInfoButton, FALSE, FALSE, 0);
     gtk_signal_connect(GTK_OBJECT(diskInfoButton), "clicked", GTK_SIGNAL_FUNC(diskInfoPressed), NULL);
     gtk_widget_show(diskInfoButton);
+/*
+    //  Test Board button
+    testBoardButton = gtk_button_new_with_label("Test Board");
+    gtk_box_pack_start(GTK_BOX(vbox), testBoardButton, FALSE, FALSE, 0);
+    gtk_signal_connect(GTK_OBJECT(testBoardButton), "clicked", GTK_SIGNAL_FUNC(testBoardPressed), NULL);
+    gtk_widget_show(testBoardButton);
 
+    //  Test Interface button
+    testInterfaceButton = gtk_button_new_with_label("Test Interface");
+    gtk_box_pack_start(GTK_BOX(vbox), testInterfaceButton, FALSE, FALSE, 0);
+    gtk_signal_connect(GTK_OBJECT(testInterfaceButton), "clicked", GTK_SIGNAL_FUNC(testInterfacePressed), NULL);
+    gtk_widget_show(testInterfaceButton);
+*/
     //  Image disk button
     imgbutton = gtk_button_new_with_label("Capture Disk Image File");
     gtk_box_pack_start(GTK_BOX(vbox), imgbutton, FALSE, FALSE, 0);

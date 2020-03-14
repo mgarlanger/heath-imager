@@ -79,7 +79,7 @@ Sector::Sector(uint8_t  *buf,
 //!
 Sector::~Sector()
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
     // free allocated memory
     if (buf_m)
     {
@@ -116,6 +116,38 @@ Sector::writeToFile(std::ofstream &file)
     return true;
 }
 
+uint8_t
+Sector::getErrorCode()
+{
+    return error_m;
+}
+
+uint16_t
+Sector::getSectorDataOffset()
+{
+    uint16_t pos = 0;
+ 
+    // look for the sync for the header
+    while ((buf_m[pos] != 0xfd) && (pos < bufSize_m))
+    {
+        pos++;
+    }
+
+    // skip past the header, since 0xfd could be the checksum
+    pos += 5;
+
+    // look for the data
+    while ((buf_m[pos++] != 0xfd) && (pos < bufSize_m))
+    { }
+
+    if ((bufSize_m - pos) < 256)
+    {
+        printf("Error data not found - sector: %d\n", sector_m);
+        pos = bufSize_m - 256;
+    }
+
+    return pos;
+}
 
 //! write sector to file
 //!
@@ -127,27 +159,8 @@ bool
 Sector::writeToH8D(std::ofstream &file)
 {
 
-    uint16_t pos = 0;
+    uint16_t pos = getSectorDataOffset();
   
-    // look for the sync for the header 
-    while ((buf_m[pos] != 0xfd) && (pos < bufSize_m))
-    {
-        pos++;
-    }
-
-    // skip past the header, since 0xfd could be the checksum
-    pos += 5;
-
-    // look for the data 
-    while ((buf_m[pos++] != 0xfd) && (pos < bufSize_m))
-    { }
-
-    if ((bufSize_m - pos) < 256)
-    {
-        printf("Error data not found - sector: %d\n", sector_m);
-        pos = bufSize_m - 256;
-    }
-
     // write out the sector
     if (buf_m)
     {
@@ -157,6 +170,13 @@ Sector::writeToH8D(std::ofstream &file)
     return true;
 }
 
+uint8_t *
+Sector::getSectorData()
+{
+    uint16_t pos = getSectorDataOffset();
+
+    return &buf_m[pos];
+}
 
 //! write sector to file
 //!

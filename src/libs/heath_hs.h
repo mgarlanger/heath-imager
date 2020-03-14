@@ -14,21 +14,20 @@ class HeathHSDisk: virtual public Disk
 public:
     HeathHSDisk(BYTE sides,
                 BYTE tracks,
-                BYTE tpi,
-                WORD rpm);
+                BYTE driveTpi,
+                WORD driveRpm);
 
     virtual ~HeathHSDisk();
 
     virtual BYTE minTrack(void);
     virtual BYTE maxTrack(void);
 
-    virtual WORD rpm(void);
-    virtual WORD minSpeed(void);
+    virtual WORD driveRpm(void);
 
     virtual BYTE minSide(void);
     virtual BYTE maxSide(void);
 
-    virtual void setSpeed(WORD speed);
+    virtual void setDriveRpm(WORD speed);
     virtual void setDriveTpi(BYTE tpi);
 
     virtual BYTE minSector(BYTE track,
@@ -59,7 +58,14 @@ public:
                             BYTE  side,
                             BYTE  track,
                             BYTE  sector);
-
+#if 0
+    virtual int  processSector(BYTE *buffer,
+                               BYTE *out,
+                               WORD length,
+                               BYTE side,
+                               BYTE track,
+                               BYTE sector);
+#endif
     virtual bool setSides(BYTE    sides);
     virtual bool setTracks(BYTE   tracks);
 
@@ -71,16 +77,16 @@ private:
     BYTE maxSide_m;
     BYTE maxTrack_m;
     BYTE tpi_m;
-    WORD speed_m;
+    WORD driveRpm_m;
     BYTE driveTpi_m;
     WORD bitcellTiming_m;
 
-    // set sector size to exactly 320 bytes, based on Heath's manual of 62.5 microSecond
-    // per character, this would be the IDEAL size of a sector, but friction and other
-    // things such at drive's actual RPM can affect that.
+    // ideal sector size is 320 bytes, based on Heath's manual of 62.5 microSecond
+    // per character, friction and other things such at drive's actual RPM can affect that.
+    // set it so it should overlap the next sector.
     static const WORD sectorBytes_c    = 350;
 
-    // over read the sector
+    // over read the sector - double the data bits due to clock bits.
     static const WORD sectorRawBytes_c = 700;
 };
 

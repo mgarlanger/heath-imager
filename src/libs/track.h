@@ -34,7 +34,12 @@ public:
     bool writeRaw(std::ofstream &file);
 
     static const uint8_t headerSize_c = 5;
+   
+    uint8_t getSideNumber();
+    uint8_t getTrackNumber();
 
+    Sector *getSector(uint16_t sectorNum);
+ 
 private:
 
     std::vector<Sector *> sectors_m;

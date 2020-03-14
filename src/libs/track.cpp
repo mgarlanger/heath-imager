@@ -68,6 +68,26 @@ Track::~Track()
 }
 
 
+//! getSideNumber
+//!
+//! @return   side number
+//!
+uint8_t
+Track::getSideNumber()
+{
+    return side_m;
+}
+
+//! getTrackNumber
+//!
+//! @return   track number
+//!
+uint8_t
+Track::getTrackNumber()
+{
+    return track_m;
+}
+
 //! addSector 
 //!
 //! @param sector     pointer to raw sector
@@ -118,6 +138,19 @@ Track::analyze(bool validTracks[2][80])
     return true;
 }
 
+Sector *
+Track::getSector(uint16_t sectorNum) {
+
+    for(uint16_t j = 0; j < sectors_m.size(); j++)
+    {
+        if (sectorNum == sectors_m[j]->getSectorNum())
+        {
+            return sectors_m[j];
+        }
+    }
+
+    return nullptr;
+}
 
 //! writeToFile
 //!
@@ -171,15 +204,13 @@ Track::writeToFile(std::ofstream &file)
 bool
 Track::writeH8D(std::ofstream &file)
 {
-    // determine each sector's size 
+    // TODO: handle if invalid number of sectors 
     for (uint8_t i = 0; i < 10; i++)
     {
-        for(uint16_t j = 0; j < sectors_m.size(); j++)
-        {
-            if (i == sectors_m[j]->getSectorNum())
-            {
-                sectors_m[j]->writeToH8D(file);
-            }
+        Sector *sector = getSector(i);
+
+        if (sector) {
+            sector->writeToH8D(file);
         }
     }
 
@@ -197,19 +228,33 @@ Track::writeH8D(std::ofstream &file)
 //!
 bool
 Track::writeRaw(std::ofstream &file)
-{   
+{
+    uint16_t numOfSectors = sectors_m.size();
+    bool status = true;
 
-    for (uint8_t i = 0; i < 10; i++)
-    {   
-        for(uint16_t j = 0; j < sectors_m.size(); j++)
-        {   
-            if (i == sectors_m[j]->getSectorNum())
-            {   
-                sectors_m[j]->writeToRaw(file);
-            }
-        }
-    }   
+    if (numOfSectors != 10) {
+       printf("Invalid number of sectors: %d on track %d\n", numOfSectors, track_m);
+       status = false;
+ 
+       // continue to write out the sectors that we do have;
+       if (numOfSectors > 10) {
+           // reduce it to 10, otherwise if less then just write out all the
+           // ones we have
+           
+           numOfSectors = 10;
+       }
+       // TODO if less than 10, write out "0"s to fill out the track
+    }
+
+    for(uint16_t j = 0; j < numOfSectors; j++)
+    {
+        // NOTE: do not need to check on same sector number like
+        // the H8D, since the header with sector number is being 
+        // written out.
+        sectors_m[j]->writeToRaw(file);
+       
+    }
     
-    return true;
+    return status;
 }
 

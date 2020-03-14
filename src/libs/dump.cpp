@@ -21,6 +21,7 @@ void dumpDataBlock(unsigned char buf[], unsigned int length) {
     uint8_t printAble[16];
     unsigned int i = 0;
     unsigned int pos = 4;
+
     for (i = 0; i < length; i++)
     {
         printAble[i % 16] = isprint(buf[pos]) ? buf[pos] : '.';
@@ -51,6 +52,7 @@ void dumpDataBlock(unsigned char buf[], unsigned int length) {
         }
         pos++;
     }
+
     // check to see if we need to show the printable characters (in the right position
     if ((i % 16) != 0)
     {

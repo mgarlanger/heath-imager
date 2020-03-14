@@ -15,24 +15,38 @@
 
 //! constructor
 //!
-//! @param sides
-//! @param tracks
-//! @param tpi
-//! @param rpm
+//! @param sides       number of sides for the disk
+//! @param tracks      number of tracks for the disk
+//! @param driveTpi    tpi of drive being used to image the disk
+//! @param driveRpm    rpm of the drive being used to image the disk
 //!
 HeathHSDisk::HeathHSDisk(BYTE sides,
                          BYTE tracks,
-                         BYTE tpi,
-                         WORD rpm): maxSide_m(sides),
-                                    maxTrack_m(tracks),
-                                    tpi_m(tpi),
-                                    speed_m(rpm)
+                         BYTE driveTpi,
+                         WORD driveRpm): maxSide_m(sides),
+                                         maxTrack_m(tracks),
+                                         driveRpm_m(driveRpm),
+                                         driveTpi_m(driveTpi)
 {
     // for 360 RPM drives - default
-    bitcellTiming_m = 6666;
-    driveTpi_m = 96;
-    // for 300 RPM drives
-    //bitcellTiming_m = 8000;
+    if (driveRpm_m == 300) {
+        printf("Using 300 RPMs\n");
+        bitcellTiming_m = 8000;
+    }
+    else {
+        printf("Using 360 RPMs\n");
+        bitcellTiming_m = 6666;
+    }
+    if (tracks == 80)
+    {
+        tpi_m      = 96;
+    }
+    else
+    {
+        tpi_m      = 48;
+    }
+
+    printf("maxSides_m: %d, maxTrack_m: %d, driveRpm_m: %d, driveTpi_m: %d\n", maxSide_m, maxTrack_m, driveRpm_m, driveTpi_m);
 }
 
 
@@ -66,25 +80,14 @@ HeathHSDisk::maxTrack(void)
 }
 
 
-//! return minimum speed
-//!
-//! @return speed
-//!
-WORD
-HeathHSDisk::minSpeed(void)
-{
-    return 300;
-}
-
-
 //! return RPM - rotations per minute
 //!
 //! @return speed
 //!
 WORD
-HeathHSDisk::rpm(void)
+HeathHSDisk::driveRpm(void)
 {
-    return speed_m;
+    return driveRpm_m;
 }
 
 
@@ -163,6 +166,8 @@ HeathHSDisk::density(void)
 BYTE
 HeathHSDisk::physicalTrack(BYTE track)
 {
+    printf("physicalTrack, driveTpi: %d, tpi: %d\n", driveTpi_m, tpi_m);
+ 
     // if the disk is 96 tpi, then it's a 1 to 1 mapping with the TEAC 1.2M
     if (tpi_m == 96)
     {
@@ -187,6 +192,7 @@ HeathHSDisk::physicalTrack(BYTE track)
         }
         else 
         {
+            // 1 to 1 mapping
             return track;
         }
     }
@@ -198,7 +204,7 @@ HeathHSDisk::physicalTrack(BYTE track)
 //! @param rpm
 //!
 void
-HeathHSDisk::setSpeed(WORD rpm)
+HeathHSDisk::setDriveRpm(WORD rpm)
 {
      // if drive is 300 RPM, (not a TEAC 1.2M) then set bitcell timing to the slower speed
      if(rpm == 300)
@@ -207,7 +213,7 @@ HeathHSDisk::setSpeed(WORD rpm)
      } 
      else
      {
-         // otherwise default speed.
+         // otherwise rpm == 360 default speed.
          bitcellTiming_m = 6667;
      }
 }
@@ -241,7 +247,10 @@ HeathHSDisk::setSides(BYTE sides)
     }
     else
     {
+        // default to 1
         maxSide_m = 1;
+
+        // flag error if side param invalid
         returnVal = (sides == 1);
     }
     
@@ -265,8 +274,11 @@ HeathHSDisk::setTracks(BYTE tracks)
     }
     else
     {
+        // default to 48 tpi
         tpi_m      = 48;
         maxTrack_m = 40;
+
+        // flag error if param invalid
         returnVal  = (tracks == 40);
     }
     
@@ -317,51 +329,20 @@ HeathHSDisk::sectorRawBytes(BYTE side, BYTE track, BYTE sector)
 int
 HeathHSDisk::readSector(BYTE *buffer, BYTE *rawBuffer, BYTE side, BYTE track, BYTE sector)
 {
-    int             xferlen = sectorRawBytes_c;
-    int             xferlen_out;
     unsigned char   raw[sectorRawBytes_c];  // as read in from the fc5025
     unsigned char   data[sectorBytes_c];    // after removing clock-bits
     unsigned char   out[sectorBytes_c];     // after processing sector for alignment
 
-    struct
-    {
-        FC5025::Opcode  opcode;       // command for the fc5025
-        uint8_t         flags;        // side flag
-        FC5025::Format  format;       // density - FM/MFM
-        uint16_t        bitcell;      // timing for a bit cell
-        uint8_t         sectorhole;   // which physical sector to read
-        uint8_t         rdelay_hi;    // delay after hole before starting to read
-        uint16_t        rdelay_lo;
-        uint8_t         idam;         // not used
-        uint8_t         id_pat[12];   // not used
-        uint8_t         id_mask[12];  // not used
-        uint8_t         dam[3];       // not used
-    } __attribute__ ((__packed__)) cdb =
-    {
-        FC5025::Opcode::ReadFlexible,  // opcode
-        side,                          // flags
-        FC5025::Format::FM,            // format
-        htons(bitcellTiming_m),        // bitcell
-        (uint8_t) (sector + 1),        // sectorhole - FC5025 expect one based number instead of zero based.
-        0,                             // rdelay_hi - no delay, start immediately
-        0,                             // rdelay_lo
-        0x0,                           // idam
-        {0, },                         // id_pat ... idmask .. dam
-    };
-
     int   status = No_Error;
    
-    printf("bit timing: %d\n", bitcellTiming_m);
- 
-    FC5025::inst()->bulkCDB(&cdb, sizeof(cdb), 4000, NULL, raw, xferlen, &xferlen_out);
-    if (xferlen_out != xferlen)
-    {
-        printf("%s - xferlen: %d  xferlen_out: %d\n", __FUNCTION__, xferlen, xferlen_out);
-        status = Err_ReadError;
-        return status;
+    //printf("bit timing: %d\n", bitcellTiming_m);
+
+    status = FC5025::inst()->readHardSectorSector(raw, sectorRawBytes_c, side, track, sector, bitcellTiming_m); 
+    if (status) {
+       printf("%s - readSector failed: %d\n", __FUNCTION__, status);
     }
-    
-    printf("%s - xfer success\n", __FUNCTION__);
+
+    // printf("%s - xfer success\n", __FUNCTION__);
    
     if (rawBuffer)
     {
@@ -375,9 +356,19 @@ HeathHSDisk::readSector(BYTE *buffer, BYTE *rawBuffer, BYTE side, BYTE track, BY
         return status;
     }
 
-    status = processSector(data, out, sectorBytes_c, side, track, sector);
+    BYTE expectedTrackNum;
 
-    printf("%s- processStatus; %d\n", __FUNCTION__, status);
+    if (maxSide_m == 2) {
+        expectedTrackNum = (track << 1) + side;
+    } 
+    else
+    {
+        expectedTrackNum = track;
+    }
+ 
+    status = processSector(data, out, sectorBytes_c, side, expectedTrackNum, sector);
+
+    printf("%s- processStatus: %d\n", __FUNCTION__, status);
 
     // Copy data back if buffer provided.
     if (buffer)
@@ -416,3 +407,129 @@ HeathHSDisk::trackRawBytes(BYTE head, BYTE track)
     return sectorRawBytes_c * 10;
 }
 
+#if 0
+//! process a sector to by aligning based on sync bytes, and reversal of the bits in each byte
+//!
+//! @param buffer - original data
+//! @param out    - processed sector
+//! @param length - length of buffer
+//! @param side   - side sector was imaged from
+//! @param track  - track of sector
+//! @param sector - sector number
+//!
+//! @return result status
+//!
+int
+HeathHSDisk::processSector(BYTE *buffer, BYTE *out, WORD length, BYTE side, BYTE track, BYTE sector)
+{
+    // expect the sync (0xfd) character first.
+    //
+    int pos   = 0;
+    int error = 0;
+
+    // align buffer and store it in out.
+    error = alignSector(out, buffer, length);
+
+    if (error)
+    {
+        return error;
+    }
+    BYTE checkSum;
+
+    // copy aligned buffer from out back to buffer
+    memcpy(buffer, out, length);
+
+    // look for sync character
+    for (pos = 0; pos < 57; pos++)
+    {
+        if (buffer[pos] == PrefixSyncChar_c)
+        {
+            break;
+        }
+    }
+
+    if (buffer[pos] != PrefixSyncChar_c)
+    {
+        //printf("Header sync missed (T: %d S: %d)\n", track, sector);
+        return Err_MissingHeaderSync;
+    }
+    //printf("Header: 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x\n", buffer[pos], buffer[pos+1], buffer[pos+2], buffer[pos+3], buffer[pos+4], buffer[pos+5]);
+    //checkSum = 0;
+    checkSum = updateChecksum(       0, buffer[++pos]);  // Volume Number
+    checkSum = updateChecksum(checkSum, buffer[++pos]);  // track Number
+
+    // TODO update to handle track numbers of double-sided 80-track
+    // Disks, track number appears to be in b7-b1, side is in b0
+
+    if (buffer[pos] != track)
+    {
+        printf("**** Unexpected track - expected: %d  received: %d\n", track, buffer[pos]);
+        //return Err_WrongTrack;
+    }
+   
+    checkSum = updateChecksum(checkSum, buffer[++pos]);  // sector
+
+    // Sector number must be between 0 and 9.
+    if (buffer[pos] >= 10)
+    {
+        //printf("Invalid sector - expected: %d  received: %d\n", sector - 1, buffer[pos]);
+        //issue = true; \todo just have to check that all 10 sectors are present and no duplicates. - can't expect this to equal.
+        return Err_InvalidSector;
+    }
+
+    // update with the checksum read from the disk
+    checkSum = updateChecksum(checkSum, buffer[++pos]); // checksum value
+
+    // value should now be zero
+    if (checkSum)
+    {
+        //printf("Invalid Header Checksum: %d\n", checkSum);
+        return Err_InvalidHeaderChecksum;
+    }
+
+    // look for the sync prefix for the data portion of the sector
+    for (int i = 0; i < 64; i++)
+    {
+        if (buffer[pos] == PrefixSyncChar_c)
+        {
+            break;
+        }
+        pos++;
+    }
+
+    if (buffer[pos] != PrefixSyncChar_c)
+    {
+        //printf("Data sync missed (T: %d S: %d) - pos: 0x%06x\n", track, sector, pos);
+        return Err_MissingDataSync;
+    }
+
+    // verify checksum of the data block
+
+    // reset checksum value
+    checkSum = 0;
+
+    // check all the data
+    for (int i = 0; i < 256; i++)
+    {
+        checkSum = updateChecksum(checkSum, buffer[++pos]);
+    }
+/*
+    // update checksum with checksum value read from disk
+    checkSum = updateChecksum(checkSum, buffer[++pos]);
+
+    // Should be zero if valid
+    if (checkSum)
+    {
+        //printf("Invalid Data Checksum: %d\n", checkSum);
+       return Err_InvalidDataChecksum;
+    }
+*/
+    ++pos;
+    if (checkSum != buffer[pos])
+    {
+       printf("Invalid Data Checksum: calc: 0x%02x, read: 0x%02x\n", checkSum, buffer[pos]);
+       return Err_InvalidDataChecksum;
+    }
+    return No_Error;
+}
+#endif

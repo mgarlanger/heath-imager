@@ -13,6 +13,7 @@
 
 
 class Track;
+class Sector;
 class RawTrack;
 
 
@@ -80,9 +81,12 @@ public:
     virtual uint32_t     getDataSize();
     virtual bool         dump(uint8_t level);
     virtual void         printBlockName();
+
+    virtual uint8_t      getSides();
+    virtual uint8_t      getTracks();
  
 private:
-    
+ 
     uint8_t sides_m;
     uint8_t tracks_m; 
 };
@@ -215,6 +219,9 @@ public:
     virtual bool         writeAsH8D(std::ofstream &file);
     virtual bool         writeAsRaw(std::ofstream &file);
 
+    virtual Track *      getTrack(uint8_t side, uint8_t track);
+    virtual Sector *     getSector(uint8_t side, uint8_t track, uint8_t sector);
+    virtual Sector *     getSector(uint16_t sector);
 
 private:
     std::vector<Track *> tracks_m;

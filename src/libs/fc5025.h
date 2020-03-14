@@ -11,16 +11,6 @@
 struct usb_device;
 struct usb_dev_handle;
 
-struct cbw_rec
-{
-    uint8_t      signature[4];
-    uint32_t     tag,
-                 xferlen;
-    uint8_t      flags;
-    uint8_t      padding1,
-                 padding2;
-    uint8_t      cdb[48];
-} __attribute__ ((__packed__));
 
 class FC5025 
 {
@@ -50,9 +40,19 @@ public:
                uint8_t                idam1,
                uint8_t                idam2);
 
+    int readHardSectorSector(
+               uint8_t               *out,
+               uint16_t               length,
+               uint8_t                side,
+               uint8_t                track,
+               uint8_t                sector,
+               uint16_t               bitcellTime);
+
     int flags(uint8_t                 in,
               uint8_t                 mask,
               int                    *out);
+
+    int testBoard(                    );
 
     int setDensity(int                density);
 
@@ -68,19 +68,9 @@ public:
                     uint8_t          *sectorCount,
                     uint8_t          *flags);
 
-    void configureDiskDrive(uint8_t   tracks,
-                            uint8_t   sides,
-                            uint16_t  rpm,
-                            uint8_t   stepRate);
+    void setStepRate(uint8_t         stepRate);
 
-    void getDiskDrive(uint8_t        &tracks,
-                      uint8_t        &sides,
-                      uint16_t       &rpm,
-                      uint8_t        &stepRate);
-
-    void configureFloppyDisk(uint8_t  tracks,
-                             uint8_t  sides,
-                             uint16_t rpm);
+    void getStepRate(uint8_t        &stepRate);
 
     enum class Opcode : uint8_t
     {
@@ -146,11 +136,23 @@ public:
     };
 
 
+    static const uint8_t testResponseSize_c;
+
 private:
+
+    struct CommandBlockWrapper
+    {
+        uint8_t      signature[4];
+        uint32_t     tag,
+                     xferlen;
+        uint8_t      flags;
+        uint8_t      padding1,
+                     padding2;
+        uint8_t      cdb[48];
+    } __attribute__ ((__packed__));
 
     FC5025();
     virtual ~FC5025();
-
     static FC5025 *pInst_m;
 
     static const uint16_t VendorID_c  = 0x16c0;
@@ -159,7 +161,6 @@ private:
     static const uint32_t cswSignature_c = 0x46435342;
 
     int internalSeek(uint8_t mode,
-                     uint8_t stepRate,
                      uint8_t track);
 
     usb_dev_handle *udev_m;
@@ -167,15 +168,9 @@ private:
     uint8_t  lastASC_m;
     uint8_t  lastASCQ_m;
 
-    uint8_t  drive_Tracks_m;
-    uint8_t  drive_Sides_m;
-    uint16_t drive_RPM_m;
     uint8_t  drive_StepRate_m;
+//    CommandBlockWrapper *cbw;
 
-    uint8_t  disk_Tracks_m;
-    uint8_t  disk_Sides_m;
-    uint16_t disk_RPM_m;
-    
 };
 
 #endif

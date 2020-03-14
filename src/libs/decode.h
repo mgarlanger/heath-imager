@@ -18,13 +18,17 @@ public:
                         unsigned int  count);
 
     static int decodeMFM(BYTE         *decoded,
-                         BYTE         *fmEncoded,
+                         BYTE         *mfmEncoded,
                          unsigned int  count);
 
 private:
 
     //! current state of the decoding
-    enum State { none, hi, lo };
+    enum State { 
+       none,  // Haven't yet determined the position of the data bit
+       hi,    // Expect data bit to be in the high bit
+       lo     // Expect data bit to be in the low bit
+    };
 };
 
 #endif

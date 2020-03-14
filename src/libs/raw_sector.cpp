@@ -63,7 +63,7 @@ RawSector::RawSector(uint8_t  *buf,
 //!
 RawSector::~RawSector()
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
     if (buf_m)
     {
         delete[] buf_m;

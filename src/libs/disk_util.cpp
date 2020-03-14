@@ -5,7 +5,9 @@
 
 #include "disk_util.h"
 
+#include <stdio.h>
 #include <cstring>
+#include <cctype> 
 
 //! sector error codes converted to human text
 //!
@@ -56,12 +58,16 @@ int alignSector(BYTE *out, BYTE *in, WORD length, BYTE syncByte)
     unsigned char bitOffset = 0;
     unsigned char bitOffset2 = 0;
 
-    // first find the header, it most occur within the first 57
+    for (pos = 0; pos < 5; pos++)
+    {
+        out[pos] = 0;
+    }
+    // first find the header, it must occur within the first 57
     // bytes, otherwise there won't be room for everything -
     // 320 - (256 + 2 + 5)
     //! \todo - change to just 320 and try to get more out even if 
     //! it is not complete.
-    for (pos = 0; pos < 57; pos++)
+    for (; pos < 57; pos++)
     {
         for (bitOffset = 0; bitOffset < 8; bitOffset++)
         {
@@ -242,6 +248,21 @@ BYTE shiftByte(BYTE first,
 }
 
 
+int validateHeader(BYTE *buffer, WORD startPos)
+{
+    BYTE checkSum = 0;
+
+    BYTE volume = buffer[startPos];
+    BYTE track = buffer[startPos + 1];
+    BYTE sector = buffer[startPos + 2];
+
+    checkSum = updateChecksum(checkSum, volume);
+    checkSum = updateChecksum(checkSum, track);
+    checkSum = updateChecksum(checkSum, sector);
+
+    return (checkSum == buffer[startPos + 3]);
+}
+
 //! process a sector to by aligning based on sync bytes, and reversal of the bits in each byte
 //!
 //! @param buffer - original data
@@ -267,13 +288,14 @@ int processSector(BYTE *buffer, BYTE *out, WORD length, BYTE side, BYTE track, B
     {
         return error;
     }
+
     BYTE checkSum;
 
     // copy aligned buffer from out back to buffer
     memcpy(buffer, out, length);
 
     // look for sync character
-    for (pos = 0; pos < 57; pos++)
+    for (pos = 5; pos < 57; pos++)
     {
         if (buffer[pos] == PrefixSyncChar_c)
         {
@@ -281,37 +303,44 @@ int processSector(BYTE *buffer, BYTE *out, WORD length, BYTE side, BYTE track, B
         }
     }
 
-    if (buffer[pos] != PrefixSyncChar_c)
+    if (buffer[pos++] != PrefixSyncChar_c)
     {
         //printf("Header sync missed (T: %d S: %d)\n", track, sector);
         return Err_MissingHeaderSync;
     }
+    BYTE volumeRead = buffer[pos++];
+    BYTE trackRead = buffer[pos++];
+    BYTE sectorRead = buffer[pos++];
+    BYTE checksumRead = buffer[pos++];
+
     //printf("Header: 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x\n", buffer[pos], buffer[pos+1], buffer[pos+2], buffer[pos+3], buffer[pos+4], buffer[pos+5]);
     //checkSum = 0;
-    checkSum = updateChecksum(       0, buffer[++pos]);  // Volume Number
-    checkSum = updateChecksum(checkSum, buffer[++pos]);  // track Number
+    checkSum = updateChecksum(       0, volumeRead);  // Volume Number
+    checkSum = updateChecksum(checkSum, trackRead);  // track Number
 
-    if (buffer[pos] != track)
+    // TODO update to handle track numbers of double-sided 80-track
+    // Disks, track number appears to be in b7-b1, side is in b0
+    if (trackRead != track)
     {
-        //printf("Invalid track - expected: %d  received: %d\n", track, buffer[pos]);
+        printf("**** Unexpected track - expected: %d  received: %d\n", track, trackRead);
         return Err_WrongTrack;
     }
-
-    checkSum = updateChecksum(checkSum, buffer[++pos]);  // sector Number
+    
+    checkSum = updateChecksum(checkSum, sectorRead);  // sector
 
     // Sector number must be between 0 and 9.
-    if (buffer[pos] >= 10)
+    if (sectorRead >= 10)
     {
-        //printf("Invalid sector - expected: %d  received: %d\n", sector - 1, buffer[pos]);
+        //printf("Invalid sector - expected: %d  received: %d\n", sector - 1, sectorRead);
         //issue = true; \todo just have to check that all 10 sectors are present and no duplicates. - can't expect this to equal.
         return Err_InvalidSector;
     }
 
     // update with the checksum read from the disk
-    checkSum = updateChecksum(checkSum, buffer[++pos]); // checksum value
+    //checkSum = updateChecksum(checkSum, buffer[++pos]); // checksum value
 
     // value should now be zero
-    if (checkSum)
+    if (checkSum != checksumRead)
     {
         //printf("Invalid Header Checksum: %d\n", checkSum);
         return Err_InvalidHeaderChecksum;
@@ -327,7 +356,7 @@ int processSector(BYTE *buffer, BYTE *out, WORD length, BYTE side, BYTE track, B
         pos++;
     }
 
-    if (buffer[pos] != PrefixSyncChar_c)
+    if (buffer[pos++] != PrefixSyncChar_c)
     {
         //printf("Data sync missed (T: %d S: %d) - pos: 0x%06x\n", track, sector, pos);
         return Err_MissingDataSync;
@@ -337,23 +366,30 @@ int processSector(BYTE *buffer, BYTE *out, WORD length, BYTE side, BYTE track, B
 
     // reset checksum value
     checkSum = 0;
+    // int dataStart = pos + 1;
 
     // check all the data
     for (int i = 0; i < 256; i++)
     {
-        checkSum = updateChecksum(checkSum, buffer[++pos]);
+        checkSum = updateChecksum(checkSum, buffer[pos++]);
     }
-
+/*
     // update checksum with checksum value read from disk
-    checkSum = updateChecksum(checkSum, buffer[++pos]);
+    //checkSum = updateChecksum(checkSum, buffer[++pos]);
 
     // Should be zero if valid
-    if (checkSum)
+    if (checkSum != buffer[pos])
     {
         //printf("Invalid Data Checksum: %d\n", checkSum);
        return Err_InvalidDataChecksum;
     }
-
+*/
+    //++pos;
+    if (checkSum != buffer[pos])
+    {
+       printf("Invalid Data Checksum: calc: 0x%02x, read: 0x%02x\n", checkSum, buffer[pos]);
+       return Err_InvalidDataChecksum;
+    }
     return No_Error;
 }
 

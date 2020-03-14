@@ -36,6 +36,10 @@ public:
     uint16_t getBlockSize();
     bool     analyze();
 
+    uint16_t getSectorDataOffset();
+    uint8_t *getSectorData();
+    uint8_t  getErrorCode();
+
     static const uint8_t headerSize_c = 5;
 
 private:

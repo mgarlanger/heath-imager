@@ -31,10 +31,9 @@ RawTrack::RawTrack(uint8_t  *buf,
                    uint32_t  size,
                    uint32_t &length)
 {
-    printf("Track::Track buf[0]: %d\n", buf[0]);
+    // printf("Track::Track buf[0]: %d\n", buf[0]);
     if (H17Disk::RawTrackDataId == buf[0])
     {
-        printf("In the true part\n");
         side_m =  buf[1];
         track_m = buf[2];
         size_m = (buf[3] << 24) | (buf[4] << 16) | (buf[5] << 8) | buf[6];
@@ -43,7 +42,7 @@ RawTrack::RawTrack(uint8_t  *buf,
 
         while(pos < size_m)
         {
-            printf("Track::Track pos: %d  buf[pos]: %d\n", pos, buf[pos + 5]);
+            // printf("Track::Track pos: %d  buf[pos]: %d\n", pos, buf[pos + 5]);
             sectors_m.push_back(new RawSector(&buf[pos + 7], size_m - pos, cur_length));
             pos += cur_length;
         }
@@ -61,7 +60,7 @@ RawTrack::RawTrack(uint8_t  *buf,
 //!
 RawTrack::~RawTrack()
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
+    // printf("%s\n", __PRETTY_FUNCTION__);
     for(unsigned int i = 0; i < sectors_m.size(); ++i)
     {
         delete sectors_m[i];
