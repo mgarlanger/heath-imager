@@ -29,5 +29,5 @@ You will need to either set permissions for the dev device to allow user access,
 
 ### Mac OS X
 
-No changes where needed, and the program did not have to run as root in order to find and use the FC5025 device.
+No changes were needed, and the program did not have to run as root in order to find and use the FC5025 device.
 
