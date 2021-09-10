@@ -114,6 +114,7 @@ Track::analyze(bool validTracks[2][80])
 {
     bool valid = true;
 
+    //printf("Track %d\n", track_m);
     if (side_m >= 2)
     {
         printf("invalid track sides_m: %d\n", side_m);
@@ -126,7 +127,6 @@ Track::analyze(bool validTracks[2][80])
         return false;
     }
 
-    printf("Track %d\n", track_m);
 
     for (unsigned int i = 0; i < sectors_m.size(); ++i)
     {
@@ -257,4 +257,44 @@ Track::writeRaw(std::ofstream &file)
     
     return status;
 }
+
+
+uint8_t
+Track::getErrorCount()
+{
+    uint8_t count = 0;
+    uint16_t numOfSectors = sectors_m.size();
+
+    for(uint16_t j = 0; j < numOfSectors; j++)
+    {
+        // NOTE: do not need to check on same sector number like
+        // the H8D, since the header with sector number is being
+        // written out.
+        if (sectors_m[j]->getErrorCode() != 0)
+        {
+            count++;
+        };
+    }
+
+   
+    return count;
+}
+
+bool
+Track::dump(int level)
+{
+
+    printf("     Side:   %d\n", side_m);
+    printf("     Track:  %d\n", track_m);
+
+    uint16_t numOfSectors = sectors_m.size();
+
+    for(uint16_t j = 0; j < numOfSectors; j++)
+    {
+        sectors_m[j]->dump(level);
+    }
+
+    return true;
+}
+
 

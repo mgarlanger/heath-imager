@@ -17,14 +17,14 @@ int main(int argc, char *argv[]) {
         usage(argv[0]);
         return 1;
     }
-    image->openForRecovery(argv[1]);
+    image->loadFile(argv[1]);
 
     printf("------------------------\n");
     printf("  Read Complete\n");
     printf("------------------------\n");
 
 
-    image->analyze();
+    //image->analyze();
 
 
     image->saveFile(argv[2]);

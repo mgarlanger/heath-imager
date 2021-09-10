@@ -7,8 +7,10 @@
 #include <string.h>
 #include <unistd.h>
 
+#include <map>
 
-const int directoryLength = 50;
+
+const int maxDirectoryLength_c = 50;
 
 static int usage(char *progName) {
 	fprintf(stderr,"Usage: %s h17disk_file\n",progName);
@@ -17,14 +19,14 @@ static int usage(char *progName) {
 
 int main(int argc, char *argv[]) {
     H17Disk *image = new(H17Disk);
-    char directoryName[directoryLength];
+    char directoryName[maxDirectoryLength_c + 1];
 
     if (argc != 2)
     {
         usage(argv[0]);
         return 1;
     }
-    if (!image->openForRecovery(argv[1]))
+    if (!image->loadFile(argv[1]))
     {
         printf("Unable to open file: %s\n", argv[1]);
         return 1;
@@ -32,8 +34,8 @@ int main(int argc, char *argv[]) {
     
     char* ptr = strrchr(argv[1], '.');
     int length = ptr - argv[1];
-    if (length > directoryLength) {
-       length = directoryLength;
+    if (length > maxDirectoryLength_c) {
+       length = maxDirectoryLength_c;
     }
     strncpy(directoryName, argv[1], length);
     mkdir(directoryName, 0777);
@@ -49,6 +51,8 @@ int main(int argc, char *argv[]) {
     CPM *cpm = new CPM(image);
 
     cpm->dumpInfo();
+
+    cpm->saveAllFiles();
     
     return 0; 
 }

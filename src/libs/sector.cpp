@@ -6,7 +6,7 @@
 #include "sector.h"
 #include "h17disk.h"
 #include "disk_util.h"
-
+#include "dump.h"
 
 #include <string.h>
 
@@ -123,12 +123,30 @@ Sector::getErrorCode()
 }
 
 uint16_t
+Sector::getSectorHeaderOffset()
+{
+    uint16_t pos = 0;
+
+    // look for the sync for the header
+    while ((pos < bufSize_m) && (buf_m[pos++] != 0xfd))
+    { }
+
+    if ((bufSize_m - pos) < 5)
+    {
+        printf("Error header not found - sector: %d\n", sector_m);
+        pos = bufSize_m - 5;
+    }
+    return pos;
+}
+
+
+uint16_t
 Sector::getSectorDataOffset()
 {
     uint16_t pos = 0;
  
     // look for the sync for the header
-    while ((buf_m[pos] != 0xfd) && (pos < bufSize_m))
+    while ((pos < bufSize_m) && (buf_m[pos] != 0xfd))
     {
         pos++;
     }
@@ -160,7 +178,7 @@ Sector::writeToH8D(std::ofstream &file)
 {
 
     uint16_t pos = getSectorDataOffset();
-  
+
     // write out the sector
     if (buf_m)
     {
@@ -209,7 +227,7 @@ Sector::getSectorNum()
     uint16_t pos = 0;
 
     // look for the sync for the header 
-    while ((buf_m[pos] != 0xfd) && (pos < bufSize_m))
+    while ((pos < bufSize_m) && (buf_m[pos] != 0xfd))
     {
         pos++;
     }
@@ -265,4 +283,158 @@ Sector::getBlockSize()
 {
     return bufSize_m + headerSize_c;
 }
+
+
+bool
+Sector::dump(int level)
+{
+    printf("        Sector:   %d\n", sector_m);
+    if (error_m)
+    {   
+        printf("        Error:    %d - %s\n", error_m, sectorErrorStrings[error_m]);
+    }
+    else
+    {   
+        printf("        Sector Valid\n");
+    }
+
+    printf("      Data:---------------------------------------------------------------\n");
+    dumpDataBlock(buf_m, bufSize_m);
+    unsigned int pos;
+
+    printf("        ------------------------------------------------------------------\n");
+   
+    // dump actual sector data.
+    pos = 4;
+    int headerPos = -1;
+    int dataPos = -1;
+
+    // Find header block
+    while ((pos < bufSize_m) && (buf_m[pos] != 0xfd))
+    {   
+        pos++;
+    }
+
+    if (pos < bufSize_m)
+    {   
+        headerPos = pos;
+    }
+    // skip header.
+    pos += 5;
+
+    // find Data block
+    while ((pos < bufSize_m) && (buf_m[pos] != 0xfd))
+    {   
+        pos++;
+    }
+
+    if (pos < bufSize_m)
+    {
+        dataPos = pos;
+    }
+
+    // if header found display it.
+    if ((headerPos != -1) && (headerPos < ((int) bufSize_m - 5)))
+    {
+         dumpHeader(&buf_m[headerPos]);
+    }
+    else
+    {
+        printf("  sector header missing - headerPos: %d\n", headerPos);
+    }
+
+    // if data found display it
+    if ((dataPos != -1) && (dataPos < ((int) bufSize_m - 258)))
+    {
+        dumpData(&buf_m[dataPos+1]);
+    }
+    else
+    {
+        printf("  sector data missing - dataPos: %d\n", dataPos);
+    }
+
+    return true;
+}
+
+
+//! dump SectorHeader
+//!
+//! @param      buf     data buffer
+//!
+void
+Sector::dumpHeader(unsigned char buf[])
+{
+    uint8_t calculatedChecksum = 0;
+
+    printf("    Sector Header\n");
+    printf("       Volume: %3d\n", buf[1]);
+    calculatedChecksum = updateChecksum(calculatedChecksum, buf[1]);
+    printf("       Track:   %2d\n", buf[2]);
+    calculatedChecksum = updateChecksum(calculatedChecksum, buf[2]);
+    printf("       Sector:   %d\n", buf[3]);
+    calculatedChecksum = updateChecksum(calculatedChecksum, buf[3]);
+    if (buf[4] == calculatedChecksum)
+    {
+        printf("       Chksum: 0x%02x\n", buf[4]);
+    }
+    else
+    {
+        printf("       Chksum: 0x%02x (expected 0x%02x)\n", calculatedChecksum, buf[4]);
+    }
+}
+
+
+//! dump SectorData
+//!
+//! @param      buf     data buffer
+//!
+void
+Sector::dumpData(unsigned char buf[])
+{
+    printf("    Sector Data:\n");
+    uint8_t printAble[16];
+    uint8_t calculatedChecksum = 0;
+
+
+    for (unsigned int i = 0; i < 256; i++)
+    {
+        calculatedChecksum = updateChecksum(calculatedChecksum, buf[i]);
+        printAble[i % 16] = isprint(buf[i]) ? buf[i] : '.';
+        if  ((i % 16) == 0)
+        {
+            printf("        %03d: ", i);
+        }
+        printf("%02x", buf[i]);
+
+        if ((i % 16) == 7)
+        {
+            printf(" ");
+        }
+        if ((i % 16) == 15)
+        {
+            printf("        |");
+            for(int i = 0; i < 8; i++)
+            {
+                printf("%c", printAble[i]);
+            }
+            printf("  ");
+            for(int i = 8; i < 16; i++)
+            {
+                printf("%c", printAble[i]);
+            }
+
+            printf("|\n");
+        }
+    }
+
+    if (buf[256] == calculatedChecksum)
+    {
+        printf("       Valid Data Chksum: 0x%02x\n", buf[256]);
+    }
+    else
+    {
+        printf("       Chksum: 0x%02x (expected 0x%02x)\n", calculatedChecksum, buf[256]);
+    }
+}
+
 

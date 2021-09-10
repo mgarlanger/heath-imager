@@ -61,35 +61,27 @@ public:
 
 
     // Open a file
-    virtual bool openForWrite(char *name);
-    virtual bool openForRead(char *name);
-    virtual bool openForRecovery(char *name);
+    virtual bool openForWrite(const char *name);
+    virtual bool openForRead(const char *name);
+    //virtual bool openForRecovery(const char *name);
+    virtual bool fileExists(const char *name);
 
-    virtual bool loadFile();
-    virtual bool saveFile(char  *name);
-    virtual bool saveAsH8D(char *name);
-    virtual bool saveAsRaw(char *name);
+    virtual bool loadFile(const char *name);
+    virtual bool saveFile(const char  *name);
+    virtual bool saveAsH8D(const char *name);
+    virtual bool saveAsRaw(const char *name);
 
     virtual bool loadBuffer(unsigned char buf[], unsigned int size);
     virtual bool loadHeader(unsigned char buf[], unsigned int size, unsigned int &length);
     virtual bool loadBlock(unsigned char buf[], unsigned int size, unsigned int &length);
-    virtual bool loadDiskFormatBlock(unsigned char buf[], unsigned int size);
-    virtual bool loadFlagsBlock(unsigned char buf[], unsigned int size);
-    virtual bool loadLabelBlock(unsigned char buf[], unsigned int size);
-    virtual bool loadCommentBlock(unsigned char buf[], unsigned int size);
-    virtual bool loadDateBlock(unsigned char buf[], unsigned int size);
-    virtual bool loadImagerBlock(unsigned char buf[], unsigned int size);
-    virtual bool loadProgramBlock(unsigned char buf[], unsigned int size);
-    virtual bool loadDataBlock(unsigned char buf[], unsigned int size);
-    virtual bool loadTrackBlock(unsigned char buf[], unsigned int size, unsigned int &length);
-    virtual bool loadSectorBlock(unsigned char buf[], unsigned int size, unsigned int &length);
-    virtual bool loadRawDataBlock(unsigned char buf[], unsigned int size);
-    virtual bool loadRawTrackBlock(unsigned char buf[], unsigned int size, unsigned int &length);
-    virtual bool loadRawSectorBlock(unsigned char buf[], unsigned int size, unsigned int &length);
 
     virtual bool analyze();
-    virtual bool decodeFile(char *name, bool summary = false);
+    virtual bool decodeFile(const char *name, bool summary = false);
+    virtual bool dumpFileInfo(const char *name, int level);
     virtual bool reprocessFile();
+
+    virtual bool dumpBuffer(unsigned char buf[], unsigned int size, int level);
+    virtual bool dumpBlock(unsigned char buf[], unsigned int size, unsigned int &length, int level);
 
     virtual bool decodeBuffer(unsigned char buf[], unsigned int size);
     virtual bool validateHeader(unsigned char buf[], unsigned int size, unsigned int &length);

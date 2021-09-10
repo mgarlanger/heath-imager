@@ -39,6 +39,10 @@ public:
     uint8_t getTrackNumber();
 
     Sector *getSector(uint16_t sectorNum);
+
+    uint8_t getErrorCount();
+
+    bool dump(int level);
  
 private:
 

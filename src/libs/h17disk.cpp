@@ -113,6 +113,17 @@ H17Disk::disableRaw()
     disableRaw_m = true;
 }
 
+bool
+H17Disk::fileExists(const char *name)
+{
+    if (FILE *file = fopen(name, "r")) {
+        fclose(file);
+        return true;
+    } else {
+        return false;
+    }
+
+}
 
 //! open file for writing
 //!
@@ -121,9 +132,14 @@ H17Disk::disableRaw()
 //! @return success
 //!
 bool
-H17Disk::openForWrite(char *name)
+H17Disk::openForWrite(const char *name)
 {
-    // make sure file is not already open
+
+    if (fileExists(name)) 
+    {
+        return false;
+    }
+    // make sure a file is not already open
     if (file_m.is_open())
     {
         file_m.close();
@@ -142,7 +158,7 @@ H17Disk::openForWrite(char *name)
 //! @return success
 //!
 bool
-H17Disk::openForRead(char *name)
+H17Disk::openForRead(const char *name)
 {
     // make sure file is not already open
     if (inFile_m.is_open())
@@ -156,6 +172,7 @@ H17Disk::openForRead(char *name)
 }
 
 
+/*
 //! open for recovery
 //!
 //! @param name       file name
@@ -163,7 +180,7 @@ H17Disk::openForRead(char *name)
 //! @return success
 //!
 bool
-H17Disk::openForRecovery(char *name)
+H17Disk::openForRecovery(const char *name)
 {
     bool           status = false;
 
@@ -175,6 +192,7 @@ H17Disk::openForRecovery(char *name)
     loadFile();
     return true;
 }
+*/
 
 
 //! load file after inFile_m has been opened
@@ -182,14 +200,15 @@ H17Disk::openForRecovery(char *name)
 //! @return success
 //!
 bool
-H17Disk::loadFile()
+H17Disk::loadFile(const char *name)
 {
     unsigned char *inputBuffer;
     bool           status = false;
 
-    if (!inFile_m.is_open())
+
+    if (!openForRead(name))
     {
-        return false;
+        return status;
     }
 
     inFile_m.seekg(0, std::ios::end);
@@ -234,10 +253,12 @@ H17Disk::reprocessFile()
 //! @return success
 //!
 bool
-H17Disk::saveFile(char *name)
+H17Disk::saveFile(const char *name)
 {
+    printf("Attempting to write file: %s\n", name);
     if (!openForWrite(name))
     {
+        printf("Unable to open file to write: %s\n", name);
         return false;
     } 
 
@@ -247,6 +268,7 @@ H17Disk::saveFile(char *name)
     {
         if (blocks_m[i])
         {
+            printf("Writing block: %d\n", i);
             blocks_m[i]->writeToFile(file_m);
         }
     }
@@ -263,7 +285,7 @@ H17Disk::saveFile(char *name)
 //! @return success
 //!
 bool
-H17Disk::saveAsH8D(char *name)
+H17Disk::saveAsH8D(const char *name)
 {
     bool status = true;
 
@@ -275,7 +297,7 @@ H17Disk::saveAsH8D(char *name)
 
     if (blocks_m[DataBlock_c])
     {
-        status = ((H17DiskDataBlock *) blocks_m[DataBlock_c])->writeAsH8D(file_m);
+        status = ((H17DataBlock *) blocks_m[DataBlock_c])->writeAsH8D(file_m);
     }
 
     file_m.close();
@@ -291,7 +313,7 @@ H17Disk::saveAsH8D(char *name)
 //! @return success
 //!
 bool
-H17Disk::saveAsRaw(char *name)
+H17Disk::saveAsRaw(const char *name)
 {
     bool status = true;
 
@@ -303,7 +325,7 @@ H17Disk::saveAsRaw(char *name)
 
     if (blocks_m[DataBlock_c]) 
     {
-        status = ((H17DiskDataBlock *) blocks_m[DataBlock_c])->writeAsRaw(file_m);
+        status = ((H17DataBlock *) blocks_m[DataBlock_c])->writeAsRaw(file_m);
     }
 
     file_m.close();
@@ -340,7 +362,7 @@ H17Disk::analyze()
         }
         else
         {
-            printf("Optional block: %02x not included\n", *it);
+            // printf("Optional block: %02x not included\n", *it);
         }
     }
 
@@ -355,7 +377,7 @@ H17Disk::analyze()
 //! @return success
 //!
 bool
-H17Disk::decodeFile(char *name, bool summary)
+H17Disk::decodeFile(const char *name, bool summary)
 {
     unsigned char *inputBuffer;
     bool           status = false;
@@ -374,32 +396,26 @@ H17Disk::decodeFile(char *name, bool summary)
 
     if ((inputBuffer) && (inFile_m.read((char *) inputBuffer, size)))
     {
-        status = decodeBuffer(inputBuffer, size);
+    //    status = decodeBuffer(inputBuffer, size);
     }
     delete[] inputBuffer;
     inFile_m.close();
 
     return status;
 }
-/*
-//! analyze file and dump results to screen
-//!
-//! @param name       file name
-//!
-//! @return success
-//!
+
 bool
-H17Disk::analyzeFile(char *name)
+H17Disk::dumpFileInfo(const char *name, int level)
 {
-    unsigned char *inputBuffer;
+    // unsigned char *inputBuffer;
     bool           status = false;
 
-    summarize_m = true;
-    if (!openForRead(name))
+    if (!loadFile(name))
     {
         return status;
     }
 
+    /*
     inFile_m.seekg(0, std::ios::end);
     std::streamsize size = inFile_m.tellg();
     inFile_m.seekg(0, std::ios::beg);
@@ -408,14 +424,23 @@ H17Disk::analyzeFile(char *name)
 
     if ((inputBuffer) && (inFile_m.read((char *) inputBuffer, size)))
     {
-        status = analyzeBuffer(inputBuffer, size);
+        status = dumpBuffer(inputBuffer, size, level);
     }
-    delete[] inputBuffer;
+    delete[] inputBuffer; */
+
+    for (int i = 0; i < 256; i++)
+    {   
+        if (blocks_m[i])
+        {   
+            blocks_m[i]->dump(level);
+        }
+    }
+
     inFile_m.close();
 
     return status;
 }
-*/
+
 
 //! decodes memory buffer of a h17disk file
 //!
@@ -450,22 +475,16 @@ H17Disk::decodeBuffer(unsigned char buf[],
 
     return true;
 }
-/*
-//! decodes memory buffer of a h17disk file
-//!
-//! @param  buf
-//! @param  size
-//!
-//! @return success
-//!
+
 bool
-H17Disk::analyzeBuffer(unsigned char buf[],
-                      unsigned int size)
+H17Disk::dumpBuffer(unsigned char buf[],
+                    unsigned int size,
+                    int level)
 {
     unsigned int pos = 0;
     unsigned int length = 0;
 
-    if (!analyzeHeader(&buf[pos], size, length))
+    if (!validateHeader(&buf[pos], size, length))
     {
         printf("%s: Invalid Header\n", __FUNCTION__);
         return false;
@@ -475,7 +494,7 @@ H17Disk::analyzeBuffer(unsigned char buf[],
 
     while (pos < size)
     {
-        if (!analyzeBlock(&buf[pos], size - pos, length))
+        if (!dumpBlock(&buf[pos], size - pos, length, level))
         {
             return false;
         }
@@ -484,7 +503,7 @@ H17Disk::analyzeBuffer(unsigned char buf[],
 
     return true;
 }
-*/
+
 
 //! load buffer into a h17disk object
 //!
@@ -517,14 +536,16 @@ H17Disk::loadBuffer(unsigned char buf[],
         pos += length;
     }
 
+    /*
     if (sectorErrs_m == 0)
     {
-        // printf("No sector errors.\n");
+        printf("No sector errors.\n");
     }
     else
     {
-        // printf("Sector Errors: %d\n", sectorErrs_m);
+        printf("Sector Errors: %d\n", sectorErrs_m);
     }
+    */
     return true;
 }
 
@@ -588,7 +609,8 @@ H17Disk::loadHeader(unsigned char buf[],
        return false;
     }
 
-    printf("H17D - Version: %d.%d.%d\n",buf[4], buf[5], buf[6]);
+    //printf("H17D - Version: %d.%d.%d\n",buf[4], buf[5], buf[6]);
+    printf("H17D V%d.%d.%d\n",buf[4], buf[5], buf[6]);
 
     versionMajor_m = buf[4];
     versionMinor_m = buf[5];
@@ -671,6 +693,74 @@ H17Disk::validateBlock(unsigned char buf[],
     return true;
 }
 
+bool
+H17Disk::dumpBlock(unsigned char buf[],
+                   unsigned int size,
+                   unsigned int &length,
+                   int level)
+{
+
+    
+    if (size < 6)
+    {   
+        printf("Validate Block size too small: %d\n", size);
+        return false;
+    }
+    // printf("Block ID: 0x%02x", buf[0]);
+    // printf("   Flags: %s", (buf[1] & 0x80) ? "Mandatory": "Not Mandatory");
+    unsigned int blockSize = ((unsigned int) buf[2] << 24) |
+                             ((unsigned int) buf[3] << 16) |
+                             ((unsigned int) buf[4] <<  8) |
+                             ((unsigned int) buf[5]      );
+    // printf("   Block Size: %u\n", blockSize);
+    
+    // make sure there is enough remaining data
+    length = 6 + blockSize;
+    if (size < length)
+    {   
+        printf("Short file, block length: %d, but remaing file bytes:%d\n", length, size);
+        return false;
+    }
+    
+    // check block type
+    switch (buf[0])
+    {   
+        case DiskFormatBlock_c:
+            validateDiskFormatBlock(&buf[6], blockSize);
+            break;
+        case FlagsBlock_c:
+            validateFlagsBlock(&buf[6], blockSize);
+            break;
+        case LabelBlock_c:
+            validateLabelBlock(&buf[6], blockSize);
+            break;
+        case CommentBlock_c:
+            validateCommentBlock(&buf[6], blockSize);
+            break;
+        case DateBlock_c:
+            validateDateBlock(&buf[6], blockSize);
+            break;
+        case ImagerBlock_c:
+            validateImagerBlock(&buf[6], blockSize);
+            break;
+        case ProgramBlock_c:
+            validateProgramBlock(&buf[6], blockSize);
+            break;
+        case DataBlock_c:
+            validateDataBlock(&buf[6], blockSize);
+            break;
+        case RawDataBlock_c:
+            validateRawDataBlock(&buf[6], blockSize);
+            break;
+        default:
+            printf("Unknown Block Id: 0x%02x\n", buf[0]);
+            //! \todo check to see if mandatory , and skip the data.
+    }
+    
+    return true;
+
+}
+
 //! load block
 //!
 //! @param      buf     data buffer
@@ -684,58 +774,31 @@ H17Disk::loadBlock(unsigned char buf[],
                    unsigned int size,
                    unsigned int &length)
 {
-    if (size < 6)
-    {   
-        printf("Validate Block size too small: %d\n", size);
-        return false;
-    }
-    // printf("Block ID: 0x%02x", buf[0]);
-    // printf("   Flags: %s", (buf[1] & 0x80) ? "Mandatory": "Not Mandatory");
-    unsigned int blockSize = ((unsigned int) buf[2] << 24) | 
-                             ((unsigned int) buf[3] << 16) |
-                             ((unsigned int) buf[4] <<  8) | 
-                             ((unsigned int) buf[5]      );
-    // printf("   Block Size: %u\n", blockSize);
-    if (size < ( 6 + blockSize))
-    {
-        printf("Insufficient size: %d\n", size);
-        return false;
-    }
-    length = 6 + blockSize;
 
-    switch (buf[0])
+    H17Block *block = H17Block::create(buf, size);
+
+    if (block)
     {
-        case DiskFormatBlock_c: 
-            loadDiskFormatBlock(&buf[6], blockSize);
-            break;
-        case FlagsBlock_c:
-            loadFlagsBlock(&buf[6], blockSize);
-            break;
-        case LabelBlock_c:
-            loadLabelBlock(&buf[6], blockSize);
-            break;
-        case CommentBlock_c:
-            loadCommentBlock(&buf[6], blockSize);
-            break;
-        case DateBlock_c:
-            loadDateBlock(&buf[6], blockSize);
-            break;
-        case ImagerBlock_c:
-            loadImagerBlock(&buf[6], blockSize);
-            break;
-        case ProgramBlock_c:
-            loadProgramBlock(&buf[6], blockSize);
-            break;
-        case DataBlock_c:
-            loadDataBlock(&buf[6], blockSize);
-            break;
-        case RawDataBlock_c:
-            loadRawDataBlock(&buf[6], blockSize);
-            break;
-        default:
-            printf("Unknown Block Id: 0x%02x\n", buf[0]);
-            //! \todo check to see if mandatory , and skip the data.
+        uint8_t blockId = block->getBlockId();
+
+        if (blocks_m[blockId])
+        {
+            // a label block already specified.
+            //
+            printf("Duplicate block: %d\n", blockId);
+        }
+        else
+        {
+            blocks_m[blockId] = block;
+            length = block->getBlockSize();
+        }
     }
+    else
+    {
+        printf("Invalid File format: unable to create block\n");
+        return false;
+    }
+
     return true;
 }
 
@@ -756,43 +819,26 @@ H17Disk::validateDiskFormatBlock(unsigned char buf[],
         printf("DataFormat size too big: %d\n", size);
         return false;
     }
-    printf("DataFormat:\n");
-    if (size > 0)
+    // set to default
+    uint8_t sides = 1;
+    uint8_t tracks = 40;
+    if (size > 0) 
     {
-        printf("  Sides:  %d\n", buf[0]);
+        sides = buf[0];
     }
     if (size > 1)
     {
-        printf("  Tracks: %d\n", buf[1]);
+        tracks = buf[1];
     }
-    return true;
-}
-
-
-//! Load DiskFormatBlock
-//!
-//! @param      buf     data buffer
-//! @param      size    size of buffer
-//!
-//! @return   if load was succesful
-//!
-bool
-H17Disk::loadDiskFormatBlock(unsigned char buf[],
-                             unsigned int  size)
-{
-
-    if (blocks_m[DiskFormatBlock_c])
-    {
-        // a label block already specified.
-        //
-        printf("Duplicate LabelBlock\n");
+    if (summarize_m) {
+        printf("DataFormat - S: %d T: %d\n", sides, tracks);
     }
     else
     {
-        blocks_m[DiskFormatBlock_c] = new H17DiskFormatBlock(buf, size);
-        // printf("New Label Block - Size: %d\n", size);
+        printf("DataFormat:\n");
+        printf("  Sides:  %d\n", buf[0]);
+        printf("  Tracks: %d\n", buf[1]);
     }
-
     return true;
 }
 
@@ -827,33 +873,6 @@ H17Disk::validateLabelBlock(unsigned char buf[],
 }
 
 
-//! load LabelBlock
-//!
-//! @param      buf     data buffer
-//! @param      size    size of buffer
-//!
-//! @return   if load was successful
-//!
-bool
-H17Disk::loadLabelBlock(unsigned char buf[],
-                        unsigned int  size)
-{
-    if (blocks_m[LabelBlock_c])
-    {
-        // a label block already specified.
-        //
-        printf("Duplicate LabelBlock\n");
-    }
-    else
-    {
-        blocks_m[LabelBlock_c] = new H17DiskLabelBlock(buf, size);
-        // printf("New Label Block - Size: %d\n", size);
-    }
-
-    return true;
-}
-
-
 //! validate CommentBlock
 //!
 //! @param      buf     data buffer
@@ -865,6 +884,10 @@ bool
 H17Disk::validateCommentBlock(unsigned char buf[],
                               unsigned int  size)
 {
+    if (summarize_m) {
+        return true;
+    }
+
     printf("Comment:\n");
     printf("-------------------------------------------------------------------------\n");
     for (unsigned int i = 0; i < size; i++)
@@ -884,33 +907,6 @@ H17Disk::validateCommentBlock(unsigned char buf[],
 }
 
 
-//! load CommentBlock
-//!
-//! @param      buf     data buffer
-//! @param      size    size of buffer
-//!
-//! @return   if load was successful
-//!
-bool
-H17Disk::loadCommentBlock(unsigned char buf[],
-                          unsigned int size)
-{   
-    if (blocks_m[CommentBlock_c])
-    {   
-        // already a comment block specified.
-        //
-        printf("Duplicate CommentBlock\n");
-    }
-    else
-    {   
-        blocks_m[CommentBlock_c] = new H17DiskCommentBlock(buf, size);
-        printf("New Comment Block - Size: %d\n", size);
-    }
-
-    return true;
-}
-
-
 //! validate DateBlock
 //!
 //! @param      buf     data buffer
@@ -922,6 +918,11 @@ bool
 H17Disk::validateDateBlock(unsigned char buf[],
                            unsigned int  size)
 {
+    if (summarize_m)
+    {
+        return true;
+    }
+
     printf("Date:\n");
     printf("-------------------------------------------------------------------------\n");
     for (unsigned int i = 0; i < size; i++)
@@ -941,33 +942,6 @@ H17Disk::validateDateBlock(unsigned char buf[],
 }
 
 
-//! load DateBlock
-//!
-//! @param      buf     data buffer
-//! @param      size    size of buffer
-//!
-//! @return   if load was successful
-//!
-bool
-H17Disk::loadDateBlock(unsigned char  buf[],
-                       unsigned int   size)
-{   
-    if (blocks_m[DateBlock_c])
-    {   
-        // already a date block specified.
-        //
-        printf("Duplicate DateBlock\n");
-    }
-    else
-    {
-        blocks_m[DateBlock_c] = new H17DiskDateBlock(buf, size);
-        // printf("New Date Block - Size: %d\n", size);
-    }
-
-    return true;
-}
-
-
 //! validate ImagerBlock
 //!
 //! @param      buf     data buffer
@@ -978,6 +952,10 @@ bool
 H17Disk::validateImagerBlock(unsigned char buf[],
                              unsigned int size)
 {
+    if (summarize_m)
+    {
+        return true;
+    }
     printf("Imager:\n");
     printf("-------------------------------------------------------------------------\n");
     for (unsigned int i = 0; i < size; i++)
@@ -998,33 +976,6 @@ H17Disk::validateImagerBlock(unsigned char buf[],
 }
 
 
-//! load ImagerBlock
-//!
-//! @param      buf     data buffer
-//! @param      size    size of buffer
-//!
-//! @return  if load was successful
-//!
-bool
-H17Disk::loadImagerBlock(unsigned char buf[],
-                         unsigned int size)
-{  
-    if (blocks_m[ImagerBlock_c])
-    {  
-        // already a imager block specified.
-        //
-        printf("Duplicate ImagerBlock\n");
-    }
-    else
-    {
-        blocks_m[ImagerBlock_c] = new H17DiskImagerBlock(buf, size);
-        // printf("New Imager Block - Size: %d\n", size);
-    }
-
-    return true;
-}
-
-
 //! validate ProgramBlock
 //!
 //! @param      buf     data buffer
@@ -1036,6 +987,10 @@ bool
 H17Disk::validateProgramBlock(unsigned char buf[],
                               unsigned int  size)
 {
+    if (summarize_m)
+    {
+        return true;
+    }
     printf("Program:\n");
     printf("-------------------------------------------------------------------------\n");
     for (unsigned int i = 0; i < size; i++)
@@ -1055,32 +1010,6 @@ H17Disk::validateProgramBlock(unsigned char buf[],
 }
 
 
-//! load ProgramBlock
-//!
-//! @param      buf     data buffer
-//! @param      size    size of buffer
-//! 
-//! @return   if load was successful
-//!
-bool
-H17Disk::loadProgramBlock(unsigned char buf[],
-                          unsigned int  size)
-{ 
-    if (blocks_m[ProgramBlock_c])
-    {
-        // already a program block specified.
-        //
-        printf("Duplicate ProgramBlock\n");
-    }
-    else
-    {
-        blocks_m[ProgramBlock_c] = new H17DiskProgramBlock(buf, size);
-        // printf("New  ProgramBlock - Size: %d\n", size);
-    }
-    return true;
-}
-
-
 //! validate FlagsBlock
 //!
 //! @param      buf     data buffer
@@ -1092,6 +1021,7 @@ bool
 H17Disk::validateFlagsBlock(unsigned char buf[],
                             unsigned int size)
 {
+
     printf("Flags Block:\n"); 
     if (size > 0)
     {
@@ -1110,33 +1040,6 @@ H17Disk::validateFlagsBlock(unsigned char buf[],
         printf("Flag %d - %s - %d\n", i, (buf[i] & 0x80) ? "Mandatory" : "Not Mandatory", 
                buf[i] & 0x7f);
     } 
-
-    return true;
-}
-
-
-//! load FlagsBlock
-//!
-//! @param      buf     data buffer
-//! @param      size    size of buffer
-//!
-//! @return  if load was successful
-//!
-bool
-H17Disk::loadFlagsBlock(unsigned char buf[],
-                        unsigned int  size)
-{
-    if (blocks_m[FlagsBlock_c])
-    {
-        // already a flags block specified.
-        //
-        printf("Duplicate FlagsBlock\n");
-    }
-    else
-    {
-        blocks_m[FlagsBlock_c] = new H17DiskFlagsBlock(buf, size);
-        // printf("New  FlagsBlock - Size: %d\n", size);
-    }
 
     return true;
 }
@@ -1174,33 +1077,6 @@ H17Disk::validateDataBlock(unsigned char buf[],
         pos += length;
     }
     printf("Total tracks in DataBlock: %d\n", tracks);
-
-    return true;
-}
-
-
-//! load DataBlock
-//!
-//! @param      buf     data buffer
-//! @param      size    size of buffer
-//!
-//! @return   if load was successful
-//!
-bool
-H17Disk::loadDataBlock(unsigned char buf[],
-                       unsigned int size)
-{
-    if (blocks_m[DataBlock_c])
-    {
-        // already a label block specified.
-        //
-        printf("Duplicate DataBlock\n");
-    }
-    else
-    {
-        blocks_m[DataBlock_c] = new H17DiskDataBlock(buf, size);
-        // printf("New  DataBlock - Size: %d\n", size);
-    }
 
     return true;
 }
@@ -1250,35 +1126,6 @@ H17Disk::validateTrackBlock(unsigned char buf[],
             return false;
         }
         pos += len;
-    }
-
-    return true;
-}
-
-
-//! load TrackBlock
-//!
-//! @param      buf     data buffer
-//! @param      size    size of buffer
-//! @param      length  bytes used in buffer for this block
-//!
-//! @return   if load was successful
-//!
-bool
-H17Disk::loadTrackBlock(unsigned char buf[],
-                        unsigned int size,
-                        unsigned int &length)
-{   
-    if (blocks_m[TrackDataId])
-    {   
-        // already a label block specified.
-        //
-        printf("Duplicate TrackBlock\n");
-    }
-    else
-    {   
-//        blocks_m[TrackBlock_c] = new H17DiskTrackBlock(buf, size);
-        printf("New  TrackBlock - Size: %d\n", size);
     }
 
     return true;
@@ -1378,34 +1225,6 @@ H17Disk::validateSectorBlock(unsigned char buf[],
     }
     
     length = blockLength + 4;
-
-    return true;
-}
-
-
-//! load SectorBlock
-//!
-//! @param      buf     data buffer
-//! @param      size    size of buffer
-//! 
-//! @return  {bool} if load was successful
-//! 
-bool
-H17Disk::loadSectorBlock(unsigned char buf[],
-                         unsigned int size,
-                         unsigned int &length)
-{   
-    if (blocks_m[SectorDataId])
-    {
-        // already a label block specified.
-        //
-        printf("Duplicate TrackBlock\n");
-    }
-    else
-    {   
-//        blocks_m[TrackBlock_c] = new H17DiskTrackBlock(buf, size);
-        printf("New  TrackBlock - Size: %d\n", size);
-    }
 
     return true;
 }
@@ -1528,32 +1347,6 @@ H17Disk::validateRawDataBlock(unsigned char buf[], unsigned int size)
 }
 
 
-//! load RawDataBlock
-//!
-//! @param      buf     data buffer
-//! @param      size    size of buffer
-//!
-//! @return  if load was successful
-//!
-bool
-H17Disk::loadRawDataBlock(unsigned char buf[], unsigned int size)
-{
-    if (blocks_m[RawDataBlock_c])
-    {
-        // already a label block specified.
-        //
-        printf("Duplicate Raw Data Block\n");
-    }
-    else
-    {
-        blocks_m[RawDataBlock_c] = new H17DiskRawDataBlock(buf, size);
-        // printf("New  Raw Data Block - Size: %d\n", size);
-    }
-
-    return true;
-}
-
-
 //! validate RawTrackBlock
 //!
 //! @param      buf     data buffer
@@ -1597,31 +1390,6 @@ H17Disk::validateRawTrackBlock(unsigned char  buf[],
     }
 
     return true;
-}
-
-
-//! load RawTrackBlock
-//!
-//! @param      buf     data buffer
-//! @param      size    size of buffer
-//!
-//! @return  if load was successful
-//!
-bool
-H17Disk::loadRawTrackBlock(unsigned char buf[], unsigned int size, unsigned int &length)
-{
-/*    if (blocks_m[SectorDataId])
-    {
-        // already a label block specified.
-        //
-        printf("Duplicate TrackBlock\n");
-    }
-    else
-    {
-//        blocks_m[TrackBlock_c] = new H17DiskTrackBlock(buf, size);
-        printf("New  TrackBlock - Size: %d\n", size);
-    } */
-    return false;
 }
 
 
@@ -1701,35 +1469,6 @@ H17Disk::validateRawSectorBlock(unsigned char  buf[],
     
     return true;
 }
-
-
-//! load raw sector block
-//!
-//! @param buf
-//! @param size
-//! @param length
-//!
-//! @return success
-//!
-bool
-H17Disk::loadRawSectorBlock(unsigned char buf[],
-                            unsigned int  size,
-                            unsigned int &length)
-{
-/*    if (blocks_m[SectorDataId])
-    {
-        // already a label block specified.
-        //
-        printf("Duplicate TrackBlock\n");
-    }
-    else
-    {
-//        blocks_m[TrackBlock_c] = new H17DiskTrackBlock(buf, size);
-        printf("New  TrackBlock - Size: %d\n", size);
-    } */
-    return true;
-}
-
 
 
 //! write File Header

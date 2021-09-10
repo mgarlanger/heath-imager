@@ -32,12 +32,14 @@ public:
     
     virtual bool         writeBlockHeader(std::ofstream &file);
     virtual bool         writeToFile(std::ofstream &file);
-    virtual bool         dump(uint8_t level);
+    virtual bool         dump(uint8_t level = 5) = 0;
     virtual bool         analyze();
 
     virtual bool         getMandatory() = 0;
     virtual uint8_t      getBlockId() = 0;
     virtual void         printBlockName() = 0;
+
+    static H17Block *create(uint8_t buf[], uint32_t size);
 
     static const uint8_t DiskFormatBlock_c = 0x00;
     static const uint8_t FlagsBlock_c      = 0x01;
@@ -79,7 +81,8 @@ public:
     virtual bool         writeToFile(std::ofstream &file);
     virtual bool         getMandatory();
     virtual uint32_t     getDataSize();
-    virtual bool         dump(uint8_t level);
+    virtual bool         dump(uint8_t level = 5);
+    virtual bool         analyze();
     virtual void         printBlockName();
 
     virtual uint8_t      getSides();
@@ -92,19 +95,20 @@ private:
 };
 
 
-class H17DiskFlagsBlock: public H17Block
+class H17FlagsBlock: public H17Block
 {
 public:
 
-    H17DiskFlagsBlock(uint8_t buf[], uint32_t size);
-    H17DiskFlagsBlock(bool writeProtect, uint8_t distribution, uint8_t trackSource);
-    virtual ~H17DiskFlagsBlock();
+    H17FlagsBlock(uint8_t buf[], uint32_t size);
+    H17FlagsBlock(bool writeProtect, uint8_t distribution, uint8_t trackSource);
+    virtual ~H17FlagsBlock();
 
     virtual uint8_t      getBlockId();
     virtual bool         writeToFile(std::ofstream &file);
     virtual bool         getMandatory();
     virtual uint32_t     getDataSize();
-    virtual bool         dump(uint8_t level);
+    virtual bool         analyze();
+    virtual bool         dump(uint8_t level = 5);
     virtual void         printBlockName();
 
 private:
@@ -116,16 +120,17 @@ private:
 };
 
 
-class H17DiskLabelBlock: public H17Block
+class H17LabelBlock: public H17Block
 {
 public:
 
-    H17DiskLabelBlock(uint8_t buf[], uint32_t size);
-    virtual ~H17DiskLabelBlock();
+    H17LabelBlock(uint8_t buf[], uint32_t size);
+    virtual ~H17LabelBlock();
 
     virtual uint8_t      getBlockId();
     virtual bool         getMandatory();
-    virtual bool         dump(uint8_t level);
+    virtual bool         dump(uint8_t level = 5);
+    virtual bool         analyze();
     virtual void         printBlockName();
 
 private:
@@ -133,16 +138,17 @@ private:
 };
 
 
-class H17DiskCommentBlock: public H17Block
+class H17CommentBlock: public H17Block
 {
 public:
 
-    H17DiskCommentBlock(uint8_t buf[], uint32_t size);
-    virtual ~H17DiskCommentBlock();
+    H17CommentBlock(uint8_t buf[], uint32_t size);
+    virtual ~H17CommentBlock();
 
     virtual uint8_t      getBlockId();
     virtual bool         getMandatory();
-    virtual bool         dump(uint8_t level);
+    virtual bool         dump(uint8_t level = 5);
+    virtual bool         analyze();
     virtual void         printBlockName();
 
 private:
@@ -150,16 +156,17 @@ private:
 };
 
 
-class H17DiskDateBlock: public H17Block
+class H17DateBlock: public H17Block
 {
 public:
 
-    H17DiskDateBlock(uint8_t buf[], uint32_t size);
-    virtual ~H17DiskDateBlock();
+    H17DateBlock(uint8_t buf[], uint32_t size);
+    virtual ~H17DateBlock();
 
     virtual uint8_t      getBlockId();
     virtual bool         getMandatory();
-    virtual bool         dump(uint8_t level);
+    virtual bool         dump(uint8_t level = 5);
+    virtual bool         analyze();
     virtual void         printBlockName();
 
 private:
@@ -167,16 +174,17 @@ private:
 };
 
 
-class H17DiskImagerBlock: public H17Block
+class H17ImagerBlock: public H17Block
 {
 public:
 
-    H17DiskImagerBlock(uint8_t buf[], uint32_t size);
-    virtual ~H17DiskImagerBlock();
+    H17ImagerBlock(uint8_t buf[], uint32_t size);
+    virtual ~H17ImagerBlock();
    
     virtual uint8_t      getBlockId();
     virtual bool         getMandatory();
-    virtual bool         dump(uint8_t level);
+    virtual bool         dump(uint8_t level = 5);
+    virtual bool         analyze();
     virtual void         printBlockName();
 
 private:
@@ -184,16 +192,17 @@ private:
 };
 
 
-class H17DiskProgramBlock: public H17Block
+class H17ProgramBlock: public H17Block
 {
 public:
 
-    H17DiskProgramBlock(uint8_t buf[], uint32_t size);
-    virtual ~H17DiskProgramBlock();
+    H17ProgramBlock(uint8_t buf[], uint32_t size);
+    virtual ~H17ProgramBlock();
    
     virtual uint8_t      getBlockId();
     virtual bool         getMandatory();
-    virtual bool         dump(uint8_t level);
+    virtual bool         dump(uint8_t level = 5);
+    virtual bool         analyze();
     virtual void         printBlockName();
 
 private:
@@ -201,17 +210,17 @@ private:
 };
 
 
-class H17DiskDataBlock: public H17Block
+class H17DataBlock: public H17Block
 {
 public:
 
-    H17DiskDataBlock(uint8_t buf[], uint32_t size);
-    virtual ~H17DiskDataBlock();
+    H17DataBlock(uint8_t buf[], uint32_t size);
+    virtual ~H17DataBlock();
 
     virtual uint8_t      getBlockId();
     virtual bool         writeToFile(std::ofstream &file);
     virtual bool         getMandatory();
-    virtual bool         dump(uint8_t level);
+    virtual bool         dump(uint8_t level = 5);
     virtual bool         analyze();
 
     virtual void         printBlockName();
@@ -222,6 +231,7 @@ public:
     virtual Track *      getTrack(uint8_t side, uint8_t track);
     virtual Sector *     getSector(uint8_t side, uint8_t track, uint8_t sector);
     virtual Sector *     getSector(uint16_t sector);
+    virtual uint16_t     getErrorCount();
 
 private:
     std::vector<Track *> tracks_m;
@@ -229,17 +239,18 @@ private:
 };
 
 
-class H17DiskRawDataBlock: public H17Block
+class H17RawDataBlock: public H17Block
 {
 public:
 
-    H17DiskRawDataBlock(uint8_t buf[], uint32_t size);
-    virtual ~H17DiskRawDataBlock();
+    H17RawDataBlock(uint8_t buf[], uint32_t size);
+    virtual ~H17RawDataBlock();
 
     virtual uint8_t      getBlockId();
     virtual bool         writeToFile(std::ofstream &file);
     virtual bool         getMandatory();
-    virtual bool         dump(uint8_t level);
+    virtual bool         dump(uint8_t level = 5);
+    virtual bool         analyze();
     virtual void         printBlockName();
 
 private:

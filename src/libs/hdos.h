@@ -11,25 +11,25 @@
 #include <stdio.h>
 
 class H17Disk;
-
+class H17DataBlock;
 class Sector;
 
 struct DiskInfo {
-    uint8_t volSer;         /* 0     Serial number        */
-    uint16_t iDate;         /* 1-2   Date INITed          */
-    uint16_t dirSector;     /* 3-4   Start of DIRectory   */
-    uint16_t grtSector;     /* 5-6   GRT sector           */ 
-    uint8_t spg;            /* 7     sectors per group    */ //HRJ 2,4,8
-    uint8_t volType;        /* 8     volume type          */ 
-    uint8_t initVer;        /* 9     INIT version used    */ //HRJ 16h or 20h
-    uint16_t rgtSector;     /* 10-11 RGT sector           */ 
-    uint16_t volSize;       /* 12-13 volume size          */ //HRJ # sectors on disk
-    uint16_t sectSize;      /* 14-15 physical sector size */ //HRJ should be 256 dec
-    uint8_t dkFlags;        /* 16    flags                */ //HRJ 0,1,2,3 binary
-    uint8_t label[60];      /* 17-76 disk label           */
-    uint16_t reserved;      /* 77-78 reserved             */ 
-    uint8_t spt;            /* 79    sectors per track    */ //HRJ should be 10 dec
-    uint8_t unused[176];    /*       filler               */
+    uint8_t  volSer;         /* 0     Serial number        */
+    uint16_t iDate;          /* 1-2   Date INITed          */
+    uint16_t dirSector;      /* 3-4   Start of DIRectory   */
+    uint16_t grtSector;      /* 5-6   GRT sector           */ 
+    uint8_t  spg;            /* 7     sectors per group    */ //HRJ 2,4,8
+    uint8_t  volType;        /* 8     volume type          */ 
+    uint8_t  initVer;        /* 9     INIT version used    */ //HRJ 16h or 20h
+    uint16_t rgtSector;      /* 10-11 RGT sector           */ 
+    uint16_t volSize;        /* 12-13 volume size          */ //HRJ # sectors on disk
+    uint16_t sectSize;       /* 14-15 physical sector size */ //HRJ should be 256 dec
+    uint8_t  dkFlags;        /* 16    flags                */ //HRJ 0,1,2,3 binary
+    uint8_t  label[60];      /* 17-76 disk label           */
+    uint16_t reserved;       /* 77-78 reserved             */ 
+    uint8_t  spt;            /* 79    sectors per track    */ //HRJ should be 10 dec
+    uint8_t  unused[176];    /*       filler               */
 };
 
 
@@ -40,6 +40,10 @@ public:
     HDOS(H17Disk* diskImage);
     ~HDOS();
 
+    static bool isValidImage(H17Disk& diskImage);
+    //static bool loadDiskInfo(DiskInfo &diskInfo);
+    static bool loadDiskInfo(H17DataBlock *diskData, DiskInfo &diskInfo);
+
     bool     dumpInfo();
 
     bool     loadDiskInfo();
@@ -49,7 +53,7 @@ public:
     void     printDirectory(uint16_t clusterNumber);
     bool     loadRGT();
     bool     loadGRT();
-    void     printDirectoryEntry(uint8_t *entry);
+    bool     printDirectoryEntry(uint8_t *entry);
     void     printRGT();
     void     printGRT();
     Sector  *getSector(uint16_t sectorNum);
@@ -69,12 +73,14 @@ public:
 private:
 
     H17Disk* diskImage_m;
+    H17DataBlock* diskData_m;
+
     uint8_t  sides_m;
     uint8_t  tracks_m;
     uint8_t  numFiles_m;
     uint16_t  usedSectors_m;
 
-    DiskInfo diskInfo;
+    DiskInfo diskInfo_m;
     uint8_t  RGT[256];
     uint8_t  GRT[256];
     uint16_t numClusters_m;

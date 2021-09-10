@@ -228,6 +228,7 @@ BYTE reverseChar(BYTE val)
 
 
 //! return a byte from 2 original bytes, shifted by the shift value
+//! and reverse bits
 //!
 //! @param first  - first data byte
 //! @param second - second data byte
@@ -366,30 +367,19 @@ int processSector(BYTE *buffer, BYTE *out, WORD length, BYTE side, BYTE track, B
 
     // reset checksum value
     checkSum = 0;
-    // int dataStart = pos + 1;
 
     // check all the data
     for (int i = 0; i < 256; i++)
     {
         checkSum = updateChecksum(checkSum, buffer[pos++]);
     }
-/*
-    // update checksum with checksum value read from disk
-    //checkSum = updateChecksum(checkSum, buffer[++pos]);
 
-    // Should be zero if valid
-    if (checkSum != buffer[pos])
-    {
-        //printf("Invalid Data Checksum: %d\n", checkSum);
-       return Err_InvalidDataChecksum;
-    }
-*/
-    //++pos;
     if (checkSum != buffer[pos])
     {
        printf("Invalid Data Checksum: calc: 0x%02x, read: 0x%02x\n", checkSum, buffer[pos]);
        return Err_InvalidDataChecksum;
     }
+
     return No_Error;
 }
 

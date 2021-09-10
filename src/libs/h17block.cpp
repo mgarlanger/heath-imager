@@ -47,6 +47,67 @@ H17Block::~H17Block()
     }
 }
 
+
+H17Block *
+H17Block::create(uint8_t buf[], uint32_t size)
+{
+    H17Block *newBlock = nullptr;
+
+    if (size < 6)
+    {
+        return newBlock;
+    }
+
+    unsigned int blockSize = ((unsigned int) buf[2] << 24) |
+                             ((unsigned int) buf[3] << 16) |
+                             ((unsigned int) buf[4] <<  8) |
+                             ((unsigned int) buf[5]      );
+    // printf("   Block Size: %u\n", blockSize);
+    if (size < ( 6 + blockSize))
+    {   
+        printf("Insufficient size: %d\n", size);
+        return newBlock;
+    }
+
+    
+    // check block type
+    switch (buf[0])
+    {
+        case DiskFormatBlock_c:
+            newBlock = new H17DiskFormatBlock(&buf[6], blockSize);
+            break;
+        case FlagsBlock_c:
+            newBlock = new H17FlagsBlock(&buf[6], blockSize);
+            break;
+        case LabelBlock_c:
+            newBlock = new H17LabelBlock(&buf[6], blockSize);
+            break;
+        case CommentBlock_c:
+            newBlock = new H17CommentBlock(&buf[6], blockSize);
+            break;
+        case DateBlock_c:
+            newBlock = new H17DateBlock(&buf[6], blockSize);
+            break;      
+        case ImagerBlock_c:
+            newBlock = new H17ImagerBlock(&buf[6], blockSize);
+            break;
+        case ProgramBlock_c:
+            newBlock = new H17ProgramBlock(&buf[6], blockSize);
+            break;
+        case DataBlock_c:
+            newBlock = new H17DataBlock(&buf[6], blockSize);
+            break;
+        case RawDataBlock_c:
+            newBlock = new H17RawDataBlock(&buf[6], blockSize);
+            break;
+        default:
+            printf("Unknown Block Id: 0x%02x\n", buf[0]);
+            //! \todo check to see if mandatory , and skip the data.
+    }
+
+    return newBlock;
+}
+
 //! return header size in bytes
 //!
 //! @return header size in bytes
@@ -123,8 +184,6 @@ H17Block::writeBlockHeader(std::ofstream &file)
 bool 
 H17Block::writeToFile(std::ofstream &file)
 {
-    //printf("%s\n", __PRETTY_FUNCTION__);
-
     writeBlockHeader(file);
 
     uint8_t *data = getData();
@@ -146,7 +205,7 @@ H17Block::writeToFile(std::ofstream &file)
 //!
 //! @returns success
 //!
-bool
+/*bool
 H17Block::dump(uint8_t level)
 {
     printBlockName();
@@ -156,7 +215,7 @@ H17Block::dump(uint8_t level)
     }
 
     return true;
-}
+}*/
 
 
 bool
@@ -176,13 +235,19 @@ H17Block::analyze()
 bool
 H17Block::dumpText()
 {
-    printBlockName();
-    printf("-------------------------------------------------------------------------\n");
+    char lastCh;
+    //printBlockName();
+    //printf("-------------------------------------------------------------------------\n");
     for (unsigned int i = 0; i < size_m; i++)
     {
-        putchar(buf_m[i]);
+        lastCh = buf_m[i];
+        putchar(lastCh);
     }
-    printf("\n-------------------------------------------------------------------------\n");
+    if (lastCh != '\n')
+    {
+        putchar('\n');
+    }
+    //printf("\n-------------------------------------------------------------------------\n");
 
     return true;
 }
@@ -205,6 +270,7 @@ H17DiskFormatBlock::H17DiskFormatBlock(uint8_t buf[],
     {
         default:
              // should be error, unexpected size
+             // fallthrough
         case 2:
              tracks_m = buf[1];
              // fallthrough
@@ -291,7 +357,6 @@ H17DiskFormatBlock::getTracks()
 bool
 H17DiskFormatBlock::writeToFile(std::ofstream &file)
 {
-    // printf("%s\n", __PRETTY_FUNCTION__);
     writeBlockHeader(file);
 
     unsigned char buf[2] = { sides_m, tracks_m };
@@ -316,11 +381,29 @@ H17DiskFormatBlock::writeToFile(std::ofstream &file)
 bool
 H17DiskFormatBlock::dump(uint8_t level)
 {
+   if (level == 0)
+   {
+       return true;
+   }
+  
+   if (level < 3)
+   {
+       printf("Format: S:%d/T:%d\n", sides_m, tracks_m);
+       return true;
+   }
    printf(" Disk Format Block:\n");
    printf("=====================\n");
    printf("   Sides:  %d\n", sides_m);
    printf("   Tracks: %d\n", tracks_m);
    printf("=====================\n");
+
+   return true;
+}
+
+bool
+H17DiskFormatBlock::analyze()
+{
+   // TODO validate expected sides 1 or 2 and tracks 40 or 80
 
    return true;
 }
@@ -349,7 +432,7 @@ H17DiskFormatBlock::getDataSize()
 
 
 
-// H17DiskFlagsBlock
+// H17FlagsBlock
 
 /// \todo verify the default values
 
@@ -359,7 +442,7 @@ H17DiskFormatBlock::getDataSize()
 //! @param dist
 //! @param trackSource
 //!
-H17DiskFlagsBlock::H17DiskFlagsBlock(bool roFlag,
+H17FlagsBlock::H17FlagsBlock(bool roFlag,
                                      uint8_t dist,
                                      uint8_t trackSource): roFlag_m(roFlag),
                                                            distribution_m(dist),
@@ -377,7 +460,7 @@ H17DiskFlagsBlock::H17DiskFlagsBlock(bool roFlag,
 //! @param dist
 //! @param trackSource
 //!
-H17DiskFlagsBlock::H17DiskFlagsBlock(uint8_t buf[],
+H17FlagsBlock::H17FlagsBlock(uint8_t buf[],
                                      uint32_t size): roFlag_m(0),
                                                      distribution_m(0),
                                                      trackData_m(0)
@@ -404,7 +487,7 @@ H17DiskFlagsBlock::H17DiskFlagsBlock(uint8_t buf[],
 
 //! destructor
 //! 
-H17DiskFlagsBlock::~H17DiskFlagsBlock()
+H17FlagsBlock::~H17FlagsBlock()
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
@@ -414,7 +497,7 @@ H17DiskFlagsBlock::~H17DiskFlagsBlock()
 //! print block name
 //!
 void
-H17DiskFlagsBlock::printBlockName()
+H17FlagsBlock::printBlockName()
 {
     printf("  Flags\n");
 }
@@ -425,7 +508,7 @@ H17DiskFlagsBlock::printBlockName()
 //! @return block id
 //!
 uint8_t
-H17DiskFlagsBlock::getBlockId()
+H17FlagsBlock::getBlockId()
 {
     return FlagsBlock_c;
 }
@@ -436,7 +519,7 @@ H17DiskFlagsBlock::getBlockId()
 //! @return size of block
 //!
 uint32_t
-H17DiskFlagsBlock::getDataSize()
+H17FlagsBlock::getDataSize()
 {
     return 3;
 }
@@ -449,7 +532,7 @@ H17DiskFlagsBlock::getDataSize()
 //! @return success
 //!
 bool
-H17DiskFlagsBlock::writeToFile(std::ofstream &file)
+H17FlagsBlock::writeToFile(std::ofstream &file)
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
     uint8_t buf[3] = { roFlag_m, distribution_m, trackData_m };
@@ -474,8 +557,17 @@ H17DiskFlagsBlock::writeToFile(std::ofstream &file)
 //! @returns success
 //!
 bool
-H17DiskFlagsBlock::dump(uint8_t level)
+H17FlagsBlock::dump(uint8_t level)
 {
+   if (level == 0)
+   {
+       return true;
+   }
+   if (level < 3)
+   {
+      printf("Flags: RO: %d Dist: %d Trk: %d\n", roFlag_m, distribution_m, trackData_m);
+      return true;
+   }
    printf(" Disk Flags Block:\n");
    printf("=====================\n");
    printf("   Read-Only:  %d\n", roFlag_m);
@@ -487,17 +579,25 @@ H17DiskFlagsBlock::dump(uint8_t level)
 }
 
 
+bool
+H17FlagsBlock::analyze()
+{
+   // TODO validate distribution enum and track enum
+   
+   return true;
+}
+
 //! get mandatory flag
 //!
 //! @return flag
 //!
 bool
-H17DiskFlagsBlock::getMandatory() 
+H17FlagsBlock::getMandatory() 
 {
     return true;
 }
 
-// H17DiskLabelBlock
+// H17LabelBlock
 
 
 //! constructor
@@ -505,7 +605,7 @@ H17DiskFlagsBlock::getMandatory()
 //! @param buf
 //! @param size
 //!
-H17DiskLabelBlock::H17DiskLabelBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
+H17LabelBlock::H17LabelBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
@@ -514,7 +614,7 @@ H17DiskLabelBlock::H17DiskLabelBlock(uint8_t buf[], uint32_t size): H17Block::H1
 
 //! destructor
 //! 
-H17DiskLabelBlock::~H17DiskLabelBlock()
+H17LabelBlock::~H17LabelBlock()
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
@@ -524,7 +624,7 @@ H17DiskLabelBlock::~H17DiskLabelBlock()
 //! print block name
 //!
 void
-H17DiskLabelBlock::printBlockName()
+H17LabelBlock::printBlockName()
 {
     printf("  Label\n");
 }
@@ -535,7 +635,7 @@ H17DiskLabelBlock::printBlockName()
 //! @return block id
 //!
 uint8_t
-H17DiskLabelBlock::getBlockId()
+H17LabelBlock::getBlockId()
 {
     return LabelBlock_c;
 }
@@ -545,7 +645,7 @@ H17DiskLabelBlock::getBlockId()
 //! @return true
 //!
 bool
-H17DiskLabelBlock::getMandatory() 
+H17LabelBlock::getMandatory() 
 {
     return false;
 }
@@ -562,27 +662,44 @@ H17DiskLabelBlock::getMandatory()
 //! @returns success
 //!
 bool
-H17DiskLabelBlock::dump(uint8_t level)
+H17LabelBlock::dump(uint8_t level)
 {
-   printf(" Imager Block:\n");
-   printf("=====================\n");
+   if (level < 2)
+   {
+       return true;
+   }
+   if (level == 2)
+   {
+    
+   }
+   printf("Label:\n");
+   //printf("=======================================\n");
+   printf("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
    dumpText();
-   printf("=====================\n");
+   //printf("=======================================\n");
+   printf("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 
    return true;
 }
 
+bool
+H17LabelBlock::analyze()
+{
+   // TODO ? validate text
+    
+   return true;
+}
 
 
-// H17DiskCommentBlock
+// H17CommentBlock
 
-H17DiskCommentBlock::H17DiskCommentBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
+H17CommentBlock::H17CommentBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
 }
 
-H17DiskCommentBlock::~H17DiskCommentBlock()
+H17CommentBlock::~H17CommentBlock()
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
@@ -593,13 +710,13 @@ H17DiskCommentBlock::~H17DiskCommentBlock()
 //! @return block id
 //!
 uint8_t
-H17DiskCommentBlock::getBlockId()
+H17CommentBlock::getBlockId()
 {
     return CommentBlock_c;
 }
 
 void
-H17DiskCommentBlock::printBlockName()
+H17CommentBlock::printBlockName()
 {
     printf("  Comment\n");
 }
@@ -617,8 +734,12 @@ H17DiskCommentBlock::printBlockName()
 //! @returns success
 //!
 bool
-H17DiskCommentBlock::dump(uint8_t level)
+H17CommentBlock::dump(uint8_t level)
 {
+   if (level < 3)
+   {   
+       return true;
+   }
    printf(" Comment Block:\n");
    printf("=====================\n");
    dumpText();
@@ -627,27 +748,35 @@ H17DiskCommentBlock::dump(uint8_t level)
    return true;
 }
 
+bool
+H17CommentBlock::analyze()
+{
+   // TODO ? validate text
+ 
+   return true;
+}
+
 //! get mandatory flag
 //!
 //! @return true
 //!
 bool
-H17DiskCommentBlock::getMandatory() 
+H17CommentBlock::getMandatory() 
 {
     return false;
 }
 
 
 
-// H17DiskDateBlock
+// H17DateBlock
 
-H17DiskDateBlock::H17DiskDateBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
+H17DateBlock::H17DateBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
 }
 
-H17DiskDateBlock::~H17DiskDateBlock()
+H17DateBlock::~H17DateBlock()
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
@@ -665,8 +794,12 @@ H17DiskDateBlock::~H17DiskDateBlock()
 //! @returns success
 //!
 bool
-H17DiskDateBlock::dump(uint8_t level)
+H17DateBlock::dump(uint8_t level)
 {
+   if (level < 3)
+   {   
+       return true;
+   }
    printf(" Date:\n");
    printf("=====================\n");
    dumpText();
@@ -675,8 +808,16 @@ H17DiskDateBlock::dump(uint8_t level)
    return true;
 }
 
+bool
+H17DateBlock::analyze()
+{
+   // TODO ? validate text is valid date
+ 
+   return true;
+}
+
 void
-H17DiskDateBlock::printBlockName()
+H17DateBlock::printBlockName()
 {
     printf("  Date\n");
 }
@@ -687,7 +828,7 @@ H17DiskDateBlock::printBlockName()
 //! @return block id
 //!
 uint8_t
-H17DiskDateBlock::getBlockId()
+H17DateBlock::getBlockId()
 {
     return DateBlock_c;
 }
@@ -697,29 +838,29 @@ H17DiskDateBlock::getBlockId()
 //! @return true
 //!
 bool
-H17DiskDateBlock::getMandatory() 
+H17DateBlock::getMandatory() 
 {
     return false;
 }
 
 
 
-// H17DiskImagerBlock
+// H17ImagerBlock
 
-H17DiskImagerBlock::H17DiskImagerBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
+H17ImagerBlock::H17ImagerBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
 }
 
-H17DiskImagerBlock::~H17DiskImagerBlock()
+H17ImagerBlock::~H17ImagerBlock()
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
 }
 
 void
-H17DiskImagerBlock::printBlockName()
+H17ImagerBlock::printBlockName()
 {
     printf("  Imager\n");
 }
@@ -730,7 +871,7 @@ H17DiskImagerBlock::printBlockName()
 //! @return block id
 //!
 uint8_t
-H17DiskImagerBlock::getBlockId()
+H17ImagerBlock::getBlockId()
 {
     return ImagerBlock_c;
 }
@@ -747,8 +888,12 @@ H17DiskImagerBlock::getBlockId()
 //! @returns success
 //!
 bool
-H17DiskImagerBlock::dump(uint8_t level)
+H17ImagerBlock::dump(uint8_t level)
 {
+   if (level < 3)
+   {   
+       return true;
+   }
    printf(" Imager Block:\n");
    printf("=====================\n");
    dumpText();
@@ -757,34 +902,42 @@ H17DiskImagerBlock::dump(uint8_t level)
    return true;
 }
 
+bool
+H17ImagerBlock::analyze()
+{
+   // TODO ? validate text
+ 
+   return true;
+}
+
 //! get mandatory flag
 //!
 //! @return true
 //!
 bool
-H17DiskImagerBlock::getMandatory() 
+H17ImagerBlock::getMandatory() 
 {
     return false;
 }
 
 
 
-// H17DiskProgramBlock
+// H17ProgramBlock
 
-H17DiskProgramBlock::H17DiskProgramBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
+H17ProgramBlock::H17ProgramBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
 }
 
-H17DiskProgramBlock::~H17DiskProgramBlock()
+H17ProgramBlock::~H17ProgramBlock()
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
 }
 
 void
-H17DiskProgramBlock::printBlockName()
+H17ProgramBlock::printBlockName()
 {
     printf("  Program\n");
 }
@@ -795,7 +948,7 @@ H17DiskProgramBlock::printBlockName()
 //! @return block id
 //!
 uint8_t
-H17DiskProgramBlock::getBlockId()
+H17ProgramBlock::getBlockId()
 {
     return ProgramBlock_c;
 }
@@ -812,8 +965,12 @@ H17DiskProgramBlock::getBlockId()
 //! @returns success
 //!
 bool
-H17DiskProgramBlock::dump(uint8_t level)
+H17ProgramBlock::dump(uint8_t level)
 {
+   if (level < 3)
+   {   
+       return true;
+   }
    printf(" Program Block:\n");
    printf("=====================\n");
    dumpText();
@@ -822,22 +979,30 @@ H17DiskProgramBlock::dump(uint8_t level)
    return true;
 }
 
+bool
+H17ProgramBlock::analyze()
+{
+   // TODO ? validate text
+ 
+   return true;
+}
+
 //! get mandatory flag
 //!
 //! @return true
 //!
 bool
-H17DiskProgramBlock::getMandatory() 
+H17ProgramBlock::getMandatory() 
 {
     return false;
 }
 
 
 
-// H17DiskDataBlock
+// H17DataBlock
 
-//H17DiskDataBlock::H17DiskDataBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
-H17DiskDataBlock::H17DiskDataBlock(uint8_t buf[], uint32_t size)
+//H17DataBlock::H17DataBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
+H17DataBlock::H17DataBlock(uint8_t buf[], uint32_t size)
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
@@ -854,7 +1019,7 @@ H17DiskDataBlock::H17DiskDataBlock(uint8_t buf[], uint32_t size)
      
 }
 
-H17DiskDataBlock::~H17DiskDataBlock()
+H17DataBlock::~H17DataBlock()
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
@@ -870,14 +1035,26 @@ H17DiskDataBlock::~H17DiskDataBlock()
 }
 
 void
-H17DiskDataBlock::printBlockName()
+H17DataBlock::printBlockName()
 {
     printf("  Data\n");
 }
 
 
+uint16_t
+H17DataBlock::getErrorCount()
+{
+    uint16_t count = 0;
+
+    for (unsigned int i = 0 ; i < tracks_m.size(); i++)
+    {
+        count += tracks_m[i]->getErrorCount();
+    }
+
+    return count;
+}
 Track *
-H17DiskDataBlock::getTrack(uint8_t side, uint8_t track)
+H17DataBlock::getTrack(uint8_t side, uint8_t track)
 {
     for (unsigned int i = 0 ; i < tracks_m.size(); i++)
     {
@@ -892,7 +1069,7 @@ H17DiskDataBlock::getTrack(uint8_t side, uint8_t track)
 }
 
 Sector *
-H17DiskDataBlock::getSector(uint8_t side, uint8_t track, uint8_t sector)
+H17DataBlock::getSector(uint8_t side, uint8_t track, uint8_t sector)
 {
     Track *trk = getTrack(side, track);
 
@@ -904,7 +1081,7 @@ H17DiskDataBlock::getSector(uint8_t side, uint8_t track, uint8_t sector)
 }
 
 Sector *
-H17DiskDataBlock::getSector(uint16_t sectorNum)
+H17DataBlock::getSector(uint16_t sectorNum)
 {
     // determine track/sector number based on sectorNum
     // TODO: how to map sector 0->1599 to side/track/sector
@@ -920,7 +1097,7 @@ H17DiskDataBlock::getSector(uint16_t sectorNum)
 //! @return block id
 //!
 uint8_t
-H17DiskDataBlock::getBlockId()
+H17DataBlock::getBlockId()
 {
     return DataBlock_c;
 }
@@ -933,7 +1110,7 @@ H17DiskDataBlock::getBlockId()
 //! @return success
 //!
 bool
-H17DiskDataBlock::writeToFile(std::ofstream &file)
+H17DataBlock::writeToFile(std::ofstream &file)
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
@@ -948,14 +1125,14 @@ H17DiskDataBlock::writeToFile(std::ofstream &file)
 }
 
 
-//! write data to a file 
+//! write data to a file in h8d format
 //!
 //! @param file 
 //!
 //! @return success
 //!
 bool
-H17DiskDataBlock::writeAsH8D(std::ofstream &file)
+H17DataBlock::writeAsH8D(std::ofstream &file)
 {   
     // printf("%s\n", __PRETTY_FUNCTION__);
     
@@ -968,14 +1145,14 @@ H17DiskDataBlock::writeAsH8D(std::ofstream &file)
 }
 
 
-//! write data to a file 
+//! write data to a file as h17raw
 //!
 //! @param file
 //!
 //! @return success
 //!
 bool
-H17DiskDataBlock::writeAsRaw(std::ofstream &file)
+H17DataBlock::writeAsRaw(std::ofstream &file)
 {  
     // printf("%s\n", __PRETTY_FUNCTION__);
    
@@ -1000,10 +1177,35 @@ H17DiskDataBlock::writeAsRaw(std::ofstream &file)
 //! @return success
 //!
 bool
-H17DiskDataBlock::dump(uint8_t level)
+H17DataBlock::dump(uint8_t level)
 {
+    if (level == 0)
+    {   
+        return true;
+    }
 
-   return true;
+    uint16_t ec = getErrorCount();
+
+    if (ec)
+    {
+        printf("Data Block: Error Count: %d\n", ec);
+    }
+    else
+    {
+        printf("Data Block: No errors\n");
+    }
+
+    if (level < 3)
+    {
+        return true;
+    }
+
+    for (unsigned int i = 0; i < tracks_m.size(); ++i)
+    {   
+        tracks_m[i]->dump(level);
+    }
+
+    return true;
 }
 
 
@@ -1012,12 +1214,12 @@ H17DiskDataBlock::dump(uint8_t level)
 //! @return success
 //!
 bool
-H17DiskDataBlock::analyze()
+H17DataBlock::analyze()
 {
-    printBlockName();
+    // printBlockName();
  
-    int expectedTracks = 40;
-    int expectedSides = 1;
+    //int expectedTracks = 40;
+    //int expectedSides = 1;
 
     bool trackValid[2][80];
     for (unsigned int i = 0; i < 2; ++i) 
@@ -1033,7 +1235,7 @@ H17DiskDataBlock::analyze()
         tracks_m[i]->analyze(trackValid);        
     } 
 
-    for (int side = 0; side < expectedSides; ++side)
+    /*for (int side = 0; side < expectedSides; ++side)
     {
         for(int track = 0; track < expectedTracks; ++track)
         {
@@ -1042,7 +1244,7 @@ H17DiskDataBlock::analyze()
                 printf("Invalid track - side: %d, track: %d\n", side, track);
             }
         }
-    }
+    }*/
     return true; 
 }
 
@@ -1051,16 +1253,16 @@ H17DiskDataBlock::analyze()
 //! @return true
 //!
 bool
-H17DiskDataBlock::getMandatory() 
+H17DataBlock::getMandatory() 
 {
     return true;
 }
 
 
 
-// H17DiskRawDataBlock
+// H17RawDataBlock
 
-H17DiskRawDataBlock::H17DiskRawDataBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
+H17RawDataBlock::H17RawDataBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
@@ -1076,7 +1278,7 @@ H17DiskRawDataBlock::H17DiskRawDataBlock(uint8_t buf[], uint32_t size): H17Block
     }
 }
 
-H17DiskRawDataBlock::~H17DiskRawDataBlock()
+H17RawDataBlock::~H17RawDataBlock()
 {
     // printf("%s: %lu\n", __PRETTY_FUNCTION__, rawTracks_m.size());
 
@@ -1092,7 +1294,7 @@ H17DiskRawDataBlock::~H17DiskRawDataBlock()
 
 
 void
-H17DiskRawDataBlock::printBlockName()
+H17RawDataBlock::printBlockName()
 {
     printf("  Raw Data\n");
 }
@@ -1102,13 +1304,13 @@ H17DiskRawDataBlock::printBlockName()
 //! @return block id
 //!
 uint8_t
-H17DiskRawDataBlock::getBlockId()
+H17RawDataBlock::getBlockId()
 {
     return RawDataBlock_c;
 }
 
 bool
-H17DiskRawDataBlock::writeToFile(std::ofstream &file)
+H17RawDataBlock::writeToFile(std::ofstream &file)
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
@@ -1136,9 +1338,22 @@ H17DiskRawDataBlock::writeToFile(std::ofstream &file)
 //! @returns success
 //!
 bool
-H17DiskRawDataBlock::dump(uint8_t level)
+H17RawDataBlock::dump(uint8_t level)
 {
 
+   if (level < 3)
+   {   
+       return true;
+   }
+
+   return true;
+}
+
+bool
+H17RawDataBlock::analyze()
+{
+   // TODO ? validate expected tracks? 
+ 
    return true;
 }
 
@@ -1147,7 +1362,7 @@ H17DiskRawDataBlock::dump(uint8_t level)
 //! @return true
 //!
 bool
-H17DiskRawDataBlock::getMandatory() 
+H17RawDataBlock::getMandatory() 
 {
     return false;
 }

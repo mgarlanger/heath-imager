@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
         usage(argv[0]);
         return 1;
     }
-    if (!image->openForRecovery(argv[1]))
+    if (!image->loadFile(argv[1]))
     {
         printf("Unable to open file: %s\n", argv[1]);
         return 1;

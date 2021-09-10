@@ -3,8 +3,8 @@
 CXX        = g++
 # CXXFLAGS   = -Wall -Werror -O3 -std=c++11
 #CXXFLAGS   = -Wall -Werror -O3 -std=c++0x
-CXXFLAGS   = -Wall -Werror -O0 -std=c++0x -g
-#CXXFLAGS   = -Wall -Werror -O0 -std=c++11 -g
+#CXXFLAGS   = -Wall -Werror -O0 -std=c++0x -g
+CXXFLAGS   = -Wall -Werror -O0 -std=c++11 -g
 ifeq ($(OS), Linux)
 	ARFLAGS = crf
 else

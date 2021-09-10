@@ -36,13 +36,19 @@ public:
     uint16_t getBlockSize();
     bool     analyze();
 
+    uint16_t getSectorHeaderOffset();
     uint16_t getSectorDataOffset();
     uint8_t *getSectorData();
     uint8_t  getErrorCode();
 
     static const uint8_t headerSize_c = 5;
 
+    bool     dump(int level);
+
 private:
+
+    void dumpHeader(unsigned char buf[]);
+    void dumpData(unsigned char buf[]);
 
     uint16_t  bufSize_m;
     uint8_t  *buf_m;

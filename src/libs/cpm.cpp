@@ -9,8 +9,8 @@
 
 #include "sector.h"
 #include <stdio.h>
-
-#define CPMDEF 1
+#include <sys/stat.h>
+#include <unistd.h>
 
 uint8_t h17DiskSkew[10] = { 0, 4, 8, 2, 6, 1, 5, 9, 3, 7 };
 
@@ -23,15 +23,17 @@ CPM::CPM(H17Disk* diskImage): diskImage_m(diskImage)
    H17DiskFormatBlock *diskFormat = (H17DiskFormatBlock *) 
                 diskImage_m->getH17Block(H17Block::DiskFormatBlock_c);
 
-   // basically constants  
-   systemTracks_m = 3;
+   // basically constants for hard-sectored disks
+   systemTracks_m    = 3;
    sectorsPerTrack_m = 10;
-   bytesPerSector_m = 256;
+   bytesPerSector_m  = 256;
+   firstDataSector_m = systemTracks_m * sectorsPerTrack_m;
    fatalError_m = false;
+   onlyUserZeroFiles_m = true; // assume true, until find other user files
  
    sides_m = diskFormat->getSides();
    tracks_m = diskFormat->getTracks();
-/*
+
    if (sides_m == 1)
    {
       if (tracks_m == 40)
@@ -39,6 +41,7 @@ CPM::CPM(H17Disk* diskImage): diskImage_m(diskImage)
           // 100k
           blockSize_m = 4;
           directoryBlocks_m = 2;
+          numBlocks_m = 92;
       }
       else
       {
@@ -47,17 +50,20 @@ CPM::CPM(H17Disk* diskImage): diskImage_m(diskImage)
           // TODO determine this - not sure what the right parameters are
           blockSize_m = 4; 
           directoryBlocks_m = 2;
+          numBlocks_m = 192;
       }
    }
    else 
    {
       // double-sided
+
       if (tracks_m == 40)
       {
           // 200k
           // TODO determine this - not sure what the right parameters are
           blockSize_m = 4;
           directoryBlocks_m = 2;
+          numBlocks_m = 192;
       }
       else
       {
@@ -66,10 +72,25 @@ CPM::CPM(H17Disk* diskImage): diskImage_m(diskImage)
           // TODO verify this - this seems right
           blockSize_m = 8; 
           directoryBlocks_m = 2;
+          numBlocks_m = 196;
       }
    }
-*/
-   //fatalError_m = false;
+
+   blockSizeInBytes_m = blockSize_m * bytesPerSector_m;
+   freeBlocks_m = new bool[numBlocks_m];
+
+   int i;
+
+   // set directory blocks to used
+   for(i = 0; i < directoryBlocks_m; i++) {
+      freeBlocks_m[i] = false;
+   }
+
+   // set the rest to true, until the directory is processed
+   for( ; i < numBlocks_m; i++) {
+      freeBlocks_m[i] = true;
+   }
+
    indexFile_m = fopen("0_index.info","w");
 
    if (!loadDiskInfo())
@@ -79,7 +100,6 @@ CPM::CPM(H17Disk* diskImage): diskImage_m(diskImage)
    }
 
    numFiles_m = 0;
-   //usedSectors_m = 0;
 }
 
 CPM::~CPM()
@@ -87,6 +107,206 @@ CPM::~CPM()
    fclose(indexFile_m);
 }
 
+bool
+CPM::isValidImage(H17Disk& diskImage)
+{
+    H17DataBlock   *diskData = (H17DataBlock *) diskImage.getH17Block(H17Block::DataBlock_c);
+    H17DiskFormatBlock *diskFormat = (H17DiskFormatBlock *)
+                diskImage.getH17Block(H17Block::DiskFormatBlock_c);
+
+    uint8_t sides = diskFormat->getSides();
+    uint8_t tracks = diskFormat->getTracks();
+
+    return CPM::validateDirectory(diskData, sides, tracks);
+}
+
+
+// Check to see if the directory is in a valid format.
+//
+bool
+CPM::validateDirectory(H17DataBlock *diskData, uint8_t sides, uint8_t tracks)
+{
+
+    uint8_t numDirSectors = 8;
+
+    if (tracks == 80)
+    {
+        numDirSectors = 16;
+    }
+
+    uint8_t lastDirSector = 30 + numDirSectors;
+ 
+    for(int dirSector = 30; dirSector < lastDirSector; dirSector++)
+    { 
+        Sector *sector = getSector(diskData, sides, dirSector);
+        if (!sector)
+        {
+            printf("unable to find sector - sides: %d dirSector: %d\n", sides, dirSector);
+            continue;
+        }
+ 
+        uint8_t *data = sector->getSectorData();
+ 
+        for (uint8_t entry = 0; entry < 8; entry++)
+        {
+            bool valid = CPM::validateDirectoryEntry(&data[entry*32]);
+
+            if (!valid)
+            {
+                printf("Invalid Directory- Sector: %d entry: %d\n", dirSector, entry);
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool
+CPM::validateDirectoryEntry(uint8_t *entry)
+{
+   int pos = 0;
+   DirectoryEntry de;
+
+   // printf("--------------------\n");
+   // printf("Status: 0x%02x", entry[pos]);
+   de.userNumber = entry[pos++];
+
+   if ((de.userNumber == 0xE5) ||
+      // Dual Software Toolworks seem to not have 0xE5 for the rest of the directory entries
+       (de.userNumber == 0x47) ||
+       (de.userNumber == 0x4c))
+   {
+      // deleted entry, assume valid
+      return true;
+   }
+
+   
+   if (de.userNumber > 15) {
+      // User number higher than 15, assume invalid
+      return false;
+   }
+
+   // TODO add checks for valid filenames, allocation, etc.
+   return true;
+
+   /*
+   for (int i = 0; i < 8; i++)
+   {
+      if (entry[pos + i] & 0x80)
+      {
+         printf("unexpected high bit set on filename pos %d\n", i);
+      }
+   }
+   de->readOnly = (entry[pos + 8] & 0x80);
+   de->systemFile = (entry[pos + 9] & 0x80);
+   de->archived = (entry[pos + 10] & 0x80);
+
+   uint8_t fullnamePos = 0;
+   uint8_t keyFileNamePos = 0;
+
+   de->keyFileName[keyFileNamePos++] = de->userNumber + '0';
+   for (int i = 0; i < 8; i++)
+   {
+      char ch = entry[pos++] & 0x7f;
+
+      de->fileName[i] = ch;
+      if(ch != 32)
+      {
+          de->fullFileName[fullnamePos++] = ch;
+          de->keyFileName[keyFileNamePos++] = ch;
+      }
+   }
+
+   de->fullFileName[fullnamePos++] = '.';
+   
+   for (int i = 0; i < 3; i++)
+   {
+      char ch = entry[pos++] & 0x7f;
+
+      de->fileExt[i] = ch;
+      if(ch != 32)
+      {
+          de->fullFileName[fullnamePos++] = ch;
+          de->keyFileName[keyFileNamePos++] = ch;
+      }
+   }
+   de->fullFileName[fullnamePos] = 0;
+   de->keyFileName[keyFileNamePos++] = 0;
+
+   uint8_t Xl = entry[pos++];
+   de->Xl = Xl;
+   de->Bc = entry[pos++];
+   uint8_t Xh = entry[pos++];
+   de->Xh = Xh;
+   de->Extent = (Xh << 5) | (Xl & 0x1f);
+   de->Rc = entry[pos++];
+
+   printf("File: %s, Extent: %d Rc: %d\n", de->fullFileName, de->Extent, de->Rc);
+
+   printf("Alloc:");
+   for (int i = 0; i < 16; i++)
+   {
+      uint16_t al = entry[pos++];
+      printf(" %03d");
+      de->Al[i] = al;
+      if (al > 0) {
+          freeBlocks_m[al] = false;
+      }
+   }
+   printf("\n");
+
+   de->linkEntry = -1;
+   std::string keyFileName = std::string(de->keyFileName);
+
+   directoryMap_m[de->userNumber].insert(std::pair<std::string, int>(keyFileName, entryNum) );
+
+   std::map<std::string, FileBlock>::iterator it;
+   std::string fileName = std::string(de->fullFileName);
+ 
+   it = fileMap_m[de->userNumber].find(fileName);
+   if (it == fileMap_m[de->userNumber].end())
+   {
+      // no existing entry, add it.
+      FileBlock fb = {
+         de->userNumber,
+         fileName,
+         1,
+         de->Rc
+      };
+      
+      for (int i = 0; i < 16; i++)
+      {
+         if (de->Al[i] > 0) {
+             fb.allocBlocks.push_back(de->Al[i]);
+         }
+      }
+      fileMap_m[de->userNumber].insert(std::pair<std::string, FileBlock>(fileName, fb));
+   }
+   else 
+   {
+      FileBlock *fb = &it->second;
+      
+      
+      if (de->Extent != fb->nextExpectedExtent) 
+      {
+          printf("validate - not expected extent - expected: %d  saw: %d\n", fb->nextExpectedExtent, de->Extent);
+      }
+      else
+      {
+          printf("validate - expected extent - expected: %d  saw: %d\n", fb->nextExpectedExtent, de->Extent);
+
+      }
+      fb->nextExpectedExtent++;
+
+      for (int i = 0; i < 16; i++)
+      {
+         if (de->Al[i] > 0) {
+             fb->allocBlocks.push_back(de->Al[i]);
+         }
+      } 
+   } */
+}
 
 
 bool
@@ -101,120 +321,170 @@ CPM::dumpInfo()
    printf("Sides: %d\n", sides_m);
    printf("Tracks: %d\n", tracks_m);
 
+   for(uint16_t i = 0; i < directorySize_m; i++)
+   {
+       printEntry(i);
+   }
+
+   uint16_t numFreeBlocks = this->getFreeSpace();
+
+   printf("FreeBlocks = %d, size = %d\n", numFreeBlocks, numFreeBlocks * 1024);
+
+   printf("Name:entry\n");
+  
+   if (onlyUserZeroFiles_m) {
+       printf("All user 0 files\n");
+   } 
+   
+   // std::string lastKey;
+   /*
+   for (uint8_t i = 0; i < maxUserNum_c; i++) {
+      printf("User area %d\n", i);
+      for(std::pair<std::string, int> entry : directoryMap_m[i] ) {
+         int entryNum = entry.second;
+
+         if (lastKey == entry.first) {
+             printf("\t Entry: %d  Ext: %d\n", entryNum, directory_m[entryNum].Extent); 
+         }
+         else {
+             lastKey = entry.first;
+             printf("file: %s\n\t Entry: %d  Ext: %d\n", directory_m[entryNum].fullFileName, entryNum, directory_m[entryNum].Extent); 
+         }
+       
+      }
+   } */
+   for (uint8_t i = 0; i < maxUserNum_c; i++) {
+      printf("User area %d\n", i);
+      for(std::pair<std::string, FileBlock> entry : fileMap_m[i] ) {
+         FileBlock fileBlock = entry.second;
+
+         std::string fileName = entry.first;
+
+         printf("file: %s\n", fileName.c_str());
+         printf("alloc blocks: ");
+         
+         std::vector<int> vect = fileBlock.allocBlocks;
+         for (std::vector<int>::iterator vit = vect.begin() ; vit != vect.end(); ++vit)
+         {
+               printf(" %d", *vit);
+         }
+         printf("\n");
+      }
+   }
+
    return true;
 }
 
+
+// returns number of blocks
 uint16_t
 CPM::getFreeSpace()
 {
-
    uint16_t space = 0;
-#if CPMDEF
-#else
 
-   uint8_t cluster = GRT[0];
-
-   while(cluster)
-   {
-      space += diskInfo.spg;
-
-      cluster = GRT[cluster];
+   for(int i = 0; i < numBlocks_m; i++) {
+       if (freeBlocks_m[i]) {
+           space++;
+       }
    }
-#endif
 
    return space;
 }
 
+uint32_t
+CPM::getFreeSpaceInBytes()
+{
+    uint32_t freeBlockCount = this->getFreeSpace();
+
+    return freeBlockCount * blockSizeInBytes_m;
+}
 
 bool
 CPM::loadDiskInfo()
 {
 
-   //H17DiskDataBlock *diskData = (H17DiskDataBlock *) diskImage_m->getH17Block(H17Block::DataBlock_c);
    loadDirectory();
-/*
-   for(int dirSector = 30; dirSector < 38; dirSector++)
-   {
-       Sector *sector = getSector(dirSector);
-
-       uint8_t *data = sector->getSectorData();
-
-       for (uint8_t entry = 0; entry < 8; entry++)
-       {
-           printDirectoryEntry(&data[entry*32]);
-       }
-   }
-*/
 
    return true;
 }
 
-void
-CPM::fprintDate(uint16_t date)
-{
-#if CPMDEF
-#else
-    static char monthNames[][4] = {
-       "Jan", "Feb", "Mar",
-       "Apr", "May", "Jun",
-       "Jul", "Aug", "Sep",
-       "Oct", "Nov", "Dec" 
-    };
 
-    int day = date & 0x1f;
-    int mon = (date >> 5) & 0xf;
-    int year = ((date >> 9) & 0x7f) + 70;
+Sector *
+CPM::getSector(H17DataBlock *diskData, uint8_t sides, uint16_t sectorNum) {
 
-    fprintf(indexFile_m, "%02d-%s-%02d", day, monthNames[mon-1], year);
-#endif
-
-}
-
-void
-CPM::printDate(uint16_t date)
-{
-#if CPMDEF
-#else
-    int day = date & 0x1f;
-    int mon = (date >> 5) & 0xf;
-    int year = ((date >> 9) & 0x7f) + 70;
-
-    printf("%02d/%02d/%02d", mon, day, year);
-#endif
-
-}
-
-Sector  *
-CPM::getSector(uint16_t sectorNum) {
-    H17DiskDataBlock *diskData = (H17DiskDataBlock *) diskImage_m->getH17Block(H17Block::DataBlock_c);
-
-    // if single-sided, direct access is available
-    if (sides_m == 1)
+    int sectorNo = sectorNum % 10;
+    int physicalSector = h17DiskSkew[sectorNo];
+    int sideNum;
+    int trackNum;
+ 
+    if (sides == 1)
     {
-        int sectorNo = sectorNum % 10;
-        int physicalSector = h17DiskSkew[sectorNo];
-        int sideNum = 0;
-        int trackNum = (sectorNum / 10);
-        return diskData->getSector(sideNum, trackNum, physicalSector);
-        //return diskData->getSector(trackNum * 10 + physicalSector);
+        sideNum = 0;
+        trackNum = (sectorNum / 10);
     }
     else
     {
-        int sectorNo = sectorNum % 10;
-        int physicalSector = h17DiskSkew[sectorNo];
-        int sideNum = (sectorNum / 10) & 0x01;
-        int trackNum = (sectorNum / 20);
-
-        return diskData->getSector(sideNum, trackNum, physicalSector);
+        sideNum = (sectorNum / 10) & 0x01;
+        trackNum = (sectorNum / 20);
     }
+
+    Sector *foundSector = diskData->getSector(sideNum, trackNum, physicalSector);
+
+    if (!foundSector)
+    {
+        printf("getSector - sectorNum: %d, sectorNo: %d, physicalSector: %d, sideNum: %d, trackNum: %d\n", sectorNum, sectorNo, physicalSector, sideNum, trackNum); 
+    }
+
+    return foundSector;
 }
+
+Sector *
+CPM::getSector(uint16_t sectorNum) {
+
+    H17DataBlock *diskData = (H17DataBlock *) diskImage_m->getH17Block(H17Block::DataBlock_c);
+
+    return CPM::getSector(diskData, sides_m, sectorNum);
+
+/*
+    H17DataBlock *diskData = (H17DataBlock *) diskImage_m->getH17Block(H17Block::DataBlock_c);
+
+    int sectorNo = sectorNum % 10;
+    int physicalSector = h17DiskSkew[sectorNo];
+    int sideNum;
+    int trackNum;
+
+    if (sides_m == 1)
+    {
+        sideNum = 0;
+        trackNum = (sectorNum / 10);
+    }
+    else
+    {
+        sideNum = (sectorNum / 10) & 0x01;
+        trackNum = (sectorNum / 20);
+    }
+    
+    return diskData->getSector(sideNum, trackNum, physicalSector);
+*/
+}
+
 
 void
 CPM::loadDirectory()
 {
    uint16_t directoryEntry = 0;
+   uint8_t numDirSectors = 8;
 
-   for(int dirSector = 30; dirSector < 38; dirSector++)
+   // not sure if this is right.
+   if (tracks_m == 80)
+   {
+       numDirSectors = 16;
+   }
+
+   uint8_t lastDirSector = 30 + numDirSectors;
+
+   for(int dirSector = 30; dirSector < lastDirSector; dirSector++)
+
    {   
        Sector *sector = getSector(dirSector);
        
@@ -227,11 +497,6 @@ CPM::loadDirectory()
    }
 
    directorySize_m = directoryEntry;
-
-   for(uint16_t i = 0; i < directorySize_m; i++)
-   {
-       printEntry(i); 
-   }
 }
 
 void
@@ -270,7 +535,7 @@ CPM::printEntry(uint16_t num)
 void
 CPM::printDirectory(uint16_t clusterNumber)
 {
-
+   // TODO update for different sizes.
    for(int dirSector = 30; dirSector < 38; dirSector++)
    {
        Sector *sector = getSector(dirSector);
@@ -289,15 +554,25 @@ void
 CPM::loadDirectoryEntry(uint8_t *entry, uint16_t entryNum)
 {
    int pos = 0;
+   DirectoryEntry *de = &directory_m[entryNum];
 
    // printf("--------------------\n");
    // printf("Status: 0x%02x", entry[pos]);
-   if (entry[pos++] == 0xE5)
+   de->userNumber = entry[pos++];
+
+   if ((de->userNumber == 0xE5) ||
+      // Dual Software Toolworks seem to not have 0xE5 for the rest of the directory entries
+       (de->userNumber == 0x47) ||
+       (de->userNumber == 0x4c))
    {
-      directory_m[entryNum].deleted = true;
+      de->deleted = true;
       return;
    }
-   directory_m[entryNum].deleted = false;
+   de->deleted = false;
+
+   if (de->userNumber > 0) {
+      onlyUserZeroFiles_m = false;
+   }
 
    for (int i = 0; i < 8; i++)
    {
@@ -306,51 +581,117 @@ CPM::loadDirectoryEntry(uint8_t *entry, uint16_t entryNum)
          printf("unexpected high bit set on filename pos %d\n", i);
       }
    }
-   directory_m[entryNum].readOnly = (entry[pos + 8] & 0x80);
-   directory_m[entryNum].systemFile = (entry[pos + 9] & 0x80);
-   directory_m[entryNum].archived = (entry[pos + 10] & 0x80);
+   de->readOnly = (entry[pos + 8] & 0x80);
+   de->systemFile = (entry[pos + 9] & 0x80);
+   de->archived = (entry[pos + 10] & 0x80);
 
    uint8_t fullnamePos = 0;
+   uint8_t keyFileNamePos = 0;
 
+   de->keyFileName[keyFileNamePos++] = de->userNumber + '0';
    for (int i = 0; i < 8; i++)
    {
-      char ch = entry[pos++];
+      char ch = entry[pos++] & 0x7f;
 
-      directory_m[entryNum].fileName[i] = ch;
+      de->fileName[i] = ch;
       if(ch != 32)
       {
-          directory_m[entryNum].fullFileName[fullnamePos++] = ch;
+          de->fullFileName[fullnamePos++] = ch;
+          de->keyFileName[keyFileNamePos++] = ch;
       }
    }
 
-   directory_m[entryNum].fullFileName[fullnamePos++] = '.';
+   de->fullFileName[fullnamePos++] = '.';
    
    for (int i = 0; i < 3; i++)
    {
-      char ch = entry[pos++];
+      char ch = entry[pos++] & 0x7f;
 
-      directory_m[entryNum].fileExt[i] = ch;
+      de->fileExt[i] = ch;
       if(ch != 32)
       {
-          directory_m[entryNum].fullFileName[fullnamePos++] = ch;
+          de->fullFileName[fullnamePos++] = ch;
+          de->keyFileName[keyFileNamePos++] = ch;
       }
    }
-   directory_m[entryNum].fullFileName[fullnamePos] = 0;
+   de->fullFileName[fullnamePos] = 0;
+   de->keyFileName[keyFileNamePos++] = 0;
 
    uint8_t Xl = entry[pos++];
-   directory_m[entryNum].Xl = Xl;
-   directory_m[entryNum].Bc = entry[pos++];
+   de->Xl = Xl;
+   de->Bc = entry[pos++];
    uint8_t Xh = entry[pos++];
-   directory_m[entryNum].Xh = Xh;
-   directory_m[entryNum].Extent = (Xh << 5) | (Xl & 0x1f);
-   directory_m[entryNum].Rc = entry[pos++];
+   de->Xh = Xh;
+   de->Extent = (Xh << 5) | (Xl & 0x1f);
+   de->Rc = entry[pos++];
 
+   printf("File: %s, Extent: %d Rc: %d Bc: %d\n", de->fullFileName, de->Extent, de->Rc, de->Bc);
+   printf("Alloc:");
    for (int i = 0; i < 16; i++)
    {
-      directory_m[entryNum].Al[i] = entry[pos++];
+      uint16_t al = entry[pos++];
+      printf(" %03d", al);
+      de->Al[i] = al;
+      if (al > 0) {
+          freeBlocks_m[al] = false;
+      }
    }
+   printf("\n");
 
-   directory_m[entryNum].linkEntry = -1;
+   de->linkEntry = -1;
+   std::string keyFileName = std::string(de->keyFileName);
+
+   directoryMap_m[de->userNumber].insert(std::pair<std::string, int>(keyFileName, entryNum) );
+
+   std::map<std::string, FileBlock>::iterator it;
+   std::string fileName = std::string(de->fullFileName);
+ 
+   it = fileMap_m[de->userNumber].find(fileName);
+   if (it == fileMap_m[de->userNumber].end())
+   {
+      uint16_t records = de->Rc;
+      if (de->Extent != 0)
+      {
+         records += (de->Extent) * 128; 
+      }
+      // no existing entry, add it.
+      FileBlock fb = {
+         de->userNumber,
+         fileName,
+         (uint16_t) (de->Extent + 1),
+         records
+      };
+      
+      for (int i = 0; i < 16; i++)
+      {
+         if (de->Al[i] > 0) {
+             fb.allocBlocks.push_back(de->Al[i]);
+         }
+      }
+      fileMap_m[de->userNumber].insert(std::pair<std::string, FileBlock>(fileName, fb));
+   }
+   else 
+   {
+      FileBlock *fb = &it->second;
+      
+      uint16_t records = de->Rc;
+ 
+      if (de->Extent != fb->nextExpectedExtent) 
+      {
+          //printf("load - not expected extent - expected: %d  saw: %d\n", fb->nextExpectedExtent, de->Extent);
+          records += (de->Extent - fb->nextExpectedExtent) * 128;          
+      }
+      fb->nextExpectedExtent++;
+
+      fb->records += de->Rc;
+
+      for (int i = 0; i < 16; i++)
+      {
+         if (de->Al[i] > 0) {
+             fb->allocBlocks.push_back(de->Al[i]);
+         }
+      }
+   }
 }
 
 void
@@ -384,6 +725,7 @@ CPM::printDirectoryEntry(uint8_t *entry)
    }    
    if (entry[pos + 10] & 0x80)
    {
+
       printf("ARC");
    }
    printf("\n");
@@ -395,7 +737,7 @@ CPM::printDirectoryEntry(uint8_t *entry)
    printf(".");
    for (int i = 0; i < 3; i++)
    {
-      printf("%c", entry[pos++]);
+      printf("%c", entry[pos++] & 0x7f);
    }
    printf("\n");
    printf(" Xl = %d\n", entry[pos++]);
@@ -409,184 +751,205 @@ CPM::printDirectoryEntry(uint8_t *entry)
 }
 
 void
-CPM::dumpSector(uint16_t sectorNum)
+CPM::dumpSector(uint16_t sectorNum, uint8_t numRecords)
 {
-#if CPMDEF
-#else
     Sector *sector = getSector(sectorNum);
     uint8_t * data = sector->getSectorData();
-
-    for(int i = 0; i < 256; i++)
-    {
+   
+    if (numRecords > 2) {
+        numRecords = 2;
+    }
+    for(int i = 0; i < numRecords * 128; i++)
+    {   
         printf("%c", data[i]);
     }
-#endif
-}
 
-void
-CPM::dumpCluster(uint8_t cluster, uint8_t lastSectorIndex)
-{
-#if CPMDEF
-#else
-    uint16_t sectorNum = cluster * diskInfo.spg;
-
-    for (int i = 0; i < lastSectorIndex; i++)
-    {
-        dumpSector(sectorNum + i);
-    }
-     
-#endif
 }
 
 uint8_t
 CPM::saveSector(FILE *file, uint16_t sectorNum, uint8_t records)
 {   
-#if CPMDEF
     Sector *sector = getSector(sectorNum);
-    uint8_t * data = sector->getSectorData();
-    uint8_t error = sector->getErrorCode();
-    if (records > 2) { records = 2; }
-    fwrite(data, 128 * records, 1, file);
 
-    return error;
-#else
-    Sector *sector = getSector(sectorNum);
-    uint8_t * data = sector->getSectorData();
-    uint8_t error = sector->getErrorCode();
-
-    fwrite(data, 256, 1, file);
-
-    return error;
-#endif
-}
-
-/*
-void
-CPM::saveCluster(FILE * file,
-                  uint8_t cluster,
-                  uint8_t lastSectorIndex,
-                  uint16_t &sizeInSectors,
-                  uint16_t &badSectors)
-{   
-#if CPMDEF
-#else
-    uint16_t sectorNum = cluster * diskInfo.spg;
-    
-    for (int i = 0; i < lastSectorIndex; i++)
+    if (!sector)
     {
-        usedSectors_m++;
-        sizeInSectors++;
-        if (saveSector(file, sectorNum + i) > 0) 
-        {
-            badSectors++;
-        }
+        printf("sector not found: %d\n", sectorNum);
+        return 1;
+
     }
-#endif
+    uint8_t * data = sector->getSectorData();
+    uint8_t error = sector->getErrorCode();
+    int recordsToWrite = (records > 2) ? 2 : records;
+
+    fwrite(data, 128, recordsToWrite, file);
+
+    return error;
 }
-*/
+
 
 void
-CPM::saveBlock(FILE * file,
-               uint8_t block,
-               uint8_t numSectors,
-               uint16_t &sizeInSectors,
+CPM::saveBlock(FILE *    file,
+               uint8_t   block,
+               uint16_t  numRecords,
+               uint16_t &sizeInRecords,
                uint16_t &badSectors)
 {  
     // 4 sectors in a block, 30 system blocks(3 system tracks with 10 sectors per track)
-    // uint16_t sectorNum = block * 4 + (systemTracks_m * sectorsPerTrack_m);
-   
-    for (int i = 0; i < numSectors; i++)
+    
+    uint16_t sectorNum = block * blockSize_m + (systemTracks_m * sectorsPerTrack_m);
+
+    uint16_t recordsInBlock = blockSize_m * 2;
+ 
+    int recordsToWrite = (numRecords > recordsInBlock) ? recordsInBlock : numRecords;
+
+    // records are 128 bytes  
+    while (recordsToWrite > 0)
     {
-        //usedSectors_m++;
-        sizeInSectors++;
-        /*if (saveSector(file, sectorNum + i) > 0)
-        {
+        
+        if (saveSector(file, sectorNum++, recordsToWrite) > 0)
+        {   
             badSectors++;
-        }*/
+        }
+
+        recordsToWrite -= 2;
     }
+ 
 }
 
-void
-CPM::dumpFile(uint8_t firstGroup, uint8_t lastGroup, uint8_t lastSectorIndex)
+bool
+CPM::saveFile(FileBlock fileblock)
 {
-#if CPMDEF
-#else
-    int pos = firstGroup;
-    int count = 0;
-    printf("file data:\n----------------------\n");
-    while ((pos != lastGroup) && (count++ < numClusters_m)) 
-    {
-        dumpCluster(pos, diskInfo.spg);
-        pos = GRT[pos];
-    }
-    dumpCluster(pos, lastSectorIndex);
-    printf("--------------------\nEnd file data\n"); 
-    if (count > numClusters_m)
-    {
-        printf("\n----------------\n  Bad Chain - too many links\n---------------\n");
-    }
-    else if (GRT[pos] != 0)
-    {
-        printf("\n----------------\n  Bad Chain - last cluster not zero: %d\n---------------\n", GRT[pos]);
-    }
-#endif
-}
+    FILE *file = fopen(fileblock.fileName.c_str(), "w");
 
-uint16_t
-CPM::saveFile(char* filename, uint8_t firstGroup, uint8_t lastGroup, uint8_t lastSectorIndex)
-{
+    if (!file)
+    {
+        printf("Unable to create file: %s\n", fileblock.fileName.c_str());
+        return false;
+    }
+
+    std::vector<int> vect = fileblock.allocBlocks;
+    uint16_t records = fileblock.records;
+
+    uint16_t sizeInRecords;
     uint16_t badSectors = 0;
-#if CPMDEF
-#else
-    FILE *file = fopen(filename, "w");
-    int pos = firstGroup;
-    int count = 0;
-    uint16_t sizeInSectors = 0;
-#if SUMMARY
-    while ((pos != lastGroup) && (count++ < numClusters_m))
-    {
-        saveCluster(file, pos, diskInfo.spg, sizeInSectors, badSectors);
-        pos = GRT[pos];
-    }
-    saveCluster(file, pos, lastSectorIndex, sizeInSectors, badSectors);
+    printf("name: %s  records: %d\n", fileblock.fileName.c_str(), records);
 
-    /*
-    if (badSectors)
+    for (std::vector<int>::iterator vit = vect.begin() ; vit != vect.end(); ++vit)
     {
-        fprintf(indexFile_m, "   Bad sector count: %d\n", badSectors);
-    } */
-    // fprintf(indexFile_m, "   Sector count: %d\n", goodSectors + badSectors);
-    fprintf(indexFile_m, "%-8d", sizeInSectors);
+          saveBlock(file, *vit, records, sizeInRecords, badSectors);
+          records -= blockSize_m * 2;
+    }
+    if (badSectors != 0)
+    {
+        printf(" -- number of bad sectors: %d\n", badSectors);
+        fprintf(indexFile_m, " -- number of bad sectors: %d\n", badSectors);
+    }
+    
+    fclose(file);
 
-    if (count > numClusters_m)
-    {
-        fprintf(indexFile_m, "Bad Chain - too many links | ");
-    }
-    else if (GRT[pos] != 0)
-    {
-        fprintf(indexFile_m, "Bad Chain - last cluster not zero: %d | ", GRT[pos]);
-    }
-
-#else
-    printf("file data:\n----------------------\n");
-    while ((pos != lastGroup) && (count++ < numClusters_m))
-    {
-        saveCluster(file, pos, diskInfo.spg);
-        pos = GRT[pos];
-    }
-    saveCluster(file, pos, lastSectorIndex);
-    printf("--------------------\nEnd file data\n");
-    if (count > numClusters_m)
-    {
-        printf("\n----------------\n  Bad Chain - too many links\n---------------\n");
-    }
-    else if (GRT[pos] != 0)
-    {
-        printf("\n----------------\n  Bad Chain - last cluster not zero: %d\n---------------\n", GRT[pos]);
-    }
-#endif
-#endif
-
-    return badSectors;
+    return true;
 }
+
+bool
+CPM::listFile(FileBlock fileblock)
+{
+    int sizeInKB = (int) ((fileblock.allocBlocks.size() * blockSizeInBytes_m + 1023) / 1024);
+
+    fprintf(indexFile_m, "  %-12s  %3dK\n", fileblock.fileName.c_str(), sizeInKB);
+
+    return true;
+}
+
+
+bool
+CPM::saveAllFiles()
+{ 
+
+   /**   listFiles();
+
+   for (uint8_t i = 0; i < maxUserNum_c; i++)
+   {
+      if (fileMap_m[i].size() > 0)
+      {
+         // let group zero be in main directory, create if not zero.
+         if (i > 0)
+         {
+            fprintf(indexFile_m, "User %02d:\n", i);
+         }
+
+         for(std::pair<std::string, FileBlock> entry : fileMap_m[i] )
+         {
+            FileBlock fileBlock = entry.second;
+
+            listFile(fileBlock);
+         }
+      }
+   }
+
+   fprintf(indexFile_m, "Free space:    %4dK\n", (int) ((getFreeSpaceInBytes() + 1023) / 1024));
+   **/ 
+
+   for (uint8_t i = 0; i < maxUserNum_c; i++)
+   {
+      if (fileMap_m[i].size() > 0) 
+      {
+         // let group zero be in main directory, create if not zero.
+         if (i > 0)
+         {
+            char directoryName[3];
+            snprintf(directoryName, 3, "%02d", i);
+            mkdir(directoryName, 0777);
+            chdir(directoryName);
+
+            fprintf(indexFile_m, "User %02d:\n", i);
+         } 
+
+         printf("User area %d\n", i);
+         for(std::pair<std::string, FileBlock> entry : fileMap_m[i] )
+         {
+            FileBlock fileBlock = entry.second;
+
+            listFile(fileBlock);
+            saveFile(fileBlock);
+         }
+         if (i > 0)
+         {
+            chdir("..");
+         }
+      }
+   }
+
+   fprintf(indexFile_m, "Free space:    %4dK\n", (int) ((getFreeSpaceInBytes() + 1023) / 1024));
+
+   return true;
+}
+
+bool
+CPM::listFiles()
+{
+
+   for (uint8_t i = 0; i < maxUserNum_c; i++)
+   {
+      if (fileMap_m[i].size() > 0)
+      {
+         // let group zero be in main directory, create if not zero.
+         if (i > 0)
+         {  
+            fprintf(indexFile_m, "User %02d:\n", i);
+         }
+         
+         for(std::pair<std::string, FileBlock> entry : fileMap_m[i] )
+         {  
+            FileBlock fileBlock = entry.second;
+            
+            listFile(fileBlock);
+         }
+      }
+   }
+
+   fprintf(indexFile_m, "Free space:    %4dK\n", (int) ((getFreeSpaceInBytes() + 1023) / 1024));
+
+   return true;
+}
+
 
