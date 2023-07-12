@@ -31,16 +31,16 @@ int main(int argc, char *argv[]) {
         printf("Unable to open file: %s\n", argv[1]);
         return 1;
     }
-    
+
     char* ptr = strrchr(argv[1], '.');
     int length = ptr - argv[1];
     if (length > maxDirectoryLength_c) {
        length = maxDirectoryLength_c;
     }
     strncpy(directoryName, argv[1], length);
-    mkdir(directoryName, 0777);
+    mkdir(directoryName, 0755);
     chdir(directoryName);
- 
+
     //printf("------------------------\n");
     //printf("  Read Complete\n");
     //printf("------------------------\n");
@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
     cpm->dumpInfo();
 
     cpm->saveAllFiles();
-    
-    return 0; 
+
+    return 0;
 }
 

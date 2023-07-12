@@ -40,7 +40,7 @@ const uint8_t H17Disk::DistributionDisk       = 0x01;
 const uint8_t H17Disk::WorkingDisk            = 0x02;
 const uint8_t H17Disk::CopyOfDistributionDisk = 0x03;
 
-//  
+//
 const uint8_t H17Disk::TrackDataUnknown                    = 0x00;
 const uint8_t H17Disk::TrackDataGeneratedFromH8dConversion = 0x00;
 const uint8_t H17Disk::TrackDataCreatedOnEmulator          = 0x01;
@@ -67,8 +67,8 @@ H17Disk::H17Disk(): sides_m(defaultSides_c),
                     trackDataSource_m(2),
                     writeProtect_m(false),
                     disableRaw_m(false),
-                    versionMajor_m(versionMajor_c), 
-                    versionMinor_m(versionMinor_c),  
+                    versionMajor_m(versionMajor_c),
+                    versionMinor_m(versionMinor_c),
                     versionPoint_m(versionPoint_c),
                     summarize_m(false),
                     sectorErrs_m(0)
@@ -135,7 +135,7 @@ bool
 H17Disk::openForWrite(const char *name)
 {
 
-    if (fileExists(name)) 
+    if (fileExists(name))
     {
         return false;
     }
@@ -185,7 +185,7 @@ H17Disk::openForRecovery(const char *name)
     bool           status = false;
 
     if (!openForRead(name))
-    { 
+    {
         return status;
     }
 
@@ -216,7 +216,7 @@ H17Disk::loadFile(const char *name)
     inFile_m.seekg(0, std::ios::beg);
 
     inputBuffer = new unsigned char[size];
-    
+
     setDefaults();
 
     if ((inputBuffer) && (inFile_m.read((char *) inputBuffer, size)))
@@ -242,7 +242,7 @@ bool
 H17Disk::reprocessFile()
 {
 
-    return true;    
+    return true;
 }
 
 
@@ -260,9 +260,9 @@ H17Disk::saveFile(const char *name)
     {
         printf("Unable to open file to write: %s\n", name);
         return false;
-    } 
+    }
 
-    writeHeader(); 
+    writeHeader();
 
     for (int i = 0; i < 256; i++)
     {
@@ -323,7 +323,7 @@ H17Disk::saveAsRaw(const char *name)
 
     }
 
-    if (blocks_m[DataBlock_c]) 
+    if (blocks_m[DataBlock_c])
     {
         status = ((H17DataBlock *) blocks_m[DataBlock_c])->writeAsRaw(file_m);
     }
@@ -341,15 +341,15 @@ H17Disk::saveAsRaw(const char *name)
 bool
 H17Disk::analyze()
 {
-    std::vector<uint8_t> optionalBlocks =  { DiskFormatBlock_c, FlagsBlock_c, LabelBlock_c, 
-                                             CommentBlock_c, DateBlock_c, ImagerBlock_c, 
+    std::vector<uint8_t> optionalBlocks =  { DiskFormatBlock_c, FlagsBlock_c, LabelBlock_c,
+                                             CommentBlock_c, DateBlock_c, ImagerBlock_c,
                                              ProgramBlock_c, RawDataBlock_c };
-   
+
     if (blocks_m[DataBlock_c])
     {
         blocks_m[DataBlock_c]->analyze();
     }
-    else 
+    else
     {
         printf("Data block: %02x missing\n", DataBlock_c);
     }
@@ -429,9 +429,9 @@ H17Disk::dumpFileInfo(const char *name, int level)
     delete[] inputBuffer; */
 
     for (int i = 0; i < 256; i++)
-    {   
+    {
         if (blocks_m[i])
-        {   
+        {
             blocks_m[i]->dump(level);
         }
     }
@@ -444,7 +444,7 @@ H17Disk::dumpFileInfo(const char *name, int level)
 
 //! decodes memory buffer of a h17disk file
 //!
-//! @param  buf 
+//! @param  buf
 //! @param  size
 //!
 //! @return success
@@ -507,7 +507,7 @@ H17Disk::dumpBuffer(unsigned char buf[],
 
 //! load buffer into a h17disk object
 //!
-//! @param  buf 
+//! @param  buf
 //! @param  size
 //!
 //! @return success
@@ -516,7 +516,7 @@ bool
 H17Disk::loadBuffer(unsigned char buf[],
                     unsigned int size)
 {
-    unsigned int pos = 0; 
+    unsigned int pos = 0;
     unsigned int length = 0;
     sectorErrs_m = 0;
 
@@ -598,15 +598,15 @@ H17Disk::loadHeader(unsigned char buf[],
                     unsigned int size,
                     unsigned int &length)
 {
-    if (size < 7)
+    if (size < 8)
     {
         printf("Validate Header size too small: %d\n", size);
         return false;
     }
     if ((buf[0] != 'H') || (buf[1] != '1') || (buf[2] != '7') || (buf[3] != 'D'))
     {
-       printf("Invalid Tag\n");
-       return false;
+        printf("Invalid Tag\n");
+        return false;
     }
 
     //printf("H17D - Version: %d.%d.%d\n",buf[4], buf[5], buf[6]);
@@ -616,7 +616,22 @@ H17Disk::loadHeader(unsigned char buf[],
     versionMinor_m = buf[5];
     versionPoint_m = buf[6];
 
-    length = 7;
+
+    bool validVersion = false;
+
+    if (versionMajor_m == 1)
+    {
+        validVersion = true;
+        length = 7;
+    }
+
+    if (versionMajor_m == '2') {
+        validVersion = true;
+        if (buf[7] != 0xff) {
+            return false;
+        }
+        length = 8;
+    }
 
     return true;
 }
@@ -642,7 +657,7 @@ H17Disk::validateBlock(unsigned char buf[],
     // printf("Block ID: 0x%02x", buf[0]);
     // printf("   Flags: %s", (buf[1] & 0x80) ? "Mandatory": "Not Mandatory");
     unsigned int blockSize = ((unsigned int) buf[2] << 24) |
-                             ((unsigned int) buf[3] << 16) | 
+                             ((unsigned int) buf[3] << 16) |
                              ((unsigned int) buf[4] <<  8) |
                              ((unsigned int) buf[5]      );
     // printf("   Block Size: %u\n", blockSize);
@@ -700,9 +715,9 @@ H17Disk::dumpBlock(unsigned char buf[],
                    int level)
 {
 
-    
+
     if (size < 6)
-    {   
+    {
         printf("Validate Block size too small: %d\n", size);
         return false;
     }
@@ -713,18 +728,18 @@ H17Disk::dumpBlock(unsigned char buf[],
                              ((unsigned int) buf[4] <<  8) |
                              ((unsigned int) buf[5]      );
     // printf("   Block Size: %u\n", blockSize);
-    
+
     // make sure there is enough remaining data
     length = 6 + blockSize;
     if (size < length)
-    {   
+    {
         printf("Short file, block length: %d, but remaing file bytes:%d\n", length, size);
         return false;
     }
-    
+
     // check block type
     switch (buf[0])
-    {   
+    {
         case DiskFormatBlock_c:
             validateDiskFormatBlock(&buf[6], blockSize);
             break;
@@ -756,7 +771,7 @@ H17Disk::dumpBlock(unsigned char buf[],
             printf("Unknown Block Id: 0x%02x\n", buf[0]);
             //! \todo check to see if mandatory , and skip the data.
     }
-    
+
     return true;
 
 }
@@ -822,7 +837,7 @@ H17Disk::validateDiskFormatBlock(unsigned char buf[],
     // set to default
     uint8_t sides = 1;
     uint8_t tracks = 40;
-    if (size > 0) 
+    if (size > 0)
     {
         sides = buf[0];
     }
@@ -911,7 +926,7 @@ H17Disk::validateCommentBlock(unsigned char buf[],
 //!
 //! @param      buf     data buffer
 //! @param      size    size of buffer
-//! 
+//!
 //! @return  if validate was successful
 //!
 bool
@@ -946,7 +961,7 @@ H17Disk::validateDateBlock(unsigned char buf[],
 //!
 //! @param      buf     data buffer
 //! @param      size    size of buffer
-//! 
+//!
 //! @return  if validation was successful
 bool
 H17Disk::validateImagerBlock(unsigned char buf[],
@@ -1022,7 +1037,7 @@ H17Disk::validateFlagsBlock(unsigned char buf[],
                             unsigned int size)
 {
 
-    printf("Flags Block:\n"); 
+    printf("Flags Block:\n");
     if (size > 0)
     {
         printf("   R/O Flag:      %d\n", buf[0]);
@@ -1037,9 +1052,9 @@ H17Disk::validateFlagsBlock(unsigned char buf[],
     }
     for (unsigned int i = 3; i < size; i++)
     {
-        printf("Flag %d - %s - %d\n", i, (buf[i] & 0x80) ? "Mandatory" : "Not Mandatory", 
+        printf("Flag %d - %s - %d\n", i, (buf[i] & 0x80) ? "Mandatory" : "Not Mandatory",
                buf[i] & 0x7f);
-    } 
+    }
 
     return true;
 }
@@ -1058,7 +1073,7 @@ H17Disk::validateDataBlock(unsigned char buf[],
 {
     printf("Data Block:\n");
     unsigned int pos = 0;
-    unsigned int length; 
+    unsigned int length;
 
     unsigned char tracks = 0;
 
@@ -1107,7 +1122,7 @@ H17Disk::validateTrackBlock(unsigned char buf[],
     unsigned int blockLength = (buf[2] << 8) | (buf[3]);
     unsigned int pos = 4;
     unsigned int len;
-    printf("     Length: %d\n", blockLength); 
+    printf("     Length: %d\n", blockLength);
     if (size < (blockLength + 4))
     {
         printf("Not enough space for track block: %d %d\n", size, blockLength+4);
@@ -1160,9 +1175,9 @@ H17Disk::validateSectorBlock(unsigned char buf[],
     {
         printf("        Sector Valid\n");
     }
- 
+
     unsigned int blockLength = (buf[2] << 8) | (buf[3]);
-    printf("        Length: %d\n", blockLength); 
+    printf("        Length: %d\n", blockLength);
 
     if (buf[1] != 0)
     {
@@ -1174,7 +1189,7 @@ H17Disk::validateSectorBlock(unsigned char buf[],
     unsigned int pos;
 
     printf("        ------------------------------------------------------------------\n");
-    
+
     // dump actual sector data.
     pos = 4;
     int headerPos = -1;
@@ -1199,7 +1214,7 @@ H17Disk::validateSectorBlock(unsigned char buf[],
         pos++;
     }
 
-    if (pos < blockLength)          
+    if (pos < blockLength)
     {
         dataPos = pos;
     }
@@ -1218,12 +1233,12 @@ H17Disk::validateSectorBlock(unsigned char buf[],
     if ((dataPos != -1) && (dataPos < ((int) blockLength - 258)))
     {
         dumpSectorData(&buf[dataPos+1]);
-    } 
+    }
     else
     {
         printf("  sector data missing - dataPos: %d\n", dataPos);
     }
-    
+
     length = blockLength + 4;
 
     return true;
@@ -1396,7 +1411,7 @@ H17Disk::validateRawTrackBlock(unsigned char  buf[],
 //! print binary number
 //!
 //! @param     val     value to print in binary
-//! 
+//!
 void
 printBinary(unsigned char val)
 {
@@ -1404,7 +1419,7 @@ printBinary(unsigned char val)
     {
         printf("%d", (val & 0x80) >> 7);
         val <<= 1;
-    } 
+    }
     printf("#");
 }
 
@@ -1452,7 +1467,7 @@ H17Disk::validateRawSectorBlock(unsigned char  buf[],
     Decode::decodeFM(buff, &buf[3], blockLength >> 1);
 
     printf("  Data: \n");
-    dumpDataBlock(buff, blockLength >> 1); 
+    dumpDataBlock(buff, blockLength >> 1);
 
 #if 1
     //unsigned char *finalBuff = new unsigned char[(length >> 1) + 5];
@@ -1460,13 +1475,13 @@ H17Disk::validateRawSectorBlock(unsigned char  buf[],
 
     processSector(buff, finalBuff, blockLength >> 1,  0, 0, 0);
     printf("  Aligned Data: \n");
-    dumpDataBlock(finalBuff, blockLength >> 1); 
+    dumpDataBlock(finalBuff, blockLength >> 1);
     //delete[] finalBuff;
 #endif
     //delete[] buff;
-#endif 
+#endif
     length = blockLength + 3;
-    
+
     return true;
 }
 
@@ -1478,16 +1493,16 @@ H17Disk::validateRawSectorBlock(unsigned char  buf[],
 bool
 H17Disk::writeHeader()
 {
-    unsigned char buf[7] = { 'H', '1', '7', 'D', 
-                             versionMajor_m, 
-                             versionMinor_m,  
+    unsigned char buf[7] = { 'H', '1', '7', 'D',
+                             versionMajor_m,
+                             versionMinor_m,
                              versionPoint_m };
 
     if (!file_m.is_open())
     {
         return false;
     }
-    
+
     file_m.write((const char*) buf, 7);
 
     return true;
@@ -1505,7 +1520,7 @@ H17Disk::setSides(unsigned char sides)
 {
     sides_m = sides;
 
-    return true; 
+    return true;
 }
 
 //! set the number of tracks for the disk
@@ -1519,7 +1534,7 @@ H17Disk::setTracks(unsigned char tracks)
 {
     tracks_m = tracks;
 
-    return true; 
+    return true;
 }
 
 //! write disk format block
@@ -1533,7 +1548,7 @@ H17Disk::writeDiskFormatBlock()
     unsigned char buf[2] = { sides_m, tracks_m };
     file_m.write((const char*) buf, 2);
 
-    return true; 
+    return true;
 }
 
 //! set write-protect for disk
@@ -1547,7 +1562,7 @@ H17Disk::setWPParameter(bool val)
 {
     writeProtect_m = val;
 
-    return true; 
+    return true;
 }
 
 //! set distribution parameter
@@ -1561,7 +1576,7 @@ H17Disk::setDistributionParameter(unsigned char val)
 {
     distribution_m = val;
 
-    return true; 
+    return true;
 }
 
 //! set track data parameter
@@ -1575,7 +1590,7 @@ H17Disk::setTrackDataParameter(unsigned char val)
 {
     trackDataSource_m = val;
 
-    return true; 
+    return true;
 }
 
 //! write parameter block
@@ -1597,7 +1612,7 @@ H17Disk::writeParameters()
 
     file_m.write((const char*) buf, 3);
 
-    return true; 
+    return true;
 }
 
 
@@ -1615,7 +1630,7 @@ H17Disk::closeFile(void)
 
     file_m.close();
 
-    return true; 
+    return true;
 }
 
 
@@ -1780,7 +1795,7 @@ H17Disk::startTrack(unsigned char side,
     {
         if (curTrackSectors_m[i])
         {
-            printf("Invalid data left on previous track: %d   sector: %d\n", 
+            printf("Invalid data left on previous track: %d   sector: %d\n",
                    curTrack_m, i);
             curTrackSectors_m[i] = nullptr;
         }
@@ -1810,7 +1825,7 @@ H17Disk::startTrack(unsigned char side,
 
 //! add a sector to the track
 //!
-//! @param sector 
+//! @param sector
 //! @param error - error code
 //! @param buf - pointer to buffer
 //! @param length - length of buffer
@@ -1827,7 +1842,7 @@ H17Disk::addSector(unsigned char  sector,
     if( curTrackSectors_m[sector])
     {
         printf("%s: Dup: %d\n", __FUNCTION__, sector);
-        
+
         // unexpected data already for given sector
         return false;
     }
@@ -1857,7 +1872,7 @@ H17Disk::endTrack()
             curTrackSectors_m[i] = new Sector(curSide_m,
                                               curTrack_m,
                                               i,
-                                              1 /* todo - define Err_ReadError*/, 
+                                              1 /* todo - define Err_ReadError*/,
                                               nullptr,
                                               0);
         }
@@ -1872,11 +1887,11 @@ H17Disk::endTrack()
         curTrackSectors_m[i] = nullptr;
     }
 
-    // update track size field in block.  
+    // update track size field in block.
     streampos curPos = file_m.tellp();
     uint16_t length = (uint16_t) (curPos - trackSizePos_m - 2);
 
-    unsigned char buf[2] = { (unsigned char) ((length >> 8) & 0xff), 
+    unsigned char buf[2] = { (unsigned char) ((length >> 8) & 0xff),
                              (unsigned char) (length & 0xff) };
     file_m.seekp(trackSizePos_m, ios::beg);
     file_m.write((const char*)buf, 2);
@@ -1886,7 +1901,7 @@ H17Disk::endTrack()
 }
 
 
-//! end data block and update size 
+//! end data block and update size
 //!
 //! @return success
 //!
@@ -1951,7 +1966,7 @@ H17Disk::writeRawDataBlock()
 
     // position to next byte after this block.
     file_m.seekp(curPos, ios::beg);
- 
+
     return true;
 }
 
@@ -1975,10 +1990,10 @@ H17Disk::addRawSector(uint8_t    sector,
     }
 
     // allocate a new raw sector, and store it to the current track.
-    RawSector *tmp = new RawSector(curSide_m, curTrack_m, sector, buf, length); 
+    RawSector *tmp = new RawSector(curSide_m, curTrack_m, sector, buf, length);
     uint8_t trackPos = curTrack_m;
 
-    if (sides_m == 2) 
+    if (sides_m == 2)
     {
         trackPos = trackPos << 1;
         trackPos += curSide_m;
@@ -2012,7 +2027,7 @@ H17Disk::addSectorToDataBlock(uint8_t   side,
 
     //blocks_m[DataBlock_c]->addSector(side, track, sector, buf, length);
 
-    return true; 
+    return true;
 }
 
 

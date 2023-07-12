@@ -19,7 +19,7 @@ struct DriveInfo
 };
 
 
-// 
+//
 class Drive
 {
 public:
@@ -27,7 +27,7 @@ public:
     ~Drive();
 
     uint8_t getStatus();
-    static DriveInfo *get_drive_list (void);
+    static DriveInfo *get_drive_list(void);
 
 
     bool setHeads(uint8_t heads);
@@ -36,13 +36,13 @@ public:
 
     uint8_t getHeads() { return heads_m; }
     uint8_t getTpi()   { return tpi_m;   }
-    uint16_t getRpm()  { return rpm_m;   } 
+    uint16_t getRpm()  { return rpm_m;   }
 
 private:
-    uint8_t status_m;
+    uint8_t  status_m;
 
-    uint8_t heads_m;
-    uint8_t tpi_m;
+    uint8_t  heads_m;
+    uint8_t  tpi_m;
     uint16_t rpm_m;
 
 };

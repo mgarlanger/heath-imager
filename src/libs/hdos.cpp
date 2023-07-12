@@ -19,14 +19,14 @@
 HDOS::HDOS(H17Disk* diskImage): diskImage_m(diskImage)
 {
     diskData_m = (H17DataBlock *) diskImage_m->getH17Block(H17Block::DataBlock_c);
-    H17DiskFormatBlock *diskFormat = (H17DiskFormatBlock *) 
+    H17DiskFormatBlock *diskFormat = (H17DiskFormatBlock *)
                 diskImage_m->getH17Block(H17Block::DiskFormatBlock_c);
-   
+
     sides_m = diskFormat->getSides();
     tracks_m = diskFormat->getTracks();
     fatalError_m = false;
     // indexFile_m = fopen("0_index.info","w");
- 
+
     if (!loadDiskInfo())
     {
         fprintf(indexFile_m, "Unable to load disk info\n");
@@ -114,7 +114,7 @@ HDOS::loadDiskInfo(H17DataBlock *diskData, DiskInfo &diskInfo)
     diskInfo.initVer    = data[9];
     if ((diskInfo.initVer == 0x10) || (diskInfo.initVer == 0x15) ||
         (diskInfo.initVer == 0x16) ||
-        // had one disk with DG 
+        // had one disk with DG
         (diskInfo.initVer == 0x00))
     {
         earlyVer = true;
@@ -136,17 +136,17 @@ HDOS::loadDiskInfo(H17DataBlock *diskData, DiskInfo &diskInfo)
         diskInfo.volSize = 400;
     }
     if ((diskInfo.volSize != 400) && (diskInfo.volSize != 800) &&
-        (diskInfo.volSize != 1600)) 
+        (diskInfo.volSize != 1600))
     {
         printf("Wrong volSize: %d\n", diskInfo.volSize);
        return false;
     }
 
-    if ((diskInfo.dirSector >= diskInfo.volSize) && 
+    if ((diskInfo.dirSector >= diskInfo.volSize) &&
         (diskInfo.grtSector >= diskInfo.volSize) &&
         (diskInfo.rgtSector >= diskInfo.volSize))
     {
-        printf("Sector out of range:\n  dirSector: %d\n  grtSector: %d\n  rgtSector: %d\n", 
+        printf("Sector out of range:\n  dirSector: %d\n  grtSector: %d\n  rgtSector: %d\n",
               diskInfo.dirSector,
               diskInfo.grtSector,
               diskInfo.rgtSector
@@ -154,7 +154,7 @@ HDOS::loadDiskInfo(H17DataBlock *diskData, DiskInfo &diskInfo)
         return false;
     }
 
-    // Sector Size (256) for hard-sectors disks 
+    // Sector Size (256) for hard-sectors disks
     diskInfo.sectSize   = data[15] << 8 | data[14];
 
     if (earlyVer && (diskInfo.sectSize == 0 || diskInfo.sectSize == 255))
@@ -163,7 +163,7 @@ HDOS::loadDiskInfo(H17DataBlock *diskData, DiskInfo &diskInfo)
     }
 
     // validate sector size
-    if (diskInfo.sectSize != 256) 
+    if (diskInfo.sectSize != 256)
     {
         printf("Wrong sectSize: %d\n", diskInfo.sectSize);
         return false;
@@ -183,6 +183,11 @@ HDOS::loadDiskInfo(H17DataBlock *diskData, DiskInfo &diskInfo)
         printf("Wrong dkFlags: %d\n", diskInfo.dkFlags);
         return false;
     }
+
+    printf("Disk format: %cS %c0T\n",
+           diskInfo.dkFlags & 0x01 ? 'D' : 'S',
+           diskInfo.dkFlags & 0x02 ? '8' : '4');
+
     // Disk Label
     for (int i = 0; i < 60; i++)
     {
@@ -190,8 +195,11 @@ HDOS::loadDiskInfo(H17DataBlock *diskData, DiskInfo &diskInfo)
     }
     diskInfo.reserved   = data[78] << 8 | data[77];
 
+    printf("reserved: %d", diskInfo.reserved);
+
     // Sectors per Track (10 for Hard-sectored)
     diskInfo.spt        = data[79];
+    printf("Sectors per Track: %d", diskInfo.spt);
 
     // TODO determine if spt is set on even version 1.0 disks, if
     // so, then fail if it's not 10.
@@ -209,24 +217,24 @@ bool
 HDOS::isValidImage(H17Disk& diskImage)
 {
     H17DataBlock   *diskData = (H17DataBlock *) diskImage.getH17Block(H17Block::DataBlock_c);
-    // H17DiskFormatBlock *diskFormat = (H17DiskFormatBlock *) 
+    // H17DiskFormatBlock *diskFormat = (H17DiskFormatBlock *)
     //             diskImage.getH17Block(H17Block::DiskFormatBlock_c);
-    
+
     // uint8_t sides = diskFormat->getSides();
     // uint8_t tracks = diskFormat->getTracks();
 
     DiskInfo diskInfo;
 
-    
+
     if (!HDOS::loadDiskInfo(diskData, diskInfo))
     {
         return false;
     }
 
-   
+
     // TODO add validation for the special sectors, directory structure, etc.
 
- 
+
     return true;
 }
 
@@ -263,7 +271,7 @@ HDOS::dumpInfo()
              fprintf(indexFile_m, "    ERROR - imaged as double-sided\n");
         }
     }
-    if (diskInfo_m.dkFlags & 0x02) 
+    if (diskInfo_m.dkFlags & 0x02)
     {
         fprintf(indexFile_m, "   80-Track\n");
         if (tracks_m != 80)
@@ -272,8 +280,8 @@ HDOS::dumpInfo()
              fprintf(indexFile_m, "    ERROR - imaged at %d tracks\n", tracks_m);
         }
     }
-    else 
-    {  
+    else
+    {
         fprintf(indexFile_m, "   40-Track\n");
         if (tracks_m != 40)
         {
@@ -296,7 +304,7 @@ HDOS::dumpInfo()
 
     printf(" Sector 9 Info\n");
     printf("    Serial Number: %u\n", diskInfo_m.volSer);
-   
+
     printf("    Init Date:     ");
     printDate(diskInfo_m.iDate);
     printf("\n");
@@ -311,7 +319,7 @@ HDOS::dumpInfo()
     printf("    Sector Size:   %d\n", diskInfo_m.sectSize);
     printf("    DK Flags:      %d\n", diskInfo_m.dkFlags);
     printf("    Label:        '");
-    for (int i = 0; i < 60; i++) 
+    for (int i = 0; i < 60; i++)
     {
         printf("%c", diskInfo_m.label[i]);
     }
@@ -319,9 +327,9 @@ HDOS::dumpInfo()
     printf("    Reserved:      %d\n", diskInfo_m.reserved);
     printf("    Sector/Track:  %d\n", diskInfo_m.spt);
     /*
-    for(int i = 0; i < 176; i++) 
+    for(int i = 0; i < 176; i++)
     {
-        printf("    unused[%02d]:    %d (%c)\n", i, diskInfo_m.unused[i], diskInfo_m.unused[i]); 
+        printf("    unused[%02d]:    %d (%c)\n", i, diskInfo_m.unused[i], diskInfo_m.unused[i]);
     }
     */
     printf("   numClusters_m: %d\n", numClusters_m);
@@ -330,12 +338,12 @@ HDOS::dumpInfo()
     printf("Name    .Ext    Size      Date          Flags\n");
 #endif
 
-   
+
     printDirectory(diskInfo_m.dirSector);
     //   25 Files, Using 354 Sectors (22 Free)
     uint16_t freeSpace = getFreeSpace();
 
-    fprintf(indexFile_m, "\n   %d Files, Using %d Sectors (%d Free)\n\n", 
+    fprintf(indexFile_m, "\n   %d Files, Using %d Sectors (%d Free)\n\n",
             numFiles_m,
             usedSectors_m,
             freeSpace);
@@ -401,7 +409,7 @@ HDOS::loadDiskInfo()
     diskInfo_m.reserved = data[78] << 8 | data[77];
     diskInfo_m.spt   = data[79];
 
-    for(int i = 0; i < 176; i++) 
+    for(int i = 0; i < 176; i++)
     {
         diskInfo_m.unused[i] = data[i + 80];
     }
@@ -412,7 +420,7 @@ HDOS::loadDiskInfo()
 void
 HDOS::fprintDate(uint16_t date)
 {
-    // zero means "No-Date" 
+    // zero means "No-Date"
     if (date == 0) {
         fprintf(indexFile_m, " No-Date ");
         return;
@@ -422,7 +430,7 @@ HDOS::fprintDate(uint16_t date)
         "Jan", "Feb", "Mar",
         "Apr", "May", "Jun",
         "Jul", "Aug", "Sep",
-        "Oct", "Nov", "Dec" 
+        "Oct", "Nov", "Dec"
     };
 
     int day  = date & 0x1f;
@@ -435,7 +443,7 @@ HDOS::fprintDate(uint16_t date)
 void
 HDOS::printDate(uint16_t date)
 {
-    // TODO determine when to print "No-Date" 
+    // TODO determine when to print "No-Date"
     //
     int day = date & 0x1f;
     int mon = (date >> 5) & 0xf;
@@ -480,9 +488,9 @@ HDOS::printDirectory(uint16_t clusterNumber)
     {
         cluster[i] = data[i];
         cluster[i + 256] = data2[i];
-    }    
+    }
 
-#if SUMMARY 
+#if SUMMARY
     bool endOfDirectory = false;
 
     for (int f = 0; f < 22; f++)
@@ -490,7 +498,7 @@ HDOS::printDirectory(uint16_t clusterNumber)
         if (!endOfDirectory)
         {
             endOfDirectory = printDirectoryEntry(&cluster[f * 23]);
-        } 
+        }
     }
 
     int pos = 22*23;
@@ -502,7 +510,7 @@ HDOS::printDirectory(uint16_t clusterNumber)
 
     // skipping entry length
     pos++;
-    
+
     // TODO determine if this should be checked
     //  int blockNumber = cluster[pos+1] << 8 | cluster[pos];
     pos += 2;
@@ -516,17 +524,17 @@ HDOS::printDirectory(uint16_t clusterNumber)
         printDirectory(nextBlockNumber);
     }
 
-#else 
-    printf("Directory Cluster:\n"); 
+#else
+    printf("Directory Cluster:\n");
 
     for (int f = 0; f < 22; f++)
     {
         printDirectoryEntry(&cluster[f * 23]);
         printf("-----------------------------------------\n");
-    } 
-   
-    printf(" -- end of directory entries\n");   
-    int pos = 22*23; 
+    }
+
+    printf(" -- end of directory entries\n");
+    int pos = 22*23;
     if (cluster[pos++] != 0)
     {
         printf("Unexpected non-zero byte in directry cluster\n");
@@ -534,9 +542,9 @@ HDOS::printDirectory(uint16_t clusterNumber)
 
     printf("   Entry Length: %d\n", cluster[pos++]);
     int blockNumber = cluster[pos+1] << 8 | cluster[pos];
-    pos += 2; 
+    pos += 2;
     int nextBlockNumber = cluster[pos+1] << 8 | cluster[pos];
-    pos += 2; 
+    pos += 2;
     printf("   This cluster block number: %d\n", blockNumber);
     printf("   Next cluster block number: %d\n", nextBlockNumber);
     if (nextBlockNumber)
@@ -571,7 +579,7 @@ HDOS::printDirectoryEntry(uint8_t *entry)
     {
         deleted = true;
         retVal = true;
-    } 
+    }
     else if (entry[pos] == 255)
     {
         deleted = true;
@@ -590,7 +598,7 @@ HDOS::printDirectoryEntry(uint8_t *entry)
             fileName[fileNamePos++] = entry[pos];
             fprintf(indexFile_m, "%c", entry[pos]);
         }
-        else 
+        else
         {
             fprintf(indexFile_m, " ");
         }
@@ -621,8 +629,8 @@ HDOS::printDirectoryEntry(uint8_t *entry)
     pos++;
     // skip cluster factor
     pos++;
-   
-    // TODO display flags 
+
+    // TODO display flags
     uint8_t flags = entry[pos++];
     //fprintf(indexFile_m, "Flags: %d\n", flags);
     // pos++;
@@ -639,7 +647,6 @@ HDOS::printDirectoryEntry(uint8_t *entry)
     // TODO consider setting file date
     uint16_t modificationDate = entry[pos+1] << 8 | entry[pos];
     pos += 2;
-
 
     uint16_t errorSectors = saveFile(fileName, firstGroup, lastGroup, sectorIndex);
 
@@ -664,7 +671,7 @@ HDOS::printDirectoryEntry(uint8_t *entry)
         fprintf(indexFile_m, "ERROR - %d bad sectors in previous file\n", errorSectors);
     }
 
-#else 
+#else
     if (entry[pos] == 254)
     {
         deleted = true;
@@ -672,7 +679,7 @@ HDOS::printDirectoryEntry(uint8_t *entry)
         if (entry[pos + 1] == 0)
         {
             return retVal;
-        } 
+        }
     }
     if (entry[pos] == 255)
     {
@@ -704,7 +711,7 @@ HDOS::printDirectoryEntry(uint8_t *entry)
         }
         printf("%c", entry[pos++]);
     }
-   
+
     printf("'\n");
     fileName[fileNamePos++] = 0;
     printf("     fileName: '");
@@ -775,7 +782,7 @@ HDOS::dumpCluster(uint8_t cluster, uint8_t lastSectorIndex)
     {
         dumpSector(sectorNum + i);
     }
-     
+
 }
 
 uint8_t
@@ -807,14 +814,14 @@ HDOS::saveCluster(FILE     *file,
                   uint8_t   lastSectorIndex,
                   uint16_t &sizeInSectors,
                   uint16_t &badSectors)
-{   
+{
     uint16_t sectorNum = cluster * diskInfo_m.spg;
- 
+
     for (int i = 0; i < lastSectorIndex; i++)
     {
         usedSectors_m++;
         sizeInSectors++;
-        if (saveSector(file, sectorNum + i) > 0) 
+        if (saveSector(file, sectorNum + i) > 0)
         {
             badSectors++;
         }
@@ -830,13 +837,13 @@ HDOS::dumpFile(uint8_t firstGroup,
     int count = 0;
 
     printf("file data:\n----------------------\n");
-    while ((pos != lastGroup) && (count++ < numClusters_m)) 
+    while ((pos != lastGroup) && (count++ < numClusters_m))
     {
         dumpCluster(pos, diskInfo_m.spg);
         pos = GRT[pos];
     }
     dumpCluster(pos, lastSectorIndex);
-    printf("--------------------\nEnd file data\n"); 
+    printf("--------------------\nEnd file data\n");
     if (count > numClusters_m)
     {
         printf("\n-------------\n  Bad Chain - too many links\n------------\n");
@@ -922,7 +929,7 @@ HDOS::loadRGT()
 
    for (int i = 0; i < numClusters_m; i++)
    {
-      RGT[i] = data[i]; 
+      RGT[i] = data[i];
    }
 
    return true;
