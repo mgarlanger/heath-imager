@@ -114,7 +114,7 @@ struct FileBlock {
    std::string fileName;
    uint16_t nextExpectedExtent;
    uint16_t records;
-   std::vector<int> allocBlocks;   
+   std::vector<int> allocBlocks;
 };
 
 
@@ -141,11 +141,14 @@ public:
     void     printEntry(uint16_t entry);
 
     Sector  *getSector(uint16_t sectorNum);
-    void     dumpSector(uint16_t sectorNum, uint8_t numRecords);
-    uint8_t  saveSector(FILE * file, uint16_t sectorNum, uint8_t records);
-    void     saveBlock(FILE *    file,
+    void     dumpSector(uint16_t sectorNum,
+                        uint8_t numRecords);
+    uint8_t  saveSector(FILE     *file,
+                        uint16_t  sectorNum,
+                        uint8_t   records);
+    void     saveBlock(FILE     *file,
                        uint8_t   block,
-                       uint16_t   numRecords,
+                       uint16_t  numRecords,
                        uint16_t &sizeInRecords,
                        uint16_t &badSectors);
 
@@ -157,10 +160,10 @@ public:
 
     uint16_t getFreeSpace();
     uint32_t getFreeSpaceInBytes();
-    
+
 private:
 
-    H17Disk* diskImage_m;
+    H17Disk *diskImage_m;
     bool     fatalError_m;
     uint8_t  sides_m;
     uint8_t  tracks_m;
@@ -177,12 +180,13 @@ private:
 
 //    DiskInfo diskInfo;
     uint8_t directorySize_m;
+
     // todo make this dynamic
     DirectoryEntry directory_m[128];
 
     bool    *freeBlocks_m;
-    bool    onlyUserZeroFiles_m;
- 
+    bool     onlyUserZeroFiles_m;
+
     std::multimap<std::string, int> directoryMap_m[maxUserNum_c];
     std::map<std::string, FileBlock> fileMap_m[maxUserNum_c];
     FILE *indexFile_m;

@@ -12,7 +12,7 @@ struct usb_device;
 struct usb_dev_handle;
 
 
-class FC5025 
+class FC5025
 {
 
 public:
@@ -60,17 +60,17 @@ public:
 
     int close(void);
 
-    int find(struct usb_device      **devs, 
-              int                     max);
+    int find(struct usb_device      **devs,
+            int                       max);
 
     int driveStatus(uint8_t          *track,
                     uint16_t         *speed,
                     uint8_t          *sectorCount,
                     uint8_t          *flags);
 
-    void setStepRate(uint8_t         stepRate);
+    void setStepRate(uint8_t          stepRate);
 
-    void getStepRate(uint8_t        &stepRate);
+    void getStepRate(uint8_t         &stepRate);
 
     enum class Opcode : uint8_t
     {
@@ -105,7 +105,7 @@ public:
     static const uint8_t ReadFlag_Angular_c          = 0x10;
     static const uint8_t ReadFlag_NoAdaptive_c       = 0x20;
 
-    enum class Key : uint8_t 
+    enum class Key : uint8_t
     {
         NoError      = 0,
         SeekError    = 2,
@@ -118,16 +118,16 @@ public:
         NoReferencePosition = 6,
     };
 
-    enum class ASC_Diag : uint8_t 
+    enum class ASC_Diag : uint8_t
     {
         DiagnoticFailure = 0x40,
     };
- 
-    enum class ASCQ_Diag : uint8_t 
+
+    enum class ASCQ_Diag : uint8_t
     {
         DiagnoticFailure = 0x80,
     };
- 
+
     enum class ASC_Command : uint8_t
     {
         InvalidCommand = 0x20,
@@ -164,11 +164,11 @@ private:
                      uint8_t track);
 
     usb_dev_handle *udev_m;
-    uint8_t  lastSenseKey_m;
-    uint8_t  lastASC_m;
-    uint8_t  lastASCQ_m;
+    uint8_t         lastSenseKey_m;
+    uint8_t         lastASC_m;
+    uint8_t         lastASCQ_m;
 
-    uint8_t  drive_StepRate_m;
+    uint8_t         drive_StepRate_m;
 //    CommandBlockWrapper *cbw;
 
 };

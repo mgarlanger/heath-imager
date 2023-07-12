@@ -21,7 +21,7 @@ static int usage(char *progName)
 }
 
 
-bool 
+bool
 writeLabel(H17Disk *image)
 {
 
@@ -41,7 +41,7 @@ writeLabel(H17Disk *image)
         printf("No data in label block\n");
         return false;
     }
- 
+
     uint8_t *data = block->getData();
 
     FILE *labelFile = fopen("disk.label", "w");
@@ -51,13 +51,13 @@ writeLabel(H17Disk *image)
         printf("unable to open label file\n");
         return false;
     }
-    
+
     fwrite(data, size-1, 1, labelFile);
     return true;
 }
 
 
-int 
+int
 main(int argc, char *argv[])
 {
 
@@ -75,7 +75,7 @@ main(int argc, char *argv[])
         printf("Unable to open file: %s\n", argv[1]);
         return 1;
     }
-    
+
     char* ptr = strrchr(argv[1], '.');
     int length = ptr - argv[1];
     printf(" length: %d\n", length);
@@ -86,7 +86,7 @@ main(int argc, char *argv[])
     directoryName[length] = 0;
     mkdir(directoryName, 0777);
     chdir(directoryName);
- 
+
     //printf("------------------------\n");
     //printf("  Read Complete\n");
     //printf("------------------------\n");
@@ -101,16 +101,16 @@ main(int argc, char *argv[])
     writeLabel(image);
     if (isValidHDOS)
     {
-        if (isValidCPM) 
+        if (isValidCPM)
         {
-            // both are valid, create hdos directory, chdir 
-            mkdir("hdos", 0777);
+            // both are valid, create hdos directory, chdir
+            mkdir("hdos", 0755);
             chdir("hdos");
         }
         HDOS *hdos = new HDOS(image);
-        // extract files 
+        // extract files
         hdos->dumpInfo();
- 
+
     }
 
     if (isValidCPM)
@@ -121,7 +121,7 @@ main(int argc, char *argv[])
             // chmod back to original
             chdir("..");
             // create cpm directory, chdir
-            mkdir("cpm", 0777);
+            mkdir("cpm", 0755);
             chdir("cpm");
         }
 
@@ -130,7 +130,7 @@ main(int argc, char *argv[])
         // extract CPM files
         cpm->saveAllFiles();
     }
- 
-    return 0; 
+
+    return 0;
 }
 

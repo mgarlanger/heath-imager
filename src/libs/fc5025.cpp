@@ -24,7 +24,7 @@ const uint8_t FC5025::testResponseSize_c = 32;
 
 // \todo move this into class.
 // CBW - Command Block Wrapper
-// 
+//
 static struct
 {
     uint8_t      signature[4];
@@ -40,7 +40,7 @@ static struct
     0x12345678,            // tag
     0,                     // xferlen
     0x80,                  // flags
-    0,                     // padding1 
+    0,                     // padding1
     0,                     // padding2
     { 0,}                  // cdb[]
 };
@@ -53,11 +53,11 @@ FC5025::FC5025()
     // set drive parameters to default
     // - default for TEAC  1.2M
     //drive_StepRate_m = 15;     // 3 mSec
-   
-    // H-17-1 
+
+    // H-17-1
     //drive_StepRate_m = 150;  // 30 mSec
 
-    // H-17-4 
+    // H-17-4
     drive_StepRate_m = 30;   // 6 mSec
 
     //cbw = new struct CommandBlockWrapper();
@@ -89,7 +89,7 @@ FC5025::inst()
 }
 
 
-//! common cdb 
+//! common cdb
 //! Command Descriptor Block
 //!
 //! @param cdb       - Command Descriptor Block
@@ -103,7 +103,7 @@ FC5025::inst()
 //! @return status
 //!
 int
-FC5025::bulkCDB(void          *cdb, 
+FC5025::bulkCDB(void          *cdb,
                 int            length,
                 int            timeout,
                 uint8_t       *csw_out,
@@ -192,6 +192,7 @@ FC5025::bulkCDB(void          *cdb,
     {
         printf("failure status - Key: %02x  ASC: %02x  ASCQ: %02x\n", csw.sense,
                  csw.asc, csw.ascq);
+
         lastSenseKey_m = csw.sense;
         lastASC_m      = csw.asc;
         lastASCQ_m     = csw.ascq;
@@ -206,7 +207,7 @@ FC5025::bulkCDB(void          *cdb,
 //! @param mode
 //! @param stepRate
 //! @param track
-//! 
+//!
 //! @return status
 //!
 int
@@ -216,19 +217,19 @@ FC5025::internalSeek(uint8_t mode,
     int retVal;
 
     struct
-    {   
+    {
         Opcode    opcode;
         uint8_t   mode;
         uint8_t   steprate;
         uint8_t   track;
     } __attribute__ ((__packed__)) cdb =
-    {   
+    {
         Opcode::Seek,
         mode,
         drive_StepRate_m,
         track
     };
-    
+
     retVal = bulkCDB(&cdb, sizeof(cdb), 1000, NULL, NULL, 0, NULL);
     usleep(15000);
 
@@ -256,14 +257,14 @@ FC5025::testBoard(void)
 
     retVal = bulkCDB(&cdb, sizeof(cdb), 300, NULL, raw, xferlen, &xferlen_out);
 
-    
+
     return retVal;
 }
 
 
 
 //! recalibrate - try to find track zero
-//! 
+//!
 //! @return status
 //!
 int
@@ -286,7 +287,7 @@ FC5025::seek(uint8_t       track)
 }
 
 
-//! read id 
+//! read id
 //!
 //! @param out
 //! @param length
@@ -341,8 +342,8 @@ FC5025::readId(uint8_t       *out,
     return status;
 }
 
-//! read hard-sectored Sector 
-//! 
+//! read hard-sectored Sector
+//!
 //! @param out      caller allocated buffer to read the sector into
 //! @param length   maxLength of data to read into out
 //! @param side     side to read
@@ -351,14 +352,14 @@ FC5025::readId(uint8_t       *out,
 //! @param bitcellTime  bitcell time - based on disk speed and speed media was written to.
 //!
 //! @return status
-//! 
+//!
 int
 FC5025::readHardSectorSector(uint8_t      *out,
                              uint16_t      length,
                              uint8_t       side,
                              uint8_t       track,
                              uint8_t       sector,
-                             uint16_t      bitcellTime) 
+                             uint16_t      bitcellTime)
 {
     int             xferlen = length;
     int             xferlen_out;
@@ -392,7 +393,7 @@ FC5025::readHardSectorSector(uint8_t      *out,
 
     int   status = 0;
 
-  
+
     //printf("bit timing: %d\n", bitcellTiming_m);
 
     status = bulkCDB(&cdb, sizeof(cdb), 4000, NULL, out, xferlen, &xferlen_out);
@@ -402,8 +403,8 @@ FC5025::readHardSectorSector(uint8_t      *out,
         status = 1;
         return status;
     }
-   
-    printf("%s - xfer success\n", __FUNCTION__);
+
+    //printf("%s - xfer success\n", __FUNCTION__);
 /*
     if (out)
     {
@@ -487,7 +488,7 @@ FC5025::driveStatus(uint8_t  *track,
     } __attribute__ ((__packed__)) cdb =
     {
         Opcode::DriveStatus
-    }; 
+    };
     uint8_t       buf[5];
     int           xferlen_out;
 
@@ -500,10 +501,10 @@ FC5025::driveStatus(uint8_t  *track,
         *sectorCount = buf[3];
         *ds_flags    = buf[4];
     }
- 
+
     // need to turn off motor and preserve the error status
     status |= flags(0x00, 0x01, NULL);
-    
+
     return status;
 }
 
@@ -572,7 +573,7 @@ FC5025::close(void)
 //! @returns number of devices found
 //!
 int
-FC5025::find(struct usb_device **devs, 
+FC5025::find(struct usb_device **devs,
              int                 max)
 {
     struct usb_bus    *bus;
@@ -586,7 +587,7 @@ FC5025::find(struct usb_device **devs,
     {
         for (dev = bus->devices; dev != NULL; dev = dev->next)
         {
-            if ((dev->descriptor.idVendor == VendorID_c) && 
+            if ((dev->descriptor.idVendor == VendorID_c) &&
                 (dev->descriptor.idProduct == ProductID_c))
             {
                 num_found++;
@@ -621,7 +622,7 @@ FC5025::setStepRate(uint8_t   stepRate)
 //!
 //! @return void
 //!
-void 
+void
 FC5025::getStepRate(uint8_t   &stepRate)
 {
     stepRate = drive_StepRate_m;

@@ -166,8 +166,8 @@ HeathHSDisk::density(void)
 BYTE
 HeathHSDisk::physicalTrack(BYTE track)
 {
-    printf("physicalTrack, driveTpi: %d, tpi: %d\n", driveTpi_m, tpi_m);
- 
+    //printf("physicalTrack, driveTpi: %d, tpi: %d\n", driveTpi_m, tpi_m);
+
     // if the disk is 96 tpi, then it's a 1 to 1 mapping with the TEAC 1.2M
     if (tpi_m == 96)
     {
@@ -178,7 +178,7 @@ HeathHSDisk::physicalTrack(BYTE track)
         else
         {
             // \todo - unsupported, 96tpi disk in a 48 tpi drive.
-            // exception 
+            // exception
             return track;
         }
     }
@@ -190,7 +190,7 @@ HeathHSDisk::physicalTrack(BYTE track)
             // otherwise have to skip tracks
             return track * 2;
         }
-        else 
+        else
         {
             // 1 to 1 mapping
             return track;
@@ -210,7 +210,7 @@ HeathHSDisk::setDriveRpm(WORD rpm)
      if(rpm == 300)
      {
          bitcellTiming_m = 8000;
-     } 
+     }
      else
      {
          // otherwise rpm == 360 default speed.
@@ -253,7 +253,7 @@ HeathHSDisk::setSides(BYTE sides)
         // flag error if side param invalid
         returnVal = (sides == 1);
     }
-    
+
     return returnVal;
 }
 
@@ -281,7 +281,7 @@ HeathHSDisk::setTracks(BYTE tracks)
         // flag error if param invalid
         returnVal  = (tracks == 40);
     }
-    
+
     return returnVal;
 }
 
@@ -297,7 +297,7 @@ HeathHSDisk::setTracks(BYTE tracks)
 WORD
 HeathHSDisk::sectorBytes(BYTE side, BYTE track, BYTE sector)
 {
-    return sectorBytes_c; 
+    return sectorBytes_c;
 }
 
 
@@ -322,7 +322,7 @@ HeathHSDisk::sectorRawBytes(BYTE side, BYTE track, BYTE sector)
 //! @param rawBuffer  buffer to write the raw sector
 //! @param side       disk side to read
 //! @param track      track to read
-//! @param sector     sector to read 
+//! @param sector     sector to read
 //!
 //! @return status
 //!
@@ -334,21 +334,21 @@ HeathHSDisk::readSector(BYTE *buffer, BYTE *rawBuffer, BYTE side, BYTE track, BY
     unsigned char   out[sectorBytes_c];     // after processing sector for alignment
 
     int   status = No_Error;
-   
+
     //printf("bit timing: %d\n", bitcellTiming_m);
 
-    status = FC5025::inst()->readHardSectorSector(raw, sectorRawBytes_c, side, track, sector, bitcellTiming_m); 
+    status = FC5025::inst()->readHardSectorSector(raw, sectorRawBytes_c, side, track, sector, bitcellTiming_m);
     if (status) {
        printf("%s - readSector failed: %d\n", __FUNCTION__, status);
     }
 
     // printf("%s - xfer success\n", __FUNCTION__);
-   
+
     if (rawBuffer)
     {
         memcpy(rawBuffer, raw, sectorRawBytes_c);
     }
- 
+
 
     if (Decode::decodeFM(data, raw, sectorBytes_c) != 0)
     {
@@ -360,15 +360,16 @@ HeathHSDisk::readSector(BYTE *buffer, BYTE *rawBuffer, BYTE side, BYTE track, BY
 
     if (maxSide_m == 2) {
         expectedTrackNum = (track << 1) + side;
-    } 
+    }
     else
     {
         expectedTrackNum = track;
     }
- 
+
     status = processSector(data, out, sectorBytes_c, side, expectedTrackNum, sector);
 
-    printf("%s- processStatus: %d\n", __FUNCTION__, status);
+    printf("%s - side: %d t: %d sect: %d processStatus: %d\n", __FUNCTION__, side,
+        track, sector, status);
 
     // Copy data back if buffer provided.
     if (buffer)
@@ -381,7 +382,7 @@ HeathHSDisk::readSector(BYTE *buffer, BYTE *rawBuffer, BYTE side, BYTE track, BY
 
 
 //! returns the number of bytes for a track
-//! 
+//!
 //! @param head
 //! @param track
 //!
@@ -395,7 +396,7 @@ HeathHSDisk::trackBytes(BYTE head, BYTE track)
 
 
 //! returns the number of byte for a raw track
-//! 
+//!
 //! @param head
 //! @param track
 //!
@@ -466,7 +467,7 @@ HeathHSDisk::processSector(BYTE *buffer, BYTE *out, WORD length, BYTE side, BYTE
         printf("**** Unexpected track - expected: %d  received: %d\n", track, buffer[pos]);
         //return Err_WrongTrack;
     }
-   
+
     checkSum = updateChecksum(checkSum, buffer[++pos]);  // sector
 
     // Sector number must be between 0 and 9.
