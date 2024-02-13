@@ -6,8 +6,7 @@
 #ifndef __VIRTUAL_DISK_IMAGE__
 #define __VIRTUAL_DISK_IMAGE__
 
-#include "hi_types.h"
-
+#include <stdint.h>
 
 class VirtualDiskImage
 {
@@ -20,17 +19,16 @@ class VirtualDiskImage
     virtual uint8_t getNumberTracks() = 0;
     virtual uint8_t getNumberSectors() = 0;
 
-    virtual uint8_t getSectorStatus(unsigned char side,
-                                    unsigned char track,
-                                    unsigned char sector) = 0;
+    virtual uint8_t getSectorStatus(uint8_t side,
+                                    uint8_t track,
+                                    uint8_t sector) = 0;
 
-    virtual char *getSectorData(unsigned char side,
-                                unsigned char track,
-                                unsigned char sector) = 0;
+    virtual char *getSectorData(uint8_t side,
+                                uint8_t track,
+                                uint8_t sector) = 0;
 
   private:
 
 };
 
 #endif
-

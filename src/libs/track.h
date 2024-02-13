@@ -19,7 +19,7 @@ class Track {
 public:
 
     Track(uint8_t  *buf,
-          uint32_t size,
+          uint32_t  size,
           uint32_t &length);
 
     Track(uint8_t  side,
@@ -27,11 +27,11 @@ public:
 
     ~Track();
 
-    bool addSector(Sector *sector);
+    bool addSector(Sector          *sector);
     bool writeToFile(std::ofstream &file);
-    bool analyze(bool validTracks[2][80]);
-    bool writeH8D(std::ofstream &file);
-    bool writeRaw(std::ofstream &file);
+    bool analyze(bool               validTracks[2][80]);
+    bool writeH8D(std::ofstream    &file);
+    bool writeRaw(std::ofstream    &file);
 
     static const uint8_t headerSize_c = 5;
    
@@ -54,4 +54,3 @@ private:
 };
 
 #endif
-

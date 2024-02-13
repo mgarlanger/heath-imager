@@ -20,30 +20,32 @@
 //! @param driveTpi    tpi of drive being used to image the disk
 //! @param driveRpm    rpm of the drive being used to image the disk
 //!
-HeathHSDisk::HeathHSDisk(BYTE sides,
-                         BYTE tracks,
-                         BYTE driveTpi,
-                         WORD driveRpm): maxSide_m(sides),
-                                         maxTrack_m(tracks),
-                                         driveRpm_m(driveRpm),
-                                         driveTpi_m(driveTpi)
+HeathHSDisk::HeathHSDisk(uint8_t  sides,
+                         uint8_t  tracks,
+                         uint8_t  driveTpi,
+                         uint16_t driveRpm): maxSide_m(sides),
+                                             maxTrack_m(tracks),
+                                             driveRpm_m(driveRpm),
+                                             driveTpi_m(driveTpi)
 {
     // for 360 RPM drives - default
-    if (driveRpm_m == 300) {
+    if (driveRpm_m == 300)
+    {
         printf("Using 300 RPMs\n");
         bitcellTiming_m = 8000;
     }
-    else {
+    else
+    {
         printf("Using 360 RPMs\n");
         bitcellTiming_m = 6666;
     }
     if (tracks == 80)
     {
-        tpi_m      = 96;
+        tpi_m = 96;
     }
     else
     {
-        tpi_m      = 48;
+        tpi_m = 48;
     }
 
     printf("maxSides_m: %d, maxTrack_m: %d, driveRpm_m: %d, driveTpi_m: %d\n", maxSide_m, maxTrack_m, driveRpm_m, driveTpi_m);
@@ -62,7 +64,7 @@ HeathHSDisk::~HeathHSDisk()
 //!
 //! @return track number
 //!
-BYTE
+uint8_t
 HeathHSDisk::minTrack(void)
 {
     return 0;
@@ -73,7 +75,7 @@ HeathHSDisk::minTrack(void)
 //!
 //! @return track number
 //!
-BYTE
+uint8_t
 HeathHSDisk::maxTrack(void)
 {
     return maxTrack_m - 1;
@@ -84,7 +86,7 @@ HeathHSDisk::maxTrack(void)
 //!
 //! @return speed
 //!
-WORD
+uint16_t
 HeathHSDisk::driveRpm(void)
 {
     return driveRpm_m;
@@ -95,7 +97,7 @@ HeathHSDisk::driveRpm(void)
 //!
 //! @return side number
 //!
-BYTE
+uint8_t
 HeathHSDisk::minSide(void)
 {
     return 0;
@@ -106,7 +108,7 @@ HeathHSDisk::minSide(void)
 //!
 //! @return side number
 //!
-BYTE
+uint8_t
 HeathHSDisk::maxSide(void)
 {
     return maxSide_m - 1;
@@ -117,8 +119,9 @@ HeathHSDisk::maxSide(void)
 //!
 //! @return sector number
 //!
-BYTE
-HeathHSDisk::minSector(BYTE track, BYTE side)
+uint8_t
+HeathHSDisk::minSector(uint8_t track,
+                       uint8_t side)
 {
     return 0;
 }
@@ -128,8 +131,9 @@ HeathHSDisk::minSector(BYTE track, BYTE side)
 //!
 //! @return sector number
 //!
-BYTE
-HeathHSDisk::maxSector(BYTE track, BYTE side)
+uint8_t
+HeathHSDisk::maxSector(uint8_t track,
+                       uint8_t side)
 {
     return 9;
 }
@@ -139,7 +143,7 @@ HeathHSDisk::maxSector(BYTE track, BYTE side)
 //!
 //! @return tpi
 //!
-BYTE
+uint8_t
 HeathHSDisk::tpi(void)
 {
     return tpi_m;
@@ -150,7 +154,7 @@ HeathHSDisk::tpi(void)
 //!
 //! @return density
 //!
-BYTE
+uint8_t
 HeathHSDisk::density(void)
 {
     // single density is 1 for fc5025.
@@ -163,8 +167,8 @@ HeathHSDisk::density(void)
 //!
 //! @return physical track number
 //!
-BYTE
-HeathHSDisk::physicalTrack(BYTE track)
+uint8_t
+HeathHSDisk::physicalTrack(uint8_t track)
 {
     //printf("physicalTrack, driveTpi: %d, tpi: %d\n", driveTpi_m, tpi_m);
 
@@ -204,7 +208,7 @@ HeathHSDisk::physicalTrack(BYTE track)
 //! @param rpm
 //!
 void
-HeathHSDisk::setDriveRpm(WORD rpm)
+HeathHSDisk::setDriveRpm(uint16_t rpm)
 {
      // if drive is 300 RPM, (not a TEAC 1.2M) then set bitcell timing to the slower speed
      if(rpm == 300)
@@ -224,7 +228,7 @@ HeathHSDisk::setDriveRpm(WORD rpm)
 //! @param tpi
 //!
 void
-HeathHSDisk::setDriveTpi(BYTE tpi)
+HeathHSDisk::setDriveTpi(uint8_t tpi)
 {
 
      driveTpi_m = tpi;
@@ -237,7 +241,7 @@ HeathHSDisk::setDriveTpi(BYTE tpi)
 //! @param sides
 //!
 bool
-HeathHSDisk::setSides(BYTE sides)
+HeathHSDisk::setSides(uint8_t sides)
 {
     bool returnVal = true;
 
@@ -263,7 +267,7 @@ HeathHSDisk::setSides(BYTE sides)
 //! @param tracks
 //!
 bool
-HeathHSDisk::setTracks(BYTE tracks)
+HeathHSDisk::setTracks(uint8_t tracks)
 {
     bool returnVal = true;
 
@@ -294,8 +298,10 @@ HeathHSDisk::setTracks(BYTE tracks)
 //!
 //! @return number of bytes
 //!
-WORD
-HeathHSDisk::sectorBytes(BYTE side, BYTE track, BYTE sector)
+uint16_t
+HeathHSDisk::sectorBytes(uint8_t side,
+                         uint8_t track,
+                         uint8_t sector)
 {
     return sectorBytes_c;
 }
@@ -309,8 +315,10 @@ HeathHSDisk::sectorBytes(BYTE side, BYTE track, BYTE sector)
 //!
 //! @return number of bytes
 //!
-WORD
-HeathHSDisk::sectorRawBytes(BYTE side, BYTE track, BYTE sector)
+uint16_t
+HeathHSDisk::sectorRawBytes(uint8_t side,
+                            uint8_t track,
+                            uint8_t sector)
 {
     return sectorRawBytes_c;
 }
@@ -327,7 +335,11 @@ HeathHSDisk::sectorRawBytes(BYTE side, BYTE track, BYTE sector)
 //! @return status
 //!
 int
-HeathHSDisk::readSector(BYTE *buffer, BYTE *rawBuffer, BYTE side, BYTE track, BYTE sector)
+HeathHSDisk::readSector(uint8_t *buffer,
+                        uint8_t *rawBuffer,
+                        uint8_t  side,
+                        uint8_t  track,
+                        uint8_t  sector)
 {
     unsigned char   raw[sectorRawBytes_c];  // as read in from the fc5025
     unsigned char   data[sectorBytes_c];    // after removing clock-bits
@@ -356,7 +368,7 @@ HeathHSDisk::readSector(BYTE *buffer, BYTE *rawBuffer, BYTE side, BYTE track, BY
         return status;
     }
 
-    BYTE expectedTrackNum;
+    uint8_t expectedTrackNum;
 
     if (maxSide_m == 2) {
         expectedTrackNum = (track << 1) + side;
@@ -388,8 +400,9 @@ HeathHSDisk::readSector(BYTE *buffer, BYTE *rawBuffer, BYTE side, BYTE track, BY
 //!
 //! @return number of bytes
 //!
-WORD
-HeathHSDisk::trackBytes(BYTE head, BYTE track)
+uint16_t
+HeathHSDisk::trackBytes(uint8_t head,
+                        uint8_t track)
 {
     return sectorBytes_c * 10;
 }
@@ -402,8 +415,9 @@ HeathHSDisk::trackBytes(BYTE head, BYTE track)
 //!
 //! @return number of bytes
 //!
-WORD
-HeathHSDisk::trackRawBytes(BYTE head, BYTE track)
+uint16_t
+HeathHSDisk::trackRawBytes(uint8_t head,
+                           uint8_t track)
 {
     return sectorRawBytes_c * 10;
 }
@@ -421,7 +435,7 @@ HeathHSDisk::trackRawBytes(BYTE head, BYTE track)
 //! @return result status
 //!
 int
-HeathHSDisk::processSector(BYTE *buffer, BYTE *out, WORD length, BYTE side, BYTE track, BYTE sector)
+HeathHSDisk::processSector(uint8_t *buffer, uint8_t *out, uint16_t length, uint8_t side, uint8_t track, uint8_t sector)
 {
     // expect the sync (0xfd) character first.
     //
@@ -435,7 +449,7 @@ HeathHSDisk::processSector(BYTE *buffer, BYTE *out, WORD length, BYTE side, BYTE
     {
         return error;
     }
-    BYTE checkSum;
+    uint8_t checkSum;
 
     // copy aligned buffer from out back to buffer
     memcpy(buffer, out, length);

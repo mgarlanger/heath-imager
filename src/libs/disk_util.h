@@ -6,7 +6,7 @@
 #ifndef __DISK_UTILS_H__
 #define __DISK_UTILS_H__
 
-#include "hi_types.h"
+#include <stdint.h>
 
 enum
 {
@@ -42,7 +42,7 @@ extern const char *sectorErrorStrings[];
 
 
 //! expected sync character for Heath hard-sectored
-const BYTE         PrefixSyncChar_c = 0xfd;
+const uint8_t         PrefixSyncChar_c = 0xfd;
 
 
 //!
@@ -56,12 +56,12 @@ const BYTE         PrefixSyncChar_c = 0xfd;
 //!  4) Find data sync
 //!  5) copy out data
 //!  6) update and look for next sync
-int  processSector(BYTE *buffer,
-                   BYTE *out,
-                   WORD length,
-                   BYTE side,
-                   BYTE track,
-                   BYTE sector);
+int  processSector(uint8_t *buffer,
+                   uint8_t *out,
+                   uint16_t length,
+                   uint8_t  side,
+                   uint8_t  track,
+                   uint8_t  sector);
 
 
 //!
@@ -71,11 +71,16 @@ int  processSector(BYTE *buffer,
 //! @param out     pointer to output buffer aligned if sync bytes are pressed
 //! @param in      pointer to input buffer
 //! @param length  length of input buffer
-int  alignSector(BYTE  *out,
-                 BYTE  *in,
-                 WORD  length,
-                 BYTE  syncByte = PrefixSyncChar_c);
+int  alignSector(uint8_t  *out,
+                 uint8_t  *in,
+                 uint16_t  length,
+                 uint8_t   syncByte = PrefixSyncChar_c);
 
+
+int  alignSector2(uint8_t  *out,
+                  uint8_t  *in,
+                  uint16_t  length,
+                  uint8_t   syncByte = PrefixSyncChar_c);
 
 //!
 //! Updates checksum from existing checksum and new character value
@@ -85,8 +90,8 @@ int  alignSector(BYTE  *out,
 //!
 //! \retval  new checksum
 //!
-BYTE updateChecksum(BYTE checksum,
-                    BYTE val);
+uint8_t updateChecksum(uint8_t checksum,
+                       uint8_t val);
 
 
 //!
@@ -102,7 +107,7 @@ BYTE updateChecksum(BYTE checksum,
 //!
 //! \retval bits reversed
 //!
-BYTE reverseChar(BYTE val);
+uint8_t reverseChar(uint8_t val);
 
 
 //!
@@ -115,10 +120,9 @@ BYTE reverseChar(BYTE val);
 //! \retval extracted byte
 //!
 //! \todo update the processing.
-BYTE shiftByte(BYTE first,
-               BYTE second,
-               BYTE shift);
+uint8_t shiftByte(uint8_t first,
+                  uint8_t second,
+                  uint8_t shift);
 
 
 #endif
-

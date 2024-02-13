@@ -7,8 +7,8 @@
 #define __DRIVE_H__
 
 #include <stdint.h>
-#include <usb.h>
 
+struct usb_device;
 
 // store info about the FC5025 devices
 struct DriveInfo
@@ -47,6 +47,4 @@ private:
 
 };
 
-
 #endif
-

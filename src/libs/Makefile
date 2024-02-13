@@ -1,18 +1,17 @@
 
 
-CXX        = g++
-# CXXFLAGS   = -Wall -Werror -O3 -std=c++11
-#CXXFLAGS   = -Wall -Werror -O3 -std=c++0x
-#CXXFLAGS   = -Wall -Werror -O0 -std=c++0x -g
-CXXFLAGS   = -Wall -Werror -O0 -std=c++11 -g
 ifeq ($(OS), Linux)
 	ARFLAGS = crf
+	CXXFLAGS   = -Wall -Werror -O0 -std=c++17 -g
 else
 	# Mac OS X
 	ARFLAGS = rcs
+	USB_HEADER_DIR = /opt/homebrew/Cellar/libusb-compat/0.1.8/include/
+	CXXFLAGS   = -Wall -Werror -O0 -I$(USB_HEADER_DIR) -std=c++17 -g -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE
 endif
 
-LDFLAGS    =
+CXX        = g++
+
 OUTPUT_DIR = ../../output/libs/
 _TARGET    = fc5025lib.a
 TARGET     = $(OUTPUT_DIR)$(_TARGET)
@@ -32,7 +31,7 @@ H17DEPS    = $(H17OBJS:.o=.d)
 
 dummy_build_folder := $(shell mkdir -p $(OUTPUT_DIR))
 
-.PHONY: clean all clean_light doxy
+.PHONY: clean all clean_light docs
 
 all: $(MAKE_TS) $(TARGET) $(H17LIB)
 
@@ -67,4 +66,3 @@ clean_light:
 
 -include $(DEPS)
 -include $(H17DEPS)
-

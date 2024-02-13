@@ -10,6 +10,9 @@
 #include <stdio.h>
 
 
+int Decode::lastZeroErrors = 0;
+int Decode::lastOneErrors = 0;
+
 //!  decodeFM()
 //!
 //!  @param decode        pointer to processed buffer
@@ -21,11 +24,13 @@
 //!  \todo change count from bytes in decoded buffer to bytes in raw buffer.
 //!
 int
-Decode::decodeFM(BYTE         *decoded,
-                 BYTE         *fmEncoded,
+Decode::decodeFM(uint8_t      *decoded,
+                 uint8_t      *fmEncoded,
                  unsigned int  count)
 {
     State  state = none;
+
+    lastZeroErrors = lastOneErrors = 0;
 
     unsigned int errorsZeros = 0;
     unsigned int errorsOnes  = 0;
@@ -122,6 +127,8 @@ Decode::decodeFM(BYTE         *decoded,
         *decoded++ = decodedValue;
     }
 
+    lastZeroErrors = errorsZeros;
+    lastOneErrors = errorsOnes;
     /*
     if (errorsZeros)
     {
@@ -149,17 +156,17 @@ Decode::decodeFM(BYTE         *decoded,
 //!  \todo implement
 //!
 int
-Decode::decodeMFM(BYTE          *decoded,
-                  BYTE          *mfmEncoded,
+Decode::decodeMFM(uint8_t       *decoded,
+                  uint8_t       *mfmEncoded,
                   unsigned int   count)
 {
 #if 0
-    BYTE *mfmData;
+    uint8_t *mfmData;
     int   bitNum;
     int   onePending;
     int   zeroPending;
     int   lastBit;
-    BYTE  mfmByte;
+    uint8_t  mfmByte;
 
     mfmData    = mfmEncoded;
     bitNum     = 0;
@@ -174,4 +181,3 @@ Decode::decodeMFM(BYTE          *decoded,
 
     return 1;
 }
-

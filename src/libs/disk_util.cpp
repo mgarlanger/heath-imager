@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <cstring>
 #include <cctype> 
+#include <stdint.h>
 
 //! sector error codes converted to human text
 //!
@@ -30,7 +31,9 @@ const char *sectorErrorStrings[] = {
 //!
 //!
 //! @return updated checksum
-BYTE updateChecksum(BYTE checksum, BYTE val)
+uint8_t
+updateChecksum(uint8_t checksum,
+               uint8_t val)
 {
     // First XOR it.
     checksum ^= val;
@@ -39,6 +42,19 @@ BYTE updateChecksum(BYTE checksum, BYTE val)
     checksum = (checksum >> 7) | (checksum << 1);
 
     return checksum;
+}
+
+
+void
+writeOutput(uint8_t  *out,
+            uint16_t &pos,
+            uint8_t   val,
+            uint16_t  length)
+{
+    if (pos < length)
+    {
+        out[pos++] = val;
+    }
 }
 
 //! Align sector data to the sync byte
@@ -50,28 +66,36 @@ BYTE updateChecksum(BYTE checksum, BYTE val)
 //!
 //! @return result
 //!
-int alignSector(BYTE *out, BYTE *in, WORD length, BYTE syncByte)
+int
+alignSector(uint8_t  *out,
+            uint8_t  *in,
+            uint16_t  length,
+            uint8_t   syncByte)
 {
     bool          foundHeadSync = false;
     bool          foundDataSync = false;
-    unsigned int  pos;
+
+    unsigned int  pos = 0;
+    uint16_t      outPos = 0;
     unsigned char bitOffset = 0;
     unsigned char bitOffset2 = 0;
 
-    for (pos = 0; pos < 5; pos++)
+    for (int i = 0; i < 5; i++)
     {
-        out[pos] = 0;
+        //out[outPos] = 0;
+        writeOutput(out, outPos, 0, length);
     }
-    // first find the header, it must occur within the first 57
+
+    // first find the header, it must occur within the first 87
     // bytes, otherwise there won't be room for everything -
-    // 320 - (256 + 2 + 5)
+    // 350 - (256 + 2 + 5)
     //! \todo - change to just 320 and try to get more out even if 
     //! it is not complete.
-    for (; pos < 57; pos++)
+    for ( ; pos < 87; pos++)
     {
         for (bitOffset = 0; bitOffset < 8; bitOffset++)
         {
-            unsigned val = shiftByte(in[pos], in[pos+1], bitOffset);
+            unsigned val = shiftByte(in[pos], in[pos + 1], bitOffset);
 
             //printf("in[%d] = 0x%02x  val = 0x%02x bo = %d\n", pos, in[pos], val, bitOffset);
             if (val == syncByte)
@@ -97,13 +121,16 @@ int alignSector(BYTE *out, BYTE *in, WORD length, BYTE syncByte)
         // be aligned. The S2350 USART will be in sync mode and only present 
         // data once the pattern is found, so there is no harm in making
         // these zero
-        out[pos] = 0;
+        //out[outPos++] = 0;
+        writeOutput(out, outPos, 0, length);
     }
 
     // Copy out the header
     for (int i = 0; i < 5; i++)
     {
-        out[pos] = shiftByte(in[pos], in[pos+1], bitOffset);
+        //out[outPos++] = shiftByte(in[pos], in[pos + 1], bitOffset);
+        writeOutput(out, outPos, shiftByte(in[pos], in[pos + 1], bitOffset), length);
+
         pos++;
     }
 
@@ -111,11 +138,11 @@ int alignSector(BYTE *out, BYTE *in, WORD length, BYTE syncByte)
     // out[pos++] = 0;
 
     // now find data block
-    for ( ; (pos < 62);  pos++)
+    for ( ; pos < 92;  pos++)
     {
         for(bitOffset = 0; bitOffset < 8; bitOffset++)
         {
-            unsigned val = shiftByte(in[pos], in[pos+1], bitOffset);
+            uint8_t val = shiftByte(in[pos], in[pos + 1], bitOffset);
 
             if (val == syncByte)
             {
@@ -130,27 +157,29 @@ int alignSector(BYTE *out, BYTE *in, WORD length, BYTE syncByte)
         }
 
         // same as above.
-        out[pos] = 0;
+        //out[outPos++] = 0;
+        writeOutput(out, outPos, 0, length);
     }
 
     // copy data sector as aligned
     for (int i = 0; i < 258; i++)
     {
-        out[pos] = shiftByte(in[pos], in[pos+1], bitOffset);
+        //out[outPos++] = shiftByte(in[pos], in[pos + 1], bitOffset);
+        writeOutput(out, outPos, shiftByte(in[pos], in[pos + 1], bitOffset), length);
         pos++;
     }
 
     // \todo should skip past the partial byte
     // out[pos++] = 0;
 
-    // next header sync
+    // find next header sync, this will allow the full track to have the correct number of
+    // bytes between sectors.
     foundHeadSync = false;
     for (; pos < length; pos++)
     {
-
         for(bitOffset2 = 0; bitOffset2 <= 8; bitOffset2++)
         {
-            unsigned val = shiftByte(in[pos], in[pos+1], bitOffset2);
+            uint8_t val = shiftByte(in[pos], in[pos + 1], bitOffset2);
 
             if (val == syncByte)
             {
@@ -158,13 +187,13 @@ int alignSector(BYTE *out, BYTE *in, WORD length, BYTE syncByte)
                 // and set offset to 0
                 if (bitOffset2 == 8) 
                 {
-                   out[pos++] = 0;
+                   //out[pos++] = 0;
+                   // writeOutput(out, outPos, 0, bitOffset), length);
                    bitOffset2 = 0;
                 }
-                else 
-                {
-                   out[pos - 1] = 0;
-                }
+
+                writeOutput(out, outPos, 0, length);
+
                 foundHeadSync = true;  // needed to get out of the pos loop
                 break;
             }
@@ -177,17 +206,25 @@ int alignSector(BYTE *out, BYTE *in, WORD length, BYTE syncByte)
         // the end of the track is not where it would be
         // doing a sync, so until the next one, copy everything out
         // with current bit offset
-        out[pos] = shiftByte(in[pos], in[pos+1], bitOffset);
+        //out[pos] = shiftByte(in[pos], in[pos + 1], bitOffset);
+        writeOutput(out, outPos, shiftByte(in[pos], in[pos + 1], bitOffset), length);
     }
 
-    for (; pos < (unsigned int) length-1; pos++)
+    for (; pos < (unsigned int) length - 1; pos++)
     {
         //! \todo determine if we should write this data or just put 0s.
-        out[pos] = shiftByte(in[pos], in[pos+1], bitOffset2);
+        //out[pos] = shiftByte(in[pos], in[pos + 1], bitOffset2);
+        writeOutput(out, outPos, shiftByte(in[pos], in[pos + 1], bitOffset2), length);
     }
 
     if (pos == (unsigned int) (length - 1) ) {
-        out[pos] = shiftByte(in[pos], 0, bitOffset2);
+        //out[pos] = shiftByte(in[pos], 0, bitOffset2);
+        writeOutput(out, outPos, shiftByte(in[pos], 0, bitOffset2), length);
+    }
+
+    while (outPos < length)
+    {
+        writeOutput(out, outPos, 0, length);
     }
 
     return No_Error;
@@ -195,7 +232,7 @@ int alignSector(BYTE *out, BYTE *in, WORD length, BYTE syncByte)
 
 //! Pre-calculated array to reverse all the bits in a byte.
 //
-static const BYTE BitReverseTable[] = 
+static const uint8_t BitReverseTable[] = 
 {
   0x00, 0x80, 0x40, 0xC0, 0x20, 0xA0, 0x60, 0xE0, 0x10, 0x90, 0x50, 0xD0, 0x30, 0xB0, 0x70, 0xF0, 
   0x08, 0x88, 0x48, 0xC8, 0x28, 0xA8, 0x68, 0xE8, 0x18, 0x98, 0x58, 0xD8, 0x38, 0xB8, 0x78, 0xF8, 
@@ -221,7 +258,8 @@ static const BYTE BitReverseTable[] =
 //!
 //! @return the reversed byte.
 //!
-BYTE reverseChar(BYTE val)
+uint8_t
+reverseChar(uint8_t val)
 {
     return BitReverseTable[val];    
 }
@@ -236,9 +274,10 @@ BYTE reverseChar(BYTE val)
 //!
 //! @return shift byte
 //!
-BYTE shiftByte(BYTE first,
-               BYTE second,
-               BYTE shift)
+uint8_t
+shiftByte(uint8_t first,
+          uint8_t second,
+          uint8_t shift)
 {
     unsigned int val = (((unsigned int) first) << 8) |  second;
 
@@ -249,13 +288,15 @@ BYTE shiftByte(BYTE first,
 }
 
 
-int validateHeader(BYTE *buffer, WORD startPos)
+int
+validateHeader(uint8_t  *buffer,
+               uint16_t  startPos)
 {
-    BYTE checkSum = 0;
+    uint8_t checkSum = 0;
 
-    BYTE volume = buffer[startPos];
-    BYTE track = buffer[startPos + 1];
-    BYTE sector = buffer[startPos + 2];
+    uint8_t volume = buffer[startPos];
+    uint8_t track = buffer[startPos + 1];
+    uint8_t sector = buffer[startPos + 2];
 
     checkSum = updateChecksum(checkSum, volume);
     checkSum = updateChecksum(checkSum, track);
@@ -275,7 +316,13 @@ int validateHeader(BYTE *buffer, WORD startPos)
 //!
 //! @return result status
 //!
-int processSector(BYTE *buffer, BYTE *out, WORD length, BYTE side, BYTE track, BYTE sector)
+int
+processSector(uint8_t  *buffer,
+              uint8_t  *out,
+              uint16_t  length,
+              uint8_t   side,
+              uint8_t   track,
+              uint8_t   sector)
 {
     // expect the sync (0xfd) character first.
     //
@@ -290,7 +337,7 @@ int processSector(BYTE *buffer, BYTE *out, WORD length, BYTE side, BYTE track, B
         return error;
     }
 
-    BYTE checkSum;
+    uint8_t checkSum;
 
     // copy aligned buffer from out back to buffer
     memcpy(buffer, out, length);
@@ -309,15 +356,15 @@ int processSector(BYTE *buffer, BYTE *out, WORD length, BYTE side, BYTE track, B
         //printf("Header sync missed (T: %d S: %d)\n", track, sector);
         return Err_MissingHeaderSync;
     }
-    BYTE volumeRead = buffer[pos++];
-    BYTE trackRead = buffer[pos++];
-    BYTE sectorRead = buffer[pos++];
-    BYTE checksumRead = buffer[pos++];
+    uint8_t volumeRead   = buffer[pos++];
+    uint8_t trackRead    = buffer[pos++];
+    uint8_t sectorRead   = buffer[pos++];
+    uint8_t checksumRead = buffer[pos++];
 
     //printf("Header: 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x\n", buffer[pos], buffer[pos+1], buffer[pos+2], buffer[pos+3], buffer[pos+4], buffer[pos+5]);
     //checkSum = 0;
     checkSum = updateChecksum(       0, volumeRead);  // Volume Number
-    checkSum = updateChecksum(checkSum, trackRead);  // track Number
+    checkSum = updateChecksum(checkSum, trackRead);   // track Number
 
     // TODO update to handle track numbers of double-sided 80-track
     // Disks, track number appears to be in b7-b1, side is in b0
@@ -382,4 +429,3 @@ int processSector(BYTE *buffer, BYTE *out, WORD length, BYTE side, BYTE track, B
 
     return No_Error;
 }
-

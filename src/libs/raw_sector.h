@@ -23,7 +23,7 @@ public:
 
     RawSector(uint8_t  *buf,
               uint32_t  size,
-              uint16_t  &length);
+              uint16_t &length);
 
     ~RawSector();
 
@@ -43,4 +43,3 @@ private:
 };
 
 #endif
-

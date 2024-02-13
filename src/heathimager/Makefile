@@ -2,7 +2,7 @@
 GTK_VERSION=gtk2
 
 CPP=g++
-CFLAGS=-std=c++11 -g -O0 -fno-inline
+CFLAGS=-std=c++17 -g -O0 -fno-inline
 # CFLAGS=-std=c++0x -g -O0 -fno-inline
 OUTPUT_DIR=../../output/executable
 OUTPUT_PROG=../../output
@@ -19,6 +19,14 @@ INCLUDES=-I../libs
 FC5025_A=$(OUTPUT_DIR)/../libs/fc5025lib.a
 H17DISK_A=$(OUTPUT_DIR)/../libs/h17disk.a
 
+ifeq ($(OS), Linux)
+	USB_LIB = -lusb
+else
+	# Mac OS X
+	USB_LIB = -L/opt/homebrew/Cellar/libusb-compat/0.1.8/lib -lusb
+endif
+
+
 ifeq "$(GTK_VERSION)" "gtk3"
   GTKFLAGS=$(GTK3FLAGS)
   GTKLIBS=$(GTK3LIBS)
@@ -29,16 +37,16 @@ endif
 
 HOST_OS=$(shell uname -s)
 
-all: linux
+all: heathimager
 
-linux: $(OUTPUT_DIR)/$(PROG)
+heathimager: $(OUTPUT_DIR)/$(PROG)
 	cp $(OUTPUT_DIR)/$(PROG) $(OUTPUT_PROG)
 
 $(OUTPUT_DIR)/$(PROG).o: $(PROG).cpp
 	$(CPP) -o $@ $(CFLAGS) $(GTKFLAGS) $(INCLUDES) -c $<
 
 $(OUTPUT_DIR)/$(PROG): $(OUTPUT_DIR)/$(PROG).o $(FC5025_A) $(H17DISK_A)
-	$(CPP) -o $@ $^ $(BACKEND_A) -lusb $(GTKLIBS)
+	$(CPP) -o $@ $^ $(BACKEND_A) $(USB_LIB) $(GTKLIBS)
 
 clean:
 	rm -rf $(OUTPUT_DIR)

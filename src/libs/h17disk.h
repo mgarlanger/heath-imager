@@ -122,18 +122,23 @@ public:
     virtual bool setDistributionParameter(unsigned char val);
     virtual bool setTrackDataParameter(unsigned char val);
 
-    virtual bool writeLabel(unsigned char *buf, uint32_t length);
-    virtual bool writeComment(unsigned char *buf, uint32_t length);
-    virtual bool writeDate(unsigned char *buf, uint32_t length);
-    virtual bool writeImager(unsigned char *buf, uint32_t length);
-    virtual bool writeProgram(unsigned char *buf, uint32_t length);
+    virtual bool writeLabel(unsigned char *buf,
+                            uint32_t       length);
+    virtual bool writeComment(unsigned char *buf,
+                              uint32_t length);
+    virtual bool writeDate(unsigned char *buf,
+                           uint32_t length);
+    virtual bool writeImager(unsigned char *buf,
+                             uint32_t length);
+    virtual bool writeProgram(unsigned char *buf,
+                              uint32_t length);
 
     virtual bool writeParameters();
 
     virtual bool startData();
 
     virtual bool startTrack(unsigned char side,
-                           unsigned char track);
+                            unsigned char track);
     virtual bool addSector(unsigned char sector,
                            unsigned char error,
                            unsigned char *buf,
@@ -222,4 +227,3 @@ private:
 };
 
 #endif
-

@@ -116,10 +116,13 @@ H17Disk::disableRaw()
 bool
 H17Disk::fileExists(const char *name)
 {
-    if (FILE *file = fopen(name, "r")) {
+    if (FILE *file = fopen(name, "r"))
+    {
         fclose(file);
         return true;
-    } else {
+    }
+    else
+    {
         return false;
     }
 
@@ -377,7 +380,8 @@ H17Disk::analyze()
 //! @return success
 //!
 bool
-H17Disk::decodeFile(const char *name, bool summary)
+H17Disk::decodeFile(const char *name,
+                    bool        summary)
 {
     unsigned char *inputBuffer;
     bool           status = false;
@@ -398,6 +402,7 @@ H17Disk::decodeFile(const char *name, bool summary)
     {
     //    status = decodeBuffer(inputBuffer, size);
     }
+
     delete[] inputBuffer;
     inFile_m.close();
 
@@ -405,7 +410,8 @@ H17Disk::decodeFile(const char *name, bool summary)
 }
 
 bool
-H17Disk::dumpFileInfo(const char *name, int level)
+H17Disk::dumpFileInfo(const char *name,
+                      int         level)
 {
     // unsigned char *inputBuffer;
     bool           status = false;
@@ -451,7 +457,7 @@ H17Disk::dumpFileInfo(const char *name, int level)
 //!
 bool
 H17Disk::decodeBuffer(unsigned char buf[],
-                      unsigned int size)
+                      unsigned int  size)
 {
     unsigned int pos = 0;
     unsigned int length = 0;
@@ -478,8 +484,8 @@ H17Disk::decodeBuffer(unsigned char buf[],
 
 bool
 H17Disk::dumpBuffer(unsigned char buf[],
-                    unsigned int size,
-                    int level)
+                    unsigned int  size,
+                    int           level)
 {
     unsigned int pos = 0;
     unsigned int length = 0;
@@ -514,7 +520,7 @@ H17Disk::dumpBuffer(unsigned char buf[],
 //!
 bool
 H17Disk::loadBuffer(unsigned char buf[],
-                    unsigned int size)
+                    unsigned int  size)
 {
     unsigned int pos = 0;
     unsigned int length = 0;
@@ -560,7 +566,7 @@ H17Disk::loadBuffer(unsigned char buf[],
 //!
 bool
 H17Disk::validateHeader(unsigned char buf[],
-                        unsigned int size,
+                        unsigned int  size,
                         unsigned int &length)
 {
     if (size < 7)
@@ -595,7 +601,7 @@ H17Disk::validateHeader(unsigned char buf[],
 //!
 bool
 H17Disk::loadHeader(unsigned char buf[],
-                    unsigned int size,
+                    unsigned int  size,
                     unsigned int &length)
 {
     if (size < 8)
@@ -625,15 +631,12 @@ H17Disk::loadHeader(unsigned char buf[],
         length = 7;
     }
 
-    if (versionMajor_m == '2') {
+    if ((versionMajor_m == '2') && (buf[7] == 0xff)) {
         validVersion = true;
-        if (buf[7] != 0xff) {
-            return false;
-        }
         length = 8;
     }
 
-    return true;
+    return validVersion;
 }
 
 //! validate block
@@ -646,7 +649,7 @@ H17Disk::loadHeader(unsigned char buf[],
 //!
 bool
 H17Disk::validateBlock(unsigned char buf[],
-                       unsigned int size,
+                       unsigned int  size,
                        unsigned int &length)
 {
     if (size < 6)
@@ -710,9 +713,9 @@ H17Disk::validateBlock(unsigned char buf[],
 
 bool
 H17Disk::dumpBlock(unsigned char buf[],
-                   unsigned int size,
+                   unsigned int  size,
                    unsigned int &length,
-                   int level)
+                   int           level)
 {
 
 
@@ -786,7 +789,7 @@ H17Disk::dumpBlock(unsigned char buf[],
 //!
 bool
 H17Disk::loadBlock(unsigned char buf[],
-                   unsigned int size,
+                   unsigned int  size,
                    unsigned int &length)
 {
 
@@ -827,7 +830,7 @@ H17Disk::loadBlock(unsigned char buf[],
 //!
 bool
 H17Disk::validateDiskFormatBlock(unsigned char buf[],
-                                 unsigned int size)
+                                 unsigned int  size)
 {
     if (size > 2)
     {
@@ -899,7 +902,8 @@ bool
 H17Disk::validateCommentBlock(unsigned char buf[],
                               unsigned int  size)
 {
-    if (summarize_m) {
+    if (summarize_m)
+    {
         return true;
     }
 
@@ -965,7 +969,7 @@ H17Disk::validateDateBlock(unsigned char buf[],
 //! @return  if validation was successful
 bool
 H17Disk::validateImagerBlock(unsigned char buf[],
-                             unsigned int size)
+                             unsigned int  size)
 {
     if (summarize_m)
     {
@@ -1493,10 +1497,15 @@ H17Disk::validateRawSectorBlock(unsigned char  buf[],
 bool
 H17Disk::writeHeader()
 {
-    unsigned char buf[7] = { 'H', '1', '7', 'D',
-                             versionMajor_m,
-                             versionMinor_m,
-                             versionPoint_m };
+    unsigned char buf[7] = {
+         'H',
+         '1',
+         '7',
+         'D',
+         versionMajor_m,
+         versionMinor_m,
+         versionPoint_m
+    };
 
     if (!file_m.is_open())
     {
@@ -2070,8 +2079,8 @@ H17Disk::addRawSectorToDataBlock(uint8_t   side,
 //! \todo implememnt
 char *
 H17Disk::getSectorData(unsigned char side,
-                        unsigned char track,
-                        unsigned char sector)
+                       unsigned char track,
+                       unsigned char sector)
 {
 
     return 0;
@@ -2135,4 +2144,3 @@ H17Disk::getH17Block(uint8_t blockId)
 {
     return blocks_m[blockId];
 }
-

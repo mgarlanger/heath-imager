@@ -12,7 +12,7 @@
 #include "disk_util.h"
 #include "raw_sector.h"
 
-#define VERSION_STRING "1.1.0"
+#define VERSION_STRING "1.2.0"
 
 #define DIRECTORY_SEPARATOR "/"
 
@@ -23,14 +23,13 @@ static GtkWidget              *fname_field;
 static GtkWidget              *description_field;
 static GtkWidget              *outdir_field;
 static struct DriveInfo       *selected_drive   = NULL;
-static GtkWidget              *imgbutton,
+static GtkWidget              *captureButton,
                               *diskInfoButton,
                               *testBoardButton,
                               *testInterfaceButton;
 GtkWidget                     *listbox,
                               *pop_button;
 
-static int                     errors;
 static int                     errorCount;
 static float progress;
 
@@ -60,11 +59,15 @@ static GtkTextBuffer          *textBufferImager;
 //using namespace std;
 
 
-bool fileExists(char *name) {
-    if (FILE *file = fopen(name, "r")) {
+bool fileExists(char *name)
+{
+    if (FILE *file = fopen(name, "r"))
+    {
         fclose(file);
         return true;
-    } else {
+    }
+    else
+    {
         return false;
     }
 }
@@ -186,7 +189,7 @@ disallow_delete(GtkWidget * widget, gpointer gdata)
 
 
 void
-quitpressed(GtkWidget * widget, gpointer gdata)
+quitPressed(GtkWidget * widget, gpointer gdata)
 {
     gtk_main_quit();
 }
@@ -253,7 +256,7 @@ read_one_sector(H17Disk       *image,
         {
             snprintf(errtext, sizeof(errtext), "Failed on attempt: %d: %d H: %d T: %d S:%d",
                      retryCount, retVal, side, track, sector);
-            gtk_label_set(GTK_LABEL(error_label), errtext);
+            gtk_label_set_text(GTK_LABEL(error_label), errtext);
             refresh_screen();
         }
 
@@ -285,14 +288,14 @@ read_one_sector(H17Disk       *image,
         errorCount++;
         snprintf(errtext, sizeof(errtext), "Failed after %d attempts: %d H: %d T: %d S:%d",
                  maxRetries_c, retVal, side, track, sector);
-        gtk_label_set(GTK_LABEL(error_label), errtext);
+        gtk_label_set_text(GTK_LABEL(error_label), errtext);
         refresh_screen();
     }
     else
     {
         snprintf(errtext, sizeof(errtext), "Passed after %d attempts -  H: %d T: %d S:%d",
                  retryCount, side, track, sector);
-        gtk_label_set(GTK_LABEL(error_label), errtext);
+        gtk_label_set_text(GTK_LABEL(error_label), errtext);
         refresh_screen();
     }
 }
@@ -329,7 +332,7 @@ image_track(H17Disk    *image,
 
     if (FC5025::inst()->seek(disk->physicalTrack(track)) != 0)
     {
-        gtk_label_set(GTK_LABEL(status_label), "Unable to seek to track! Giving up.");
+        gtk_label_set_text(GTK_LABEL(status_label), "Unable to seek to track! Giving up.");
         return 1;
     }
     refresh_screen();
@@ -337,7 +340,7 @@ image_track(H17Disk    *image,
     sector_list = (SectorList *) malloc(sizeof(SectorList) * num_sectors);
     if (!sector_list)
     {
-        gtk_label_set(GTK_LABEL(status_label), "Out of memory! Giving up.");
+        gtk_label_set_text(GTK_LABEL(status_label), "Out of memory! Giving up.");
         return 1;
     }
 
@@ -352,7 +355,7 @@ image_track(H17Disk    *image,
         read_one_sector(image, disk, track, side, sector_entry->sector, error_label);
         if (img_cancelled)
         {
-            gtk_label_set(GTK_LABEL(status_label), "Cancelled.");
+            gtk_label_set_text(GTK_LABEL(status_label), "Cancelled.");
             free(sector_list);
             return 1;
         }
@@ -383,7 +386,9 @@ auto_increment_filename(void)
 
     p = (char *) strrchr(old_filename, '.');
     if (!p || (p == old_filename))
+    {
         return;
+    }
     new_filename = strdup(old_filename);
     if (!new_filename)
     {
@@ -466,14 +471,14 @@ destroy_img(GtkWidget * widget, gpointer gdata)
 
 void
 imgFailed(GtkWidget * image_window, gint delete_signal, GtkWidget * status_label,
-          GtkWidget * button_label, GtkWidget * button, GtkWidget * cancelbutton, char *text)
+          GtkWidget * button_label, GtkWidget * button, GtkWidget * cancelButton, char *text)
 {
     if (text)
     {
-        gtk_label_set(GTK_LABEL(status_label), text);
+        gtk_label_set_text(GTK_LABEL(status_label), text);
     }
-    gtk_label_set(GTK_LABEL(button_label), "Bummer.");
-    gtk_widget_set_sensitive(cancelbutton, 0);
+    gtk_label_set_text(GTK_LABEL(button_label), "Bummer.");
+    gtk_widget_set_sensitive(cancelButton, 0);
     gtk_widget_set_sensitive(button, 1);
     gtk_signal_disconnect(GTK_OBJECT(image_window), delete_signal);
     modal = 0;
@@ -581,14 +586,14 @@ diskInfoPressed(GtkWidget * widget, gpointer gdata)
 
     if (drive.getStatus() != 0)
     {
-       // gtk_label_set(GTK_LABEL(errorLabel), "Unable to open drive");
+       // gtk_label_set_text(GTK_LABEL(errorLabel), "Unable to open drive");
         return;
     }
     while (!diskinfoStop)
     {
         if ((retVal = FC5025::inst()->driveStatus(&track, &speed, &sectorCount, &flags)) != 0)
         {
-            gtk_label_set(GTK_LABEL(errorLabel), "Unable to get drive status");
+            gtk_label_set_text(GTK_LABEL(errorLabel), "Unable to get drive status");
             gtk_widget_set_sensitive(doneButton, 1);
             gtk_widget_set_sensitive(stopButton, 0);
             gtk_signal_disconnect(GTK_OBJECT(diskInfoWindow), delete_signal);
@@ -596,13 +601,13 @@ diskInfoPressed(GtkWidget * widget, gpointer gdata)
             return;
         }
         snprintf(status_text, sizeof(status_text), "Track:        %02d\n", track);
-        gtk_label_set(GTK_LABEL(trackLabel), status_text);
+        gtk_label_set_text(GTK_LABEL(trackLabel), status_text);
         snprintf(status_text, sizeof(status_text), "Speed:        %6.2f\n", speed/100.0);
-        gtk_label_set(GTK_LABEL(speedLabel), status_text);
+        gtk_label_set_text(GTK_LABEL(speedLabel), status_text);
         snprintf(status_text, sizeof(status_text), "Sector Count: %02d\n", sectorCount);
-        gtk_label_set(GTK_LABEL(sectorCountLabel), status_text);
+        gtk_label_set_text(GTK_LABEL(sectorCountLabel), status_text);
         snprintf(status_text, sizeof(status_text), "Flags:        0x%02x\n", flags);
-        gtk_label_set(GTK_LABEL(flagsLabel), status_text);
+        gtk_label_set_text(GTK_LABEL(flagsLabel), status_text);
         refresh_screen();
         usleep(100000);
     }
@@ -647,7 +652,7 @@ testBoardPressed(GtkWidget * widget, gpointer gdata)
 
     if (drive.getStatus() != 0)
     {
-       // gtk_label_set(GTK_LABEL(errorLabel), "Unable to open drive");
+       // gtk_label_set_text(GTK_LABEL(errorLabel), "Unable to open drive");
         return;
     }
 
@@ -656,7 +661,7 @@ testBoardPressed(GtkWidget * widget, gpointer gdata)
     /*
         if ((retVal = FC5025::inst()->driveStatus(&track, &speed, &sectorCount, &flags)) != 0)
         {
-            gtk_label_set(GTK_LABEL(errorLabel), "Unable to get drive status");
+            gtk_label_set_text(GTK_LABEL(errorLabel), "Unable to get drive status");
             gtk_widget_set_sensitive(doneButton, 1);
             gtk_widget_set_sensitive(stopButton, 0);
             gtk_signal_disconnect(GTK_OBJECT(diskInfoWindow), delete_signal);
@@ -664,13 +669,13 @@ testBoardPressed(GtkWidget * widget, gpointer gdata)
             return;
         }
         snprintf(status_text, sizeof(status_text), "Track:        %02d\n", track);
-        gtk_label_set(GTK_LABEL(trackLabel), status_text);
+        gtk_label_set_text(GTK_LABEL(trackLabel), status_text);
         snprintf(status_text, sizeof(status_text), "Speed:        %6.2f\n", speed/100.0);
-        gtk_label_set(GTK_LABEL(speedLabel), status_text);
+        gtk_label_set_text(GTK_LABEL(speedLabel), status_text);
         snprintf(status_text, sizeof(status_text), "Sector Count: %02d\n", sectorCount);
-        gtk_label_set(GTK_LABEL(sectorCountLabel), status_text);
+        gtk_label_set_text(GTK_LABEL(sectorCountLabel), status_text);
         snprintf(status_text, sizeof(status_text), "Flags:        0x%02x\n", flags);
-        gtk_label_set(GTK_LABEL(flagsLabel), status_text);
+        gtk_label_set_text(GTK_LABEL(flagsLabel), status_text);
         refresh_screen();
         usleep(100000);
     */
@@ -681,13 +686,13 @@ testBoardPressed(GtkWidget * widget, gpointer gdata)
 
 /// Start imaging a disk.
 void
-imgPressed(GtkWidget * widget, gpointer gdata)
+capturePressed(GtkWidget * widget, gpointer gdata)
 {
     GtkWidget      *image_window = gtk_dialog_new();
     GtkAdjustment  *adj          = (GtkAdjustment *) gtk_adjustment_new(0, 0, 400, 0, 0, 0);
     GtkWidget      *progressbar  = gtk_progress_bar_new_with_adjustment(adj);
     GtkWidget      *button       = gtk_button_new();
-    GtkWidget      *cancelbutton = gtk_button_new_with_label("Cancel");
+    GtkWidget      *cancelButton = gtk_button_new_with_label("Cancel");
     char            status_text[80];
     GtkWidget      *status_label = gtk_label_new("Preparing...");
     GtkWidget      *error_label  = gtk_label_new("");
@@ -707,7 +712,6 @@ imgPressed(GtkWidget * widget, gpointer gdata)
     //bool            recovery;
 
     progress = 0;
-    errors   = 0;
     errorCount = 0;
 
     gtk_window_set_title(GTK_WINDOW(image_window), "Capturing Disk Image File...");
@@ -728,12 +732,12 @@ imgPressed(GtkWidget * widget, gpointer gdata)
     gtk_progress_set_percentage(GTK_PROGRESS(progressbar), 0);
     gtk_widget_show(progressbar);
 
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(image_window)->action_area), cancelbutton, TRUE,
+    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(image_window)->action_area), cancelButton, TRUE,
                        TRUE, 0);
-    gtk_signal_connect(GTK_OBJECT(cancelbutton), "clicked", GTK_SIGNAL_FUNC(imgcancel),
+    gtk_signal_connect(GTK_OBJECT(cancelButton), "clicked", GTK_SIGNAL_FUNC(imgcancel),
                        image_window);
-    gtk_widget_set_sensitive(cancelbutton, 0);
-    gtk_widget_show(cancelbutton);
+    gtk_widget_set_sensitive(cancelButton, 0);
+    gtk_widget_show(cancelButton);
 
     gtk_container_add(GTK_CONTAINER(button), button_label);
     gtk_signal_connect(GTK_OBJECT(button), "clicked", GTK_SIGNAL_FUNC(imgdone), image_window);
@@ -749,7 +753,7 @@ imgPressed(GtkWidget * widget, gpointer gdata)
     if (drive.getStatus() != 0)
     {
         imgFailed(image_window, delete_signal, status_label, button_label,
-                  button, cancelbutton, (char *) "Unable to open drive.");
+                  button, cancelButton, (char *) "Unable to open drive.");
         return;
     }
     refresh_screen();
@@ -765,7 +769,7 @@ imgPressed(GtkWidget * widget, gpointer gdata)
     //     if (!in_filename)
     //     {
     //         imgFailed(image_window, delete_signal, status_label, button_label,
-    //                   button, cancelbutton, (char *) "Out of memory!");
+    //                   button, cancelButton, (char *) "Out of memory!");
     //         return;
     //     }
     //     strcpy(in_filename, gtk_entry_get_text(GTK_ENTRY(outdir_field)));
@@ -778,7 +782,7 @@ imgPressed(GtkWidget * widget, gpointer gdata)
     if (!out_filename)
     {
         imgFailed(image_window, delete_signal, status_label, button_label,
-                  button, cancelbutton, (char *) "Out of memory!");
+                  button, cancelButton, (char *) "Out of memory!");
         return;
     }
     strcpy(out_filename, gtk_entry_get_text(GTK_ENTRY(outdir_field)));
@@ -788,7 +792,7 @@ imgPressed(GtkWidget * widget, gpointer gdata)
     if (fileExists(out_filename))
     {
         imgFailed(image_window, delete_signal, status_label, button_label,
-                  button, cancelbutton, (char *) "File already exists!");
+                  button, cancelButton, (char *) "File already exists!");
         return;
     }
     image = new H17Disk();
@@ -800,7 +804,7 @@ imgPressed(GtkWidget * widget, gpointer gdata)
     if (!image->openForWrite(out_filename))
     {
         imgFailed(image_window, delete_signal, status_label, button_label,
-                  button, cancelbutton, (char *) "File can not be opened!");
+                  button, cancelButton, (char *) "File can not be opened!");
         return;
     }
 
@@ -808,7 +812,7 @@ imgPressed(GtkWidget * widget, gpointer gdata)
     {
         image->closeFile();
         imgFailed(image_window, delete_signal, status_label, button_label,
-                  button, cancelbutton, (char *) "Unable to recalibrate drive.");
+                  button, cancelButton, (char *) "Unable to recalibrate drive.");
         return;
     }
     refresh_screen();
@@ -817,7 +821,7 @@ imgPressed(GtkWidget * widget, gpointer gdata)
     {
         image->closeFile();
         imgFailed(image_window, delete_signal, status_label, button_label,
-                  button, cancelbutton, (char *) "Unable to set density.");
+                  button, cancelButton, (char *) "Unable to set density.");
         return;
     }
     refresh_screen();
@@ -841,7 +845,7 @@ imgPressed(GtkWidget * widget, gpointer gdata)
     image->startData();
 
     img_cancelled = 0;
-    gtk_widget_set_sensitive(cancelbutton, 1);
+    gtk_widget_set_sensitive(cancelButton, 1);
     refresh_screen();
 
     progress_per_halftrack = (float) 1 / (float) (disk->numTracks() *
@@ -860,10 +864,10 @@ imgPressed(GtkWidget * widget, gpointer gdata)
                 snprintf(status_text, sizeof(status_text), "Reading track %d side %d...\n",
                          track, side);
             }
-            gtk_label_set(GTK_LABEL(status_label), status_text);
+            gtk_label_set_text(GTK_LABEL(status_label), status_text);
             refresh_screen();
 
-            /* image the track */
+            // image the track
             if (image_track(image, disk, track, side, status_label, error_label, progressbar,
                             progress_per_halftrack) != 0)
             {
@@ -871,7 +875,7 @@ imgPressed(GtkWidget * widget, gpointer gdata)
                 image->writeRawDataBlock();
                 image->closeFile();
                 imgFailed(image_window, delete_signal, status_label, button_label,
-                          button, cancelbutton, NULL);
+                          button, cancelButton, NULL);
                 return;
             }
         }
@@ -887,19 +891,19 @@ imgPressed(GtkWidget * widget, gpointer gdata)
 
     if (!errorCount)
     {
-        gtk_label_set(GTK_LABEL(status_label), "Successfully read disk.");
-        gtk_label_set(GTK_LABEL(button_label), "Yay!");
+        gtk_label_set_text(GTK_LABEL(status_label), "Successfully read disk.");
+        gtk_label_set_text(GTK_LABEL(button_label), "Yay!");
     }
     else
     {
         char statusText[60];
         snprintf(statusText, sizeof(statusText), "Total of %d sectors had errors\n", errorCount);
 
-        gtk_label_set(GTK_LABEL(status_label), statusText);
-        gtk_label_set(GTK_LABEL(button_label), "Bummer.");
+        gtk_label_set_text(GTK_LABEL(status_label), statusText);
+        gtk_label_set_text(GTK_LABEL(button_label), "Bummer.");
     }
 
-    gtk_widget_set_sensitive(cancelbutton, 0);
+    gtk_widget_set_sensitive(cancelButton, 0);
     gtk_widget_set_sensitive(button, 1);
     gtk_signal_disconnect(GTK_OBJECT(image_window), delete_signal);
     modal = 0;
@@ -911,14 +915,14 @@ update_sensitivity(void)
 {
     if (selected_drive == NULL)
     {
-        gtk_widget_set_sensitive(imgbutton, 0);
+        gtk_widget_set_sensitive(captureButton, 0);
         gtk_widget_set_sensitive(diskInfoButton, 0);
         //gtk_widget_set_sensitive(testBoardButton, 0);
         //gtk_widget_set_sensitive(testInterfaceButton, 0);
     }
     else
     {
-        gtk_widget_set_sensitive(imgbutton, 1);
+        gtk_widget_set_sensitive(captureButton, 1);
         gtk_widget_set_sensitive(diskInfoButton, 1);
         //gtk_widget_set_sensitive(testBoardButton, 1);
         //gtk_widget_set_sensitive(testInterfaceButton, 1);
@@ -1077,15 +1081,13 @@ add_drive_rpm(GtkWidget *menu)
     mitem = gtk_menu_item_new_with_label( "300 RPM");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
-    gtk_signal_connect(GTK_OBJECT(mitem), "activate",
-                       GTK_SIGNAL_FUNC(drive_rpm_changed), &value[0]);
+    gtk_signal_connect(GTK_OBJECT(mitem), "activate", GTK_SIGNAL_FUNC(drive_rpm_changed), &value[0]);
     gtk_menu_item_deselect((GtkMenuItem *) mitem);
 
     mitem = gtk_menu_item_new_with_label( "360 RPM");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
-    gtk_signal_connect(GTK_OBJECT(mitem), "activate",
-                       GTK_SIGNAL_FUNC(drive_rpm_changed), &value[1]);
+    gtk_signal_connect(GTK_OBJECT(mitem), "activate", GTK_SIGNAL_FUNC(drive_rpm_changed), &value[1]);
     gtk_menu_item_select((GtkMenuItem *) mitem);
 
     gtk_menu_set_active(GTK_MENU(menu), 1);
@@ -1101,14 +1103,12 @@ add_wp(GtkWidget *menu)
     mitem = gtk_menu_item_new_with_label( "Write Enabled");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
-    gtk_signal_connect(GTK_OBJECT(mitem), "activate",
-                       GTK_SIGNAL_FUNC(wp_changed), &value[0]);
+    gtk_signal_connect(GTK_OBJECT(mitem), "activate", GTK_SIGNAL_FUNC(wp_changed), &value[0]);
 
     mitem = gtk_menu_item_new_with_label( "Write Protected");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
-    gtk_signal_connect(GTK_OBJECT(mitem), "activate",
-                       GTK_SIGNAL_FUNC(wp_changed), &value[1]);
+    gtk_signal_connect(GTK_OBJECT(mitem), "activate", GTK_SIGNAL_FUNC(wp_changed), &value[1]);
 }
 
 
@@ -1121,26 +1121,22 @@ add_distribution(GtkWidget *menu)
     mitem = gtk_menu_item_new_with_label( "Disk Status Unknown");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
-    gtk_signal_connect(GTK_OBJECT(mitem), "activate",
-                       GTK_SIGNAL_FUNC(dist_changed), &value[0]);
+    gtk_signal_connect(GTK_OBJECT(mitem), "activate", GTK_SIGNAL_FUNC(dist_changed), &value[0]);
 
     mitem = gtk_menu_item_new_with_label( "Distribution Disk");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
-    gtk_signal_connect(GTK_OBJECT(mitem), "activate",
-                       GTK_SIGNAL_FUNC(dist_changed), &value[1]);
+    gtk_signal_connect(GTK_OBJECT(mitem), "activate", GTK_SIGNAL_FUNC(dist_changed), &value[1]);
 
     mitem = gtk_menu_item_new_with_label( "User Disk");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
-    gtk_signal_connect(GTK_OBJECT(mitem), "activate",
-                       GTK_SIGNAL_FUNC(dist_changed), &value[2]);
+    gtk_signal_connect(GTK_OBJECT(mitem), "activate", GTK_SIGNAL_FUNC(dist_changed), &value[2]);
 
     mitem = gtk_menu_item_new_with_label( "Copy of a Distribution Disk");
     gtk_menu_append(GTK_MENU(menu), mitem);
     gtk_widget_show(mitem);
-    gtk_signal_connect(GTK_OBJECT(mitem), "activate",
-                       GTK_SIGNAL_FUNC(dist_changed), &value[3]);
+    gtk_signal_connect(GTK_OBJECT(mitem), "activate", GTK_SIGNAL_FUNC(dist_changed), &value[3]);
 }
 
 
@@ -1168,11 +1164,10 @@ add_drives(GtkWidget * menu)
             selected_drive = drive;
         }
         snprintf(label, sizeof(label), "%s (%s)", drive->desc, drive->id);
-        mitem = gtk_menu_item_new_with_label( label);
+        mitem = gtk_menu_item_new_with_label(label);
         gtk_menu_append(GTK_MENU(menu), mitem);
         gtk_widget_show(mitem);
-        gtk_signal_connect(GTK_OBJECT(mitem), "activate",
-                           GTK_SIGNAL_FUNC(drive_changed), drive);
+        gtk_signal_connect(GTK_OBJECT(mitem), "activate",  GTK_SIGNAL_FUNC(drive_changed), drive);
     }
 }
 
@@ -1198,7 +1193,7 @@ main(int argc, char *argv[])
 {
     GtkWidget      *window,
                    *vbox,
-                   *quitbutton,
+                   *quitButton,
                    *srcdrop,
                    *srcdrop_menu,
                    *sideDrop,
@@ -1238,7 +1233,7 @@ main(int argc, char *argv[])
     gtk_window_set_title(GTK_WINDOW(window), "Heath Imager");
 
     // handle kills
-    gtk_signal_connect(GTK_OBJECT(window), "destroy", GTK_SIGNAL_FUNC(quitpressed), NULL);
+    gtk_signal_connect(GTK_OBJECT(window), "destroy", GTK_SIGNAL_FUNC(quitPressed), NULL);
 
     // build up the window
     gtk_container_border_width(GTK_CONTAINER(window), 5);
@@ -1454,17 +1449,17 @@ main(int argc, char *argv[])
     gtk_signal_connect(GTK_OBJECT(testInterfaceButton), "clicked", GTK_SIGNAL_FUNC(testInterfacePressed), NULL);
     gtk_widget_show(testInterfaceButton);
 */
-    //  Image disk button
-    imgbutton = gtk_button_new_with_label("Capture Disk Image File");
-    gtk_box_pack_start(GTK_BOX(vbox), imgbutton, FALSE, FALSE, 0);
-    gtk_signal_connect(GTK_OBJECT(imgbutton), "clicked", GTK_SIGNAL_FUNC(imgPressed), NULL);
-    gtk_widget_show(imgbutton);
+    //  capture Image disk button
+    captureButton = gtk_button_new_with_label("Capture Disk Image File");
+    gtk_box_pack_start(GTK_BOX(vbox), captureButton, FALSE, FALSE, 0);
+    gtk_signal_connect(GTK_OBJECT(captureButton), "clicked", GTK_SIGNAL_FUNC(capturePressed), NULL);
+    gtk_widget_show(captureButton);
 
     // quit button
-    quitbutton = gtk_button_new_with_label("Quit");
-    gtk_box_pack_start(GTK_BOX(vbox), quitbutton, FALSE, FALSE, 0);
-    gtk_signal_connect(GTK_OBJECT(quitbutton), "clicked", GTK_SIGNAL_FUNC(quitpressed), NULL);
-    gtk_widget_show(quitbutton);
+    quitButton = gtk_button_new_with_label("Quit");
+    gtk_box_pack_start(GTK_BOX(vbox), quitButton, FALSE, FALSE, 0);
+    gtk_signal_connect(GTK_OBJECT(quitButton), "clicked", GTK_SIGNAL_FUNC(quitPressed), NULL);
+    gtk_widget_show(quitButton);
 
     // version text
     versionlabel = gtk_label_new(PROG_NAME " version " VERSION_STRING);
@@ -1479,6 +1474,7 @@ main(int argc, char *argv[])
     // kick off gtk
     //
     gtk_main();
+
     return 0;
 }
 

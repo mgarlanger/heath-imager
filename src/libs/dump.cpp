@@ -16,7 +16,9 @@
 //!
 //! @return void
 //!
-void dumpDataBlock(unsigned char buf[], unsigned int length) {
+void dumpDataBlock(unsigned char buf[],
+                   unsigned int length)
+{
 
     uint8_t printAble[16];
     unsigned int i = 0;
@@ -91,4 +93,3 @@ void dumpDataBlock(unsigned char buf[], unsigned int length) {
 
     printf("\n");
 }
-
