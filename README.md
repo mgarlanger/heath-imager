@@ -19,7 +19,9 @@ Packages required
 Use brew to install:
 * libusb-compat
 * gtk+
-
+* pkg-config
+* doxygen
+* graphviz
 
 ## Running
 

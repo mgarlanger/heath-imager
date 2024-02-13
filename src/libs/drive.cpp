@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <usb.h>
 
 static DriveInfo *drives = NULL;
 
@@ -83,7 +84,6 @@ Drive::get_drive_list(void)
     int                        total_devs,
                                listed_devs;
     static struct usb_device **devs = NULL;
-    int                        i;
     struct usb_device        **dev;
     DriveInfo                 *drive;
 
@@ -128,7 +128,7 @@ Drive::get_drive_list(void)
     dev = devs;
     drive = drives;
 
-    for (i = 0; i < listed_devs; i++)
+    for (int i = 0; i < listed_devs; i++)
     {
         snprintf(drive->id, 256, "%s/%s", (*dev)->bus->dirname, (*dev)->filename);
         drive->usbdev = *dev;
@@ -213,4 +213,3 @@ Drive::setRpm(uint16_t rpm)
 
     return status;
 }
-

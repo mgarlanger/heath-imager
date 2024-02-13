@@ -37,7 +37,7 @@ RawSector::RawSector(uint8_t    side,
 //! @param length
 //!
 RawSector::RawSector(uint8_t  *buf,
-                     uint32_t size,
+                     uint32_t  size,
                      uint16_t &length)
 {
      if (buf[0] == H17Disk::RawSectorDataId)
@@ -82,14 +82,15 @@ bool
 RawSector::writeToFile(std::ofstream &file)
 {
     uint8_t header[headerSize_c] = { 
-                                        H17Disk::RawSectorDataId, 
-                                        sector_m, 
-                                        (uint8_t) ((bufSize_m >> 8) & 0xff), 
-                                        (uint8_t) (bufSize_m & 0xff)
-                                    };
+        H17Disk::RawSectorDataId, 
+        sector_m, 
+        (uint8_t) ((bufSize_m >> 8) & 0xff), 
+        (uint8_t) (bufSize_m & 0xff)
+    };
 
     file.write((const char*) header, headerSize_c);
     file.write((const char*) buf_m, bufSize_m);
+
     return true;
 }
 
@@ -123,4 +124,3 @@ RawSector::dumpSector()
 {
 
 }
-

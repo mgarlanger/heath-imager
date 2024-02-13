@@ -363,7 +363,6 @@ FC5025::readHardSectorSector(uint8_t      *out,
 {
     int             xferlen = length;
     int             xferlen_out;
-    //unsigned char   raw[length];  // as read in from the fc5025
 
     struct
     {
@@ -405,12 +404,7 @@ FC5025::readHardSectorSector(uint8_t      *out,
     }
 
     //printf("%s - xfer success\n", __FUNCTION__);
-/*
-    if (out)
-    {
-        memcpy(out, raw, length);
-    }
-*/
+
     return status;
 }
 
@@ -627,5 +621,3 @@ FC5025::getStepRate(uint8_t   &stepRate)
 {
     stepRate = drive_StepRate_m;
 }
-
-

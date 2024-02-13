@@ -12,83 +12,82 @@
 class HeathHSDisk: virtual public Disk
 {
 public:
-    HeathHSDisk(BYTE sides,
-                BYTE tracks,
-                BYTE driveTpi,
-                WORD driveRpm);
+    HeathHSDisk(uint8_t sides,
+                uint8_t tracks,
+                uint8_t driveTpi,
+                uint16_t driveRpm);
 
     virtual ~HeathHSDisk();
 
-    virtual BYTE minTrack(void);
-    virtual BYTE maxTrack(void);
+    virtual uint8_t minTrack(void);
+    virtual uint8_t maxTrack(void);
 
-    virtual WORD driveRpm(void);
+    virtual uint16_t driveRpm(void);
 
-    virtual BYTE minSide(void);
-    virtual BYTE maxSide(void);
+    virtual uint8_t minSide(void);
+    virtual uint8_t maxSide(void);
 
-    virtual void setDriveRpm(WORD speed);
-    virtual void setDriveTpi(BYTE tpi);
+    virtual void setDriveRpm(uint16_t speed);
+    virtual void setDriveTpi(uint8_t tpi);
 
-    virtual BYTE minSector(BYTE track,
-                           BYTE side);
-    virtual BYTE maxSector(BYTE track,
-                           BYTE side);
+    virtual uint8_t minSector(uint8_t track,
+                              uint8_t side);
+    virtual uint8_t maxSector(uint8_t track,
+                              uint8_t side);
 
-    virtual BYTE tpi(void);
-    virtual BYTE density(void);
+    virtual uint8_t tpi(void);
+    virtual uint8_t density(void);
 
-    virtual WORD sectorBytes(BYTE side,
-                             BYTE track,
-                             BYTE sector);
-    virtual WORD sectorRawBytes(BYTE side,
-                                BYTE track,
-                                BYTE sector);
+    virtual uint16_t sectorBytes(uint8_t side,
+                                 uint8_t track,
+                                 uint8_t sector);
+    virtual uint16_t sectorRawBytes(uint8_t side,
+                                    uint8_t track,
+                                    uint8_t sector);
 
     // \todo remove trackBytes, since it's not relevant anymore.
-    virtual WORD trackBytes(BYTE side,
-                            BYTE track);
-    virtual WORD trackRawBytes(BYTE side,
-                               BYTE track);
+    virtual uint16_t trackBytes(uint8_t side,
+                                uint8_t track);
+    virtual uint16_t trackRawBytes(uint8_t side,
+                                   uint8_t track);
 
-    virtual BYTE physicalTrack(BYTE track);
+    virtual uint8_t physicalTrack(uint8_t track);
 
-    virtual int  readSector(BYTE *buffer,
-                            BYTE *rawBuffer,
-                            BYTE  side,
-                            BYTE  track,
-                            BYTE  sector);
+    virtual int  readSector(uint8_t *buffer,
+                            uint8_t *rawBuffer,
+                            uint8_t  side,
+                            uint8_t  track,
+                            uint8_t  sector);
 #if 0
-    virtual int  processSector(BYTE *buffer,
-                               BYTE *out,
-                               WORD length,
-                               BYTE side,
-                               BYTE track,
-                               BYTE sector);
+    virtual int  processSector(uint8_t *buffer,
+                               uint8_t *out,
+                               uint16_t length,
+                               uint8_t side,
+                               uint8_t track,
+                               uint8_t sector);
 #endif
-    virtual bool setSides(BYTE    sides);
-    virtual bool setTracks(BYTE   tracks);
+    virtual bool setSides(uint8_t    sides);
+    virtual bool setTracks(uint8_t   tracks);
 
     static int   defaultSectorBytes()    { return sectorBytes_c; };
     static int   defaultSectorRawBytes() { return sectorRawBytes_c; };
 
 private:
 
-    BYTE maxSide_m;
-    BYTE maxTrack_m;
-    BYTE tpi_m;
-    WORD driveRpm_m;
-    BYTE driveTpi_m;
-    WORD bitcellTiming_m;
+    uint8_t  maxSide_m;
+    uint8_t  maxTrack_m;
+    uint8_t  tpi_m;
+    uint16_t driveRpm_m;
+    uint8_t  driveTpi_m;
+    uint16_t bitcellTiming_m;
 
     // ideal sector size is 320 bytes, based on Heath's manual of 62.5 microSecond
     // per character, friction and other things such at drive's actual RPM can affect that.
     // set it so it should overlap the next sector.
-    static const WORD sectorBytes_c    = 350;
+    static const uint16_t sectorBytes_c    = 350;
 
     // over read the sector - double the data bits due to clock bits.
-    static const WORD sectorRawBytes_c = 700;
+    static const uint16_t sectorRawBytes_c = 700;
 };
 
 #endif
-

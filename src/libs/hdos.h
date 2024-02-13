@@ -6,8 +6,7 @@
 #ifndef __HDOS_H__
 #define __HDOS_H__
 
-#include "hi_types.h"
-
+#include <stdint.h>
 #include <stdio.h>
 
 class H17Disk;
@@ -72,12 +71,12 @@ public:
 
 private:
 
-    H17Disk* diskImage_m;
+    H17Disk*      diskImage_m;
     H17DataBlock* diskData_m;
 
-    uint8_t  sides_m;
-    uint8_t  tracks_m;
-    uint8_t  numFiles_m;
+    uint8_t   sides_m;
+    uint8_t   tracks_m;
+    uint8_t   numFiles_m;
     uint16_t  usedSectors_m;
 
     DiskInfo diskInfo_m;
@@ -92,4 +91,3 @@ private:
 
 
 #endif
-

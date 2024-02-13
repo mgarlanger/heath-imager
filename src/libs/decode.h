@@ -6,19 +6,18 @@
 #ifndef __DECODE_H__
 #define __DECODE_H__
 
-#include "hi_types.h"
-
+#include <stdint.h>
 
 class Decode
 {
 public:
 
-    static int decodeFM(BYTE         *decoded,
-                        BYTE         *fmEncoded, 
+    static int decodeFM(uint8_t      *decoded,
+                        uint8_t      *fmEncoded, 
                         unsigned int  count);
 
-    static int decodeMFM(BYTE         *decoded,
-                         BYTE         *mfmEncoded,
+    static int decodeMFM(uint8_t      *decoded,
+                         uint8_t      *mfmEncoded,
                          unsigned int  count);
 
 private:
@@ -29,7 +28,10 @@ private:
        hi,    // Expect data bit to be in the high bit
        lo     // Expect data bit to be in the low bit
     };
+
+    static int lastZeroErrors;
+    static int lastOneErrors;
+
 };
 
 #endif
-

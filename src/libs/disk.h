@@ -2,15 +2,14 @@
 //!
 //! Defines disk parameters.
 
-#ifndef __DISK__
-#define __DISK__
+#ifndef __DISK_H__
+#define __DISK_H__
 
-#include "hi_types.h"
-
+#include <stdint.h>
 
 struct SectorList
 {
-    BYTE  sector;
+    uint8_t  sector;
 };
 
 
@@ -24,58 +23,57 @@ public:
         enc_MFM
     };
 
-    virtual BYTE minTrack(void) = 0;
-    virtual BYTE maxTrack(void) = 0;
-    virtual BYTE numTracks(void);
+    virtual uint8_t minTrack(void) = 0;
+    virtual uint8_t maxTrack(void) = 0;
+    virtual uint8_t numTracks(void);
 
-    virtual BYTE minSide(void) = 0;
-    virtual BYTE maxSide(void) = 0;
-    virtual BYTE numSides(void);
+    virtual uint8_t minSide(void) = 0;
+    virtual uint8_t maxSide(void) = 0;
+    virtual uint8_t numSides(void);
 
     // sectors for a given track/side on heath's hard-sectored disks, it's always 10.
-    virtual BYTE minSector(BYTE track,
-                           BYTE side) = 0;
-    virtual BYTE maxSector(BYTE track,
-                           BYTE side) = 0;
-    virtual BYTE numSectors(BYTE track,
-                            BYTE side);
+    virtual uint8_t minSector(uint8_t track,
+                              uint8_t side) = 0;
+    virtual uint8_t maxSector(uint8_t track,
+                              uint8_t side) = 0;
+    virtual uint8_t numSectors(uint8_t track,
+                               uint8_t side);
 
-    virtual BYTE tpi(void) = 0;
-    virtual BYTE density(void) = 0;
+    virtual uint8_t tpi(void) = 0;
+    virtual uint8_t density(void) = 0;
 
     // number of bytes for the sector and the raw sector
-    virtual WORD sectorBytes(BYTE side,
-                             BYTE track,
-                             BYTE sector) = 0;
-    virtual WORD sectorRawBytes(BYTE side,
-                                BYTE track,
-                                BYTE sector) = 0;
+    virtual uint16_t sectorBytes(uint8_t side,
+                                 uint8_t track,
+                                 uint8_t sector) = 0;
+    virtual uint16_t sectorRawBytes(uint8_t side,
+                                    uint8_t track,
+                                    uint8_t sector) = 0;
 
-    virtual WORD trackBytes(BYTE side, 
-                            BYTE track) = 0;
-    virtual WORD trackRawBytes(BYTE side,
-                               BYTE track) = 0;
+    virtual uint16_t trackBytes(uint8_t side, 
+                                uint8_t track) = 0;
+    virtual uint16_t trackRawBytes(uint8_t side,
+                                   uint8_t track) = 0;
 
     // for a given track number, the physical track on the 1.2M floppy
-    virtual BYTE physicalTrack(BYTE track) = 0;
+    virtual uint8_t physicalTrack(uint8_t track) = 0;
 
-    virtual int readSector(BYTE *buffer,
-                           BYTE *rawBuffer,
-                           BYTE side,
-                           BYTE track,
-                           BYTE sector) = 0;
+    virtual int readSector(uint8_t *buffer,
+                           uint8_t *rawBuffer,
+                           uint8_t side,
+                           uint8_t track,
+                           uint8_t sector) = 0;
 
     virtual void genBestReadOrder(SectorList *out,
-                                  BYTE        track,
-                                  BYTE        side);
+                                  uint8_t        track,
+                                  uint8_t        side);
 
 private:
     virtual void halfTheSectors(SectorList **out,
-                                BYTE         track,
-                                BYTE         side,
-                                BYTE         which_half); 
+                                uint8_t         track,
+                                uint8_t         side,
+                                uint8_t         which_half); 
 
 };
 
 #endif
-

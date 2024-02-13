@@ -49,7 +49,8 @@ H17Block::~H17Block()
 
 
 H17Block *
-H17Block::create(uint8_t buf[], uint32_t size)
+H17Block::create(uint8_t  buf[],
+                 uint32_t size)
 {
     H17Block *newBlock = nullptr;
 
@@ -442,11 +443,11 @@ H17DiskFormatBlock::getDataSize()
 //! @param dist
 //! @param trackSource
 //!
-H17FlagsBlock::H17FlagsBlock(bool roFlag,
-                                     uint8_t dist,
-                                     uint8_t trackSource): roFlag_m(roFlag),
-                                                           distribution_m(dist),
-                                                           trackData_m(trackSource)
+H17FlagsBlock::H17FlagsBlock(bool    roFlag,
+                             uint8_t dist,
+                             uint8_t trackSource): roFlag_m(roFlag),
+                                                   distribution_m(dist),
+                                                   trackData_m(trackSource)
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
@@ -461,9 +462,9 @@ H17FlagsBlock::H17FlagsBlock(bool roFlag,
 //! @param trackSource
 //!
 H17FlagsBlock::H17FlagsBlock(uint8_t buf[],
-                                     uint32_t size): roFlag_m(0),
-                                                     distribution_m(0),
-                                                     trackData_m(0)
+                             uint32_t size): roFlag_m(0),
+                                             distribution_m(0),
+                                             trackData_m(0)
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
     /// \todo handle flag block larger than 3, - check mandatory flag.
@@ -605,7 +606,8 @@ H17FlagsBlock::getMandatory()
 //! @param buf
 //! @param size
 //!
-H17LabelBlock::H17LabelBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
+H17LabelBlock::H17LabelBlock(uint8_t  buf[],
+                             uint32_t size): H17Block::H17Block( buf, size)
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
@@ -693,7 +695,8 @@ H17LabelBlock::analyze()
 
 // H17CommentBlock
 
-H17CommentBlock::H17CommentBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
+H17CommentBlock::H17CommentBlock(uint8_t  buf[],
+                                 uint32_t size): H17Block::H17Block( buf, size)
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
@@ -770,7 +773,8 @@ H17CommentBlock::getMandatory()
 
 // H17DateBlock
 
-H17DateBlock::H17DateBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
+H17DateBlock::H17DateBlock(uint8_t  buf[],
+                           uint32_t size): H17Block::H17Block( buf, size)
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
@@ -847,7 +851,8 @@ H17DateBlock::getMandatory()
 
 // H17ImagerBlock
 
-H17ImagerBlock::H17ImagerBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
+H17ImagerBlock::H17ImagerBlock(uint8_t  buf[],
+                               uint32_t size): H17Block::H17Block( buf, size)
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
@@ -924,7 +929,8 @@ H17ImagerBlock::getMandatory()
 
 // H17ProgramBlock
 
-H17ProgramBlock::H17ProgramBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
+H17ProgramBlock::H17ProgramBlock(uint8_t  buf[],
+                                 uint32_t size): H17Block::H17Block( buf, size)
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
@@ -1002,7 +1008,8 @@ H17ProgramBlock::getMandatory()
 // H17DataBlock
 
 //H17DataBlock::H17DataBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
-H17DataBlock::H17DataBlock(uint8_t buf[], uint32_t size)
+H17DataBlock::H17DataBlock(uint8_t buf[],
+                           uint32_t size)
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
@@ -1028,7 +1035,7 @@ H17DataBlock::~H17DataBlock()
         if (tracks_m[i])
         {
             delete tracks_m[i];
-            tracks_m[i] = 0;
+            tracks_m[i] = nullptr;
         }
     }
     
@@ -1054,7 +1061,8 @@ H17DataBlock::getErrorCount()
     return count;
 }
 Track *
-H17DataBlock::getTrack(uint8_t side, uint8_t track)
+H17DataBlock::getTrack(uint8_t side,
+                       uint8_t track)
 {
     for (unsigned int i = 0 ; i < tracks_m.size(); i++)
     {
@@ -1069,7 +1077,9 @@ H17DataBlock::getTrack(uint8_t side, uint8_t track)
 }
 
 Sector *
-H17DataBlock::getSector(uint8_t side, uint8_t track, uint8_t sector)
+H17DataBlock::getSector(uint8_t side,
+                        uint8_t track,
+                        uint8_t sector)
 {
     Track *trk = getTrack(side, track);
 
@@ -1262,7 +1272,8 @@ H17DataBlock::getMandatory()
 
 // H17RawDataBlock
 
-H17RawDataBlock::H17RawDataBlock(uint8_t buf[], uint32_t size): H17Block::H17Block( buf, size)
+H17RawDataBlock::H17RawDataBlock(uint8_t  buf[],
+                                 uint32_t size): H17Block::H17Block( buf, size)
 {
     // printf("%s\n", __PRETTY_FUNCTION__);
 
@@ -1366,4 +1377,3 @@ H17RawDataBlock::getMandatory()
 {
     return false;
 }
-

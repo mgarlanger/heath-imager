@@ -173,12 +173,12 @@ Track::writeToFile(std::ofstream &file)
 
     // generate the header
     uint8_t buf[headerSize_c] = { 
-                                    H17Disk::TrackDataId,
-                                    side_m,
-                                    track_m, 
-                                    (uint8_t) ((size >> 8) & 0xff),
-                                    (uint8_t) (size & 0xff)
-                                };
+        H17Disk::TrackDataId,
+        side_m,
+        track_m, 
+        (uint8_t) ((size >> 8) & 0xff),
+        (uint8_t) (size & 0xff)
+    };
 
     // write header
     file.write((const char*) buf, headerSize_c);
@@ -204,13 +204,17 @@ Track::writeToFile(std::ofstream &file)
 bool
 Track::writeH8D(std::ofstream &file)
 {
-    // TODO: handle if invalid number of sectors 
     for (uint8_t i = 0; i < 10; i++)
     {
         Sector *sector = getSector(i);
 
-        if (sector) {
+        if (sector)
+        {
             sector->writeToH8D(file);
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -252,7 +256,6 @@ Track::writeRaw(std::ofstream &file)
         // the H8D, since the header with sector number is being 
         // written out.
         sectors_m[j]->writeToRaw(file);
-       
     }
     
     return status;
@@ -296,5 +299,3 @@ Track::dump(int level)
 
     return true;
 }
-
-

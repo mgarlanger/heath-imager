@@ -6,8 +6,6 @@
 #ifndef __CPM_H__
 #define __CPM_H__
 
-#include "hi_types.h"
-
 #include <stdio.h>
 #include <map>
 #include <vector>
@@ -87,33 +85,33 @@ OFF     is the number of reserved tracks at the beginning of
 */
 
 struct DirectoryEntry {
-    bool deleted;
-    uint8_t status;         /* 0     Serial number        */
-    uint8_t userNumber;
-    char fullFileName[13];
-    char keyFileName[13];
-    char fileName[8];
-    char fileExt[3];
-    bool readOnly;
-    bool systemFile;
-    bool archived;
+    bool     deleted;
+    uint8_t  status;         /* 0     Serial number        */
+    uint8_t  userNumber;
+    char     fullFileName[13];
+    char     keyFileName[13];
+    char     fileName[8];
+    char     fileExt[3];
+    bool     readOnly;
+    bool     systemFile;
+    bool     archived;
 
-    uint8_t Xh;         // Extent High
-    uint8_t Xl;         // Extent Low
+    uint8_t  Xh;         // Extent High
+    uint8_t  Xl;         // Extent Low
     uint16_t Extent;    // Extent
-    uint8_t Bc;         // Byte count (doesn't appear to be used in 2.2)
-    uint8_t Rc;         // Record count
-    uint8_t Al[16];     // Allocation Blocks
+    uint8_t  Bc;         // Byte count (doesn't appear to be used in 2.2)
+    uint8_t  Rc;         // Record count
+    uint8_t  Al[16];     // Allocation Blocks
 
-    int16_t linkEntry;
+    int16_t  linkEntry;
 };
 
 struct FileBlock {
 
-   uint8_t userNum;
-   std::string fileName;
-   uint16_t nextExpectedExtent;
-   uint16_t records;
+   uint8_t          userNum;
+   std::string      fileName;
+   uint16_t         nextExpectedExtent;
+   uint16_t         records;
    std::vector<int> allocBlocks;
 };
 
@@ -125,9 +123,9 @@ public:
     CPM(H17Disk* diskImage);
     ~CPM();
 
-    static bool isValidImage(H17Disk& diskImage);
-    static bool validateDirectory(H17DataBlock *diskData, uint8_t sides, uint8_t tracks);
-    static bool validateDirectoryEntry(uint8_t *entry);
+    static bool     isValidImage(H17Disk& diskImage);
+    static bool     validateDirectory(H17DataBlock *diskData, uint8_t sides, uint8_t tracks);
+    static bool     validateDirectoryEntry(uint8_t *entry);
     static Sector  *getSector(H17DataBlock *diskData, uint8_t sides, uint16_t sectorNum);
 
     bool     dumpInfo();
@@ -179,7 +177,7 @@ private:
 //    uint16_t  usedSectors_m;
 
 //    DiskInfo diskInfo;
-    uint8_t directorySize_m;
+    uint8_t  directorySize_m;
 
     // todo make this dynamic
     DirectoryEntry directory_m[128];
@@ -187,11 +185,10 @@ private:
     bool    *freeBlocks_m;
     bool     onlyUserZeroFiles_m;
 
-    std::multimap<std::string, int> directoryMap_m[maxUserNum_c];
+    std::multimap<std::string, int>  directoryMap_m[maxUserNum_c];
     std::map<std::string, FileBlock> fileMap_m[maxUserNum_c];
-    FILE *indexFile_m;
+    FILE *                           indexFile_m;
 };
 
 
 #endif
-

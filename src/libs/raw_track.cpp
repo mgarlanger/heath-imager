@@ -104,14 +104,14 @@ RawTrack::writeToFile(std::ofstream &file)
 
     // generate the header
     uint8_t buf[headerSize_c] = { 
-                                    H17Disk::RawTrackDataId,
-                                    side_m,
-                                    track_m, 
-                                    (uint8_t) ((size >> 24) & 0xff),
-                                    (uint8_t) ((size >> 16) & 0xff),
-                                    (uint8_t) ((size >> 8)  & 0xff),
-                                    (uint8_t)  (size        & 0xff)
-                                };
+        H17Disk::RawTrackDataId,
+        side_m,
+        track_m, 
+        (uint8_t) ((size >> 24) & 0xff),
+        (uint8_t) ((size >> 16) & 0xff),
+        (uint8_t) ((size >> 8)  & 0xff),
+        (uint8_t)  (size        & 0xff)
+    };
 
     // write header
     file.write((const char*) buf, headerSize_c);
@@ -124,4 +124,3 @@ RawTrack::writeToFile(std::ofstream &file)
 
     return true;
 }
-

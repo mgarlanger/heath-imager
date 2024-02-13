@@ -25,7 +25,7 @@ public:
 
     ~RawTrack();
 
-    bool addRawSector(RawSector *sector);
+    bool addRawSector(RawSector    *sector);
     bool writeToFile(std::ofstream &file);
 
     static const unsigned char headerSize_c = 7;
@@ -40,4 +40,3 @@ private:
 };
 
 #endif
-

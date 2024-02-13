@@ -52,7 +52,7 @@ public:
               uint8_t                 mask,
               int                    *out);
 
-    int testBoard(                    );
+    int testBoard(void);
 
     int setDensity(int                density);
 
@@ -174,4 +174,3 @@ private:
 };
 
 #endif
-
