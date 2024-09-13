@@ -1,46 +1,47 @@
-//! \file h17disk.h
+//! \file h17v2disk.h
 //!
-//! Handles the h17disk file format.
+//! Handles the h17v2disk file format.
 //!
 
-#ifndef __H17DISK_H__
-#define __H17DISK_H__
+#ifndef __H17V2DISK_H__
+#define __H17V2DISK_H__
 
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <cstdint>
 
+class H17Disk;
 class H17Block;
 class RawTrack;
 class Sector;
 
-class H17Disk
+class H17v2Disk
 {
 public:
-    H17Disk();
-    virtual ~H17Disk();
+    H17v2Disk();
+    virtual ~H17v2Disk();
 
     // Block IDs
     //
-    static const uint8_t DiskFormatBlock_c = 0x00;
-    static const uint8_t FlagsBlock_c      = 0x01;
-    static const uint8_t LabelBlock_c      = 0x02;
-    static const uint8_t CommentBlock_c    = 0x03;
-    static const uint8_t DateBlock_c       = 0x04;
-    static const uint8_t ImagerBlock_c     = 0x05;
-    static const uint8_t ProgramBlock_c    = 0x06;
+    static const uint8_t DiskFormatBlock_c;
+    static const uint8_t FlagsBlock_c;
+    static const uint8_t LabelBlock_c;
+    static const uint8_t CommentBlock_c;
+    static const uint8_t DateBlock_c;
+    static const uint8_t ImagerBlock_c;
+    static const uint8_t ProgramBlock_c;
    
-    static const uint8_t DataBlock_c       = 0x10;
-    static const uint8_t RawDataBlock_c    = 0x30;
+    static const uint8_t DataBlock_c;
+    static const uint8_t RawDataBlock_c;
 
     // SubBlock IDs
     //
-    static const uint8_t TrackDataId       = 0x11;
-    static const uint8_t SectorDataId      = 0x12;
+    static const uint8_t TrackDataId;
+    static const uint8_t SectorDataId;
 
-    static const uint8_t RawTrackDataId    = 0x31;
-    static const uint8_t RawSectorDataId   = 0x32;
+    static const uint8_t RawTrackDataId;
+    static const uint8_t RawSectorDataId;
 
     // flags
     static const uint8_t DistUnknown;
@@ -59,15 +60,17 @@ public:
     static const uint8_t MandatoryFlag_Mandatory;
     static const uint8_t MandatoryFlag_NotMandatory;
 
-    virtual bool openForWrite(const char *name);
-    virtual bool openForRead(const char *name);
 
     // Open a file
+    virtual bool openForWrite(const char *name);
+    virtual bool openForRead(const char *name);
+    //virtual bool openForRecovery(const char *name);
+    virtual bool fileExists(const char *name);
+
     virtual bool loadFile(const char *name);
     virtual bool saveFile(const char  *name);
     virtual bool saveAsH8D(const char *name);
     virtual bool saveAsRaw(const char *name);
-    virtual bool saveAsH17v2(const char *name);
 
     virtual bool loadBuffer(unsigned char buf[], unsigned int size);
     virtual bool loadHeader(unsigned char buf[], unsigned int size, unsigned int &length);
@@ -167,16 +170,12 @@ public:
                                          uint16_t  length);
 
 //  - raw data...    virtual bool convertToData();
+
     virtual H17Block* getH17Block(uint8_t blockId);
 
     static const uint8_t versionMajor_c;
     static const uint8_t versionMinor_c;
     static const uint8_t versionPoint_c;
-
-protected:
-    //virtual bool openForRecovery(const char *name);
-    virtual bool fileExists(const char *name);
-
 
 private:
 
@@ -228,4 +227,4 @@ private:
  
 };
 
-#endif
+#endif // __H17V2DISK_H__

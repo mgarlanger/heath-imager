@@ -2,7 +2,7 @@
 
 ifeq ($(OS), Linux)
 	ARFLAGS = crf
-	CXXFLAGS   = -Wall -Werror -O0 -std=c++17 -g
+	CXXFLAGS   = -Wall -Werror -Wno-format-truncation -O0 -std=c++17 -g
 else
 	# Mac OS X
 	ARFLAGS = rcs
@@ -13,6 +13,8 @@ endif
 CXX        = g++
 
 OUTPUT_DIR = ../../output/libs/
+DEPFLAGS   = -MMD -MP
+#DEPFLAGS   = -MMD
 _TARGET    = fc5025lib.a
 TARGET     = $(OUTPUT_DIR)$(_TARGET)
 _H17LIB    = h17disk.a
@@ -24,7 +26,7 @@ SRCS       = decode.cpp disk.cpp drive.cpp heath_hs.cpp fc5025.cpp
 _OBJS      = $(SRCS:.cpp=.o)
 OBJS       = $(addprefix $(OUTPUT_DIR),$(_OBJS))
 DEPS       = $(OBJS:.o=.d)
-H17SRCS    = h17disk.cpp h17block.cpp raw_track.cpp raw_sector.cpp sector.cpp track.cpp disk_util.cpp dump.cpp hdos.cpp cpm.cpp
+H17SRCS    = h17disk.cpp h17v2disk.cpp h17block.cpp h17v2block.cpp raw_track.cpp raw_sector.cpp sector.cpp track.cpp disk_util.cpp dump.cpp hdos.cpp cpm.cpp
 _H17OBJS   = $(H17SRCS:.cpp=.o)
 H17OBJS    = $(addprefix $(OUTPUT_DIR),$(_H17OBJS))
 H17DEPS    = $(H17OBJS:.o=.d)
@@ -41,11 +43,8 @@ $(TARGET): $(OBJS)
 $(H17LIB): $(H17OBJS) 
 	$(AR) $(ARFLAGS) $@ $^
 
-$(OUTPUT_DIR)%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -MMD -c $< -o $@
-
-$(OUTPUT_DIR)%.d: %.cpp
-	$(CXX) -MM $(CXXFLAGS) $< > $@
+$(OUTPUT_DIR)%.o: %.cpp $(OUTPUT_DIR)%.d
+	$(CXX) $(DEPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 docs: $(SRCS) $(H17SRCS) 
 	doxygen doxy.conf
@@ -56,13 +55,16 @@ docs: $(SRCS) $(H17SRCS)
 #	$(MAKE)
 
 clean: 
-	rm -f $(OBJS) $(DEPS) $(TARGET) $(H17OBJS) $(MAKE_TS) \
-	$(H17DEPS) $(H17LIB)
+	rm -f $(OBJS) $(DEPS) $(TARGET) $(H17OBJS) $(MAKE_TS) $(H17DEPS) $(H17LIB)
 
 clean_light:
-	rm -f $(OBJS) $(DEPS) $(TARGET) $(H17OBJS) \
-	$(H17DEPS) $(H17LIB)
+	rm -f $(OBJS) $(DEPS) $(TARGET) $(H17OBJS) $(H17DEPS) $(H17LIB)
 
+$(OUTPUT_DIR)%.d: ;
 
--include $(DEPS)
--include $(H17DEPS)
+$(DEPS):
+
+$(H17DEPS):
+
+include $(wildcard $(DEPS))
+include $(wildcard $(H17DEPS))

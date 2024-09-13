@@ -18,9 +18,9 @@
 //!
 HDOS::HDOS(H17Disk* diskImage): diskImage_m(diskImage)
 {
-    diskData_m = (H17DataBlock *) diskImage_m->getH17Block(H17Block::DataBlock_c);
+    diskData_m = (H17DataBlock *) diskImage_m->getH17Block(H17Disk::DataBlock_c);
     H17DiskFormatBlock *diskFormat = (H17DiskFormatBlock *)
-                diskImage_m->getH17Block(H17Block::DiskFormatBlock_c);
+                diskImage_m->getH17Block(H17Disk::DiskFormatBlock_c);
 
     sides_m = diskFormat->getSides();
     tracks_m = diskFormat->getTracks();
@@ -221,7 +221,7 @@ HDOS::loadDiskInfo(H17DataBlock *diskData,
 bool
 HDOS::isValidImage(H17Disk& diskImage)
 {
-    H17DataBlock *diskData = (H17DataBlock *) diskImage.getH17Block(H17Block::DataBlock_c);
+    H17DataBlock *diskData = (H17DataBlock *) diskImage.getH17Block(H17Disk::DataBlock_c);
     DiskInfo      diskInfo;
 
     if (!HDOS::loadDiskInfo(diskData, diskInfo))
@@ -370,7 +370,7 @@ HDOS::getFreeSpace()
 bool
 HDOS::loadDiskInfo()
 {
-    diskData_m = (H17DataBlock *) diskImage_m->getH17Block(H17Block::DataBlock_c);
+    diskData_m = (H17DataBlock *) diskImage_m->getH17Block(H17Disk::DataBlock_c);
 
     Sector *sector = diskData_m->getSector(9);
 
@@ -451,7 +451,7 @@ HDOS::printDate(uint16_t date)
 Sector *
 HDOS::getSector(uint16_t sectorNum)
 {
-    diskData_m = (H17DataBlock *) diskImage_m->getH17Block(H17Block::DataBlock_c);
+    diskData_m = (H17DataBlock *) diskImage_m->getH17Block(H17Disk::DataBlock_c);
 
     // if single-sided, direct access is available
     if (sides_m == 1)

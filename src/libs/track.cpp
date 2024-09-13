@@ -33,7 +33,7 @@ Track::Track(uint8_t  *buf,
              uint32_t  size,
              uint32_t &length)
 {
-     if (H17Block::TrackDataId == buf[0])
+     if (H17Disk::TrackDataId == buf[0])
      {
          side_m =  buf[1];
          track_m = buf[2];

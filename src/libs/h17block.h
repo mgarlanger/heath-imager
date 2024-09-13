@@ -41,23 +41,6 @@ public:
 
     static H17Block *create(uint8_t buf[], uint32_t size);
 
-    static const uint8_t DiskFormatBlock_c = 0x00;
-    static const uint8_t FlagsBlock_c      = 0x01;
-    static const uint8_t LabelBlock_c      = 0x02;
-    static const uint8_t CommentBlock_c    = 0x03;
-    static const uint8_t DateBlock_c       = 0x04;
-    static const uint8_t ImagerBlock_c     = 0x05;
-    static const uint8_t ProgramBlock_c    = 0x06;
-
-    static const uint8_t DataBlock_c       = 0x10;
-    static const uint8_t RawDataBlock_c    = 0x30;
-
-    static const uint8_t TrackDataId       = 0x11;
-    static const uint8_t SectorDataId      = 0x12;
-
-    static const uint8_t RawTrackDataId    = 0x31;
-    static const uint8_t RawSectorDataId   = 0x32;
-
 protected:
     virtual bool         dumpText();
 

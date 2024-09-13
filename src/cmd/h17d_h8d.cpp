@@ -20,7 +20,9 @@ int main(int argc, char *argv[]) {
 
     std::string infile(argv[1]);
 
+    printf("  Loading\n");
     image->loadFile(infile.c_str());
+    printf("  Loaded\n");
 
     std::string outfile;
 

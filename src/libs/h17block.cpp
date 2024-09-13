@@ -3,6 +3,7 @@
 //! Classes to handle the various blocks in the h17disk image file.
 //!
 
+#include "h17disk.h"
 #include "h17block.h"
 #include "track.h"
 #include "sector.h"
@@ -74,31 +75,31 @@ H17Block::create(uint8_t  buf[],
     // check block type
     switch (buf[0])
     {
-        case DiskFormatBlock_c:
+        case H17Disk::DiskFormatBlock_c:
             newBlock = new H17DiskFormatBlock(&buf[6], blockSize);
             break;
-        case FlagsBlock_c:
+        case H17Disk::FlagsBlock_c:
             newBlock = new H17FlagsBlock(&buf[6], blockSize);
             break;
-        case LabelBlock_c:
+        case H17Disk::LabelBlock_c:
             newBlock = new H17LabelBlock(&buf[6], blockSize);
             break;
-        case CommentBlock_c:
+        case H17Disk::CommentBlock_c:
             newBlock = new H17CommentBlock(&buf[6], blockSize);
             break;
-        case DateBlock_c:
+        case H17Disk::DateBlock_c:
             newBlock = new H17DateBlock(&buf[6], blockSize);
             break;      
-        case ImagerBlock_c:
+        case H17Disk::ImagerBlock_c:
             newBlock = new H17ImagerBlock(&buf[6], blockSize);
             break;
-        case ProgramBlock_c:
+        case H17Disk::ProgramBlock_c:
             newBlock = new H17ProgramBlock(&buf[6], blockSize);
             break;
-        case DataBlock_c:
+        case H17Disk::DataBlock_c:
             newBlock = new H17DataBlock(&buf[6], blockSize);
             break;
-        case RawDataBlock_c:
+        case H17Disk::RawDataBlock_c:
             newBlock = new H17RawDataBlock(&buf[6], blockSize);
             break;
         default:
@@ -324,7 +325,7 @@ H17DiskFormatBlock::printBlockName()
 uint8_t
 H17DiskFormatBlock::getBlockId()
 {
-    return DiskFormatBlock_c;
+    return H17Disk::DiskFormatBlock_c;
 }
 
 //! get sides
@@ -511,7 +512,7 @@ H17FlagsBlock::printBlockName()
 uint8_t
 H17FlagsBlock::getBlockId()
 {
-    return FlagsBlock_c;
+    return H17Disk::FlagsBlock_c;
 }
 
 
@@ -639,7 +640,7 @@ H17LabelBlock::printBlockName()
 uint8_t
 H17LabelBlock::getBlockId()
 {
-    return LabelBlock_c;
+    return H17Disk::LabelBlock_c;
 }
 
 //! get mandatory flag
@@ -715,7 +716,7 @@ H17CommentBlock::~H17CommentBlock()
 uint8_t
 H17CommentBlock::getBlockId()
 {
-    return CommentBlock_c;
+    return H17Disk::CommentBlock_c;
 }
 
 void
@@ -834,7 +835,7 @@ H17DateBlock::printBlockName()
 uint8_t
 H17DateBlock::getBlockId()
 {
-    return DateBlock_c;
+    return H17Disk::DateBlock_c;
 }
 
 //! get mandatory flag
@@ -878,7 +879,7 @@ H17ImagerBlock::printBlockName()
 uint8_t
 H17ImagerBlock::getBlockId()
 {
-    return ImagerBlock_c;
+    return H17Disk::ImagerBlock_c;
 }
 
 //! dump the block to stdout
@@ -956,7 +957,7 @@ H17ProgramBlock::printBlockName()
 uint8_t
 H17ProgramBlock::getBlockId()
 {
-    return ProgramBlock_c;
+    return H17Disk::ProgramBlock_c;
 }
 
 //! dump the block to stdout
@@ -1109,7 +1110,7 @@ H17DataBlock::getSector(uint16_t sectorNum)
 uint8_t
 H17DataBlock::getBlockId()
 {
-    return DataBlock_c;
+    return H17Disk::DataBlock_c;
 }
 
 
@@ -1163,7 +1164,7 @@ H17DataBlock::writeAsH8D(std::ofstream &file)
 //!
 bool
 H17DataBlock::writeAsRaw(std::ofstream &file)
-{  
+{
     // printf("%s\n", __PRETTY_FUNCTION__);
    
     for (unsigned int i = 0 ; i < tracks_m.size(); i++)
@@ -1317,7 +1318,7 @@ H17RawDataBlock::printBlockName()
 uint8_t
 H17RawDataBlock::getBlockId()
 {
-    return RawDataBlock_c;
+    return H17Disk::RawDataBlock_c;
 }
 
 bool

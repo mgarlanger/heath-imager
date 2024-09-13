@@ -3,7 +3,8 @@ CXX     = g++
 OUTPUT_DIR=../../output/cmd/
 OUTPUT_PROG=../../output/
 
-HOST_OBJS=h17dinfo h17d_reprocess h17d_clone h17d_h8d h17d_raw h17d_hdos_info h17d_cpm_info h17d_extract_files
+HOST_OBJS=h17dinfo h17d_reprocess h17d_clone h17d_h8d h17d_raw h17d_hdos_info \
+   h17d_cpm_info h17d_extract_files h17d_conv_imd
 HOST_PROGS=$(addprefix $(OUTPUT_DIR), $(HOST_OBJS)) $(OUTPUT_PROG)
 //CXXFLAGS=-I../libs -Wall -O3 -std=c++0x
 CXXFLAGS=-I../libs -Wall -O0 -g -std=c++17
