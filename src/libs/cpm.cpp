@@ -21,7 +21,7 @@ uint8_t h17DiskSkew[10] = { 0, 4, 8, 2, 6, 1, 5, 9, 3, 7 };
 CPM::CPM(H17Disk* diskImage): diskImage_m(diskImage)
 {
    H17DiskFormatBlock *diskFormat = (H17DiskFormatBlock *)
-                diskImage_m->getH17Block(H17Block::DiskFormatBlock_c);
+                diskImage_m->getH17Block(H17Disk::DiskFormatBlock_c);
 
    // basically constants for hard-sectored disks
    systemTracks_m    = 3;
@@ -112,8 +112,8 @@ CPM::~CPM()
 bool
 CPM::isValidImage(H17Disk& diskImage)
 {
-   H17DataBlock   *diskData = (H17DataBlock *) diskImage.getH17Block(H17Block::DataBlock_c);
-   H17DiskFormatBlock *diskFormat = (H17DiskFormatBlock *) diskImage.getH17Block(H17Block::DiskFormatBlock_c);
+   H17DataBlock   *diskData = (H17DataBlock *) diskImage.getH17Block(H17Disk::DataBlock_c);
+   H17DiskFormatBlock *diskFormat = (H17DiskFormatBlock *) diskImage.getH17Block(H17Disk::DiskFormatBlock_c);
 
    uint8_t sides = diskFormat->getSides();
    uint8_t tracks = diskFormat->getTracks();
@@ -446,7 +446,7 @@ Sector *
 CPM::getSector(uint16_t sectorNum)
 {
 
-    H17DataBlock *diskData = (H17DataBlock *) diskImage_m->getH17Block(H17Block::DataBlock_c);
+    H17DataBlock *diskData = (H17DataBlock *) diskImage_m->getH17Block(H17Disk::DataBlock_c);
 
     return CPM::getSector(diskData, sides_m, sectorNum);
 

@@ -1,7 +1,7 @@
 //!
 //! \file decode.cpp
 //!
-//! Process raw files from the FC5025, and decode either FM or MFM encoded buffers.
+//! Process raw files from the FC5025, and decode either FM encoded buffers.
 //!
 //!
 
@@ -143,41 +143,102 @@ Decode::decodeFM(uint8_t      *decoded,
     return 0;
 }
 
-
-//!  decodeMFM()
+//!  decodeFM_new()
 //!
 //!  @param decode        pointer to processed buffer
-//!  @param mfmEncoded    pointer to raw buffer
+//!  @param fmEncoded     pointer to raw buffer
 //!  @param count         number of bytes in the final processed file
 //!
 //!  @return number of errors (currently returns zero)
 //!
 //!  \todo change count from bytes in decoded buffer to bytes in raw buffer.
-//!  \todo implement
 //!
 int
-Decode::decodeMFM(uint8_t       *decoded,
-                  uint8_t       *mfmEncoded,
-                  unsigned int   count)
+Decode::decodeFM_new(uint8_t      *decoded,
+                     uint8_t      *fmEncoded,
+                     unsigned int  count)
 {
-#if 0
-    uint8_t *mfmData;
-    int   bitNum;
-    int   onePending;
-    int   zeroPending;
-    int   lastBit;
-    uint8_t  mfmByte;
+    
+    DecodeState  state = waitingForClock;
 
-    mfmData    = mfmEncoded;
-    bitNum     = 0;
-    onePending = 0;
-    mfmByte    = *mfmData++;
+    unsigned int outputSize = count;
+    unsigned int bytesWritten = 0;
+    unsigned int errorMissingClock = 0;
 
-    while(count--)
+    unsigned int bitsDecoded = 0;
+    unsigned int decodedValue = 0;
+    unsigned int encodedValue = 0;
+
+    while (count--)
     {
-        *decoded++ = getDecodedByte();
-    }
-#endif
+        encodedValue = (*fmEncoded++ << 8);
+        encodedValue |= *fmEncoded++;
 
-    return 1;
+        // need to process 2 raw bytes to get a processed byte
+        for (int shift = 15; shift >= 0; shift--)
+        {
+            unsigned int  val = (encodedValue >> shift) & 0x1;
+
+            if (state == waitingForClock)
+            {
+                if (val == 1)
+                {
+                    state = waitingForData;
+                }
+                else
+                {
+                    // clock missing
+                    errorMissingClock++;
+                }
+            }
+            else
+            {
+                decodedValue <<= 1;
+                decodedValue |= val;
+                bitsDecoded++;
+
+                if (bitsDecoded == 8)
+                {
+                    if (bytesWritten < outputSize)
+                    {
+                        *decoded++ = decodedValue;
+                    }
+                    else
+                    {
+                        printf("Error, too many bytes to write, outputSize: %d, bytesWritten: %d\n", outputSize, bytesWritten);
+                    }
+
+                    bytesWritten++;
+                    bitsDecoded = 0;
+                    decodedValue = 0;
+                }
+            }
+        }
+    }
+
+    if (bitsDecoded)
+    {
+        // bits remaining
+        printf("Extra bits: %d\n", bitsDecoded);
+        decodedValue <<= (8 - bitsDecoded);
+        if (bytesWritten < outputSize)
+        {
+            *decoded++ = decodedValue;
+        }
+        else
+        {
+            printf("Error, last incomplete byte can't be written: %d, outputSize: %d, bytesWritten: %d\n", decodedValue, outputSize, bytesWritten);
+        }
+    }
+    else
+    {
+        // no extra bits
+    }
+
+    if (errorMissingClock) {
+        printf("Missing clocks: %d\n", errorMissingClock);
+    }
+
+
+    return 0;
 }
